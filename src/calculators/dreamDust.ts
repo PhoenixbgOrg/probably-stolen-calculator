@@ -173,8 +173,8 @@ export function dreamCapGramsToMushML(grams: number): number {
 
 /**
  * Finisher contamination by Chemical Equipment Modules (SOURCE-DERIVED)
- * Source: probably-stolen.org/chemistry/ "Finisher loss by modules" table
- * NOTE: This is contamination percentage, NOT module count
+ * Source: https://probably-stolen.nicokobo.com/en/items/chem_finisher
+ * This is the fraction of each 2,000 µL sample replaced by Physical Contaminant.
  */
 export function getFinisherContamination(modules: number): number {
   if (modules === 0) return 12;
@@ -484,8 +484,8 @@ export function calculateDreamDustPerUpdate(inputs: DreamDustInputs): DreamDustO
     missingInputs,
     sourceRefs: [
       'https://probably-stolen.nicokobo.com/en/wiki/terms/chemical-processing (retrieved 2026-11-05)',
-      'https://probably-stolen.org/chemistry/ (finisher contamination table)',
-      'https://probably-stolen.nikokobo.com/en/wiki/terms/cartel-deliveries (retrieved 2026-11-05)',
+      'https://probably-stolen.nicokobo.com/en/items/chem_finisher (finisher contamination replacement)',
+      'https://probably-stolen.nicokobo.com/en/wiki/terms/cartel-deliveries (retrieved 2026-11-05)',
       'https://showgamer.com/en/guides/7319 (cartel table verified)',
     ],
     limitations,

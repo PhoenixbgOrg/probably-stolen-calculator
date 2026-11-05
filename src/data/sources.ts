@@ -88,6 +88,37 @@ export const SOURCES: Record<string, SourceRef> = {
     publisher: 'Probably Stolen Wiki by nicokobo (fan site)', gameVersion: '0.46D / Steam Build 26337366 (static analysis, no in-game test)', accessed: ACCESSED,
     notes: 'Snapshot: docs/sources/nicokobo_game-modes-and-endings.txt. Four difficulty titles; Skip Intro on first run prompts confirmation; Fence, Rock Bottom, Gunsmith and Chemist force Skip Intro on.',
   },
+  'nicokobo-chemical-processing': {
+    id: 'nicokobo-chemical-processing', title: 'Chemical processing',
+    url: 'https://probably-stolen.nicokobo.com/en/wiki/terms/chemical-processing',
+    publisher: 'Probably Stolen Wiki by nicokobo (fan site)', gameVersion: 'Current wiki snapshot; static-analysis provenance', accessed: ACCESSED,
+    notes: 'Implemented formulas are summarized in docs/sources/calculator-formulas-2026-11-05.md. Final composition uses player measurements where filtering/overnight callbacks are incomplete.',
+  },
+  'nicokobo-water-purification': {
+    id: 'nicokobo-water-purification', title: 'Water purification',
+    url: 'https://probably-stolen.nicokobo.com/en/wiki/terms/water-purification',
+    publisher: 'Probably Stolen Wiki by nicokobo (fan site)', gameVersion: 'Current wiki snapshot; static-analysis provenance', accessed: ACCESSED,
+  },
+  'nicokobo-hydroponics': {
+    id: 'nicokobo-hydroponics', title: 'Hydroponics',
+    url: 'https://probably-stolen.nicokobo.com/en/wiki/terms/hydroponics',
+    publisher: 'Probably Stolen Wiki by nicokobo (fan site)', gameVersion: 'Current wiki snapshot; static-analysis provenance', accessed: ACCESSED,
+  },
+  'nicokobo-aquaculture': {
+    id: 'nicokobo-aquaculture', title: 'Aquaculture',
+    url: 'https://probably-stolen.nicokobo.com/en/collections/aquaculture',
+    publisher: 'Probably Stolen Wiki by nicokobo (fan site)', gameVersion: 'Current wiki snapshot; static-analysis provenance', accessed: ACCESSED,
+  },
+  'nicokobo-rat-ranching': {
+    id: 'nicokobo-rat-ranching', title: 'Rat ranching & husbandry',
+    url: 'https://probably-stolen.nicokobo.com/en/wiki/terms/rat-ranching',
+    publisher: 'Probably Stolen Wiki by nicokobo (fan site)', gameVersion: 'Current wiki snapshot; static-analysis provenance', accessed: ACCESSED,
+  },
+  'nicokobo-gunsmith-orders': {
+    id: 'nicokobo-gunsmith-orders', title: 'Gunsmith Orders',
+    url: 'https://probably-stolen.nicokobo.com/en/wiki/intents/gunsmith-orders',
+    publisher: 'Probably Stolen Wiki by nicokobo (fan site)', gameVersion: 'Current wiki snapshot; static-analysis provenance', accessed: ACCESSED,
+  },
   'psdb-difficulty': {
     id: 'psdb-difficulty', title: 'Probably Stolen Difficulty Modes Guide',
     url: 'https://probablystolendb.wiki/guides/difficulty-modes/',

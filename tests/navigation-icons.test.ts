@@ -48,9 +48,7 @@ describe('navigation routing', () => {
 describe('profession definitions', () => {
   it('has exactly 9 playable professions', () => {
     expect(PROFESSIONS).toHaveLength(9);
-    // All marked not implemented yet in this phase
-    const notYetImplemented = PROFESSIONS.filter(p => p.implemented === false);
-    expect(notYetImplemented).toHaveLength(9);
+    expect(PROFESSIONS.every((profession) => profession.implemented)).toBe(true);
   });
 
   it('professions match specialization data', () => {

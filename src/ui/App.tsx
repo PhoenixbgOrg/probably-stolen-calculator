@@ -12,8 +12,8 @@ import { shouldClearBlockedBanner } from '../engine/perkView';
 import { SourcesScreen } from './SourcesScreen';
 import { HomePage } from './HomePage';
 import { GameGuidePage } from './GameGuidePage';
-import { CalculatorComingSoon } from './CalculatorComingSoon';
-import { ChemistCalculator } from './ChemistCalculator';
+import { ChemistVerifiedCalculator } from './ChemistVerifiedCalculator';
+import { ProfessionCalculatorPage } from './ProfessionCalculatorPage';
 import { getProfession } from '../calculators/professions';
 import { publicUrl, SOURCES_ROUTE } from '../config';
 import { SiteFooter } from './SiteFooter';
@@ -128,15 +128,10 @@ export function App() {
             
             // Chemist now has functional Dream Dust calculator
             if (prof.id === 'chemist') {
-              return <ChemistCalculator />;
+              return <ChemistVerifiedCalculator />;
             }
             
-            // Other professions: show coming soon or placeholder
-            return prof.implemented ? (
-              <div className="panel"><h2 className="panel-title">{prof.name} Calculator</h2><p>Calculator implementation</p></div>
-            ) : (
-              <CalculatorComingSoon professionId={prof.id} professionName={prof.name} tag={prof.tag} />
-            );
+            return <ProfessionCalculatorPage profession={prof} />;
           })()}
           {isBuilder && screen === 'spec' && <SpecializationScreen reg={registry} build={state.build} dispatch={dispatch} onNext={() => setScreen('perks')} />}
           {isBuilder && screen === 'perks' && <PerksScreen reg={registry} state={state} dispatch={dispatch} onBack={() => setScreen('spec')} onNext={() => setScreen('overview')} continueBlocked={continueBlocked} />}

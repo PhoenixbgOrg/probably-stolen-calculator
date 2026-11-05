@@ -8,6 +8,7 @@ export type SourceKind = 'store' | 'community' | 'user-report';
 /** Raw text/HTML snapshots in docs/sources/ (a test checks this list against the folder). */
 /** null = consulted page that is not cited by any data value (see CONSULTED_ONLY). */
 export const SNAPSHOTS: Record<string, string | null> = {
+  'calculator-formulas-2026-11-05.md': null,
   'allthingshow_difficulty-modes.txt': 'allthings-difficulty',
   'cozy.txt': 'cozy-scenarios',
   'gamers.wiki_en_games_probably-stolen_guides_probably-stolen-starting-scenarios-9-launch-choices.txt': 'gamers-scenarios',
@@ -91,6 +92,7 @@ export function creditEntries(reg: GameDataRegistry): CreditEntry[] {
 
 /** Pages consulted during research (snapshot kept) but not cited by any current data value. */
 export const CONSULTED_ONLY: { file: string; title: string; url: string; publisher: string; gameVersion: string | null }[] = [
+  { file: 'calculator-formulas-2026-11-05.md', title: 'Calculator formula implementation snapshot', url: 'https://probably-stolen.nicokobo.com/en/wiki', publisher: 'Project-maintained source summary', gameVersion: 'Current wiki snapshot; static-analysis provenance' },
   { file: 'guide_Probably-Stolen-guide.txt', title: 'Probably Stolen Guide: Water Purification Walkthrough & Tips', url: 'https://www.probablystolen-wiki.wiki/guide/Probably-Stolen-guide', publisher: 'Probably Stolen Wiki Team (fan site)', gameVersion: null },
   { file: 'water_Probably-Stolen-water.txt', title: 'Probably Stolen Water: Water Merchant Setup Guide', url: 'https://www.probablystolen-wiki.wiki/water/Probably-Stolen-water', publisher: 'Probably Stolen Wiki Team (fan site)', gameVersion: null },
   { file: 'scenarios_Probably-Stolen-rat-wrangler.txt', title: 'Rat Wrangler: Setup Guide, Breeding & Meat Farming Tips', url: 'https://www.probablystolen-wiki.wiki/scenarios/Probably-Stolen-rat-wrangler', publisher: 'Probably Stolen Wiki Team (fan site)', gameVersion: null },

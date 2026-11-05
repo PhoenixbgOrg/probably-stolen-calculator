@@ -310,7 +310,7 @@ describe('Dream Dust Calculator - Source-Derived', () => {
       const result = calculateDreamDustPerUpdate(inputs);
 
       expect(result.sourceRefs.length).toBeGreaterThan(0);
-      expect(result.sourceRefs.some((ref) => ref.includes('nikokobo.com') || ref.includes('probably-stolen.org'))).toBe(true);
+      expect(result.sourceRefs.some((ref) => ref.includes('nicokobo.com'))).toBe(true);
     });
 
     test('Documents limitations clearly', () => {
