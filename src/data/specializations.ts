@@ -27,7 +27,7 @@ const twoSourceNumber = 'wf-specializations (1.0) and nicokobo-occupations (0.46
 const invNote = 'Item list agrees between wf-specializations and nicokobo-occupations (0.46D); minor detail differences are listed in docs/RESEARCH.md.';
 const repNote = 'The career input value (= the Mark Up figure) matches nicokobo-occupations; nicokobo says difficulty modifiers then change it but gives no per-difficulty numbers, so the other-difficulty values are wf-specializations only.';
 
-export const SPECIALIZATIONS: SpecializationDef[] = [
+const SPEC_LIST: Omit<SpecializationDef, 'order'>[] = [
   {
     id: 'apprentice', name: 'Apprentice', sources: [...WF_GW, NK], gameVersion: V, status: 'partially-verified', playable: true,
     tag: f('Recommended For New Players', WF_GW, 'partially-verified'),
@@ -173,3 +173,6 @@ export const SPECIALIZATIONS: SpecializationDef[] = [
     perkInteractions: f([], JK, 'unverified'),
   },
 ];
+
+/** In-game menu order (walkthroughforge "in start screen order" table + nicokobo occupations table; Junker last). */
+export const SPECIALIZATIONS: SpecializationDef[] = SPEC_LIST.map((s, i) => ({ ...s, order: i + 1 }));

@@ -74,6 +74,8 @@ export interface SpecializationDef extends Provenance {
   /** Notes on how perks interact with this start (all sourced, see provenance). */
   perkInteractions: Fact<string[]>;
   playable: boolean;
+  /** 1-based position in the in-game Specialization menu (see GameDataRegistry.ordering). */
+  order: number;
 }
 
 export type PerkCategory = 'positive' | 'negative' | 'neutral';
@@ -159,6 +161,8 @@ export interface PerkDef extends Provenance {
   flags: FlagKey[];
   /** Perk ids that must already be selected. No prerequisites are documented for 1.0; engine supports them. */
   requires: string[];
+  /** 1-based display position in the Starting Perks grid (see GameDataRegistry.ordering). */
+  order: number;
 }
 
 export interface ExclusionRule extends Provenance {
@@ -195,4 +199,6 @@ export interface GameDataRegistry {
   rules: PerkRules;
   startRules: StartRule[];
   baseline: BaselineDef;
+  /** Where the specialization / perk display order comes from, and how certain it is. */
+  ordering: { specializations: Provenance; perks: Provenance };
 }

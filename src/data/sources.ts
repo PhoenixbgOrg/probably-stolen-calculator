@@ -103,6 +103,6 @@ export const SOURCES: Record<string, SourceRef> = {
   'steam-store': {
     id: 'steam-store', title: 'Probably Stolen on Steam', url: 'https://store.steampowered.com/app/4348910/',
     publisher: 'Valve / tinyBuild / Questing Goose Studio', gameVersion: null, accessed: ACCESSED,
-    notes: 'Release date 28 Oct 2026. Contains no perk/specialization numbers.',
+    notes: 'Release date 28 Oct 2026. Contains no perk/specialization numbers. Its screenshot of the Starting Perks screen (build 052A) shows the icon grid, colour grouping and layout; used only as a visual/ordering reference.',
   },
 };

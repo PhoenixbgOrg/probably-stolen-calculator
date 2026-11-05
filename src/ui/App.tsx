@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Dispatch } from 'react';
 import type { Action, AppState } from '../state/reducer';
 import { navigate } from '../state/navigation';
@@ -8,6 +8,7 @@ import { OverviewScreen } from './OverviewScreen';
 import { PerksScreen } from './PerksScreen';
 import { ProfilesPanel } from './ProfilesPanel';
 import { SpecializationScreen } from './SpecializationScreen';
+import { shouldClearBlockedBanner } from '../engine/perkView';
 
 const STEPS: { id: Screen; label: string }[] = [
   { id: 'spec', label: '1. Specialization' },
@@ -18,7 +19,15 @@ const STEPS: { id: Screen; label: string }[] = [
 export function App() {
   const { state, dispatch, character, registry } = useBuilder();
   const [screen, setScreenRaw] = useState<Screen>('spec');
-  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const [blocked, setBlocked] = useState<{ msg: string; profileId: string | null } | null>(null);
+  const blockedMsg = blocked?.msg ?? null;
+  const setBlockedMsg = (msg: string | null) => setBlocked(msg ? { msg, profileId: state.store.activeProfileId } : null);
+  const activeId = state.store.activeProfileId;
+  // Stale-banner fix: the "cannot open Overview" message is cleared when the active profile
+  // changes or the build becomes valid, so it never describes a different build.
+  useEffect(() => {
+    if (blocked && shouldClearBlockedBanner(blocked.profileId, activeId, character.valid)) setBlocked(null);
+  }, [blocked, activeId, character.valid]);
   const continueBlocked = blockedMsg !== null;
   // Continue gating: like the game, the Overview can only be reached with a valid build.
   const setScreen = (next: Screen) => {
@@ -29,7 +38,7 @@ export function App() {
   return (
     <div className="app">
       <header className="top">
-        <h1>Probably Stolen Calculator</h1>
+        <h1><img src="/favicon.svg" alt="" width="24" height="24" className="logo" /> Probably Stolen Calculator</h1>
         <p className="muted small">Unofficial fan tool · Character Builder · game data {registry.gameVersion} (data {registry.dataVersion})</p>
         <nav aria-label="Builder steps">
           <ol className="steps">
@@ -46,7 +55,7 @@ export function App() {
       </header>
       <div aria-live="assertive" role="alert" className="live-region">
         {blockedMsg && !character.valid && (
-          <div className="callout error" data-testid="blocked-msg">{blockedMsg} <button type="button" className="link" onClick={() => setBlockedMsg(null)}>Dismiss</button></div>
+          <div className="callout error" data-testid="blocked-msg">{blockedMsg} <button type="button" className="link" onClick={() => setBlocked(null)}>Dismiss</button></div>
         )}
       </div>
       {state.notices.length > 0 && <Notices notices={state.notices} dispatch={dispatch} />}

@@ -1,101 +1,169 @@
-import type { Dispatch } from 'react';
-import type { GameDataRegistry, PerkCategory } from '../data/types';
-import { addBlockers, conflictsOf, evaluatePerks, offendingPerkIds, validate } from '../engine/perkEngine';
+import { useRef, useState } from 'react';
+import type { Dispatch, KeyboardEvent } from 'react';
+import type { GameDataRegistry, PerkDef } from '../data/types';
+import { evaluatePerks, offendingPerkIds, validate } from '../engine/perkEngine';
+import { perkActionView, perksInOrder } from '../engine/perkView';
 import type { BuildInput } from '../engine/types';
 import type { AppState, Action } from '../state/reducer';
-import { ProvenanceTip, SourceList, StatusBadge, Tip } from './common';
+import { rovingIndex } from '../state/navigation';
+import { flagLabel } from '../data/flags';
+import { fmt, ProvenanceTip, SourceList, StatusBadge, Tip } from './common';
 import { firstRunExplanation, perkCostLabel } from '../engine/labels';
+import { CategoryMarker, PixelIcon } from './PixelIcon';
 
-const CATS: { id: PerkCategory; label: string }[] = [
-  { id: 'positive', label: 'Positive perks (cost points)' },
-  { id: 'neutral', label: 'Neutral perks' },
-  { id: 'negative', label: 'Negative perks (grant points)' },
-];
+const CAT_LABEL = { positive: 'Positive', negative: 'Negative', neutral: 'Neutral' } as const;
+
+function PerkDetail({ reg, build, perkId, dispatch }: { reg: GameDataRegistry; build: BuildInput; perkId: string; dispatch: Dispatch<Action> }) {
+  const v = perkActionView(reg, build, perkId);
+  if (!v) return null;
+  const p = v.perk;
+  const cat = p.category.value ?? 'neutral';
+  const name = (id: string) => reg.perks.find((q) => q.id === id)?.name ?? id;
+  return (
+    <div className="perk-detail" data-testid="perk-detail" aria-live="polite">
+      <div className="title-row">
+        <PixelIcon id={p.id} tone={cat} size={32} />
+        <h3>{p.name}</h3>
+        <span className={`cat-chip cat-${cat}`}><CategoryMarker category={cat} /> {CAT_LABEL[cat]}</span>
+        <span className="cost-chip">{perkCostLabel(p)}</span>
+        {v.selected && <span className="sel-chip">✔ Selected</span>}
+      </div>
+      <p className="desc">{p.description.value ?? 'No verified description.'}</p>
+      {p.cost.status === 'conflicting' && <p className="warn-text small">Cost disputed{p.cost.alternatives ? `: other source says ${p.cost.alternatives.map((a) => a.value).join(' / ')}` : ''}.</p>}
+      {(p.modifiers.length > 0 || p.flags.length > 0) && (
+        <ul className="pix-list small">
+          {p.modifiers.map((m, i) => <li key={i}><code>{m.stat}</code> {m.op === 'set' ? '=' : m.value !== null && m.value >= 0 ? '+' : ''}{fmt(m.value)}{m.condition ? ` (${m.condition})` : ''} <StatusBadge status={m.status} /></li>)}
+          {p.flags.map((f) => <li key={f}>{flagLabel(f)}</li>)}
+        </ul>
+      )}
+      <p className="small">
+        {p.requires.length > 0 && <>Requires: {p.requires.map(name).join(', ')}. </>}
+        {v.exclusive.length > 0 ? <>Mutually exclusive with: {v.exclusive.map(name).join(', ')}.</> : 'No documented conflicts.'}
+      </p>
+      <div className="consequences">
+        {v.kind === 'blocked' && <p className="reason bad" data-testid="perk-blocked">Cannot add: {v.blockers.map((r) => r.message).join(' ')}</p>}
+        {v.kind === 'add' && v.wouldBreak.length > 0 && <p className="reason warn" data-testid="perk-would-break">Adding makes the build invalid (allowed, but you cannot continue until fixed): {v.wouldBreak.map((x) => x.message).join(' ')}</p>}
+        {v.kind === 'add' && v.wouldBreak.length === 0 && <p className="reason ok">Adding keeps the build valid.</p>}
+        {v.kind === 'remove' && v.currentProblems.length > 0 && <p className="reason bad">Currently breaks a rule: {v.currentProblems.map((x) => x.message).join(' ')}</p>}
+        {v.kind === 'remove' && v.removalFixes.length > 0 && <p className="reason ok">Removing fixes: {v.removalFixes.map((x) => x.message).join(' ')}</p>}
+        {v.kind === 'remove' && v.wouldBreak.length > 0 && <p className="reason warn">Removing would cause: {v.wouldBreak.map((x) => x.message).join(' ')}</p>}
+      </div>
+      <button type="button" data-testid="perk-action" className={`pix-btn action ${v.kind === 'remove' ? 'remove' : v.wouldBreak.length ? 'warnbtn' : 'primary'}`}
+        disabled={v.kind === 'blocked'} aria-disabled={v.kind === 'blocked' || undefined}
+        onClick={() => dispatch(v.kind === 'remove' ? { type: 'removePerk', perkId: p.id } : { type: 'togglePerk', perkId: p.id })}>
+        {v.kind === 'remove' ? '− Remove perk' : v.kind === 'blocked' ? 'Cannot add' : `+ ${v.label}`}
+      </button>
+      <details className="pix-details"><summary>Sources and verification</summary>
+        <p className="small"><StatusBadge status={p.status} /> <SourceList p={p} /></p>
+        {p.note && <p className="small muted">{p.note}</p>}
+      </details>
+    </div>
+  );
+}
 
 export function PerksScreen({ reg, state, dispatch, onBack, onNext, continueBlocked }: { reg: GameDataRegistry; state: AppState; dispatch: Dispatch<Action>; onBack: () => void; onNext: () => void; continueBlocked: boolean }) {
   const build: BuildInput = state.build;
   const ev = evaluatePerks(reg, build.perkIds);
   const violations = validate(reg, build);
   const offending = offendingPerkIds(violations);
+  const ordered = perksInOrder(reg);
+  const [viewId, setViewId] = useState<string | null>(null);
+  const [focusIdx, setFocusIdx] = useState(0);
+  const gridRef = useRef<HTMLDivElement>(null);
   const unknownSelected = build.perkIds.filter((id) => !reg.perks.some((p) => p.id === id));
+  const selectedPerks = build.perkIds.map((id) => reg.perks.find((p) => p.id === id)).filter((p): p is PerkDef => !!p);
   const name = (id: string) => reg.perks.find((p) => p.id === id)?.name ?? id;
+  const view = (id: string) => { setViewId(id); const i = ordered.findIndex((p) => p.id === id); if (i >= 0) setFocusIdx(i); };
+  const onKey = (e: KeyboardEvent<HTMLButtonElement>, i: number) => {
+    const n = rovingIndex(i, e.key, ordered.length);
+    if (n === null) return;
+    e.preventDefault();
+    setFocusIdx(n);
+    setViewId(ordered[n]!.id);
+    gridRef.current?.querySelectorAll<HTMLButtonElement>('button.perk-icon')[n]?.focus();
+  };
+  const perkStatus = (p: PerkDef) => {
+    const v = perkActionView(reg, build, p.id)!;
+    if (v.selected) return offending.has(p.id) ? 'selected offending' : 'selected';
+    if (v.kind === 'blocked') return 'blocked';
+    if (v.exclusiveSelected.length > 0) return 'conflict';
+    return '';
+  };
+  const ariaFor = (p: PerkDef, st: string) => `${p.name}, ${CAT_LABEL[p.category.value ?? 'neutral']}, ${perkCostLabel(p)}${st.includes('selected') ? ', selected' : ''}${st.includes('offending') ? ', breaks a rule' : ''}${st === 'blocked' ? ', unavailable' : ''}${st === 'conflict' ? ', conflicts with a selected perk' : ''}`;
   return (
-    <section aria-labelledby="perks-h">
-      <h2 id="perks-h">2. Starting Perks</h2>
+    <section className="panel" aria-labelledby="perks-h">
+      <h2 id="perks-h" className="panel-title">Starting Perks</h2>
+      <p className="intro">Choose negative perks to gain points to spend on positive perks. Some perks are mutually exclusive. Tap a perk to see its details, then use the Add / Remove button.</p>
+      <div className="perk-meters" aria-live="polite" data-testid="perk-meters">
+        <div className="meter-box">Available Perk Points: <strong className={ev.remainingPoints < 0 ? 'over' : 'ok'}>{ev.remainingPoints}</strong> <span className="small muted">of {ev.totalPoints}</span> <ProvenanceTip p={reg.rules.basePoints} /></div>
+        <div className="meter-box">Perks: <strong className={ev.usedSlots > ev.maxSlots ? 'over' : 'ok'}>{ev.usedSlots}/{ev.maxSlots}</strong> <ProvenanceTip p={reg.rules.baseSlots} /></div>
+      </div>
       <div className="controls">
-        <fieldset className="inline">
+        <fieldset className="inline pix-fieldset">
           <legend>Playthrough</legend>
           <label><input type="radio" name="pt" checked={build.playthrough === 'subsequent'} onChange={() => dispatch({ type: 'setPlaythrough', playthrough: 'subsequent' })} /> New Game+ / later run</label>
           <label><input type="radio" name="pt" checked={build.playthrough === 'first'} onChange={() => dispatch({ type: 'setPlaythrough', playthrough: 'first' })} /> First playthrough</label>
           <Tip label="ⓘ"><span className="tip-note">{firstRunExplanation(reg)}</span><StatusBadge status={reg.rules.firstRunLocksPerks.status} /><SourceList p={reg.rules.firstRunLocksPerks} /></Tip>
         </fieldset>
-        <button type="button" onClick={() => dispatch({ type: 'clearPerks' })} disabled={build.perkIds.length === 0}>Clear perks</button>
-      </div>
-      <div className="meters" aria-live="polite">
-        <div className="meter"><span className={`big ${ev.remainingPoints < 0 ? 'over' : ''}`}>{ev.remainingPoints}</span> / {ev.totalPoints} points left
-          <span className="muted small"> (base {ev.basePoints} + {ev.pointsGranted} from negative perks, {ev.pointsSpent} spent)</span> <ProvenanceTip p={reg.rules.basePoints} /></div>
-        <div className="meter"><span className={`big ${ev.usedSlots > ev.maxSlots ? 'over' : ''}`}>{ev.usedSlots}</span> / {ev.maxSlots} slots used
-          <span className="muted small"> (base {ev.baseSlots}{ev.maxSlots !== ev.baseSlots ? ` + ${ev.maxSlots - ev.baseSlots} from perks` : ''})</span>
-          {ev.usedSlots > ev.maxSlots && <span className="over small"> {ev.usedSlots - ev.maxSlots} over the limit</span>} <ProvenanceTip p={reg.rules.baseSlots} /></div>
+        <button type="button" className="pix-btn" onClick={() => dispatch({ type: 'clearPerks' })} disabled={build.perkIds.length === 0}>Clear perks</button>
       </div>
       {build.playthrough === 'first' && <p className="callout">{firstRunExplanation(reg)}</p>}
-      <p className="small muted">Like the game, a selection may temporarily break the rules; nothing is removed automatically. You cannot continue until it is valid. <ProvenanceTip p={reg.rules.validatedAtContinue} /></p>
       {state.lastRejection && (
-        <div className="callout error" role="alert">
-          Could not add {state.lastRejection.perkId ? name(state.lastRejection.perkId) : 'that'}: {state.lastRejection.reasons.map((r) => r.message).join(' ')}
-        </div>
+        <div className="callout error" role="alert">Could not add {state.lastRejection.perkId ? name(state.lastRejection.perkId) : 'that'}: {state.lastRejection.reasons.map((r) => r.message).join(' ')}</div>
       )}
       {violations.length > 0 && (
         <div className={`callout ${continueBlocked ? 'error' : 'warn'}`} role={continueBlocked ? 'alert' : 'status'} data-testid="violations">
           <strong>{continueBlocked ? 'Cannot continue: ' : ''}This build is invalid ({violations.length} problem{violations.length === 1 ? '' : 's'}).</strong>
           <ul className="violations">{violations.map((v, i) => <li key={i}>{v.message} <em>Fix: {v.fix}</em></li>)}</ul>
-          {unknownSelected.map((id) => <button key={id} type="button" onClick={() => dispatch({ type: 'removePerk', perkId: id })}>Remove unknown perk "{id}"</button>)}
+          {unknownSelected.map((id) => <button key={id} type="button" className="pix-btn" onClick={() => dispatch({ type: 'removePerk', perkId: id })}>Remove unknown perk "{id}"</button>)}
         </div>
       )}
-      {CATS.map((cat) => {
-        const perks = reg.perks.filter((p) => p.category.value === cat.id).sort((a, b) => (b.cost.value ?? 0) - (a.cost.value ?? 0) || a.name.localeCompare(b.name));
-        return (
-          <div key={cat.id}>
-            <h3>{cat.label}</h3>
-            <ul className="perk-list">
-              {perks.map((p) => {
-                const selected = build.perkIds.includes(p.id);
-                const reasons = addBlockers(reg, build.perkIds, p.id, build.playthrough);
-                const blocked = !selected && reasons.length > 0;
-                const bad = selected && offending.has(p.id);
-                const clash = !selected ? conflictsOf(reg, p.id).filter((o) => build.perkIds.includes(o)) : [];
-                const excl = conflictsOf(reg, p.id);
-                const cost = p.cost.value;
-                const descId = `perk-desc-${p.id}`;
-                return (
-                  <li key={p.id} className={`perk ${selected ? 'selected' : ''} ${blocked ? 'blocked' : ''} ${bad ? 'offending' : ''}`} data-offending={bad || undefined}>
-                    <button type="button" aria-pressed={selected} aria-disabled={blocked} aria-describedby={descId}
-                      className="perk-toggle" onClick={() => dispatch({ type: 'togglePerk', perkId: p.id })}>
-                      <span className="perk-name">{p.name}</span>
-                      <span className={`cost ${cost !== null && cost < 0 ? 'gain' : ''}`}>{perkCostLabel(p)}</span>
-                    </button>
-                    <div id={descId} className="perk-body">
-                      <p>{p.description.value ?? 'No verified description.'}</p>
-                      <div className="small">
-                        <StatusBadge status={p.status} /> <ProvenanceTip p={p} />
-                        {p.cost.status === 'conflicting' && <span className="warn-text"> Cost disputed{p.cost.alternatives ? `: other source says ${p.cost.alternatives.map((a) => a.value).join(' / ')}` : ''}.</span>}
-                        {excl.length > 0 && <span className="muted"> Excludes: {excl.map(name).join(', ')}.</span>}
-                      </div>
-                      {blocked && <p className="reason">Unavailable: {reasons.map((r) => r.message).join(' ')}</p>}
-                      {bad && <p className="reason over">Breaks a rule: {violations.filter((v) => v.perkIds.includes(p.id)).map((v) => v.message).join(' ')}</p>}
-                      {clash.length > 0 && <p className="reason">Conflicts with selected {clash.map(name).join(', ')} (allowed temporarily; must be fixed to continue).</p>}
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        );
-      })}
+      <h3 className="section-h">Available Perks</h3>
+      <div className="legend small" aria-hidden="true">
+        <span><CategoryMarker category="positive" /> positive</span><span><CategoryMarker category="neutral" /> neutral</span><span><CategoryMarker category="negative" /> negative</span>
+        <span className="lg-sel">selected</span><span className="lg-conf">conflict</span><span className="lg-block">unavailable</span>
+      </div>
+      <div className="perk-grid" ref={gridRef} role="group" aria-label="Available perks (in display order)">
+        {ordered.map((p, i) => {
+          const st = perkStatus(p);
+          const cat = p.category.value ?? 'neutral';
+          return (
+            <button key={p.id} type="button" className={`icon-btn perk-icon cat-${cat} ${st} ${viewId === p.id ? 'viewing' : ''}`}
+              data-perk={p.id} aria-label={ariaFor(p, st)} aria-current={viewId === p.id ? 'true' : undefined} aria-controls="perk-detail-area"
+              tabIndex={i === focusIdx ? 0 : -1} onKeyDown={(e) => onKey(e, i)} onClick={() => view(p.id)} title={p.name}>
+              <PixelIcon id={p.id} tone={cat} />
+              <CategoryMarker category={cat} />
+              {st.includes('selected') && <span className="sel-mark" aria-hidden="true">✔</span>}
+              {(st === 'blocked' || st === 'conflict' || st.includes('offending')) && <span className="warn-mark" aria-hidden="true">{st === 'blocked' ? '⊘' : '!'}</span>}
+            </button>
+          );
+        })}
+      </div>
+      <p className="small muted order-note">Perk order: <StatusBadge status={reg.ordering.perks.status} /> {reg.ordering.perks.note} <ProvenanceTip p={reg.ordering.perks} /></p>
+      <div id="perk-detail-area" className="detail-area">
+        {viewId ? <PerkDetail reg={reg} build={build} perkId={viewId} dispatch={dispatch} /> : <p className="muted" data-testid="perk-detail-empty">Select a perk icon to see its description, cost, conflicts and the Add / Remove button.</p>}
+      </div>
+      <h3 className="section-h">Selected Perks</h3>
+      {selectedPerks.length === 0 && unknownSelected.length === 0 ? <p className="muted small center">No perks selected.</p> : (
+        <ul className="selected-perks" data-testid="selected-perks">
+          {selectedPerks.map((p) => (
+            <li key={p.id} className={offending.has(p.id) ? 'offending' : ''}>
+              <button type="button" className={`sel-row cat-${p.category.value ?? 'neutral'}`} onClick={() => view(p.id)} aria-label={`View ${p.name}`}>
+                <PixelIcon id={p.id} tone={p.category.value ?? 'neutral'} size={28} />
+                <span className="sel-name">{p.name}</span>
+                <span className="sel-cost">{perkCostLabel(p)}</span>
+                {offending.has(p.id) && <span className="warn-text">breaks a rule</span>}
+              </button>
+              <button type="button" className="pix-btn small-btn" onClick={() => dispatch({ type: 'removePerk', perkId: p.id })} aria-label={`Remove ${p.name}`}>Remove</button>
+            </li>
+          ))}
+        </ul>
+      )}
+      <p className="small muted">Like the game, a selection may temporarily break the rules; nothing is removed automatically. You cannot continue until it is valid. <ProvenanceTip p={reg.rules.validatedAtContinue} /></p>
       <div className="nav-row">
-        <button type="button" onClick={onBack}>← Specialization</button>
-        <button type="button" className="primary" aria-disabled={violations.length > 0} onClick={onNext}>Continue: Overview →</button>
-        {violations.length > 0 && <span className="muted"> Fix the {violations.length} problem{violations.length === 1 ? '' : 's'} above to continue.</span>}
+        <button type="button" className="pix-btn" onClick={onBack}>◀ Specialization</button>
+        <button type="button" className="pix-btn primary" aria-disabled={violations.length > 0} onClick={onNext}>Continue ▶</button>
+        {violations.length > 0 && <span className="muted small">Fix the {violations.length} problem{violations.length === 1 ? '' : 's'} above to continue.</span>}
       </div>
     </section>
   );

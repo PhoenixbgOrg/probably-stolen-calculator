@@ -1,4 +1,4 @@
-import { useId } from 'react';
+import { useId, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { Provenance, VerificationStatus } from '../data/types';
 import { REGISTRY } from '../data/registry';
@@ -17,9 +17,10 @@ export function StatusBadge({ status }: { status: VerificationStatus }) {
 /** Accessible tooltip: shown on hover and keyboard focus of the trigger. */
 export function Tip({ label, children }: { label: ReactNode; children: ReactNode }) {
   const id = useId();
+  const [open, setOpen] = useState(false);
   return (
-    <span className="tip">
-      <button type="button" className="tip-trigger" aria-describedby={id} aria-label="More information">{label}</button>
+    <span className={`tip ${open ? 'open' : ''}`} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setOpen(false); }}>
+      <button type="button" className="tip-trigger" aria-describedby={id} aria-expanded={open} aria-label="More information" onClick={() => setOpen(!open)}>{label}</button>
       <span role="tooltip" id={id} className="tip-body">{children}</span>
     </span>
   );

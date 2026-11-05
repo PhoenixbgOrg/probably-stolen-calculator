@@ -47,7 +47,7 @@ interface PerkInput {
   nkNote?: string;
 }
 
-function perk(p: PerkInput): PerkDef {
+function perk(p: PerkInput): Omit<PerkDef, 'order'> {
   const costSources = Array.from(new Set([...(p.costSources ?? (p.category === 'positive' ? POS_COST_SRC : COST_SRC)), NK]));
   const note = [p.note, p.nkNote ? `nicokobo-occupations (0.46D): ${p.nkNote}` : undefined].filter(Boolean).join(' ') || undefined;
   return {
@@ -73,7 +73,7 @@ function perk(p: PerkInput): PerkDef {
   };
 }
 
-export const PERKS: PerkDef[] = [
+const PERK_LIST: Omit<PerkDef, 'order'>[] = [
   // ---------- Positive ----------
   perk({ id: 'diplomatic', name: 'Diplomatic', category: 'positive', cost: 2,
     description: 'Reputation generated from trade is increased by 33%.',
@@ -259,3 +259,14 @@ export const PERKS: PerkDef[] = [
     description: 'Decreases your luck. Probably.', flags: ['luckDecreased'],
     modifiers: [mod('luck', -5, 'unverified', { sources: [] })] }),
 ];
+
+/**
+ * Display order: grouped positive → neutral → negative (the grouping visible in the official Steam screenshot of the
+ * Starting Perks screen, build 052A); within each group, the order of the community perk tables. Exact in-game 100-REV6
+ * order is unverified (see REGISTRY.ordering.perks).
+ */
+const GROUP: Record<string, number> = { positive: 0, neutral: 1, negative: 2 };
+export const PERKS: PerkDef[] = PERK_LIST
+  .map((p, i) => ({ p, i }))
+  .sort((a, b) => (GROUP[a.p.category.value ?? 'neutral']! - GROUP[b.p.category.value ?? 'neutral']!) || a.i - b.i)
+  .map(({ p }, i) => ({ ...p, order: i + 1 }));

@@ -1,5 +1,5 @@
 {
-  "dataVersion": "2026-11-05.3",
+  "dataVersion": "2026-11-05.4",
   "gameVersion": "1.0.x (user screenshots: 100-REV6)",
   "sources": {
     "user-screenshots": {
@@ -162,7 +162,7 @@
       "publisher": "Valve / tinyBuild / Questing Goose Studio",
       "gameVersion": null,
       "accessed": "2026-11-05",
-      "notes": "Release date 28 Oct 2026. Contains no perk/specialization numbers."
+      "notes": "Release date 28 Oct 2026. Contains no perk/specialization numbers. Its screenshot of the Starting Perks screen (build 052A) shows the icon grid, colour grouping and layout; used only as a visual/ordering reference."
     }
   },
   "difficulties": [
@@ -388,7 +388,8 @@
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
-      }
+      },
+      "order": 1
     },
     {
       "id": "water-merchant",
@@ -511,7 +512,8 @@
         ],
         "gameVersion": "1.0.x",
         "status": "unverified"
-      }
+      },
+      "order": 2
     },
     {
       "id": "fence",
@@ -651,7 +653,8 @@
         ],
         "gameVersion": "1.0.x",
         "status": "unverified"
-      }
+      },
+      "order": 3
     },
     {
       "id": "rock-bottom",
@@ -754,7 +757,8 @@
         ],
         "gameVersion": "1.0.x",
         "status": "unverified"
-      }
+      },
+      "order": 4
     },
     {
       "id": "hydroponic-farmer",
@@ -866,7 +870,8 @@
         "sources": [],
         "gameVersion": "1.0.x",
         "status": "unverified"
-      }
+      },
+      "order": 5
     },
     {
       "id": "gunsmith",
@@ -1009,7 +1014,8 @@
         ],
         "gameVersion": "1.0.x",
         "status": "unverified"
-      }
+      },
+      "order": 6
     },
     {
       "id": "chemist",
@@ -1145,7 +1151,8 @@
         ],
         "gameVersion": "1.0.x",
         "status": "unverified"
-      }
+      },
+      "order": 7
     },
     {
       "id": "rat-wrangler",
@@ -1266,7 +1273,8 @@
         "sources": [],
         "gameVersion": "1.0.x",
         "status": "unverified"
-      }
+      },
+      "order": 8
     },
     {
       "id": "aquafarmer",
@@ -1378,7 +1386,8 @@
         "sources": [],
         "gameVersion": "1.0.x",
         "status": "unverified"
-      }
+      },
+      "order": 9
     },
     {
       "id": "junker",
@@ -1479,7 +1488,8 @@
         ],
         "gameVersion": "1.0.x",
         "status": "unverified"
-      }
+      },
+      "order": 10
     }
   ],
   "perks": [
@@ -1540,7 +1550,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 1
     },
     {
       "id": "intimidating",
@@ -1611,7 +1622,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 2
     },
     {
       "id": "vending-machine",
@@ -1657,7 +1669,8 @@
       "flags": [
         "vendingMachine"
       ],
-      "requires": []
+      "requires": [],
+      "order": 3
     },
     {
       "id": "vigilant",
@@ -1707,7 +1720,8 @@
       "flags": [
         "noNightRobbery"
       ],
-      "requires": []
+      "requires": [],
+      "order": 4
     },
     {
       "id": "well-connected",
@@ -1770,7 +1784,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 5
     },
     {
       "id": "working-pipes",
@@ -1816,7 +1831,8 @@
       "flags": [
         "waterLinesConnected"
       ],
-      "requires": []
+      "requires": [],
+      "order": 6
     },
     {
       "id": "handy",
@@ -1862,7 +1878,8 @@
       "flags": [
         "shabbyToolbox"
       ],
-      "requires": []
+      "requires": [],
+      "order": 7
     },
     {
       "id": "lucky",
@@ -1921,7 +1938,8 @@
       "flags": [
         "luckIncreased"
       ],
-      "requires": []
+      "requires": [],
+      "order": 8
     },
     {
       "id": "model-citizen",
@@ -1995,7 +2013,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 9
     },
     {
       "id": "proficient-scavenger",
@@ -2054,7 +2073,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 10
     },
     {
       "id": "revolution-sympathizer",
@@ -2112,7 +2132,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 11
     },
     {
       "id": "savings",
@@ -2176,7 +2197,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 12
     },
     {
       "id": "sawyers-crew",
@@ -2227,7 +2249,8 @@
         "undergroundExchangeAtStart",
         "freeJanitorialService"
       ],
-      "requires": []
+      "requires": [],
+      "order": 13
     },
     {
       "id": "secret-admirer",
@@ -2273,7 +2296,8 @@
       "flags": [
         "secretAdmirerGifts"
       ],
-      "requires": []
+      "requires": [],
+      "order": 14
     },
     {
       "id": "short-sleeper",
@@ -2319,7 +2343,8 @@
       "flags": [
         "retainCustomersAfterNightOut"
       ],
-      "requires": []
+      "requires": [],
+      "order": 15
     },
     {
       "id": "sycophant",
@@ -2401,7 +2426,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 16
     },
     {
       "id": "tapehead",
@@ -2449,7 +2475,8 @@
       "flags": [
         "allCassettes"
       ],
-      "requires": []
+      "requires": [],
+      "order": 17
     },
     {
       "id": "tinkerer",
@@ -2507,7 +2534,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 18
     },
     {
       "id": "welfare-program",
@@ -2557,7 +2585,8 @@
       "flags": [
         "commissaryAtStart"
       ],
-      "requires": []
+      "requires": [],
+      "order": 19
     },
     {
       "id": "wilds-favorite",
@@ -2628,7 +2657,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 20
     },
     {
       "id": "aug-menace",
@@ -2688,7 +2718,8 @@
       "flags": [
         "augContentAtStart"
       ],
-      "requires": []
+      "requires": [],
+      "order": 21
     },
     {
       "id": "colorful-character",
@@ -2752,7 +2783,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 22
     },
     {
       "id": "makeshift-reactor",
@@ -2797,7 +2829,8 @@
       "flags": [
         "offGridReactor"
       ],
-      "requires": []
+      "requires": [],
+      "order": 23
     },
     {
       "id": "careful-scavenger",
@@ -2854,7 +2887,8 @@
       "flags": [
         "noInjuryWhileScavenging"
       ],
-      "requires": []
+      "requires": [],
+      "order": 24
     },
     {
       "id": "hoarder",
@@ -2898,7 +2932,8 @@
       "flags": [
         "inventoryDebris"
       ],
-      "requires": []
+      "requires": [],
+      "order": 25
     },
     {
       "id": "prime-real-estate",
@@ -2965,7 +3000,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 26
     },
     {
       "id": "ascetic",
@@ -3019,7 +3055,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 27
     },
     {
       "id": "awful-negotiator",
@@ -3075,7 +3112,8 @@
       "flags": [
         "noBargaining"
       ],
-      "requires": []
+      "requires": [],
+      "order": 28
     },
     {
       "id": "sentinel-collapse-disorder",
@@ -3119,7 +3157,8 @@
       "flags": [
         "weeklyImmunivaxRequired"
       ],
-      "requires": []
+      "requires": [],
+      "order": 29
     },
     {
       "id": "blabbermouth",
@@ -3184,7 +3223,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 30
     },
     {
       "id": "blackmail",
@@ -3230,7 +3270,8 @@
       "flags": [
         "blackmailWeeklyFee"
       ],
-      "requires": []
+      "requires": [],
+      "order": 31
     },
     {
       "id": "known-snitch",
@@ -3297,7 +3338,8 @@
       "flags": [
         "noWantedCustomers"
       ],
-      "requires": []
+      "requires": [],
+      "order": 32
     },
     {
       "id": "maimed",
@@ -3341,7 +3383,8 @@
       "flags": [
         "noScavenging"
       ],
-      "requires": []
+      "requires": [],
+      "order": 33
     },
     {
       "id": "minimalist",
@@ -3406,7 +3449,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 34
     },
     {
       "id": "public-enemy",
@@ -3460,7 +3504,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 35
     },
     {
       "id": "agoraphobia",
@@ -3504,7 +3549,8 @@
       "flags": [
         "agoraphobiaRest"
       ],
-      "requires": []
+      "requires": [],
+      "order": 36
     },
     {
       "id": "alcohol-addiction",
@@ -3563,7 +3609,8 @@
       "flags": [
         "addictionAlcohol"
       ],
-      "requires": []
+      "requires": [],
+      "order": 37
     },
     {
       "id": "bad-lease",
@@ -3619,7 +3666,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 38
     },
     {
       "id": "banned-from-the-commissary",
@@ -3663,7 +3711,8 @@
       "flags": [
         "commissaryBanned"
       ],
-      "requires": []
+      "requires": [],
+      "order": 39
     },
     {
       "id": "convict",
@@ -3732,7 +3781,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 40
     },
     {
       "id": "degenerative-osteoarthritis",
@@ -3776,7 +3826,8 @@
       "flags": [
         "scavengingDeclinesWeekly"
       ],
-      "requires": []
+      "requires": [],
+      "order": 41
     },
     {
       "id": "gambling-addiction",
@@ -3822,7 +3873,8 @@
       "flags": [
         "lotteryUnlocked"
       ],
-      "requires": []
+      "requires": [],
+      "order": 42
     },
     {
       "id": "illiterate",
@@ -3866,7 +3918,8 @@
       "flags": [
         "cannotReadGuides"
       ],
-      "requires": []
+      "requires": [],
+      "order": 43
     },
     {
       "id": "narcotic-addiction",
@@ -3925,7 +3978,8 @@
       "flags": [
         "addictionNarcotic"
       ],
-      "requires": []
+      "requires": [],
+      "order": 44
     },
     {
       "id": "nicotine-addiction",
@@ -3984,7 +4038,8 @@
       "flags": [
         "addictionNicotine"
       ],
-      "requires": []
+      "requires": [],
+      "order": 45
     },
     {
       "id": "on-wilds-bad-side",
@@ -4049,7 +4104,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 46
     },
     {
       "id": "side-street",
@@ -4104,7 +4160,8 @@
         }
       ],
       "flags": [],
-      "requires": []
+      "requires": [],
+      "order": 47
     },
     {
       "id": "unlucky",
@@ -4161,7 +4218,8 @@
       "flags": [
         "luckDecreased"
       ],
-      "requires": []
+      "requires": [],
+      "order": 48
     }
   ],
   "rules": {
@@ -4525,5 +4583,26 @@
     "inventoryDebris": "Inventory starts with three removable debris piles",
     "luckIncreased": "Luck increased",
     "luckDecreased": "Luck decreased"
+  },
+  "ordering": {
+    "specializations": {
+      "sources": [
+        "wf-specializations",
+        "nicokobo-occupations"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "note": "Walkthrough Forge lists specializations \"in start screen order\"; the nicokobo occupations table gives the same order and places the Work-in-Progress Junker after Aquafarmer. Not checked against a 100-REV6 screenshot."
+    },
+    "perks": {
+      "sources": [
+        "steam-store",
+        "wf-perks",
+        "nicokobo-starting-perks"
+      ],
+      "gameVersion": "052A (screenshot) / 1.0.x (tables)",
+      "status": "unverified",
+      "note": "Only the grouping is supported: the official Steam screenshot (build 052A) shows positive (green) perks first, then neutral (orange), then negative (red), over two pages. The order within each group follows the community tables and is NOT verified against the game."
+    }
   }
 }
