@@ -1,6 +1,6 @@
 import type { GameDataRegistry } from '../data/types';
 import { CONSULTED_ONLY, creditEntries, TARGET_GAME_VERSION } from '../data/credits';
-import { publicUrl } from '../config';
+import { OWNER_NAME, OWNER_PROJECTS, publicUrl } from '../config';
 
 export function SourcesScreen({ reg }: { reg: GameDataRegistry }) {
   const entries = creditEntries(reg);
@@ -12,6 +12,8 @@ export function SourcesScreen({ reg }: { reg: GameDataRegistry }) {
         developers or publisher of <em>Probably Stolen</em>. The game name and trademarks belong to their respective owners. No game
         assets (artwork, icons, fonts, audio) are used; all icons are original. Data comes from fan-made community sources and the
         game's store page; it may be outdated, incomplete or wrong.
+        <p className="small">Made by {OWNER_NAME}. Other projects by the same owner (not research sources):{' '}
+          {OWNER_PROJECTS.map((l, i) => <span key={l.url}>{i > 0 && ' · '}<a href={l.url} target="_blank" rel="noopener noreferrer">{l.label}</a></span>)}.</p>
       </div>
       <p className="small">Target game version: <strong>{TARGET_GAME_VERSION}</strong>. Data version {reg.dataVersion}. Each value in the
         builder keeps its own source references and a confidence badge (verified / partially verified / unverified / conflicting).

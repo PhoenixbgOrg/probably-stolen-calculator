@@ -10,7 +10,8 @@ import { ProfilesPanel } from './ProfilesPanel';
 import { SpecializationScreen } from './SpecializationScreen';
 import { shouldClearBlockedBanner } from '../engine/perkView';
 import { SourcesScreen } from './SourcesScreen';
-import { EXTERNAL_LINKS, GITHUB_REPO_URL, publicUrl } from '../config';
+import { publicUrl, SOURCES_ROUTE } from '../config';
+import { SiteFooter } from './SiteFooter';
 
 /** Hash routing (no router dependency): '#/sources' shows Sources & Credits; anything else shows the builder. Works under any sub-path and on refresh. */
 function useHashPage(): Page {
@@ -23,19 +24,6 @@ function useHashPage(): Page {
   return page;
 }
 
-function SiteFooter() {
-  return (
-    <nav className="site-links" aria-label="Game links and credits">
-      <ul>
-        {EXTERNAL_LINKS.map((l) => <li key={l.url}><a href={l.url} target="_blank" rel="noopener noreferrer" title={l.title}>{l.label} ↗</a></li>)}
-        <li><a href="#/sources">Sources &amp; Credits</a></li>
-        <li>{GITHUB_REPO_URL
-          ? <a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-          : <span className="disabled-link" aria-disabled="true" title="No official repository exists yet; the link will be added once it is published.">GitHub (coming soon)</span>}</li>
-      </ul>
-    </nav>
-  );
-}
 
 const STEPS: { id: Screen; label: string }[] = [
   { id: 'spec', label: '1. Specialization' },
@@ -67,7 +55,6 @@ export function App() {
     <div className="app">
       <header className="top">
         <h1><img src={publicUrl('favicon.svg')} alt="" width="24" height="24" className="logo" /> Probably Stolen Calculator</h1>
-        <SiteFooter />
         <p className="muted small">Unofficial fan tool · Character Builder · game data {registry.gameVersion} (data {registry.dataVersion})</p>
         <nav aria-label="Builder steps">
           <ol className="steps">
@@ -102,7 +89,8 @@ export function App() {
         </div>
       </div>
       <footer className="small muted">
-        <p>Unofficial fan project, not affiliated with or endorsed by the developers or publisher of Probably Stolen. Values come from community sources and may be outdated; badges show verification status. See <a href="#/sources">Sources &amp; Credits</a>.</p>
+        <SiteFooter />
+        <p>Unofficial fan project, not affiliated with or endorsed by the developers or publisher of Probably Stolen. Values come from community sources and may be outdated; badges show verification status. See <a href={SOURCES_ROUTE}>Sources &amp; Credits</a>.</p>
       </footer>
     </div>
   );

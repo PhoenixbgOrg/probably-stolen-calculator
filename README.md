@@ -11,14 +11,13 @@ npm run dev        # http://localhost:5173/
 Other scripts: `npm run typecheck`, `npm test`, `npm run build` (outputs `dist/`), `npm run export-data` (regenerates `data/game-data.json`).
 
 ## Deployment (GitHub Pages) — prepared, not deployed
-Nothing has been pushed or deployed. The app is a static site; all URLs are base-aware and navigation uses the URL hash
+Repository: https://github.com/PhoenixbgOrg/probably-stolen-calculator (Pages URL would be https://phoenixbgorg.github.io/probably-stolen-calculator/). Nothing has been pushed or deployed; that needs the owner's approval. The app is a static site; all URLs are base-aware and navigation uses the URL hash
 (`#/` builder, `#/sources` Sources & Credits), so refresh and deep links work under any sub-path and **no 404.html fallback is needed**.
 
 - **Base path:** `VITE_BASE_PATH` (default `./`, i.e. relative, works from any folder). For a project site use
   `VITE_BASE_PATH=/<repo-name>/ npm run build` (or `npx vite build --base /<repo-name>/`). For a user site or custom domain use `/`.
 - **Owner steps:** create the repository → push → Settings → Pages → Source: *GitHub Actions*. The prepared workflow
   `.github/workflows/deploy-pages.yml` (npm ci → typecheck → test → build with `/<repo-name>/` → upload-pages-artifact → deploy-pages) runs on push to `main`.
-  Then set `GITHUB_REPO_URL` in `src/config.ts` to enable the footer GitHub link.
 - **Test locally with a simulated sub-path:**
   ```bash
   VITE_BASE_PATH=/probably-stolen-calculator/ npx vite build --outDir /tmp/ghpages-sim/probably-stolen-calculator --emptyOutDir
@@ -55,8 +54,7 @@ Pixel-style original theme (bundled OFL font *Pixelify Sans* in `public/fonts/`,
   description panel (cost, effects, requirements, conflicts, consequences); the explicit **Add perk / Remove perk**
   button changes the build. Separate "Selected Perks" list; points and x/limit meters are sticky.
 - **Overview** – compact summary, validity banner, perks, resources; breakdown and sources collapsed in `<details>`.
-The header shows game links (Steam store page, community wikis), **Sources & Credits** (`#/sources`, generated from
-the data registry) and a GitHub placeholder (`src/config.ts`). Display order provenance is in `REGISTRY.ordering` (see `docs/UI_REFERENCE.md`).
+The footer has two link sections, **Game & Resources** (Steam store page, community wikis, Sources & Credits at `#/sources`, the GitHub repo) and **More Projects by PhoenixbgOrg**. All URLs are in `src/config.ts`, together with the disabled `DONATIONS` flag (the slot renders nothing; there is no PayPal code). Display order provenance is in `REGISTRY.ordering` (see `docs/UI_REFERENCE.md`).
 
 ### Storage
 localStorage key `psc.profiles`. Unreadable data is moved to quarantine (in-store list + `psc.quarantine.<ts>` backup key), shown in the Profiles panel with Download/Discard; never silently dropped.

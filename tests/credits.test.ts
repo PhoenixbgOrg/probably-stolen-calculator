@@ -3,7 +3,10 @@ import { describe, expect, it } from 'vitest';
 import { REGISTRY } from '../src/data/registry';
 import { CONSULTED_ONLY, creditEntries, kindOf, SNAPSHOTS, sourceUsage } from '../src/data/credits';
 import { pageFromHash } from '../src/state/navigation';
-import { EXTERNAL_LINKS, GITHUB_REPO_URL } from '../src/config';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { DONATIONS, GAME_LINKS, GITHUB_REPO_URL, OWNER_PROJECTS, REPO_NAME, SOURCES_ROUTE } from '../src/config';
+import { DonationSlot, SiteFooter } from '../src/ui/SiteFooter';
 
 const entries = creditEntries(REGISTRY);
 const onPage = new Set(entries.map((e) => e.source.id));
@@ -51,11 +54,32 @@ describe('Sources & Credits page data', () => {
 });
 
 describe('site links and routing', () => {
-  it('has the required external links and a GitHub placeholder', () => {
-    expect(EXTERNAL_LINKS.map((l) => l.url)).toEqual([
-      'https://store.steampowered.com/app/4348910/', 'https://www.probablystolen-wiki.wiki/', 'https://probably-stolen.nicokobo.com/en/',
-    ]);
-    expect(GITHUB_REPO_URL).toBeNull();
+  it('has the required footer links, all valid https URLs (except the internal route)', () => {
+    expect(GAME_LINKS.map((l) => l.label)).toEqual(['Get the Game', 'Game Wiki', 'Technical Wiki', 'Sources & Credits', 'GitHub']);
+    expect(GITHUB_REPO_URL).toBe('https://github.com/PhoenixbgOrg/probably-stolen-calculator');
+    expect(GITHUB_REPO_URL.endsWith(`/${REPO_NAME}`)).toBe(true);
+    expect(OWNER_PROJECTS.map((l) => l.url)).toEqual(['https://ritualforgelabs.com', 'https://phoenixcoreos.org', 'https://github.com/PhoenixbgOrg']);
+    for (const l of [...GAME_LINKS, ...OWNER_PROJECTS]) {
+      if (!l.external) { expect(l.url).toBe(SOURCES_ROUTE); continue; }
+      const u = new URL(l.url);
+      expect(u.protocol, l.url).toBe('https:');
+      expect(u.hostname).toContain('.');
+    }
+  });
+  it('renders external links in a new tab with rel=noopener noreferrer and both footer sections', () => {
+    const html = renderToStaticMarkup(createElement(SiteFooter));
+    expect(html).toContain('Game &amp; Resources');
+    expect(html).toContain('More Projects by PhoenixbgOrg');
+    const ext = [...html.matchAll(/<a [^>]*href="https:[^"]*"[^>]*>/g)].map((m) => m[0]);
+    expect(ext).toHaveLength(7);
+    for (const a of ext) { expect(a).toContain('target="_blank"'); expect(a).toContain('rel="noopener noreferrer"'); }
+    expect(html).not.toMatch(/paypal|coffee/i);
+  });
+  it('donation slot is disabled by default and renders nothing', () => {
+    expect(DONATIONS.enabled).toBe(false);
+    expect(DONATIONS.url).toBeNull();
+    expect(renderToStaticMarkup(createElement(DonationSlot))).toBe('');
+    expect(renderToStaticMarkup(createElement(DonationSlot, { config: { enabled: true, url: null, label: 'x' } }))).toBe('');
   });
   it('parses hash routes', () => {
     expect(pageFromHash('#/sources')).toBe('sources');
