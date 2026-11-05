@@ -7,7 +7,7 @@ function isObj(v: Json): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null && !Array.isArray(v);
 }
 
-/** Structural validation only. Game-rule validation happens in the engine (normalizeSelection). */
+/** Structural validation only. Game-rule validation happens in the engine (validate), and never removes perks. */
 export function validateBuild(v: Json): { ok: true; value: SavedBuildV2 } | { ok: false; error: string } {
   if (!isObj(v)) return { ok: false, error: 'build is not an object' };
   const { specializationId, perkIds, playthrough, difficulty } = v;

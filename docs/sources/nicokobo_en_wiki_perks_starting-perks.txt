@@ -1,0 +1,450 @@
+
+Starting Perks · Probably Stolen Wiki
+PS
+Probably Stolen
+Wiki
+Home
+Items
+Guides
+Mods
+Tools
+About
+Search
+中文
+中文
+Theme
+Follow
+Join
+Skip to content
+Home
+All entries
+Starting Perks
+Starting Perks
+Starting Perks
+Starting Perks
+This page records application order, recurring triggers and editing boundaries. The complete positive, negative and neutral effect tables belong to Occupations and Perks.
+Occupations and perks
+Starting Perks
+This page records application order, recurring triggers and editing boundaries. The complete positive, negative and neutral effect tables belong to 
+Occupations and Perks
+.
+Points and slots
+ · 
+Application order
+ · 
+Initial values
+ · 
+Modifiers and rounding
+ · 
+Secret Admirer
+ · 
+Welfare Program
+ · 
+Gambling Addiction
+ · 
+Hoarder
+ · 
+Mind editing
+Points and slots
+The current new-game sequence is occupation → perks → difficulty and options. Perks are disabled on the first run. Later starts must pass all checks when continuing:
+Check
+Required condition
+Points
+Sum of signed perk costs ≤3; negative costs offset positive costs
+Slots
+Selected count ≤4 plus all selected extra slots; 0-cost perks still use one slot
+Incompatibility
+A declaration on either side blocks the pair
+Selections may temporarily exceed a limit; Continue performs validation. Colorful Character is neutral, costs +1, occupies a slot and adds 3 slots, raising the total limit to 7. Category is not determined by cost sign.
+Application order
+Order
+Settlement
+1
+Initialize base state and activate the selected perk list; Minimalist/Ascetic change inventory dimensions, and substance-addiction timers initialize
+2
+Place Hoarder's blocking debris before starting stock
+3
+Grant occupation stock, change occupation cash/rent and apply occupation reputation changes; then process inputs for Sentinel, addictions and the welfare introduction
+4
+If skipping the introduction, unlock the relevant introductions/services and grant documents/tools, keeping Rock Bottom and perk-specific exclusions
+5
+Apply remaining starting effects: cash, rent, direct reputation changes, tapes, toolbox, reactor, luck, vending machine and others; then save the new run
+Selected perks already affect persistent checks during occupation-stock initialization. Ordinary occupation reputation changes first receive Blabbermouth, Sycophant, difficulty and other applicable modifiers. Perks' own direct starting reputation adjustments occur afterward.
+Initial values and stock
+Let C be cash after the career adjustment and R be its first current rent, both in Credits:
+Starting cash = C + 150 when Savings is selected.
+First current rent = R + 40 for Bad Lease + 75 for Prime Real Estate. Both can apply; later rent changes belong to 
+Shop Management
+.
+The following direct reputation adjustments occur in table order, clamping each step to −200…200. They bypass ordinary perk/difficulty reputation multipliers and do not replace an earlier career reputation value with a fixed description number.
+Order
+Perk
+Direct starting reputation change
+1
+Convict / Model Citizen
+Security −30 / +30; mutually exclusive
+2
+Sycophant
+Upper Level +15
+3
+Revolution Sympathizer
+Revolutionary +25
+4
+Known Snitch
+Revolutionary −10 and Black Market −10
+5
+Well Connected / Public Enemy
+Each faction +15 / −15; mutually exclusive
+One-time input
+Conditions and limits
+Tapehead
+Attempts to add 7 starting tracks in their Pristine audio versions, adding the Shabby item condition to each newly added cassette, skipping identical versions already in the player; suppresses the career's ordinary 4 Corrupted tapes
+Handy
+Shabby toolbox with 4 unlocked slots; shabby screwdriver, wire cutter, crowbar and plasma cutter; overflow is attempted in the main inventory
+Substance addictions
+Nicotine grants counterfeit cigarettes, alcohol grants Nudka, narcotics grant an Oxymore Injector; each use timer starts at 3
+Sentinel Collapse Disorder
+Genuine Immunivax, inspection guide, note and magnifier; receiving it does not automatically perform an injection
+Gambling Addiction
+Scratch ticket, Gambler's Coin and lottery access
+Welfare Program
+If food stamps are not yet introduced, grants the guide, Mentor note and magnifier and sets the introduction flag
+Degenerative Osteoarthritis
+2 extra topical bandages
+Lucky / Unlucky
+Initial luck +5 / −5; not a universal 5-percentage-point change to every random roll
+Working Pipes
+Unlocks Gutterflow then Rustwater taps
+Vending Machine
+Installs the machine and mechanism with a 50-energy cell; later sales still require the device and power conditions
+Makeshift Reactor
+Grants the reactor and uses its power path; maintenance is still necessary
+Modifiers and rounding
+These are perk-specific modifiers. The complete trade, fee, faction, health and security rules remain in their respective topics.
+Perk
+Stage and order
+Diplomatic
+Positive trade-reputation input is rounded after ×1.33, then divided by 400 before ordinary reputation settlement; not an unconditional 33% increase to final reputation
+Blabbermouth
+Ordinary positive Black Market and Revolutionary reputation gains ×0.5; negative changes are not halved
+Sycophant
+Ordinary positive Upper Level reputation gains ×1.25; adds 10% of the customer's original budget alongside other original-budget bonuses
+Intimidating + Blabbermouth
+Crime evidence is rounded after ×0.67, then rounded again after ×1.33; the two modifiers do not exactly cancel
+Convict / Model Citizen
+Affected report cash, Security reputation inputs and Aug-kill rewards use ×0.75 / ×1.5; not limited to wanted-client reports
+Aug Menace
+Aug-kill cash receives another ×1.25 and rounding after the preceding modifier; introduces events early and retains the run-ending risk at presence 100
+Awful Negotiator
+Market-stage +5 percentage points buying and −5 selling; also hides bargaining controls
+Substance withdrawal
+Each active substance withdrawal: market-stage +8 points buying and −8 selling; the three can stack with one another and with Awful Negotiator
+Wild's Favorite / On Wild's Bad Side
+Network upgrades ×0.9 / ×1.1 before the network's final rounding; insurance gets a final rounded ×0.5 / ×1.5 after its other pricing
+Side Street / Prime Real Estate
+Normal random-customer target −1 / +1, finally clamped to 0–6; actual total visitors need not differ by exactly 1
+Short Sleeper
+Only removes the outing-related −1 normal-customer target penalty; other limits remain
+Agoraphobia
+After an actual outing on day D, the next is allowed on D+3, leaving two intervening nights
+Proficient / Careful Scavenger and Osteoarthritis
+Start with 5 attempts, apply +2/−2, then subtract completed weeks since day 1 for Osteoarthritis; if below 3, scavenging stops before event bonuses. Maimed returns 0 earlier
+Tinkerer
+At upgrade-consumption calls wired to the perk, each material has a 20% retention roll; this is not proof that every upgrade or consumable uses it
+The explicitly rounded integer stages use nearest-integer rounding with midpoint ties to even. Intermediate rounding matters, so consecutive percentage modifiers cannot simply be added. Ordinary reputation itself can retain fractions; this rounding rule does not cover every reputation operation.
+Substance-use timers increase nightly and can naturally remove their corresponding perk at 20; narcotic withdrawal additionally checks its relief timer. Sentinel's 7/10/14-day thresholds, disease pool, treatment and full addiction state rules belong to 
+Health, Wounds and Addiction
+. See 
+Trade Calculations and Inspection
+, 
+Wilds Network
+ and 
+Security and Permits
+ for their shared rules.
+Secret Admirer
+Processed when opening the shutter in the morning. Day 2 attempts to grant one Galaxy Blend, resets the missed-roll counter and immediately returns, skipping random tapes, main gifts and notes.
+On other days, let n = previous consecutive failed rolls + 1: chance is 3% for n≤3, 
+3 + 6×(n−3)%
+ for 4≤n≤11, and 100% for n≥12. Failure increases the counter by 1; success resets it first.
+Previous consecutive failures
+This roll's chance
+0–2
+3%
+3
+9%
+4
+15%
+5
+21%
+6
+27%
+7
+33%
+8
+39%
+9
+45%
+10
+51%
+≥11
+100%
+After success, the order is an extra damaged tape roll (15%), one main gift, then an extra note roll (50%). The extras do not replace the main gift.
+Main-gift priority
+Condition
+Result
+1
+Sentinel Collapse Disorder, this gift never sent, and no owned genuine or expired Immunivax
+1 genuine Immunivax; its once-only flag is set before placement is attempted
+2
+Any addiction, including gambling, and this gift never sent
+1 Synaprest Injector; its once-only flag is set before placement is attempted
+3
+Currently wounded
+2 topical bandages
+4
+None of the above
+The sequential table below; stop at the first successful roll
+The last column is conditional on entering priority 4 and includes previous rows failing. It is not the daily chance of receiving that item. Each row is tested only if all earlier rows failed.
+Order
+Gift (quantity)
+Roll if reached
+Approx. chance within this random branch
+1
+Cat Chocolate Bar ×1
+10%
+10.0000%
+2
+Li-Eat Snack Bar ×1
+10%
+9.0000%
+3
+Scratcher Ticket ×1
+10%
+8.1000%
+4
+Lead Pipe ×1
+5%
+3.6450%
+5
+Bottle of 4 In 1 Wash ×1
+5%
+3.4628%
+6
+Box of REX Condoms ×1
+5%
+3.2896%
+7
+Red Imp Beer ×1
+5%
+3.1251%
+8
+Soda ×1
+10%
+5.9378%
+9
+Roll of Toilet Paper ×1
+10%
+5.3440%
+10
+Metal Ore ×1
+5%
+2.4048%
+11
+Tube of Toothpaste ×1
+10%
+4.5691%
+12
+Raw Meat (Small) ×1
+10%
+4.1122%
+13
+Caffeine Pill ×2
+10%
+3.7010%
+14
+Blood Bag ×1
+4%
+1.3323%
+15
+Tazer ×1
+2%
+0.6395%
+16
+Bag of "Blue Blood" ×1
+1%
+0.3134%
+17
+Synaprest Injector ×1
+1%
+0.3102%
+18
+Nightingale's Salve ×1
+3%
+0.9214%
+19
+Neural Core Module (Capped) ×1
+1%
+0.2979%
+20
+Nutrifruit ×2
+All earlier rolls fail
+29.4939%
+The extra tape comes from 14 Corrupted versions, excluding identical Corrupted versions already inside the cassette player. Tapes in the main inventory and Pristine versions of the same tracks do not count for this exclusion. If all 14 Corrupted versions are already inside the player, it draws from all 14 again and can repeat.
+Gift placement is attempted on the front trading counter. The failed-roll counter and once-only injector flags change before placement and are not rolled back here if the counter is full. A successful draw does not guarantee receipt.
+Handwritten note text
+The extra note chooses equally from these 7 variants, shown directly below. Illiterate does not block activation of this handwritten note.
+No.
+Original text
+1
+Every day I pass by your shop... one day I'll have the courage to say hello.
+2
+You don't know me, but I know everything about you. Keep being you.
+3
+I left something for you. Just a small token of... appreciation.
+4
+I wonder if you ever notice me watching from the shadows...
+5
+You make the Lower Levels feel a little brighter.
+6
+You're the only reason I come here anymore. Stay safe.
+7
+To my favorite shopkeeper, don't forget to smile today.
+Welfare Program
+Processed when opening on days congruent to 1 modulo 7. Secret Admirer runs first, so successfully placed owned gifts may affect the same opening's welfare valuation.
+Let cash be C and the game's total estimated value be T. Adjusted wealth is 
+W = C + trunc((T−C)/3)
+, dividing as an integer toward zero before adding cash. T includes cash and the trade estimates of eligible owned items in the main inventory, both counters, display, document area, trash inventory and both vending areas. Container valuation may include children, while locked items and other cases can be excluded. It is not a simple sum of catalog base values or all assets.
+Adjusted wealth W (Credits)
+Genuine food-stamp value
+W≤1200
+160
+1200<W≤1800
+120
+1800<W≤2400
+80
+2400<W≤3000
+40
+W>3000
+None
+Gambling Addiction's compulsive purchases
+Only qualifying customer-owned items successfully placed on the front counter through direct selling trigger this rule; barter is excluded. Lottery tickets have one counter. Single scratch tickets and scratch-ticket stacks share another counter. Both reset for a new customer; only successful purchases increment them. Failed attempts can be retried by the next qualifying item, with at most 5 successful purchases per category per customer.
+Item
+Fixed amount deducted per purchase (Credits)
+Lottery ticket
+25
+Single scratch ticket
+20
+Scratch-ticket stack
+100
+Let P be the fixed price of the current item. The check uses the cash remaining at that moment:
+Already bought in this category from this customer
+Current cash threshold
+Purchase chance after threshold passes
+0
+≥P
+100%
+1
+≥2P
+50%
+2
+≥5P
+40%
+3
+≥10P
+30%
+4
+≥25P
+20%
+≥5
+—
+No more purchases
+The threshold is not a price multiplier. Success deducts only P, marks the item owned and attempts to move it to the back counter, without asking for trade confirmation. Winning, redemption and the other gambling rules belong to 
+Shop Management
+.
+Hoarder
+Before occupation stock, the game attempts to place rest, tool and service debris piles at the bottom of the main inventory. They cannot be moved directly. A failed preset placement falls back to ordinary placement.
+Pile
+Clearing condition
+Progress output
+Rest pile
+10 nights without an actual outing; an outing pauses that night without resetting progress, so the nights need not be consecutive
+Each qualifying night attempts 1 Scrap Metal and 1 ordinary Dumping Ground draw to the back counter
+Tool pile
+Use a crowbar, wire cutter and plasma cutter on this pile once each; both tool and pile must be owned; each tool ID counts once
+Each tool is destroyed; attempts 3 Common Electronic Parts, Wire and Scrap Metal respectively to the main inventory; third distinct tool clears the pile immediately
+Service pile
+10 nights with the unlocked debris-removal service enabled; outings do not pause it
+Base service fee 50 Credits per active night, with 5 ordinary Dumping Ground draws to the back counter
+Clearing any pile additionally makes 5 ordinary Dumping Ground draws and 5 draws excluding ordinary junk. The tool pile sends clearing output to the main inventory; the other two use the back counter. A completing overnight pile grants that night's progress output before clearing output. Draws can be empty and placement can fail, so this is not a promise of 10 items. Full loot tables belong to 
+Afterhours and Scavenging
+.
+Mind-editing boundaries
+Rule
+Result
+Editable set
+16 definitions; normal UI can add only the 5 positive ones; existing editable negative/neutral perks can only be removed
+Points and slots
+Does not reapply the 3-point/4-slot starting budget; still checks incompatibility both ways
+Careful Scavenger
+Can be removed with 0 charge and 0 new cooldown after any old cooldown finishes; normal UI cannot add it back
+Minimalist / Ascetic
+Removal restores the main inventory to 24×10 and validates its contents
+Substance addictions
+Adding/removing resets relevant timers; past losses are not refunded
+Other persistent effects
+Later calls check the current list; no universal rollback of settled rewards, reputation or events, and no guarantee of instantly refreshed existing quotes
+Device edits are immediate and closing the window does not undo them. See the 
+Mind Reprogrammer
+ for the complete list, charge costs, per-device cooldown and acquisition.
+Blackmail demands 40 + current day Credits. Refusal or arrest removes the perk and passes −30 to each of the four existing Lower Levels, Revolution, Security and Upper Levels reputation records, subject to reputation modifiers. The code also calls −30 for Neural Church, but this build does not create that reputation record in a new run, so that call has no actual reputation effect. Visits, choices and original dialogue belong to 
+Characters and Visitors
+. Sawyer's Crew unlocks the Underground Exchange only when its introduction finishes. Janitorial fee is 0 without vandalism; after vandalism it is 
+trunc(day/5) + 30
+, with Black Market distrust still able to double it. Full service rules belong to 
+Shop Management
+.
+Source: static review of the game implementation, configuration and English/Chinese text for Build 26337366 / 0.46D.
+Comments
+0
+Loading comments…
+Article information
+Game version
+0.46D / Steam Build 26337366
+Appears in
+Occupations and starting perks
+Support
+Related guides
+Full-release reference update — October 29, 2026
+The wiki now uses the full-release baseline: updated occupations, 48 starting perks, 52 network projects and item data, with all eight game tools checked against the release rules.
+Probably Stolen
+Wiki
+Contact: 
+nicokobo@foxmail.com
+This is an unofficial fan site, not affiliated with the developers or publishers of the game.
+Game names, icons and related assets remain the property of their respective owners and are referenced here for descriptive purposes only.
+Site
+Site statistics
+Home
+Items
+Mechanics
+Guides
+Mods
+Updates
+Collections
+Recipes
+Search
+About
+[深空当铺]Nicoの游戏工坊
+Official Probably Stolen links
+Steam store
+Steam community
+Discord
+X
+Instagram
+TikTok
+Reddit
+Legal & privacy
+Privacy
+Terms
+Analytics cookie settings
+Original text on this site is licensed under CC BY-SA 4.0. Please credit the source when reusing it.

@@ -25,9 +25,18 @@ export function OverviewScreen({ reg, c, onBack }: { reg: GameDataRegistry; c: C
         <div><span className="muted">Specialization</span><strong>{c.specialization?.name ?? 'None selected'}</strong></div>
         <div><span className="muted">Difficulty</span><strong>{diff ? `${diff.name} (${diff.subtitle})` : c.difficulty}</strong></div>
         <div><span className="muted">Playthrough</span><strong>{c.input.playthrough === 'first' ? 'First' : 'Later run'}</strong></div>
-        <div><span className="muted">Perk points</span><strong>{c.points.remainingPoints} left of {c.points.totalPoints}</strong></div>
-        <div><span className="muted">Slots</span><strong>{c.points.usedSlots} / {c.points.maxSlots}</strong></div>
+        <div><span className="muted">Perk points</span><strong className={c.points.remainingPoints < 0 ? 'over' : ''}>{c.points.remainingPoints} left of {c.points.totalPoints}</strong></div>
+        <div><span className="muted">Slots</span><strong className={c.points.usedSlots > c.points.maxSlots ? 'over' : ''}>{c.points.usedSlots} / {c.points.maxSlots}</strong></div>
       </div>
+      {c.valid ? (
+        <div className="banner-valid" role="status" data-testid="validation-status">Validation: <strong>valid build</strong> (points, slots, conflicts and first-run rules all pass).</div>
+      ) : (
+        <div className="banner-invalid" role="alert" data-testid="validation-status">
+          <strong>INVALID BUILD - the game would not let you continue with this.</strong>
+          <ul className="violations">{c.violations.map((v, i) => <li key={i}>{v.message} <em>Fix: {v.fix}</em></li>)}</ul>
+          <button type="button" onClick={onBack}>← Fix on the Perks screen</button>
+        </div>
+      )}
       {c.warnings.length > 0 && <ul className="callout warn">{c.warnings.map((w) => <li key={w}>{w}</li>)}</ul>}
       <h3>Derived starting values</h3>
       <table className="stats">

@@ -1,0 +1,207 @@
+Source: https://probablystolencodex.com/difficulty
+Fetched: 2026-11-05
+
+Probably Stolen Difficulty Guide: All 4 Modes Compared
+Probably Stolen Codex
+Guides
+Walkthrough
+Rent Calculator
+Perks
+Chem Calculator
+Appraisal
+Home
+Start Here
+Probably Stolen Difficulty: Price Gouge, Mark Up, Thin Margins and Red Ink
+The four Probably Stolen difficulty options compared: rent increases, deed price, rent grace, upgrade costs and mortgage terms, plus which one to choose.
+Spoiler-free
+Updated
+Nov 4, 2026
+Checked against v
+1.0.0.6
+ + 
+4
+sources
+Quick answer
+Probably Stolen has four difficulty options. Price Gouge is the gentlest, Mark Up is the normal game, and Thin Margins and Red Ink remove rent grace, raise rent faster and make the deed far more expensive. Start on Mark Up unless you only want to relax.
+On this page
+On this page
+The four modes compared
+Which should you choose?
+Difficulty and achievements
+The four modes compared
+Price Gouge
+Mark Up
+Thin Margins
+Red Ink
+Label
+Cozy
+Normal
+Hard
+Challenge
+Retail markup
++20%
++15%
+None
+None
+Rent rise per week
+2%
+5%
+10%
+10%
+Rent grace
+Yes
+Yes
+No
+No
+Deed at the start
+12,000
+12,000
+24,000
+36,000
+Deed cap
+15,000
+17,000
+34,000
+56,000
+Network upgrade prices
+×1
+×1
+×1.5
+×2
+Mortgage term
+8 weeks
+12 weeks
+16 weeks
+16 weeks
+Thin Margins and Red Ink also list higher nightly service fees, and Red Ink reduces Wild's favor on top of doubling upgrade costs.
+Which should you choose?
+Price Gouge
+ suits you if you want to learn the shop with little pressure. Rent barely moves, and the deed rises slowly.
+Mark Up
+ is the best first run for most players. You still feel the rent, but one grace gives you room to recover from a bad week.
+Thin Margins
+ is for your second or third run. Doubling the deed is the obvious change, but losing grace matters more: refusing your first rent ends the run.
+Red Ink
+ needs a plan from Day 1. You have to clear 36,000 credits or more while rent climbs 10% a week.
+Compare your own numbers
+Switch difficulty in the 
+Rent & Buyout Calculator
+ to see
+how far your income would go on each mode.
+Difficulty and achievements
+From Nothing, the Hard Way
+ asks for a 
+Rock Bottom
+ win on hard mode. The 
+Achievement Tracker
+ lists the rest.
+Aug Menace and Sentinel Collapse are separate perks, not difficulty modes, and they add their own ways to lose. The developers specifically warn against using Sentinel Collapse on your first run.
+Sources
+Based on published guides. 
+Compared with the official patch notes. Not tested in-game by us.
+How to pay rent and how the Landlord’s grace works
+ — 
+AllThings.How, 2026-10
+How to buy the store with the deed or a mortgage
+ — 
+AllThings.How, 2026-10
+How to make money fast
+ — 
+AllThings.How, 2026-10
+Wild’s Network upgrades
+ — 
+AllThings.How, 2026-10
+Spotted an error?
+Games get patched and early reports can be wrong.
+Send a correction
+with a source link. Our
+editorial policy
+explains how pages are checked.
+Continue your journey
+Related guides
+Rent & Money
+Probably Stolen Rent and Buyout: How Much, When, and Which Way to Pay
+When rent is due in Probably Stolen, how fast it rises on each difficulty, what the store deed costs, how the Loan Shark mortgage works, and how to use your one grace.
+Read guide
+Start Here
+Probably Stolen Starting Scenarios: All 9 Starts Explained
+Every Probably Stolen starting scenario, from Apprentice to Rock Bottom: what each one is about, how hard it looks, and which to pick for your first run.
+Read guide
+Start Here
+Probably Stolen Beginner Guide: Your First Week and Beyond
+What to do in your first days of Probably Stolen: opening the shop, the Dumping Ground, insurance, first rent, spotting Augs, and how to keep enough cash to reach the deed.
+Read guide
+On this page
+The four modes compared
+Which should you choose?
+Difficulty and achievements
+Probably Stolen Codex
+Free calculators and sourced guides for Probably Stolen: rent, the deed, perks, achievements and endings.
+Tools
+Rent & Buyout Calculator
+Chem Calculator
+Water Calculator
+Appraisal Calculator
+3D Printer Calculator
+Vending Calculator
+Fake Checker
+Module Calculator
+Rat Calculator
+Perk Planner
+Achievement Tracker
+Shop Calculators
+Guides
+Walkthrough
+Beginner Guide
+Starting Scenarios
+Difficulty
+FAQ
+Rock Bottom
+Rent & Buyout
+Who Buys What
+Permits
+Make Money
+Display Case
+Vending Machine
+Market Events
+Marketplace Requests
+Spot Fakes
+Chemistry
+Water
+Wine
+Appraisal
+Crafting Recipes
+Dream Dust
+Gunsmith
+Nomore Injector
+Best Perks
+Underground Exchange
+Endings
+Breeding
+Wanted List
+Dumping Ground
+Patch Notes
+Mods
+Lou
+Eleanor
+Serpico
+Butcher
+Georgio
+John Smith
+Evaporator
+Radioactive Waste
+Identify Augs
+Ribwich
+Lottery Tickets
+Secret Stash
+Mind Reprogrammer
+Hydroponics
+Fish Farming
+Power
+About
+About the site
+Editorial policy
+Contact & corrections
+Privacy
+Terms
+© 2026 Probably Stolen Codex. Unofficial fan site, not affiliated with or endorsed by Questing Goose Studio or tinyBuild. Probably Stolen, its names, artwork and screenshots belong to their owners and are used here for identification and commentary.

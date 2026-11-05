@@ -1,0 +1,167 @@
+Source: https://allthings.how/probably-stolen-difficulty-modes/
+Fetched: 2026-11-05
+
+Price Gouge vs Mark Up vs Thin Margins: Picking a Probably Stolen Difficulty
+Skip to content
+Gaming
+Roblox
+Codes
+Roblox Events
+Fortnite Events
+Windows
+Apps
+Interactive Maps
+AION 2
+Aniimo
+ARC Raiders
+Castlevania: Belmont's Curse
+Dragon's Dogma 2
+Enshrouded
+FINAL FANTASY RESONANCE
+Permafrost
+Valor Mortis
+Search guides, codes, and reviews
+Search
+×
+Gaming
+Roundup
+Price Gouge vs Mark Up vs Thin Margins: Picking a Probably Stolen Difficulty
+How each Probably Stolen difficulty changes markup, rent, permits, upgrades and reputation, and which one suits a first shop.
+How each Probably Stolen difficulty changes markup, rent, permits, upgrades and reputation, and which one suits a first shop. 
+			by 
+AllThingsHow Staff
+Updated Oct 28, 2026
+Probably Stolen: Cyberpunk Shopkeeper Sim puts you behind a negotiation counter in the Lower Levels. The difficulty you pick decides how much money each sale makes, how fast rent climbs, and how hard reputation is to build and keep.
+Quick answer:
+ Pick Price Gouge for your first run: it has the biggest selling markup, the slowest rent rises, the cheapest vendor permit and halved reputation losses. Mark Up is the standard balance, and Thin Margins and Red Ink are for later runs.
+Probably Stolen difficulty modes compared
+There are four modes. Price Gouge, Mark Up and Thin Margins sit side by side on the first page of the Difficulty screen. Red Ink is on the second page.
+The Difficulty screen with all three modes and their modifiers.
+Modifier
+Price Gouge (Cozy)
+Mark Up (Normal)
+Thin Margins (Hard)
+Red Ink (Challenge)
+Retail markup when selling
+20%
+15%
+None
+None
+Rent increase each time
+2%
+5%
+10%
+10%
+Nightly service fees
+Not listed
+Standard
+Higher
+Higher
+Vendor permit
+500
+1500
+2000
+3000
+Upgrade prices
+Standard
+Standard
++50%
++100%
+Supplier markup
+Lower
+Standard
+Higher
+Higher
+Property price
+Lower
+Standard
+Higher
+Higher
+Reputation gains
+x1.5
+x1
+x0.75
+x0.5
+Reputation losses
+x0.5
+x1
+x1.25
+x2
+Wild’s favor gains
+Increased
+Standard
+Reduced
+Reduced
+Join readers who trust AllThings.How
+Add us as a preferred source on Google so our practical guides show up first next time you search.
+Add to Google Preferences →
+What each difficulty mode changes
+Price Gouge (Cozy Mode)
+This is the forgiving option. Every sale carries the largest markup of the four modes, rent creeps up slowly, and the vendor permit costs just 
+500
+. Suppliers charge less and property is cheaper. Reputation builds faster and drops more slowly. Wild’s favor gains are increased.
+Mark Up (Normal Mode)
+Mark Up is the baseline every other mode is measured against. Sales still carry a markup, though a smaller one than on Price Gouge. Nightly service fees, upgrade prices, supplier markup and property price are all standard, and reputation moves at x1 in both directions.
+Thin Margins (Hard Mode)
+Thin Margins takes away the retail markup entirely. Whatever profit you make on an item has to come from buying it cheaply in the first place, and suppliers charge more here. On top of that, rent climbs faster, nightly service fees are higher, and upgrades cost 50 percent more. Reputation is slower to earn and quicker to lose. This mode is meant for players who already understand the shop loop.
+Red Ink (Challenge Mode)
+Red Ink is Thin Margins with the screws tightened further. There is still no retail markup and rent rises at the same rate, but the vendor permit jumps to 
+3000
+ and upgrades cost double. Reputation gains are halved and losses are doubled. Treat it as a challenge run, not a starting point.
+Red Ink sits on the second page of the Difficulty screen.
+How to choose a difficulty in Probably Stolen
+Difficulty is the last of three screens you go through after selecting New Game.
+The title screen: New Game starts the setup screens.
+1
+Choose New Game, then make your selection on the 
+Specialization screen
+. For a first run, Apprentice carries the Recommended For New Players mark. It provides a larger starting-credit balance, a Storage Bay as extra equipment, plus supplies of Household Goods and Food.
+Apprentice on the Specialization screen.
+2
+Continue past the 
+Starting Perks screen
+. On your very first run it reads “Starting Perks are not available on your first run” and shows Available Perk Points: 3 and Perks: 0/4. On later runs, the same screen lets you pick perks.
+Starting Perks are locked on the first run.
+3
+Pick a mode on the Difficulty screen. Price Gouge, Mark Up and Thin Margins are on page one. Press the right arrow to reach Red Ink on page two.
+4
+Set the two checkboxes under the modes, Skip Intro and Endless Mode, and then press Start Game. Hovering over Endless Mode shows the tooltip “Certain scripted events and customers will not spawn”.
+The Endless Mode tooltip.
+With Mark Up and the Apprentice specialization selected, the opening shows DAY 1 MONDAY and a balance of 550 credits. RENT IN 6 DAYS appears on the wall screen, and The Mentor approaches the counter first.
+Day 1 on Mark Up as Apprentice: 550 credits, rent in 6 days.
+Was this helpful?
+Thanks for the feedback!
+			Yes		
+			No		
+Keep reading
+More from Gaming
+All Gaming guides →
+Gaming
+Probably Stolen Starting Perks: All 36 on the Perk Screen and the Best Ones to Pick
+Oct 28, 2026
+Gaming
+Probably Stolen Specializations: What Each Starts With and the Best Pick
+Oct 28, 2026
+Gaming
+Adopt Me: Where Is the Supermarket and How to Buy Food and Drinks
+Oct 28, 2026
+Gaming
+How to Beat Alluvion in Final Fantasy Resonance (Water Shrine)
+Oct 28, 2026
+Gaming
+Water Shrine Walkthrough in Final Fantasy Resonance (How to Get There, Seals, Crate Puzzle and Chests)
+Oct 28, 2026
+Gaming
+Viridian Pot Location and Stats in Final Fantasy Resonance
+Oct 28, 2026
+Join readers who trust AllThings.How
+Add us as a preferred source on Google so our guides show up first next time you search.
+Add to Google Preferences →
+Practical guides for the things you’re already trying to figure out.
+Join readers who trust AllThings.How
+Add us as a preferred source on Google so our guides show up first next time you search.
+Add to Google Preferences →
+About
+Contact
+Privacy
+Terms

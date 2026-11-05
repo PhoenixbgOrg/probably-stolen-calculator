@@ -1,0 +1,434 @@
+Source: https://probably-stolen.nicokobo.com/en/collections/survival-and-run-goals
+Fetched: 2026-11-05
+
+Survival and runs · Probably Stolen Wiki
+PS
+Probably Stolen
+Wiki
+Home
+Items
+Guides
+Mods
+Tools
+About
+Search
+中文
+中文
+Theme
+Follow
+Join
+Skip to content
+Home
+Topic collections
+Survival and runs
+Collections
+Survival and runs
+40 entries
+Browse entries
+Survival and runs
+Contents: 
+Difficulty
+ · 
+Wounds and addiction
+ · 
+Endings
+ · 
+Saving
+ · 
+Achievements
+Difficulty and modes
+Difficulty
+Initial retail markup
+Rent increase per renewal
+Power / insurance multiplier
+Business permit (Credits)
+Price Gouge
+20 percentage points
+2.5%
+1 / 1
+500
+Mark Up
+15 percentage points
+5%
+1 / 1
+1500
+Thin Margins
+0
+10%
+2 / 2
+2000
+Red Ink
+0
+10%
+2 / 3
+3000
+Retail modifiers apply only to eligible trades. Endless mode skips some character arcs and secondary visitors; it does not remove every story or guarantee that a run cannot end.
+Wounds, addiction and treatment
+State
+Rule and treatment
+Minor / major wound
+Adds 2 / 5 wound points and makes the wound unstable; severe means strictly above 5
+Unstable wound
+Each night first checks a 10% chance to worsen by 1; only if that fails does it separately check a 50% chance to stabilize
+Stable wound
+Normally loses 4 points per night, minimum 0; an unstable wound above 10 has a special branch that caps it, stabilizes it and subtracts 1
+Bandage
+Requires an unstable wound; an ordinary bandage stabilizes it, while hemostatic and topical bandages also subtract 1; the item is consumed
+Nicotine / alcohol addiction
+With addiction already present, 3 days since use triggers the penalty; reaching 20 removes that addiction
+Drug addiction
+The smaller of the days-since-use and days-since-relief counters must reach 3 for the penalty; removal still requires 20 days since use
+Sentinel Collapse Disorder
+At 7 / 10 / 14 days since injection, the disease pool increases by 1 / 2 / 3 per night; reaching 20 triggers its ending
+Tilapia Skin Graft
+ / 
+unfertilized Graft Tilapia Roe
+Requires ownership and an unstable wound; stabilizes it and subtracts 2 / 3 respectively, minimum 0. Fertilized eggs cannot be used this way
+Immunivax
+Genuine resets days since injection to 0; expired sets 3; counterfeit sets a random 3–5. Unusable items or those without the authenticity feature do not reset it but are consumed. None reduces the accumulated disease pool
+Each active withdrawal increases the player’s buying markup by 8 percentage points and reduces the player’s selling markup by 8 percentage points at the market-price stage; this is not a fixed 8% change to the final quote. Tobacco and alcohol directly reset their corresponding counters; narcotic-use and relief counters each update using the applicable lower value. The days-since-relief counter increments only below 999 and stops at 999. It does not replace the 20-day abstinence requirement for removing addiction. See 
+trading and bargaining
+ for full price calculations. Do not apply these periods to gambling addiction. Drug effects and complete disease thresholds are in 
+health, wounds and addiction
+.
+Ending overview
+Condition
+Result
+Buy the shop outright or pay the last mortgage installment
+Shop-purchase ending; play can continue
+Sentinel disease pool reaches 20
+Disease ending
+Reactor explosion during end-of-day processing
+Takes priority through its ending branch
+Aug presence reaches 100
+Triggers the ending when the relevant check is enabled by Thin Margins/Red Ink difficulty or the specified perk
+Rent and loans are covered in 
+shop management
+; Security endings in 
+Security and permits
+. See 
+modes and endings
+ for complete mode, ending and save boundaries.
+Saving and historical saves
+The first save follows starting-stock and perk initialization.
+Confirming the end of the day runs overnight processing. The Sentinel ending appears during the night without terminating subsequent processing. After entering the new day, the reactor ending is checked before the Aug ending; only if neither branch applies does this automatic-save step run.
+Select a slot in the load interface and expand its available historical days to load one.
+The history setting is 1–10, including the latest save. Its default when no setting has been saved is 3: the latest save and at most two historical saves, not three additional saves. Retry and recovery mechanisms exist, but do not guarantee recovery from every failure.
+Achievements and statistics
+This build connects the following 21 checks. The extracted localization does not supply their official display names, so the table retains Steam API IDs rather than inventing achievement names. These are static conditions, not tested unlocks on this account or a claim to Steam's complete hidden-achievement list.
+Steam API ID
+Condition
+Check timing and limits
+ACH_TUTORIAL
+Mentor tutorial farewell callback
+When that dialogue ends; skipping the intro does not guarantee this callback
+ACH_BUYOUT
+Buy the shop outright or finish the mortgage
+On acquiring property ownership
+ACH_HONEST_MERCHANT
+Own the property without selling stolen/contraband-tagged items this run, including unlocked contents
+Ordinary sales, request delivery and vending can mark the run; checked on property ownership
+ACH_AUTHORIZED
+Buy the business permit, completing payment and setting permit ownership
+When the permit-purchase option executes
+ACH_RATS
+Complete initial rats and goods for the Rat Wrangler start
+Directly after starting goods; no extra breeding condition
+ACH_RAG_TO_RICHES
+Acquire the shop from a Rock Bottom start
+On property ownership
+ACH_NOTHING_TO_RICHES
+Acquire the shop from Rock Bottom on at least Thin Margins; Thin Margins or Red Ink among the four standard difficulties
+On property ownership
+ACH_PERFECT_MEDIATOR
+Any one faction reaches reputation 200
+Checked through reputation changes; not all factions simultaneously
+ACH_LUCKY
+A scratch ticket's calculated prize is ≥350 credits
+When a scratch prize is calculated
+ACH_SETTLED
+Shop estimated value is strictly >10000 credits
+When the new-day paper opens; exactly 10000 is insufficient
+ACH_RICH
+Shop estimated value is strictly >100000 credits, including the specified owned-item values and cash
+When the new-day paper opens; not cash alone
+ACH_LAB_PURE
+A graded Chemical Finisher output reaches laboratory purity: actual active-component share ≥99%
+After forming and grading
+ACH_HUGE_NUTRIFRUIT
+A Nutrifruit harvest's size split actually creates a huge fruit
+The huge-fruit harvest callback
+ACH_PRODIGIOUS
+Acquire ownership while the shop-day counter is <50
+On property ownership; day 50 is excluded
+ACH_SHINY
+Current shop appeal is ≥1000
+New-day paper or shop opening
+ACH_OVERLOAD
+The machine modules/nodes' temporary quality bonuses total ≥250 percentage points
+After a module is added and temporary module state is recomputed
+ACH_MODEL_CITIZEN
+Steam account's successful-criminal-report counter is ≥10
+Reward callback for correctly reporting wanted or stolen/contraband-selling visitors; false reports and the dedicated Aug branch do not count
+ACH_AUG_HUNTER
+Steam account's Aug-shooting counter is ≥10
+When firing with an existing current visitor/configuration marked as Aug
+ACH_LOWER_LEVELS_SPECIAL
+Change a label dropdown option and execute its callback
+Directly after the dropdown changes; this check adds no separate item-type or label restriction
+ACH_MASTER_APPRAISER
+Accumulate 10 perfect appraisals on Steam: submitted estimate within the inclusive 95%–105% interval
+At submission before later acceptance/rejection, if the visitor did not leave for lack of patience; integer bounds truncate toward zero
+ACH_INDUSTRIOUS
+At least 10 owned objects classified as machines
+When the new-day paper opens; counts objects without requiring operation
+The three cumulative counters are Steam account statistics: correct reports, Aug shootings and perfect appraisals. With Steam statistics ready, the handlers read the old value and add one, unlocking at ten; they stop incrementing after the corresponding achievement is unlocked. These handlers skip when statistics are not ready and contain no offline queue.
+Run-summary statistics are serialized with the current run and are separate from Steam account counters. Shop valuation adds the specified owned-item values to cash; the machine achievement counts machine objects, rather than power or output. The corresponding production, appraisal, reputation and trading rules remain with their own topics.
+Source: 0.46D, Build 26337366; static analysis, not an in-game test.
+Related collections
+Occupations and starting perks
+Search this collection
+40 of 40 entries
+All
+Mechanics & unlocks
+Items & equipment
+Mechanics & unlocks
+2
+Modes, endings and saves
+Terms & Mechanics
+Endless still processes rent, mortgages, Security, Cartel, Augs, Lou and other ordinary visitors according to their own conditions, and retains property, health and equipment ending checks.…
+Article
+Health, wounds and addictions
+Terms & Mechanics
+The shopkeeper starts with wound severity 0. A minor wound adds 2 and a major wound adds 5; either creates a fresh, unstable wound. Normal after-hours travel is blocked when severity is strictly greater than 5.…
+Article
+Items & equipment
+38
+Basic Bandage
+Items
+ · 8 cr
+Activate an owned bandage while a wound is unstable. It consumes one, stabilizes the wound and clears the fresh-wound flag, but does not directly reduce severity. It cannot be repeated on a stable wound.…
+Article
+Bei's Premium Vanilla Icecream
+Items
+ · 40 cr
+Place it in the freezer compartment of a powered Fridge. An overnight cycle grants Frozen, adding 25 percentage points at the innate-value stage; the chill compartment does not substitute for the freezer.…
+Article
+Birth Control Pill
+Items
+ · 15 cr
+A medical commodity and soluble, blendable chemical item. A shopkeeper birth-control action or duration has not been verified; the pill classification and description do not establish another survival rule.
+Article
+Synaprest Injector
+Items
+ · 350 cr
+Can be activated while owned and at least one addiction is active. Each injector removes one equally selected active nicotine, alcohol, narcotic or gambling addiction. If only one exists, it removes that one.…
+Article
+Blood Bag
+Items
+ · 33 cr
+A medical commodity and output of certain barters. A shopkeeper transfusion, health-restoration or wound-healing self-use action has not been verified in this build.
+Article
+Bag of "Blue Blood"
+Items
+ · 250 cr
+A high-value medical commodity described as a Blue Blood biogel. Shopkeeper injection, substitution for a Blood Bag or Sentinel treatment has not been verified.
+Article
+Hot Sauce
+Items
+ · 50 cr
+A bottled condiment. Its item data and icon are verified; a shopkeeper consumption effect or executable recipe combining it with other food has not been confirmed. A normal acquisition route in the current shop mode remains unconfirmed.
+Article
+Caffeine Pill
+Items
+ · 10 cr
+A soluble, blendable chemical commodity. Its flavor text mentions long-shift workers; a shopkeeper action granting extra turns, longer opening hours or restored stamina has not been verified in this build.
+Article
+Cat Chocolate Bar
+Items
+ · 15 cr
+Can provide non-meat calories directly in a rat enclosure or be processed by Livestock Feed Dispenser. Fish feeding also depends on species diet; see Aquaculture.
+Article
+Medical Supplies (Common)
+Items
+ · 40 cr
+A medical commodity that can also satisfy requests for common medical supplies; follow the request's delivery direction. A shopkeeper wound- or disease-treatment action has not been verified.
+Article
+Instant Ramen
+Items
+ · 20 cr
+Can provide non-meat calories directly in a rat enclosure or be processed by Livestock Feed Dispenser. Fish feeding also depends on species diet; see Aquaculture.
+Article
+Vial of "Dream Dust"
+Items
+ · 18 cr
+Owned self-use requires Narcotic Addiction and consumes one vial. Base cover is 1, with effective cover modified by actual purity.…
+Article
+Energy Drink
+Items
+ · 18 cr
+An overnight cycle in a powered Fridge grants Chilled, adding 20 percentage points at the innate-value stage. It expires when the next night does not refresh it.
+Article
+Phanta Pill
+Items
+ · 12 cr
+Owned self-use requires Narcotic Addiction and consumes one pill. Base cover is 3, adjusted by actual chemical purity; the base street-standard purity is 60% to <80%.…
+Article
+Galaxy Blend
+Items
+ · 25 cr
+Can provide non-meat calories directly in a rat enclosure or be processed by Livestock Feed Dispenser. Fish feeding also depends on species diet; see Aquaculture.
+Article
+Hemostatic Bandage
+Items
+ · 16 cr
+Activate while owned and the wound is unstable: stabilize, subtract 1 severity, clear the fresh-wound flag and consume one bandage. It cannot be repeated on a stable wound; see Health, wounds and addictions.…
+Article
+Immunivax Injector
+Items
+ · 160 cr
+Activation requires ownership and Sentinel Collapse Disorder, and consumes one injector. The effect reads the actual authenticity state, regardless of appearance or the seller's claim.
+Article
+Li-Eat Snack Bar
+Items
+ · 17 cr
+Can provide non-meat calories directly in a rat enclosure or be processed by Livestock Feed Dispenser. Fish feeding also depends on species diet; see Aquaculture.
+Article
+Vial of "Nightmare Dust"
+Items
+ · 36 cr
+A poison and soluble, blendable chemical item. A shopkeeper inhalation or lethal-poisoning self-use action has not been verified.…
+Article
+Nudka
+Items
+ · 85 cr
+Decanting uses the entire bottle and cannot fill a gap smaller than 750 ml. Cold features expire without another night of cooling. See Fridge for power rules and Health, wounds and addictions for withdrawal counters.
+Article
+Phagimycin Pill
+Items
+ · 25 cr
+A medical commodity initialized with pill classification and audio. Shopkeeper infection, antibiotic resistance and direct-treatment actions have not been verified; its antibiotic name alone does not establish numerical effects.
+Article
+Nomore Injector
+Items
+ · 50 cr
+Owned self-use requires Narcotic Addiction and consumes one injector. It updates only the days-since-relief counter, leaving days-since-narcotic-use and its natural-recovery progress intact.…
+Article
+Oxymore Injector
+Items
+ · 50 cr
+Owned self-use requires Narcotic Addiction and consumes one injector; base cover is 1. The base item has no initialized chemical purity and therefore uses that cover directly.…
+Article
+Processed Cheese
+Items
+ · 20 cr
+Can provide non-meat calories directly in a rat enclosure or be processed by Livestock Feed Dispenser. Fish feeding also depends on species diet; see Aquaculture.
+Article
+Puice
+Items
+ · 14 cr
+Can provide non-meat calories directly in a rat enclosure or be processed by Livestock Feed Dispenser. Fish feeding also depends on species diet; see Aquaculture.
+Article
+Peat
+Items
+ · 25 cr
+A canned meat food that Livestock Feed Dispenser can convert into stored meat calories. Direct enclosure feeding and ordinary fish-tank food consumption skip canned food; this item is not treated as unpacked raw meat.
+Article
+Pilk
+Items
+ · 16 cr
+Can provide non-meat calories directly in a rat enclosure or be processed by Livestock Feed Dispenser. Fish feeding also depends on species diet; see Aquaculture.
+Article
+Naloxgone Injector
+Items
+ · 30 cr
+Appears as a medical/narcotic commodity. Its description mentions Oxymore overdose, but its factory does not connect a shopkeeper narcotic-activation or overdose-reversal action.
+Article
+Rubbing Alcohol
+Items
+ · 35 cr
+A medical commodity. A shopkeeper wound-disinfection action or Alcohol Addiction drinking action has not been verified for this item; its background description does not establish a connected self-use effect.
+Article
+Nightingale's Salve
+Items
+ · 80 cr
+A medical commodity. Its antibacterial and cell-regeneration description does not establish a verified shopkeeper activation or wound reduction; see Health, wounds and addictions for connected wound treatments.
+Article
+Smelling Salts
+Items
+ · 15 cr
+A medical commodity whose description mentions regaining consciousness. Shopkeeper revival, stun removal or additional-action self-use has not been verified in this build.
+Article
+Soda
+Items
+ · 15 cr
+An overnight cycle in a powered Fridge grants Chilled, adding 20 percentage points at the innate-value stage. It expires when the next night does not refresh it.
+Article
+Surgery Toolset
+Items
+ · 200 cr
+Can extract roe from owned fish meeting the surgery requirements, or perform sterilization/abortion procedures on eligible live livestock. The verified handlers do not consume the tool.…
+Article
+Topical Medication Bandage
+Items
+ · 16 cr
+Owned activation requires an unstable wound: stabilize, subtract 1 severity, clear the fresh-wound flag and consume one. It cannot be repeated on a stable wound. It can also wrap Glass Shard into a glass shiv without consuming the bandage.…
+Article
+Unlicensed Phagimycin Pill
+Items
+ · 5 cr
+A medical commodity carrying contraband level 2. A shopkeeper infection- or wound-treatment action has not been verified. Its trading consequences follow Security and permits.
+Article
+Sealed Water Rations
+Items
+ · 30 cr
+Wine Bottle uses a separate receiving action: the bottle must still allow liquid changes before fermentation begins and have enough room for the whole ration. Its receiving checks differ from those of ordinary containers.
+Article
+ZeroChew Tab
+Items
+ · 8 cr
+An appetite-suppressant commodity classified as food and household goods. Its meal-skipping description is flavor text; no self-use effect on a shopkeeper appetite or hunger counter has been verified in this build.
+Article
+Zyanide Pill
+Items
+ · 33 cr
+A contraband-level-2 poison that can dissolve into a liquid container or enter chemical processing. A shopkeeper suicide activation has not been verified in this build.…
+Article
+Contents
+Contents
+Contents
+View all
+ →
+Support
+Probably Stolen
+Wiki
+Contact: 
+nicokobo@foxmail.com
+This is an unofficial fan site, not affiliated with the developers or publishers of the game.
+Game names, icons and related assets remain the property of their respective owners and are referenced here for descriptive purposes only.
+Site
+Site statistics
+Home
+Items
+Mechanics
+Guides
+Mods
+Updates
+Collections
+Recipes
+Search
+About
+[深空当铺]Nicoの游戏工坊
+Official Probably Stolen links
+Steam store
+Steam community
+Discord
+X
+Instagram
+TikTok
+Reddit
+Legal & privacy
+Privacy
+Terms
+Analytics cookie settings
+Original text on this site is licensed under CC BY-SA 4.0. Please credit the source when reusing it.

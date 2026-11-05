@@ -39,6 +39,17 @@ export interface DifficultyDef extends Provenance {
   id: Difficulty;
   name: string;
   subtitle: string;
+  /** Page of the in-game Difficulty screen the option appears on, if documented. */
+  menuPage?: Fact<number>;
+  /** Whether the game pre-selects this option, if documented. */
+  isDefault?: Fact<boolean>;
+}
+
+/** A documented rule or prompt that applies to the first playthrough or to start-of-run options. */
+export interface StartRule extends Provenance {
+  id: string;
+  text: string;
+  note?: string;
 }
 
 export type FactionId = 'security' | 'black-market' | 'revolution' | 'upper-levels';
@@ -88,7 +99,8 @@ export type StatKey =
   | 'upgradeMaterialSaveChancePct'
   | 'blackMarketRevolutionReputationGainPct'
   | 'augKillRewardPct'
-  | 'tradePenaltyPct';
+  | 'tradePenaltyPct'
+  | 'luck';
 
 export type ModifierOp = 'add' | 'set';
 
@@ -160,6 +172,8 @@ export interface PerkRules extends Provenance {
   firstRunLocksPerks: Fact<boolean>;
   /** Each perk (including negatives) occupies one slot. */
   everyPerkUsesSlot: Fact<boolean>;
+  /** Selections may temporarily exceed limits; the game validates when Continue is pressed. */
+  validatedAtContinue: Fact<boolean>;
   exclusions: ExclusionRule[];
 }
 
@@ -177,5 +191,6 @@ export interface GameDataRegistry {
   specializations: SpecializationDef[];
   perks: PerkDef[];
   rules: PerkRules;
+  startRules: StartRule[];
   baseline: BaselineDef;
 }

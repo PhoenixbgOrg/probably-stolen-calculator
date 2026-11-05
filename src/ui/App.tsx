@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { navigate } from '../state/navigation';
+import type { Screen } from '../state/navigation';
 import { useBuilder } from '../state/useBuilder';
 import { OverviewScreen } from './OverviewScreen';
 import { PerksScreen } from './PerksScreen';
 import { ProfilesPanel } from './ProfilesPanel';
 import { SpecializationScreen } from './SpecializationScreen';
 
-type Screen = 'spec' | 'perks' | 'overview';
 const STEPS: { id: Screen; label: string }[] = [
   { id: 'spec', label: '1. Specialization' },
   { id: 'perks', label: '2. Starting Perks' },
@@ -14,7 +15,14 @@ const STEPS: { id: Screen; label: string }[] = [
 
 export function App() {
   const { state, dispatch, character, registry } = useBuilder();
-  const [screen, setScreen] = useState<Screen>('spec');
+  const [screen, setScreenRaw] = useState<Screen>('spec');
+  const [continueBlocked, setContinueBlocked] = useState(false);
+  // Continue gating: like the game, the Overview can only be reached with a valid build.
+  const setScreen = (next: Screen) => {
+    const r = navigate(next, character.valid, state.build.specializationId !== null);
+    setContinueBlocked(r.blocked);
+    setScreenRaw(r.screen);
+  };
   return (
     <div className="app">
       <header className="top">
@@ -39,8 +47,9 @@ export function App() {
       )}
       <div className="layout">
         <main>
+          {screen === 'spec' && continueBlocked && <div className="callout error" role="alert">Cannot open the Overview: {character.violations.map((v) => v.message).join(' ')}</div>}
           {screen === 'spec' && <SpecializationScreen reg={registry} build={state.build} dispatch={dispatch} onNext={() => setScreen('perks')} />}
-          {screen === 'perks' && <PerksScreen reg={registry} state={state} dispatch={dispatch} onBack={() => setScreen('spec')} onNext={() => setScreen('overview')} />}
+          {screen === 'perks' && <PerksScreen reg={registry} state={state} dispatch={dispatch} onBack={() => setScreen('spec')} onNext={() => setScreen('overview')} continueBlocked={continueBlocked} />}
           {screen === 'overview' && <OverviewScreen reg={registry} c={character} onBack={() => setScreen('perks')} />}
         </main>
         <div className="side">

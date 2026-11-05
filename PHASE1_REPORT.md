@@ -41,3 +41,30 @@ probablystolen-wiki.wiki (several pages), walkthroughforge.com (perks, specializ
 - Effect magnitudes are not used in any calculation beyond the Overview.
 - No browser E2E tests.
 - Phase 2+ calculators are not started (by design).
+
+## Verification pass (2026-11-05)
+
+Scope: data cross-check against nicokobo (0.46D) and difficulty guides, plus a perk-behaviour fix. Phase 2 was not started. There was no push or deploy, and no ads were added.
+
+**Behaviour**
+
+- The rules engine no longer auto-removes or cascades. `togglePerk` is a pure toggle. `validate(reg, build)` returns violations, each with a code, message, perkIds and fix.
+- Builds may be temporarily invalid. Offending perks are highlighted in red. Negative or over-limit points and slots are shown in red.
+- "Continue: Overview" and the step nav are gated by validity through `src/state/navigation.ts`. A blocked attempt shows an explanation.
+- The Overview shows a validation status. An invalid build gets a prominent red banner.
+- On a first playthrough, adding perks is blocked (the game disables the panel). Removing perks is always allowed. Switching playthrough no longer strips perks.
+- Load and import keep perks exactly as saved, including unknown ids, and report every rule break.
+- Junker is shown as a disabled "Work in Progress" card with no stats. It cannot be selected. A stored or imported Junker build has its specialization cleared, its perks kept, and a warning shown.
+- Schema stays v2. v1 and v2 data load, and no migration change was needed.
+
+**Data**
+
+- See "Verification pass" in docs/RESEARCH.md for the comparison table and remaining conflicts.
+- `DATA_VERSION` is now 2026-11-05.2, and data/game-data.json was regenerated.
+
+**Checks**
+
+- typecheck: OK.
+- 53 tests pass. They cover points, conflicts, slots, Colorful Character, prerequisites, Junker, invalid builds surviving save/load/import, v1 migration and Continue gating.
+- build: OK.
+- Dev server: `npm run dev`, which runs `vite --host 0.0.0.0 --port 5173 --strictPort`.

@@ -60,3 +60,11 @@ table.stats { width:100%; border-collapse:collapse; } .stats th, .stats td { bor
 .plain { padding-left:1.1rem; } .flags code { margin-right:.4rem; background:var(--card); padding:.1rem .3rem; border-radius:4px; }
 footer { margin-top:2rem; border-top:1px solid var(--line); padding-top:.6rem; }
 .sources a { margin-right:.1rem; }
+.perk.offending { border-color:#c0392b; box-shadow:0 0 0 2px #c0392b55; }
+.big.over, .over { color:#ff6b6b; font-weight:700; }
+.card.spec.wip { opacity:.55; border-style:dashed; }
+.card.spec.wip .card-select { cursor:not-allowed; }
+.tag.wip { background:#5a4a1a; }
+.banner-invalid { background:#3a1414; border:2px solid #c0392b; border-radius:10px; padding:.7rem 1rem; margin:.6rem 0; }
+.banner-valid { background:#13301d; border:1px solid #2e7d4f; border-radius:10px; padding:.5rem 1rem; margin:.6rem 0; }
+.violations li { margin:.25rem 0; }

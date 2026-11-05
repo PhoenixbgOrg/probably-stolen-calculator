@@ -70,6 +70,36 @@ export const SOURCES: Record<string, SourceRef> = {
     publisher: 'Cozy Game Guides', gameVersion: 'pre-1.0 patches (Update 049)', accessed: ACCESSED,
     notes: 'Summarises official patch notes: Intimidating changed 3 -> 2 points and 25% -> 33%; Model Citizen 20% -> 50% (Update 049).',
   },
+  'nicokobo-occupations': {
+    id: 'nicokobo-occupations', title: 'Occupations and starting perks (collection)',
+    url: 'https://probably-stolen.nicokobo.com/en/collections/occupations',
+    publisher: 'Probably Stolen Wiki by nicokobo (fan site)', gameVersion: '0.46D / Steam Build 26337366 (static analysis, no in-game test)', accessed: ACCESSED,
+    notes: 'Snapshot: docs/sources/nicokobo_en_collections_occupations.txt. Page footer: "Source: 0.46D, Build 26337366; static analysis, not an in-game test." Site banner also claims a full-release baseline update on 2026-10-29, so the version label is ambiguous; treated as possibly pre-1.0.',
+  },
+  'nicokobo-starting-perks': {
+    id: 'nicokobo-starting-perks', title: 'Starting Perks (article)',
+    url: 'https://probably-stolen.nicokobo.com/en/wiki/perks/starting-perks',
+    publisher: 'Probably Stolen Wiki by nicokobo (fan site)', gameVersion: '0.46D / Steam Build 26337366 (static analysis, no in-game test)', accessed: ACCESSED,
+    notes: 'Snapshot: docs/sources/nicokobo_en_wiki_perks_starting-perks.txt. States: 3-point budget, 4 slots, Colorful Character +3 slots, selections may temporarily exceed limits and Continue validates.',
+  },
+  'nicokobo-game-modes': {
+    id: 'nicokobo-game-modes', title: 'Game modes and endings (article)',
+    url: 'https://probably-stolen.nicokobo.com/en/wiki/terms/game-modes-and-endings',
+    publisher: 'Probably Stolen Wiki by nicokobo (fan site)', gameVersion: '0.46D / Steam Build 26337366 (static analysis, no in-game test)', accessed: ACCESSED,
+    notes: 'Snapshot: docs/sources/nicokobo_game-modes-and-endings.txt. Four difficulty titles; Skip Intro on first run prompts confirmation; Fence, Rock Bottom, Gunsmith and Chemist force Skip Intro on.',
+  },
+  'psdb-difficulty': {
+    id: 'psdb-difficulty', title: 'Probably Stolen Difficulty Modes Guide',
+    url: 'https://probablystolendb.wiki/guides/difficulty-modes/',
+    publisher: 'probablystolendb.wiki', gameVersion: '1.0.0.2', accessed: ACCESSED,
+    notes: 'Snapshot: docs/sources/probablystolendb_difficulty-modes.txt. Names the four modes with (Cozy)/(Normal)/(Hard)/(Challenge); says Mark Up is the default.',
+  },
+  'allthings-difficulty': {
+    id: 'allthings-difficulty', title: 'Price Gouge vs Mark Up vs Thin Margins: Picking a Probably Stolen Difficulty',
+    url: 'https://allthings.how/probably-stolen-difficulty-modes/',
+    publisher: 'AllThingsHow', gameVersion: '1.0 (not stated precisely)', accessed: ACCESSED,
+    notes: 'Snapshot: docs/sources/allthingshow_difficulty-modes.txt. Red Ink is on page 2 of the Difficulty screen; Skip Intro and Endless Mode checkboxes; first run shows "Starting Perks are not available on your first run", Available Perk Points: 3, Perks: 0/4; Apprentice on Mark Up opens with 550 credits.',
+  },
   'steam-store': {
     id: 'steam-store', title: 'Probably Stolen on Steam', url: 'https://store.steampowered.com/app/4348910/',
     publisher: 'Valve / tinyBuild / Questing Goose Studio', gameVersion: null, accessed: ACCESSED,

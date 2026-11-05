@@ -1,0 +1,276 @@
+Source: https://probablystolendb.wiki/guides/difficulty-modes/
+Fetched: 2026-11-05
+
+Probably Stolen Difficulty Modes Guide
+ Skip to content 
+PS Wiki
+ Guides 
+ Tools & Tables 
+ Patch Notes 
+Esc
+ Close 
+·
+↵
+ Search 
+Powered by Pagefind
+English
+ English 
+Search
+ Guides 
+ Tools & Tables 
+ Patch Notes 
+Language
+ English 
+Home
+/
+Probably Stolen Guides
+Probably Stolen Guides
+Probably Stolen Difficulty Modes Guide
+Compare all four Probably Stolen difficulties, retail margins, rent rises, permit costs, reputation penalties and hard-mode achievement requirements.
+ 10/29/2026 
+ 1.0.0.2 
+ Last updated: 10/30/2026 
+ 2 min read 
+Share
+Quick Answer
+Apprentice on Price Gouge gives you the gentlest costs and reputation rules. Mark Up is the default balance.
+ On this page 
+ Choosing a mode 
+ Prices and weekly rent 
+ Reputation and Rent Grace 
+ Permit and deed prices 
+ Skip Intro and Endless Mode 
+ On this page 
+ Choosing a mode 
+ Prices and weekly rent 
+ Reputation and Rent Grace 
+ Permit and deed prices 
+ Skip Intro and Endless Mode 
+Choosing a mode
+Price Gouge (Cozy)
+ offers the widest resale margin and mildest reputation penalties. 
+Mark Up (Normal)
+ is the default. Both suit an 
+Apprentice
+ first run with the tutorial enabled.
+Thin Margins (Hard)
+ removes the retail markup. Profit comes from discounted purchases and production, with higher costs for network upgrades. 
+Red Ink (Challenge)
+ keeps those tight margins and raises costs and reputation penalties further.
+Choose your 
+starting scenario
+ separately. For 
+From Nothing, the Hard Way
+, win with 
+Rock Bottom on Thin Margins or Red Ink
+. The 
+Rock Bottom run
+ covers the income that start needs before it owns any stock. Other run goals are in the 
+achievement table
+.
+Prices and weekly rent
+These player-tested full-release figures compare the four settings:
+Full-release difficulty comparison
+Difficulty
+Retail markup
+Weekly rent rise
+Network upgrade prices
+ Price Gouge (Cozy) 
+ +20% 
+ +2.5% 
+ Standard 
+ Mark Up (Normal) 
+ +15% 
+ +5% 
+ Standard 
+ Thin Margins (Hard) 
+ None 
+ +10% 
+ +50% 
+ Red Ink (Challenge) 
+ None 
+ +10% 
+ +100% 
+Price Gouge’s selection card says 
+2%
+ rent growth; the weekly calculation uses 
+2.5%
+.
+On Normal, 
+1.0.0.2
+ lowered 
+Dr. Jackson’s stock markup from 25% to 15%
+. The visiting Merchant’s spoken discount was corrected in 
+1.0.0.1
+ to match the chosen mode.
+Reputation and Rent Grace
+A bad accusation or 
+hostile bargain
+ takes longer to recover from on the harder settings. The gain and loss multipliers apply to your 
+faction relationships
+:
+Reputation multipliers and opening protection
+Difficulty
+Reputation gains
+Reputation losses
+Starting Rent Grace
+ Price Gouge (Cozy) 
+ ×1.5 
+ ×0.5 
+ Included 
+ Mark Up (Normal) 
+ ×1 
+ ×1 
+ Included 
+ Thin Margins (Hard) 
+ ×0.75 
+ ×1.25 
+ Buy separately 
+ Red Ink (Challenge) 
+ ×0.5 
+ ×2 
+ Buy separately 
+Rent Grace
+ carries one missed payment into the next week’s bill. Price Gouge and Mark Up include it at the start; on Thin Margins and Red Ink, buy it through 
+Joe Wild
+.
+Permit and deed prices
+The 
+Business Permit
+ is cheapest on Price Gouge. The opening deed price is the same on Price Gouge and Mark Up, then rises at different rates after day 50.
+Permit and opening deed prices in credits
+Difficulty
+Business Permit
+Deed through day 50
+ Price Gouge (Cozy) 
+ 500 
+ 12000 
+ Mark Up (Normal) 
+ 1500 
+ 12000 
+ Thin Margins (Hard) 
+ 2000 
+ 24000 
+ Red Ink (Challenge) 
+ 3000 
+ 36000 
+Use the 
+rent and mortgage tables
+ for later deed prices and weekly loan payments.
+Skip Intro and Endless Mode
+Skip Intro
+ removes introductory encounters and opens content immediately. Leave it off if you want the tutorial and 
+First Steps
+.
+Endless Mode
+ changes which scripted customers and events appear. Use a regular run to follow character storylines.
+Advertisement
+ progression 
+ economy 
+Advertisement
+Related Articles
+guides
+Probably Stolen Achievement Walkthrough: Every Unlock and the 100% Route
+Unlock every Probably Stolen achievement with the exact trigger for each, the three counters that carry across saves, and the one run that holds five at once.
+guides
+Probably Stolen Late Game: What to Do After You Buy the Deed
+Owning the deed ends rent but not the run: what the win screen records, which goals stay open, and what a shop can afford once the weekly bill is gone.
+guides
+Probably Stolen Rock Bottom Run: From Nothing on Hard
+Win from an empty room: what Rock Bottom removes, what Thin Margins charges, and the income a shop with no stock can run on before the first rent day.
+Advertisement
+ Previous 
+Probably Stolen Endings Guide: Buyout and Failure Routes
+ Next 
+Probably Stolen Chemistry Guide: Chemist and Recipes
+Was this helpful?
+Thanks for the feedback!
+ On this page 
+ Choosing a mode 
+ Prices and weekly rent 
+ Reputation and Rent Grace 
+ Permit and deed prices 
+ Skip Intro and Endless Mode 
+ On this page 
+ Choosing a mode 
+ Prices and weekly rent 
+ Reputation and Rent Grace 
+ Permit and deed prices 
+ Skip Intro and Endless Mode 
+ PS Wiki 
+ Guides 
+36
+ Probably Stolen Achievement Walkthrough: Every Unlock and the 100% Route 
+ Probably Stolen Late Game: What to Do After You Buy the Deed 
+ Probably Stolen Rock Bottom Run: From Nothing on Hard 
+ Probably Stolen Secrets: Hidden Stash, Scenario and Missable Events 
+ Probably Stolen: Care Package for Eleanor Walkthrough 
+ Probably Stolen Haggling Guide: Discounts, Markups, Reputation 
+ Probably Stolen Cadet Serpico: Visits and Evidence 
+ Probably Stolen: The Butcher Wanted Guide 
+ Probably Stolen Vending Machine: Overnight Sales Guide 
+ Probably Stolen Water Measuring: Exact 150 ml and 50 ml 
+ Probably Stolen Display Case and Customer Guide 
+ Probably Stolen Lottery Tickets and Scratch Cards 
+ Probably Stolen Theft, Alarm and Insurance Guide 
+ Probably Stolen After-Hours and Scavenging Guide 
+ Probably Stolen Appraisal Guide: Inspect Counterfeits 
+ Probably Stolen Aquafarming Guide: Tanks, Fish and Water 
+ Probably Stolen Beginner Guide: Your First Shop 
+ Probably Stolen Characters: Key Visitors and Storylines 
+ Probably Stolen Chemistry Guide: Chemist and Recipes 
+ Probably Stolen Difficulty Modes Guide 
+ Probably Stolen Endings Guide: Buyout and Failure Routes 
+ Probably Stolen Factions and Reputation Guide 
+ Probably Stolen Gunsmith Guide: 3D Printer, Permits and Orders 
+ Probably Stolen Hydroponic Farming Guide: Seeds and Crops 
+ Probably Stolen Joe Wild Network and Starter Kits Guide 
+ Probably Stolen Money Guide: Build a Reliable Margin 
+ Probably Stolen Power, Batteries and Machine Modules Guide 
+ Probably Stolen Rat Wrangling Guide: Breeding and Meat 
+ Probably Stolen Release Date, Price and Platforms 
+ Probably Stolen Rent, Deed and Mortgage Guide 
+ Probably Stolen Security, Heat and Contraband Guide 
+ Probably Stolen Shop Management: A Daily Routine 
+ Probably Stolen Starting Scenarios: All 9 Launch Starts 
+ Probably Stolen System Requirements and PC Settings 
+ Probably Stolen Water Purification Guide (1.0.0.5) 
+ Probably Stolen Winemaking Guide: Berries, Water and Yeast 
+ Tools & Tables 
+7
+ Probably Stolen Chips and Goods: Base Values and Print Jobs 
+ Probably Stolen Machines: Power, Outputs and Night Rules 
+ Probably Stolen Modules: Quality, Performance and Efficiency 
+ Probably Stolen Achievements: All 21 Steam Goals 
+ Probably Stolen Perks: Effects and Point-Cost Table 
+ Probably Stolen Recipes and Items: Searchable Tables 
+ Probably Stolen Water Purity Calculator 
+ Patch Notes 
+5
+ Probably Stolen 1.0.0.6: Modding Security and Menu Key 
+ Probably Stolen Hotfix 1.0.0.5: Bell Hotkey and Purifier Price 
+ Probably Stolen Hotfix 1.0.0.1: Lou and Inspection Fixes 
+ Probably Stolen 1.0.0.2: Water Balance and Hotfix 
+ Probably Stolen 1.0 Launch: What Is in the Full Game? 
+Advertisement
+Advertisement
+Probably Stolen Wiki
+Keep the lights on. Own the shop.
+ Recent Updates 
+·
+ All Tags 
+ Community 
+ Play Probably Stolen 
+ Official Discord 
+ Official Twitter 
+ Reddit community 
+Legal
+ About 
+ FAQ 
+ Privacy Policy 
+ Terms of Service 
+ Copyright 
+ Contact 
+© 2026 Probably Stolen Wiki. All rights reserved.
+Probably Stolen Wiki is an independent fan site. Not affiliated with or endorsed by Questing Goose Studio or tinyBuild.
+ 

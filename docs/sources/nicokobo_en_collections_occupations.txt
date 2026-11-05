@@ -1,0 +1,759 @@
+
+Occupations and starting perks · Probably Stolen Wiki
+PS
+Probably Stolen
+Wiki
+Home
+Items
+Guides
+Mods
+Tools
+About
+Search
+中文
+中文
+Theme
+Follow
+Join
+Skip to content
+Home
+Topic collections
+Occupations and starting perks
+Collections
+Occupations and starting perks
+2 entries
+Browse entries
+Occupations and starting perks
+Contents: 
+Occupations
+ · 
+Initial values
+ · 
+Starting stock
+ · 
+Selection
+ · 
+Positive
+ / 
+Negative
+ / 
+Neutral
+ · 
+Incompatibilities
+ · 
+Order
+Occupation availability
+The current menu order is occupation, perks, then difficulty and options. A first-run non-Apprentice choice prompts for confirmation and can proceed; first-run perk selection is disabled.
+Occupation
+Status
+Introduction
+Apprentice
+Available
+Can keep or skip
+Water Merchant
+Available
+Can keep or skip
+Fence
+Available
+Always skipped
+Rock Bottom
+Available
+Always skipped
+Hydroponic Farmer
+Available
+Can keep or skip
+Gunsmith
+Available
+Always skipped
+Chemist
+Available
+Always skipped
+Rat Wrangler
+Available
+Can keep or skip
+Aquafarmer
+Available
+Can keep or skip
+Junker
+Work in progress; cannot start
+—
+Organ Dealer
+Work in progress; cannot start
+—
+Street Food Vendor
+Work in progress; cannot start
+—
+Moonshiner
+Unavailable; hidden in menu
+—
+Pharmacist
+Unavailable; hidden in menu
+—
+Showcase mode separately limits starts to Apprentice. An unavailable Moonshiner or Pharmacist career does not imply that brewing or pharmaceutical production is unavailable.
+Occupation initialization values
+Cash and first rent are in Credits before perk effects. Reputation figures are the career input values; relevant perk and difficulty modifiers can change them, since selected perks already affect ordinary reputation changes during career initialization. Counts are item stacks, not individual ammunition rounds. Later tutorial trades and gifts are excluded.
+Occupation
+Cash
+First rent
+Starting unlocks and reputation changes
+Apprentice
+550
+200
+No extra faction or network unlock
+Water Merchant
+400
+200
+Water-trader access unlocked
+Fence
+450
+250
+Black Market reputation +30, Security −30; Underground Exchange unlocked
+Rock Bottom
+0
+200
+Fixed shop fixtures and contract remain; perk stock and cash effects apply later
+Hydroponic Farmer
+450
+240
+Retired Farmer access unlocked
+Gunsmith
+150
+250
+Security reputation +25; Class I Weapon Permit granted; Retired Gunsmith unlocked
+Chemist
+300
+200
+Security reputation −15; Retired Chemist and Cartel protection service unlocked
+Rat Wrangler
+600
+200
+Retired Rat Wrangler access unlocked
+Aquafarmer
+150
+240
+Aquaculture access unlocked
+Introduction and perk boundaries
+Condition
+Result
+Ordinary start
+Contract goes into the dossier; except for Rock Bottom or Tapehead, the player receives 4 Corrupted-version tapes
+Apprentice/Water Merchant skipping the intro
+Apprentice gets food and household signs; Water Merchant gets a water sign
+Skip intro, except Rock Bottom
+Additional magnifier, labeler, bandage and waist bag; guides, wanted notice and Commissary documents have perk-specific exclusions
+See 
+Starting Perks
+ for persistent effects, replaced starting items and mind-editing boundaries.
+Starting stock
+Energy figures are current stored energy; these standard cells have 100 kJ capacity. Pristine, Damaged and Corrupted are audio versions, while Shabby is a separate item feature.
+Apprentice
+Item
+Stacks
+Conditions and state
+Storage Bay
+1
+Shabby
+Peat
+2
+—
+Puice
+1
+—
+Tube of Toothpaste
+2
+—
+Roll of Toilet Paper
+2
+—
+Food Neon Sign
+1
+Only when skipping the introduction;
+Household Item Neon Sign
+1
+Only when skipping the introduction;
+Water Merchant
+Item
+Stacks
+Conditions and state
+Water Trading Manual
+1
+—
+Water Testing Kit
+1
+Contains 10 test strips
+Bottle of Water Purification Tablets
+1
+Contains 9 purification tablets
+Bottle of Water (Large)
+1
+Filled with Ghostwater
+Jug of Water
+1
+Filled with low-range Rustwater; internal water-quality draw 9000–9200
+Bottle of Water (Large)
+1
+—
+Bottle of Water (Standard)
+1
+—
+Bottle of Water (Small)
+1
+—
+Water Pitcher
+1
+—
+Water Filter
+1
+Current/maximum/base durability all 400
+Water Neon Sign
+1
+Only when skipping the introduction;
+HydraTech Micro Water Purifier
+1
+Shabby; current durability set to 75
+Bottle Printer
+1
+Shabby; contains a power cell with 25 kJ
+Fence
+Item
+Stacks
+Conditions and state
+Smuggler's Bay
+1
+Shabby
+Vial of "Dream Dust"
+2
+—
+Ironcraft 10
+1
+Condition: Fair
+10mm Ammunition
+2
+—
+Disposable Keycard (Medical)
+1
+—
+Disposable Keycard (Engineering)
+1
+—
+Disposable Keycard (Security)
+1
+—
+Black Lamp
+2
+Shabby
+Rock Bottom
+Item
+Stacks
+Conditions and state
+—
+0
+No occupation items
+Hydroponic Farmer
+Item
+Stacks
+Conditions and state
+Hydroponic Farming Manual
+1
+—
+Hydroponic System
+1
+First system: shabby Old Hydroponic System; includes power cell with 100 kJ, large bottle of Ghostwater, 3 stuck Glitched Modules (each performance +15%, efficiency −15%), 1 stuck ruined module and instructions
+Hydroponic System
+1
+Second system: shabby; includes power cell with 100 kJ, large bottle of Ghostwater, 2 stuck eco modules, 2 stuck ruined modules and instructions; start name is hardcoded as Decrepit Hydroponic System
+Sealed Water Ration (Small)
+2
+—
+Nutrifruit Seed
+2
+—
+Fillerweed Seed
+2
+—
+Hydroponic Nutrient Tablet Bottle
+1
+Contains 9 nutrient tablets
+Gunsmith
+Item
+Stacks
+Conditions and state
+3D Printer
+1
+Shabby; includes power cell with 100 kJ, shabby pistol printer chip, stuck eco and Glitched Module (performance +15%, efficiency −15%), plus instructions
+Firearm Neon Sign
+1
+—
+3D Printing Filament
+4
+—
+Gunsmith Storage Bay
+1
+Shabby
+.22 SR Ammunition (Non-Lethal)
+6
+6 item stacks, not 6 rounds
+.22 SR Ammunition
+5
+5 item stacks, not 5 rounds
+Nestfire Compact
+1
+Condition: Poor
+Nestfire Compact
+1
+Condition: Good
+Liberator 3D Printed Pistol
+1
+Condition: Poor
+Liberator 3D Printed Pistol
+1
+Condition: New
+Suppressor
+1
+—
+Red Dot Sight
+1
+—
+.22 Magazine
+2
+—
+High Capacity .22 Magazine
+1
+—
+Toy Laser Pointer
+1
+—
+Makeshift Suppressor
+1
+—
+Laser Sight
+1
+—
+Improved Internal Springs
+1
+—
+Screwdriver
+1
+—
+Gun Parts
+1
+—
+Class I Weapon Permit
+1
+Placed in display case and permit immediately granted
+Chemist
+Item
+Stacks
+Conditions and state
+Blender
+1
+Shabby
+Heating Plate
+1
+Shabby
+Evaporator
+1
+Shabby; includes power cell with 40 kJ and instructions
+Chem Finisher
+1
+Shabby
+1ml Dropper
+1
+—
+5ml Dropper
+1
+—
+25ml Graduated Cylinder
+1
+—
+50ml Graduated Cylinder
+1
+—
+100ml Graduated Cylinder
+1
+—
+Bottle of Water (Standard)
+2
+—
+Coffee Beans
+1
+—
+Water Pitcher
+1
+—
+Kotton Fabric
+1
+—
+Composition Spectrometer
+1
+Shabby
+Mini Smuggler's Bay
+1
+Shabby
+Chemistry Manual
+1
+—
+Rat Wrangler
+Item
+Stacks
+Conditions and state
+Animal Cage
+1
+Shabby; shabby feed dispenser installed
+Rat
+2
+Age 5 days, 1 male and 1 female; default genes and age-based weight
+Rat
+2
+Age 3 days, 1 male and 1 female; default genes and age-based weight
+Rat
+2
+Age 1 days, 1 male and 1 female; default genes and age-based weight
+Meat Cleaver
+1
+—
+Blue Labeler
+1
+—
+Marking Pen
+1
+—
+Livestock Immunity Serum
+1
+2 uses remaining
+Nutrifruit
+6
+Small
+Aquafarmer
+Item
+Stacks
+Conditions and state
+Recirculating Aquaculture System
+2
+Each shabby; water tank and power cell with 50 kJ installed
+Tilapia
+2
+Age 8 days, 1 male and 1 female
+Tilapia Roe (Fertilized)
+1
+1 group of fertilized roe; not unfertilized roe
+Industrial Fish Feed
+2
+—
+Scrap Metal
+1
+—
+Electronic Parts (Common)
+1
+—
+Kitchen Knife
+1
+—
+Marking Pen
+1
+—
+Jug of Water
+2
+Both filled with Ghostwater
+Unlocking Cartel protection does not mean it is active for free.
+Selection rules
+Perks are disabled on the first run. Later starts must satisfy both: total signed cost ≤3, and selected count ≤4 plus all selected extra slots. Negative costs offset positive costs; zero-cost perks still occupy a slot. Selection may temporarily exceed a limit, but Continue validates it.
+Colorful Character is neutral and costs 1 point; it occupies one slot and raises the total slot limit from 4 to 7. Category is not determined by the sign of its cost.
+Positive perks
+Perk
+Cost
+Effect
+Mind editing
+Savings
++1
+Adds 150 Credits after the occupation cash adjustment
+Not editable
+Model Citizen
++1
+Initial Security reputation +30 directly; affected report and Aug-kill rewards ×1.5
+Not editable
+Well Connected
++2
+Directly adds 15 to each faction’s initial reputation
+Not editable
+Vigilant
++2
+Skips the ordinary overnight burglary branch once insurance is unlocked
+Add or remove
+Sawyer's Crew
++1
+Unlocks the Underground Exchange after the day-1 introduction ends; janitorial fee is 0 without vandalism, otherwise recalculated
+Not editable
+Diplomatic
++2
+Positive trade-reputation input is rounded after ×1.33, then enters faction reputation settlement
+Add or remove
+Intimidating
++2
+Each crime’s evidence input is rounded after ×0.67
+Add or remove
+Secret Admirer
++1
+Attempts to give Galaxy Blend on opening day 2; later gifts use a missed-gift counter and health priorities; full probabilities are in the perk detail
+Not editable
+Welfare Program
++1
+At the weekly shutter-opening trigger, gives genuine food stamps based on cash and discounted inventory value; none above adjusted wealth 3000
+Not editable
+Proficient Scavenger
++1
+Adds 2 to the base 5 scavenging attempts before other modifiers
+Add or remove
+Tapehead
++1
+Attempts to give 7 Pristine-version starting tracks with the separate Shabby item feature, skipping the same track/version already in the player; replaces the career’s ordinary 4 Corrupted-version tapes
+Not editable
+Handy
++1
+Shabby toolbox with 4 unlocked slots; includes shabby screwdriver, wire cutter, crowbar and plasma cutter
+Not editable
+Wild's Favorite
++1
+Wild network upgrade cost ×0.9; insurance is rounded after a final ×0.5
+Not editable
+Lucky
++1
+Initial luck +5; each system interprets luck separately
+Not editable
+Tinkerer
++1
+At upgrade-consumption calls that use this perk, each material has a 20% chance to be retained
+Not editable
+Sycophant
++1
+Initial Upper Level reputation +15 directly; ordinary positive Upper Level gains ×1.25; adds 10% of the original budget to Upper Level customer budgets
+Not editable
+Short Sleeper
++1
+Removes the −1 normal-customer target penalty from going out at night; other customer modifiers still apply
+Add or remove
+Working Pipes
++2
+Unlocks the Gutterflow and Rustwater taps at the start
+Not editable
+Vending Machine
++2
+Unlocks and installs a vending machine, mechanism and power cell with 50 kJ
+Not editable
+Revolution Sympathizer
++1
+Initial Revolutionary reputation +25 directly; after request prerequisites, adds a request on days congruent to 1 modulo 7
+Not editable
+Negative perks
+Perk
+Cost
+Effect
+Mind editing
+Bad Lease
+-1
+Adds 40 Credits to current rent after the occupation adjustment
+Not editable
+Convict
+-1
+Initial Security reputation −30 directly; affected report and Aug-kill rewards ×0.75
+Not editable
+Public Enemy
+-2
+Directly subtracts 15 from each faction’s initial reputation; does not set it to −15
+Not editable
+Side Street
+-1
+Normal random-customer target −1; final target remains clamped to 0–6
+Not editable
+Nicotine Addiction
+-1
+Nicotine-withdrawal timer starts at 3; withdrawal adds 8 market percentage points when buying and subtracts 8 when selling; starts with counterfeit cigarettes
+Remove existing only
+Narcotic Addiction
+-1
+Narcotic timer starts at 3; both narcotic and relief timers must reach 3 for withdrawal; market penalty is +8 points buying, −8 selling; starts with an Oxymore Injector
+Remove existing only
+Alcohol Addiction
+-1
+Alcohol-withdrawal timer starts at 3; withdrawal market penalty is +8 percentage points buying, −8 selling; starts with Nudka
+Remove existing only
+Blackmail
+-2
+Introduction on day 1, then blackmail on days congruent to 1 modulo 7; demands 40 + current day Credits; refusal or arrest causes reputation losses
+Not editable
+Blabbermouth
+-2
+Crime evidence rounded after ×1.33; ordinary positive Black Market and Revolutionary reputation gains ×0.5
+Remove existing only
+Minimalist
+-2
+Main inventory 20×10; removing it with the device restores 24×10
+Remove existing only
+Ascetic
+-4
+Main inventory 16×10; removing it with the device restores 24×10
+Remove existing only
+Sentinel Collapse Disorder
+-3
+Starts with genuine Immunivax and inspection material; after 7/10/14 days without injection the disease pool gains 1/2/3 nightly; reaching 20 ends the run
+Not editable
+Maimed
+-2
+Cannot scavenge at the Dumping Ground; attempts immediately return 0
+Not editable
+Gambling Addiction
+-1
+Starts with a scratch ticket and Gambler’s Coin and unlocks the lottery; qualifying customer tickets are bought automatically, at most 5 of each category per customer
+Remove existing only
+On Wild's Bad Side
+-1
+Wild network upgrade cost ×1.1; insurance is rounded after a final ×1.5
+Not editable
+Unlucky
+-1
+Initial luck −5; each system interprets luck separately
+Not editable
+Awful Negotiator
+-3
+Hides bargaining controls; market stage +5 percentage points buying, −5 selling
+Remove existing only
+Banned from the Commissary
+-1
+Disables the Commissary location and filters food-stamp customers and introduction
+Not editable
+Illiterate
+-1
+Cannot activate reading-gated guides, newspapers, contracts, deeds and similar documents
+Remove existing only
+Agoraphobia
+-1
+After going out on day D, the next outing is allowed on D+3
+Remove existing only
+Degenerative Osteoarthritis
+-1
+Starts with 2 extra bandages; loses 1 scavenging attempt per elapsed 7 days; a pre-event limit below 3 disables scavenging before event bonuses
+Not editable
+Known Snitch
+-2
+Initial Revolutionary and Black Market reputation each −10 directly; blocks poster-linked wanted clients, their introduction and random wanted clients
+Not editable
+Neutral perks
+Perk
+Cost
+Effect
+Mind editing
+Colorful Character
++1
+Raises the total perk-slot limit by 3; still occupies 1 slot itself
+Not editable
+Aug Menace
++1
+Introduces Aug events and the shotgun early; first random arrival is 2–4 days later; kill cash then ×1.25; presence 100 can end the run
+Not editable
+Careful Scavenger
++0
+Scavenging attempts −2; scavenging minor and major wound chances become 0; device can remove it but cannot add it back
+Remove existing only
+Hoarder
++0
+Attempts to place 3 immovable debris piles at the bottom of the main inventory; cleared through rest, tools and hired service respectively
+Not editable
+Makeshift Reactor
++1
+Starts with a makeshift reactor replacing the grid service; reactor operation and maintenance are still required
+Not editable
+Prime Real Estate
++0
+Initial current rent +75; normal random-customer target +1, still clamped to 0–6
+Not editable
+Incompatibilities
+Perk
+Incompatible with
+Convict
+Model Citizen
+Well Connected
+Public Enemy
+Side Street
+Prime Real Estate
+Minimalist
+Ascetic
+Welfare Program
+Banned from the Commissary
+Proficient Scavenger
+Maimed
+Maimed
+Careful Scavenger
+Maimed
+Degenerative Osteoarthritis
+Wild's Favorite
+On Wild's Bad Side
+Lucky
+Unlucky
+A declaration on either side is sufficient.
+Complete special interactions are in 
+starting perks
+; charging, cooldown and acquisition for mind editing are in 
+mind reprogrammer
+.
+Application order
+The game initializes the base state, handles Hoarder placeholders, grants occupation stock and some perk items, handles the skipped introduction, then applies the remaining starting perks and saves for the first time. Occupation cash and rent are set first: Rock Bottom with Savings gets 150 after cash is reset to zero; Fence with Bad Lease gets 250 +40 rent.
+Skipping the introduction has separate guide and stock branches. It does not grant every occupation the same additional items.
+Source: 0.46D, Build 26337366; static analysis, not an in-game test.
+Related collections
+Survival and runs
+Search this collection
+2 of 2 entries
+All
+Mechanics & unlocks
+Items & equipment
+Mechanics & unlocks
+1
+Starting Perks
+Starting Perks
+This page records application order, recurring triggers and editing boundaries. The complete positive, negative and neutral effect tables belong to Occupations and Perks.
+Article
+Items & equipment
+1
+Mind Reprogrammer
+Items
+ · 5000 cr
+Stock lists, draws and trading rules belong to the complete Hypertech Smuggler pool. Booking later visits and overnight-service rules belong to Shop Management.
+Article
+Contents
+Contents
+Contents
+View all
+ →
+Support
+Probably Stolen
+Wiki
+Contact: 
+nicokobo@foxmail.com
+This is an unofficial fan site, not affiliated with the developers or publishers of the game.
+Game names, icons and related assets remain the property of their respective owners and are referenced here for descriptive purposes only.
+Site
+Site statistics
+Home
+Items
+Mechanics
+Guides
+Mods
+Updates
+Collections
+Recipes
+Search
+About
+[深空当铺]Nicoの游戏工坊
+Official Probably Stolen links
+Steam store
+Steam community
+Discord
+X
+Instagram
+TikTok
+Reddit
+Legal & privacy
+Privacy
+Terms
+Analytics cookie settings
+Original text on this site is licensed under CC BY-SA 4.0. Please credit the source when reusing it.

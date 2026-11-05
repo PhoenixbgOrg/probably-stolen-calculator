@@ -1,5 +1,5 @@
 {
-  "dataVersion": "2026-11-05.1",
+  "dataVersion": "2026-11-05.2",
   "gameVersion": "1.0.x (user screenshots: 100-REV6)",
   "sources": {
     "user-screenshots": {
@@ -110,6 +110,51 @@
       "accessed": "2026-11-05",
       "notes": "Summarises official patch notes: Intimidating changed 3 -> 2 points and 25% -> 33%; Model Citizen 20% -> 50% (Update 049)."
     },
+    "nicokobo-occupations": {
+      "id": "nicokobo-occupations",
+      "title": "Occupations and starting perks (collection)",
+      "url": "https://probably-stolen.nicokobo.com/en/collections/occupations",
+      "publisher": "Probably Stolen Wiki by nicokobo (fan site)",
+      "gameVersion": "0.46D / Steam Build 26337366 (static analysis, no in-game test)",
+      "accessed": "2026-11-05",
+      "notes": "Snapshot: docs/sources/nicokobo_en_collections_occupations.txt. Page footer: \"Source: 0.46D, Build 26337366; static analysis, not an in-game test.\" Site banner also claims a full-release baseline update on 2026-10-29, so the version label is ambiguous; treated as possibly pre-1.0."
+    },
+    "nicokobo-starting-perks": {
+      "id": "nicokobo-starting-perks",
+      "title": "Starting Perks (article)",
+      "url": "https://probably-stolen.nicokobo.com/en/wiki/perks/starting-perks",
+      "publisher": "Probably Stolen Wiki by nicokobo (fan site)",
+      "gameVersion": "0.46D / Steam Build 26337366 (static analysis, no in-game test)",
+      "accessed": "2026-11-05",
+      "notes": "Snapshot: docs/sources/nicokobo_en_wiki_perks_starting-perks.txt. States: 3-point budget, 4 slots, Colorful Character +3 slots, selections may temporarily exceed limits and Continue validates."
+    },
+    "nicokobo-game-modes": {
+      "id": "nicokobo-game-modes",
+      "title": "Game modes and endings (article)",
+      "url": "https://probably-stolen.nicokobo.com/en/wiki/terms/game-modes-and-endings",
+      "publisher": "Probably Stolen Wiki by nicokobo (fan site)",
+      "gameVersion": "0.46D / Steam Build 26337366 (static analysis, no in-game test)",
+      "accessed": "2026-11-05",
+      "notes": "Snapshot: docs/sources/nicokobo_game-modes-and-endings.txt. Four difficulty titles; Skip Intro on first run prompts confirmation; Fence, Rock Bottom, Gunsmith and Chemist force Skip Intro on."
+    },
+    "psdb-difficulty": {
+      "id": "psdb-difficulty",
+      "title": "Probably Stolen Difficulty Modes Guide",
+      "url": "https://probablystolendb.wiki/guides/difficulty-modes/",
+      "publisher": "probablystolendb.wiki",
+      "gameVersion": "1.0.0.2",
+      "accessed": "2026-11-05",
+      "notes": "Snapshot: docs/sources/probablystolendb_difficulty-modes.txt. Names the four modes with (Cozy)/(Normal)/(Hard)/(Challenge); says Mark Up is the default."
+    },
+    "allthings-difficulty": {
+      "id": "allthings-difficulty",
+      "title": "Price Gouge vs Mark Up vs Thin Margins: Picking a Probably Stolen Difficulty",
+      "url": "https://allthings.how/probably-stolen-difficulty-modes/",
+      "publisher": "AllThingsHow",
+      "gameVersion": "1.0 (not stated precisely)",
+      "accessed": "2026-11-05",
+      "notes": "Snapshot: docs/sources/allthingshow_difficulty-modes.txt. Red Ink is on page 2 of the Difficulty screen; Skip Intro and Endless Mode checkboxes; first run shows \"Starting Perks are not available on your first run\", Available Perk Points: 3, Perks: 0/4; Apprentice on Mark Up opens with 550 credits."
+    },
     "steam-store": {
       "id": "steam-store",
       "title": "Probably Stolen on Steam",
@@ -127,10 +172,21 @@
       "subtitle": "Cozy Mode",
       "sources": [
         "gamers-scenarios",
-        "wf-specializations"
+        "wf-specializations",
+        "nicokobo-game-modes",
+        "psdb-difficulty",
+        "allthings-difficulty"
       ],
       "gameVersion": "1.0.x",
-      "status": "partially-verified"
+      "status": "partially-verified",
+      "menuPage": {
+        "value": 1,
+        "sources": [
+          "allthings-difficulty"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      }
     },
     {
       "id": "mark-up",
@@ -138,10 +194,30 @@
       "subtitle": "Normal Mode",
       "sources": [
         "gamers-scenarios",
-        "wf-specializations"
+        "wf-specializations",
+        "nicokobo-game-modes",
+        "psdb-difficulty",
+        "allthings-difficulty"
       ],
       "gameVersion": "1.0.x",
-      "status": "partially-verified"
+      "status": "partially-verified",
+      "menuPage": {
+        "value": 1,
+        "sources": [
+          "allthings-difficulty"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "isDefault": {
+        "value": true,
+        "sources": [
+          "psdb-difficulty"
+        ],
+        "gameVersion": "1.0.0.2",
+        "status": "unverified",
+        "note": "Only psdb-difficulty says Mark Up is the default."
+      }
     },
     {
       "id": "thin-margins",
@@ -149,10 +225,21 @@
       "subtitle": "Hard Mode",
       "sources": [
         "gamers-scenarios",
-        "wf-specializations"
+        "wf-specializations",
+        "nicokobo-game-modes",
+        "psdb-difficulty",
+        "allthings-difficulty"
       ],
       "gameVersion": "1.0.x",
-      "status": "partially-verified"
+      "status": "partially-verified",
+      "menuPage": {
+        "value": 1,
+        "sources": [
+          "allthings-difficulty"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      }
     },
     {
       "id": "red-ink",
@@ -160,10 +247,22 @@
       "subtitle": "Challenge Mode",
       "sources": [
         "gamers-scenarios",
-        "wf-specializations"
+        "wf-specializations",
+        "nicokobo-game-modes",
+        "psdb-difficulty",
+        "allthings-difficulty"
       ],
       "gameVersion": "1.0.x",
-      "status": "partially-verified"
+      "status": "partially-verified",
+      "menuPage": {
+        "value": 2,
+        "sources": [
+          "allthings-difficulty"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Red Ink sits on a second page of the Difficulty screen."
+      }
     }
   ],
   "specializations": [
@@ -172,7 +271,8 @@
       "name": "Apprentice",
       "sources": [
         "wf-specializations",
-        "gamers-scenarios"
+        "gamers-scenarios",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
@@ -195,21 +295,16 @@
         "status": "unverified"
       },
       "startingCredits": {
-        "value": null,
+        "value": 550,
         "sources": [
           "wf-specializations",
-          "wiki-best-perks"
+          "nicokobo-occupations",
+          "allthings-difficulty"
         ],
         "gameVersion": "1.0.x",
-        "status": "conflicting",
-        "note": "wf-specializations says 550; wiki-best-perks says \"400 starting credits\" for a normal Apprentice run. No value is shown as fact.",
+        "status": "partially-verified",
+        "note": "wf-specializations (1.0), nicokobo-occupations (0.46D) and allthings-difficulty (in-game walkthrough: \"balance of 550 credits\" on Mark Up) agree on 550. wiki-best-perks says \"400 starting credits\"; it is undated and other values on that page match pre-1.0 patch notes, so 400 is treated as outdated. Conflict kept on record.",
         "alternatives": [
-          {
-            "value": 550,
-            "sources": [
-              "wf-specializations"
-            ]
-          },
           {
             "value": 400,
             "sources": [
@@ -221,11 +316,12 @@
       "startingRent": {
         "value": 200,
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified",
-        "note": "Single source (wf-specializations); not checked in-game."
+        "status": "partially-verified",
+        "note": "wf-specializations (1.0) and nicokobo-occupations (0.46D, static analysis) agree; not checked in-game. nicokobo labels this \"cash/first rent before perk effects\"."
       },
       "startScreenFeatures": {
         "value": [
@@ -250,18 +346,22 @@
           "Skipping the intro adds a Food Neon Sign and a Household Item Neon Sign"
         ],
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified",
+        "note": "Item list agrees between wf-specializations and nicokobo-occupations (0.46D); minor detail differences are listed in docs/RESEARCH.md."
       },
       "unlocks": {
         "value": [],
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified",
+        "note": "nicokobo-occupations: \"No extra faction or network unlock\"."
       },
       "startingReputation": {
         "value": {},
@@ -283,10 +383,11 @@
         ],
         "sources": [
           "wf-specializations",
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-starting-perks"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       }
     },
     {
@@ -294,7 +395,8 @@
       "name": "Water Merchant",
       "sources": [
         "wf-specializations",
-        "gamers-scenarios"
+        "gamers-scenarios",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
@@ -320,20 +422,22 @@
       "startingCredits": {
         "value": 400,
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified",
-        "note": "Single source (wf-specializations); not checked in-game."
+        "status": "partially-verified",
+        "note": "wf-specializations (1.0) and nicokobo-occupations (0.46D, static analysis) agree; not checked in-game. nicokobo labels this \"cash/first rent before perk effects\"."
       },
       "startingRent": {
         "value": 200,
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified",
-        "note": "Single source (wf-specializations); not checked in-game."
+        "status": "partially-verified",
+        "note": "wf-specializations (1.0) and nicokobo-occupations (0.46D, static analysis) agree; not checked in-game. nicokobo labels this \"cash/first rent before perk effects\"."
       },
       "startScreenFeatures": {
         "value": [
@@ -365,10 +469,11 @@
           "Skipping the intro adds a Water Neon Sign"
         ],
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified",
+        "status": "partially-verified",
         "note": "wiki-water-merchant calls the purifier \"HydroTech\"; wf-specializations says \"HydraTech\"."
       },
       "unlocks": {
@@ -376,10 +481,12 @@
           "Water Trading network upgrade"
         ],
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified",
+        "note": "nicokobo-occupations: \"Water-trader access unlocked\"."
       },
       "startingReputation": {
         "value": {},
@@ -411,7 +518,8 @@
       "name": "Fence",
       "sources": [
         "wf-specializations",
-        "gamers-scenarios"
+        "gamers-scenarios",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
@@ -437,20 +545,22 @@
       "startingCredits": {
         "value": 450,
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified",
-        "note": "Single source (wf-specializations); not checked in-game."
+        "status": "partially-verified",
+        "note": "wf-specializations (1.0) and nicokobo-occupations (0.46D, static analysis) agree; not checked in-game. nicokobo labels this \"cash/first rent before perk effects\"."
       },
       "startingRent": {
         "value": 250,
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified",
-        "note": "wf-specializations gives 250; \"increased starting rent\" is corroborated by gamers-scenarios."
+        "status": "partially-verified",
+        "note": "Also given by nicokobo-occupations (0.46D). wf-specializations gives 250; \"increased starting rent\" is corroborated by gamers-scenarios."
       },
       "startScreenFeatures": {
         "value": [
@@ -480,10 +590,12 @@
           "2 × Black Lamp (Shabby)"
         ],
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified",
+        "note": "Item list agrees between wf-specializations and nicokobo-occupations (0.46D); minor detail differences are listed in docs/RESEARCH.md."
       },
       "unlocks": {
         "value": [
@@ -491,7 +603,8 @@
         ],
         "sources": [
           "wf-specializations",
-          "gamers-scenarios"
+          "gamers-scenarios",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -512,11 +625,12 @@
           }
         },
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "unverified",
-        "note": "Single source (wf-specializations); not checked in-game."
+        "note": "The career input value (= the Mark Up figure) matches nicokobo-occupations; nicokobo says difficulty modifiers then change it but gives no per-difficulty numbers, so the other-difficulty values are wf-specializations only."
       },
       "advantages": [
         "Contraband stock, Smuggler’s Bay and Black Market standing from day one."
@@ -544,7 +658,8 @@
       "name": "Rock Bottom",
       "sources": [
         "wf-specializations",
-        "gamers-scenarios"
+        "gamers-scenarios",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
@@ -570,21 +685,23 @@
         "value": 0,
         "sources": [
           "wf-specializations",
+          "nicokobo-occupations",
           "wiki-best-perks",
           "wiki-starting-scenarios"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified",
-        "note": "wf-specializations: 0; wiki-best-perks: \"zero credits\"; wiki-starting-scenarios: \"start with nothing\"."
+        "note": "wf-specializations and nicokobo-occupations: 0 (nicokobo: Savings still adds 150 after the reset); wiki-best-perks: \"zero credits\"; wiki-starting-scenarios: \"start with nothing\"."
       },
       "startingRent": {
         "value": 200,
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified",
-        "note": "Single source (wf-specializations); not checked in-game."
+        "status": "partially-verified",
+        "note": "wf-specializations (1.0) and nicokobo-occupations (0.46D, static analysis) agree; not checked in-game. nicokobo labels this \"cash/first rent before perk effects\"."
       },
       "startScreenFeatures": {
         "value": [],
@@ -599,19 +716,21 @@
       "startingInventory": {
         "value": [],
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified",
+        "status": "partially-verified",
         "note": "No cassettes, no stock, no equipment."
       },
       "unlocks": {
         "value": [],
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "startingReputation": {
         "value": {},
@@ -642,7 +761,8 @@
       "name": "Hydroponic Farmer",
       "sources": [
         "wf-specializations",
-        "gamers-scenarios"
+        "gamers-scenarios",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
@@ -667,20 +787,22 @@
       "startingCredits": {
         "value": 450,
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified",
-        "note": "Single source (wf-specializations); not checked in-game."
+        "status": "partially-verified",
+        "note": "wf-specializations (1.0) and nicokobo-occupations (0.46D, static analysis) agree; not checked in-game. nicokobo labels this \"cash/first rent before perk effects\"."
       },
       "startingRent": {
         "value": 240,
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified",
-        "note": "wf-specializations gives 240; \"increased starting rent\" is corroborated by gamers-scenarios."
+        "status": "partially-verified",
+        "note": "Also given by nicokobo-occupations (0.46D). wf-specializations gives 240; \"increased starting rent\" is corroborated by gamers-scenarios."
       },
       "startScreenFeatures": {
         "value": [
@@ -707,20 +829,23 @@
           "2 × Fillerweed Seed"
         ],
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified",
+        "note": "Item list agrees between wf-specializations and nicokobo-occupations (0.46D); minor detail differences are listed in docs/RESEARCH.md."
       },
       "unlocks": {
         "value": [
           "Retired Farmer network upgrade"
         ],
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "startingReputation": {
         "value": {},
@@ -748,7 +873,8 @@
       "name": "Gunsmith",
       "sources": [
         "wf-specializations",
-        "gamers-scenarios"
+        "gamers-scenarios",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
@@ -773,20 +899,22 @@
       "startingCredits": {
         "value": 150,
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified",
-        "note": "Single source (wf-specializations); not checked in-game."
+        "status": "partially-verified",
+        "note": "wf-specializations (1.0) and nicokobo-occupations (0.46D, static analysis) agree; not checked in-game. nicokobo labels this \"cash/first rent before perk effects\"."
       },
       "startingRent": {
         "value": 250,
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified",
-        "note": "wf-specializations gives 250, but neither it nor gamers-scenarios lists \"Increased starting rent\" among Gunsmith start-screen bullets. Treat with caution."
+        "status": "partially-verified",
+        "note": "Also given by nicokobo-occupations (0.46D). wf-specializations gives 250, but neither it nor gamers-scenarios lists \"Increased starting rent\" among Gunsmith start-screen bullets. Treat with caution."
       },
       "startScreenFeatures": {
         "value": [
@@ -826,10 +954,12 @@
           "Gun Parts"
         ],
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified",
+        "note": "Item list agrees between wf-specializations and nicokobo-occupations (0.46D); minor detail differences are listed in docs/RESEARCH.md."
       },
       "unlocks": {
         "value": [
@@ -837,10 +967,12 @@
           "Weapon Permit I network upgrade"
         ],
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified",
+        "note": "nicokobo-occupations: \"Class I Weapon Permit granted; Retired Gunsmith unlocked\"."
       },
       "startingReputation": {
         "value": {
@@ -852,11 +984,12 @@
           }
         },
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "unverified",
-        "note": "Single source (wf-specializations); not checked in-game."
+        "note": "The career input value (= the Mark Up figure) matches nicokobo-occupations; nicokobo says difficulty modifiers then change it but gives no per-difficulty numbers, so the other-difficulty values are wf-specializations only."
       },
       "advantages": [
         "Weapon permit, firearms, mods and ammunition from day one."
@@ -883,7 +1016,8 @@
       "name": "Chemist",
       "sources": [
         "wf-specializations",
-        "gamers-scenarios"
+        "gamers-scenarios",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
@@ -908,20 +1042,22 @@
       "startingCredits": {
         "value": 300,
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified",
-        "note": "Single source (wf-specializations); not checked in-game."
+        "status": "partially-verified",
+        "note": "wf-specializations (1.0) and nicokobo-occupations (0.46D, static analysis) agree; not checked in-game. nicokobo labels this \"cash/first rent before perk effects\"."
       },
       "startingRent": {
         "value": 200,
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified",
-        "note": "Single source (wf-specializations); not checked in-game."
+        "status": "partially-verified",
+        "note": "wf-specializations (1.0) and nicokobo-occupations (0.46D, static analysis) agree; not checked in-game. nicokobo labels this \"cash/first rent before perk effects\"."
       },
       "startScreenFeatures": {
         "value": [
@@ -955,10 +1091,12 @@
           "Chemistry Manual"
         ],
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified",
+        "note": "Item list agrees between wf-specializations and nicokobo-occupations (0.46D); minor detail differences are listed in docs/RESEARCH.md."
       },
       "unlocks": {
         "value": [
@@ -967,10 +1105,12 @@
           "Sector 13 Cartel faction (only exists in this start)"
         ],
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified",
+        "note": "Retired Chemist and Cartel protection corroborated by nicokobo-occupations (which adds: unlocking Cartel protection does not make it free/active). The Sector 13 Cartel faction claim is wf-specializations only."
       },
       "startingReputation": {
         "value": {
@@ -982,11 +1122,12 @@
           }
         },
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "unverified",
-        "note": "Single source (wf-specializations); not checked in-game."
+        "note": "The career input value (= the Mark Up figure) matches nicokobo-occupations; nicokobo says difficulty modifiers then change it but gives no per-difficulty numbers, so the other-difficulty values are wf-specializations only."
       },
       "advantages": [
         "Full chemistry lab from day one."
@@ -1011,7 +1152,8 @@
       "name": "Rat Wrangler",
       "sources": [
         "wf-specializations",
-        "gamers-scenarios"
+        "gamers-scenarios",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
@@ -1036,20 +1178,22 @@
       "startingCredits": {
         "value": 600,
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified",
-        "note": "Single source (wf-specializations); not checked in-game."
+        "status": "partially-verified",
+        "note": "wf-specializations (1.0) and nicokobo-occupations (0.46D, static analysis) agree; not checked in-game. nicokobo labels this \"cash/first rent before perk effects\"."
       },
       "startingRent": {
         "value": 200,
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified",
-        "note": "Single source (wf-specializations); not checked in-game."
+        "status": "partially-verified",
+        "note": "wf-specializations (1.0) and nicokobo-occupations (0.46D, static analysis) agree; not checked in-game. nicokobo labels this \"cash/first rent before perk effects\"."
       },
       "startScreenFeatures": {
         "value": [
@@ -1076,20 +1220,34 @@
           "6 × Small Nutrifruit"
         ],
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified",
+        "note": "Item list agrees between wf-specializations and nicokobo-occupations (0.46D); minor detail differences are listed in docs/RESEARCH.md."
       },
       "unlocks": {
         "value": [
           "Ranching network upgrade"
         ],
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "conflicting",
+        "note": "wf-specializations: \"Ranching network upgrade\"; nicokobo-occupations (0.46D): \"Retired Rat Wrangler access unlocked\". May be the same unlock under different names, or a version change.",
+        "alternatives": [
+          {
+            "value": [
+              "Retired Rat Wrangler access"
+            ],
+            "sources": [
+              "nicokobo-occupations"
+            ]
+          }
+        ]
       },
       "startingReputation": {
         "value": {},
@@ -1115,7 +1273,8 @@
       "name": "Aquafarmer",
       "sources": [
         "wf-specializations",
-        "gamers-scenarios"
+        "gamers-scenarios",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
@@ -1140,20 +1299,22 @@
       "startingCredits": {
         "value": 150,
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified",
-        "note": "Single source (wf-specializations); not checked in-game."
+        "status": "partially-verified",
+        "note": "wf-specializations (1.0) and nicokobo-occupations (0.46D, static analysis) agree; not checked in-game. nicokobo labels this \"cash/first rent before perk effects\"."
       },
       "startingRent": {
         "value": 240,
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified",
-        "note": "wf-specializations gives 240; \"increased starting rent\" is corroborated by gamers-scenarios."
+        "status": "partially-verified",
+        "note": "Also given by nicokobo-occupations (0.46D). wf-specializations gives 240; \"increased starting rent\" is corroborated by gamers-scenarios."
       },
       "startScreenFeatures": {
         "value": [
@@ -1179,20 +1340,23 @@
           "2 × Jug of Water, filled with Ghostwater"
         ],
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified",
+        "note": "Item list agrees between wf-specializations and nicokobo-occupations (0.46D); minor detail differences are listed in docs/RESEARCH.md."
       },
       "unlocks": {
         "value": [
           "Aquaculture network upgrade"
         ],
         "sources": [
-          "wf-specializations"
+          "wf-specializations",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "startingReputation": {
         "value": {},
@@ -1215,6 +1379,107 @@
         "gameVersion": "1.0.x",
         "status": "unverified"
       }
+    },
+    {
+      "id": "junker",
+      "name": "Junker",
+      "sources": [
+        "user-screenshots",
+        "nicokobo-occupations"
+      ],
+      "gameVersion": "100-REV6 (user report) / 0.46D (nicokobo)",
+      "status": "partially-verified",
+      "playable": false,
+      "tag": {
+        "value": "Work in Progress",
+        "sources": [
+          "user-screenshots",
+          "nicokobo-occupations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified",
+        "note": "User report (100-REV6 menu) and nicokobo-occupations (\"Work in progress; cannot start\")."
+      },
+      "description": {
+        "value": null,
+        "sources": [
+          "user-screenshots",
+          "nicokobo-occupations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Not documented: Junker cannot be started, so no values exist. Nothing is invented."
+      },
+      "startingCredits": {
+        "value": null,
+        "sources": [
+          "user-screenshots",
+          "nicokobo-occupations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Not documented: Junker cannot be started, so no values exist. Nothing is invented."
+      },
+      "startingRent": {
+        "value": null,
+        "sources": [
+          "user-screenshots",
+          "nicokobo-occupations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Not documented: Junker cannot be started, so no values exist. Nothing is invented."
+      },
+      "startScreenFeatures": {
+        "value": null,
+        "sources": [
+          "user-screenshots",
+          "nicokobo-occupations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Not documented: Junker cannot be started, so no values exist. Nothing is invented."
+      },
+      "startingInventory": {
+        "value": null,
+        "sources": [
+          "user-screenshots",
+          "nicokobo-occupations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Not documented: Junker cannot be started, so no values exist. Nothing is invented."
+      },
+      "unlocks": {
+        "value": null,
+        "sources": [
+          "user-screenshots",
+          "nicokobo-occupations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Not documented: Junker cannot be started, so no values exist. Nothing is invented."
+      },
+      "startingReputation": {
+        "value": {},
+        "sources": [
+          "user-screenshots",
+          "nicokobo-occupations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "advantages": [],
+      "disadvantages": [],
+      "perkInteractions": {
+        "value": [],
+        "sources": [
+          "user-screenshots",
+          "nicokobo-occupations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      }
     }
   ],
   "perks": [
@@ -1224,24 +1489,27 @@
       "sources": [
         "wf-perks",
         "psdb-perks",
-        "viki-perks"
+        "viki-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 2,
         "sources": [
           "wf-perks",
           "psdb-perks",
-          "viki-perks"
+          "viki-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -1260,14 +1528,15 @@
           "stat": "tradeReputationGainPct",
           "op": "add",
           "value": 33,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
             "psdb-perks",
             "viki-perks",
-            "wiki-best-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "wiki-best-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -1280,18 +1549,20 @@
         "wf-perks",
         "psdb-perks",
         "viki-perks",
-        "cozy-scenarios"
+        "cozy-scenarios",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "conflicting",
-      "note": "probablystolen-wiki lists 3 points / 25% less evidence. Patch notes summarised by cozy-scenarios say it was changed from 3 to 2 points and 25% to 33%, so the wiki appears outdated. Using 2 points / 33% (wf-perks, psdb-perks, viki-perks).",
+      "note": "probablystolen-wiki lists 3 points / 25% less evidence; nicokobo-occupations (0.46D) gives 2 points / x0.67. Patch notes summarised by cozy-scenarios say it was changed from 3 to 2 points and 25% to 33%, so the wiki appears outdated. Using 2 points / 33% (wf-perks, psdb-perks, viki-perks). nicokobo-occupations (0.46D): evidence input rounded after x0.67 (= 33% less), cost 2.",
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 2,
@@ -1299,7 +1570,8 @@
           "wf-perks",
           "psdb-perks",
           "viki-perks",
-          "cozy-scenarios"
+          "cozy-scenarios",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "conflicting",
@@ -1311,7 +1583,7 @@
             ]
           }
         ],
-        "note": "probablystolen-wiki lists 3 points / 25% less evidence. Patch notes summarised by cozy-scenarios say it was changed from 3 to 2 points and 25% to 33%, so the wiki appears outdated. Using 2 points / 33% (wf-perks, psdb-perks, viki-perks)."
+        "note": "probablystolen-wiki lists 3 points / 25% less evidence; nicokobo-occupations (0.46D) gives 2 points / x0.67. Patch notes summarised by cozy-scenarios say it was changed from 3 to 2 points and 25% to 33%, so the wiki appears outdated. Using 2 points / 33% (wf-perks, psdb-perks, viki-perks). nicokobo-occupations (0.46D): evidence input rounded after x0.67 (= 33% less), cost 2."
       },
       "description": {
         "value": "All committed crimes generate 33% less available evidence.",
@@ -1327,14 +1599,15 @@
           "stat": "crimeEvidencePct",
           "op": "add",
           "value": -33,
+          "gameVersion": "1.0.x",
+          "status": "conflicting",
           "sources": [
             "wf-perks",
             "psdb-perks",
             "viki-perks",
-            "cozy-scenarios"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "conflicting"
+            "cozy-scenarios",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -1346,24 +1619,27 @@
       "sources": [
         "wf-perks",
         "psdb-perks",
-        "viki-perks"
+        "viki-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 2,
         "sources": [
           "wf-perks",
           "psdb-perks",
-          "viki-perks"
+          "viki-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -1390,17 +1666,20 @@
         "wf-perks",
         "psdb-perks",
         "viki-perks",
-        "wiki-best-perks"
+        "wiki-best-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
+      "note": "nicokobo-occupations (0.46D): \"Skips the ordinary overnight burglary branch once insurance is unlocked\" - narrower than \"never robbed\".",
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 2,
@@ -1408,10 +1687,12 @@
           "wf-perks",
           "psdb-perks",
           "viki-perks",
-          "wiki-best-perks"
+          "wiki-best-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "partially-verified"
+        "status": "partially-verified",
+        "note": "nicokobo-occupations (0.46D): \"Skips the ordinary overnight burglary branch once insurance is unlocked\" - narrower than \"never robbed\"."
       },
       "description": {
         "value": "You will never get robbed during the night.",
@@ -1435,7 +1716,8 @@
         "wf-perks",
         "psdb-perks",
         "viki-perks",
-        "wiki-best-perks"
+        "wiki-best-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
@@ -1443,10 +1725,11 @@
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 2,
@@ -1454,7 +1737,8 @@
           "wf-perks",
           "psdb-perks",
           "viki-perks",
-          "wiki-best-perks"
+          "wiki-best-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified",
@@ -1474,14 +1758,15 @@
           "stat": "reputation.all",
           "op": "add",
           "value": 15,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
             "psdb-perks",
             "viki-perks",
-            "wiki-best-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "wiki-best-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -1493,24 +1778,27 @@
       "sources": [
         "wf-perks",
         "psdb-perks",
-        "viki-perks"
+        "viki-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 2,
         "sources": [
           "wf-perks",
           "psdb-perks",
-          "viki-perks"
+          "viki-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -1536,24 +1824,27 @@
       "sources": [
         "wf-perks",
         "psdb-perks",
-        "viki-perks"
+        "viki-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 1,
         "sources": [
           "wf-perks",
           "psdb-perks",
-          "viki-perks"
+          "viki-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -1579,29 +1870,32 @@
       "sources": [
         "wf-perks",
         "psdb-perks",
-        "viki-perks"
+        "viki-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
-      "note": "Magnitude of the luck change is not documented anywhere.",
+      "note": "Luck magnitude (+5) comes from nicokobo-occupations only; how luck is used is system-specific. nicokobo-occupations (0.46D): initial luck +5; each system interprets luck separately.",
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 1,
         "sources": [
           "wf-perks",
           "psdb-perks",
-          "viki-perks"
+          "viki-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified",
-        "note": "Magnitude of the luck change is not documented anywhere."
+        "note": "Luck magnitude (+5) comes from nicokobo-occupations only; how luck is used is system-specific. nicokobo-occupations (0.46D): initial luck +5; each system interprets luck separately."
       },
       "description": {
         "value": "Increases your luck. Probably.",
@@ -1612,7 +1906,18 @@
         "status": "unverified",
         "note": "Text as quoted by one community source; not compared against the in-game tooltip."
       },
-      "modifiers": [],
+      "modifiers": [
+        {
+          "stat": "luck",
+          "op": "add",
+          "value": 5,
+          "gameVersion": "1.0.x",
+          "status": "unverified",
+          "sources": [
+            "nicokobo-occupations"
+          ]
+        }
+      ],
       "flags": [
         "luckIncreased"
       ],
@@ -1624,29 +1929,32 @@
       "sources": [
         "wf-perks",
         "psdb-perks",
-        "viki-perks"
+        "viki-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "conflicting",
-      "note": "probablystolen-wiki says +20% wanted-list rewards; patch notes (Update 049, via cozy-scenarios) raised it from 20% to 50%. Using 50%.",
+      "note": "probablystolen-wiki says +20% wanted-list rewards; patch notes (Update 049, via cozy-scenarios) raised it from 20% to 50%; nicokobo-occupations (0.46D) gives x1.5. Using 50%. nicokobo-occupations (0.46D): report and Aug-kill rewards x1.5 (= +50%), Security +30.",
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 1,
         "sources": [
           "wf-perks",
           "psdb-perks",
-          "viki-perks"
+          "viki-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified",
-        "note": "probablystolen-wiki says +20% wanted-list rewards; patch notes (Update 049, via cozy-scenarios) raised it from 20% to 50%. Using 50%."
+        "note": "probablystolen-wiki says +20% wanted-list rewards; patch notes (Update 049, via cozy-scenarios) raised it from 20% to 50%; nicokobo-occupations (0.46D) gives x1.5. Using 50%. nicokobo-occupations (0.46D): report and Aug-kill rewards x1.5 (= +50%), Security +30."
       },
       "description": {
         "value": "Start with 30 extra Security Reputation and receive 50% more reward for reporting customers on the Wanted List.",
@@ -1662,26 +1970,28 @@
           "stat": "reputation.security",
           "op": "add",
           "value": 30,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
             "psdb-perks",
             "viki-perks",
-            "wiki-best-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "wiki-best-perks",
+            "nicokobo-occupations"
+          ]
         },
         {
           "stat": "wantedReportRewardPct",
           "op": "add",
           "value": 50,
+          "gameVersion": "1.0.x",
+          "status": "conflicting",
           "sources": [
             "wf-perks",
             "psdb-perks",
-            "cozy-scenarios"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "conflicting"
+            "cozy-scenarios",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -1693,24 +2003,27 @@
       "sources": [
         "wf-perks",
         "psdb-perks",
-        "viki-perks"
+        "viki-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 1,
         "sources": [
           "wf-perks",
           "psdb-perks",
-          "viki-perks"
+          "viki-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -1729,14 +2042,15 @@
           "stat": "dumpingGroundSearches",
           "op": "add",
           "value": 2,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
             "psdb-perks",
             "viki-perks",
-            "wiki-best-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "wiki-best-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -1748,24 +2062,27 @@
       "sources": [
         "wf-perks",
         "psdb-perks",
-        "viki-perks"
+        "viki-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 1,
         "sources": [
           "wf-perks",
           "psdb-perks",
-          "viki-perks"
+          "viki-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -1784,13 +2101,14 @@
           "stat": "reputation.revolution",
           "op": "add",
           "value": 25,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
             "psdb-perks",
-            "viki-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "viki-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -1803,7 +2121,8 @@
         "wf-perks",
         "psdb-perks",
         "viki-perks",
-        "wiki-best-perks"
+        "wiki-best-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
@@ -1811,10 +2130,11 @@
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 1,
@@ -1822,7 +2142,8 @@
           "wf-perks",
           "psdb-perks",
           "viki-perks",
-          "wiki-best-perks"
+          "wiki-best-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified",
@@ -1842,15 +2163,16 @@
           "stat": "startingCredits",
           "op": "add",
           "value": 150,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
             "psdb-perks",
             "viki-perks",
             "wiki-best-perks",
-            "wiki-starting-scenarios"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "wiki-starting-scenarios",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -1863,17 +2185,20 @@
         "wf-perks",
         "psdb-perks",
         "viki-perks",
-        "wiki-best-perks"
+        "wiki-best-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
+      "note": "nicokobo-occupations (0.46D): Underground Exchange unlocks after the day-1 introduction ends, not literally at start.",
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 1,
@@ -1881,10 +2206,12 @@
           "wf-perks",
           "psdb-perks",
           "viki-perks",
-          "wiki-best-perks"
+          "wiki-best-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "partially-verified"
+        "status": "partially-verified",
+        "note": "nicokobo-occupations (0.46D): Underground Exchange unlocks after the day-1 introduction ends, not literally at start."
       },
       "description": {
         "value": "The Underground Exchange is available from the start. Janitorial Service is always free, unless the Store is vandalized. Vandalism clean up cost is significantly reduced.",
@@ -1908,24 +2235,27 @@
       "sources": [
         "wf-perks",
         "psdb-perks",
-        "viki-perks"
+        "viki-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 1,
         "sources": [
           "wf-perks",
           "psdb-perks",
-          "viki-perks"
+          "viki-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -1951,24 +2281,27 @@
       "sources": [
         "wf-perks",
         "psdb-perks",
-        "viki-perks"
+        "viki-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 1,
         "sources": [
           "wf-perks",
           "psdb-perks",
-          "viki-perks"
+          "viki-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -1994,24 +2327,27 @@
       "sources": [
         "wf-perks",
         "psdb-perks",
-        "viki-perks"
+        "viki-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 1,
         "sources": [
           "wf-perks",
           "psdb-perks",
-          "viki-perks"
+          "viki-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -2030,35 +2366,38 @@
           "stat": "reputation.upper-levels",
           "op": "add",
           "value": 15,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
             "psdb-perks",
-            "viki-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "viki-perks",
+            "nicokobo-occupations"
+          ]
         },
         {
           "stat": "upperLevelsReputationGainPct",
           "op": "add",
           "value": 25,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
-            "psdb-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "psdb-perks",
+            "nicokobo-occupations"
+          ]
         },
         {
           "stat": "upperLevelsBudgetPct",
           "op": "add",
           "value": 10,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
-            "psdb-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "psdb-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -2070,29 +2409,32 @@
       "sources": [
         "wf-perks",
         "psdb-perks",
-        "viki-perks"
+        "viki-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
-      "note": "probablystolen-wiki spells it \"Tape Head\".",
+      "note": "probablystolen-wiki spells it \"Tape Head\". nicokobo-occupations (0.46D): gives 7 Pristine-version starting tracks (replacing the ordinary 4 Corrupted tapes), not \"all cassettes\".",
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 1,
         "sources": [
           "wf-perks",
           "psdb-perks",
-          "viki-perks"
+          "viki-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified",
-        "note": "probablystolen-wiki spells it \"Tape Head\"."
+        "note": "probablystolen-wiki spells it \"Tape Head\". nicokobo-occupations (0.46D): gives 7 Pristine-version starting tracks (replacing the ordinary 4 Corrupted tapes), not \"all cassettes\"."
       },
       "description": {
         "value": "You start with all music cassettes available inside the cassette player.",
@@ -2115,24 +2457,27 @@
       "sources": [
         "wf-perks",
         "psdb-perks",
-        "viki-perks"
+        "viki-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 1,
         "sources": [
           "wf-perks",
           "psdb-perks",
-          "viki-perks"
+          "viki-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -2151,13 +2496,14 @@
           "stat": "upgradeMaterialSaveChancePct",
           "op": "add",
           "value": 20,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
             "psdb-perks",
-            "viki-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "viki-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -2170,18 +2516,20 @@
         "wf-perks",
         "psdb-perks",
         "viki-perks",
-        "wiki-best-perks"
+        "wiki-best-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
-      "note": "probablystolen-wiki claims a 160-token food stamp at start; not corroborated, so not modelled.",
+      "note": "probablystolen-wiki claims a 160-token food stamp at start; not corroborated, so not modelled. nicokobo-occupations (0.46D): weekly genuine food stamps by adjusted wealth: 160 (W<=1200), 120, 80, 40, none above 3000.",
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 1,
@@ -2189,11 +2537,12 @@
           "wf-perks",
           "psdb-perks",
           "viki-perks",
-          "wiki-best-perks"
+          "wiki-best-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified",
-        "note": "probablystolen-wiki claims a 160-token food stamp at start; not corroborated, so not modelled."
+        "note": "probablystolen-wiki claims a 160-token food stamp at start; not corroborated, so not modelled. nicokobo-occupations (0.46D): weekly genuine food stamps by adjusted wealth: 160 (W<=1200), 120, 80, 40, none above 3000."
       },
       "description": {
         "value": "The Commissary is available from the start. On Mondays, you may receive Food Stamps depending on your total wealth.",
@@ -2216,24 +2565,27 @@
       "sources": [
         "wf-perks",
         "psdb-perks",
-        "viki-perks"
+        "viki-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "positive",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 1,
         "sources": [
           "wf-perks",
           "psdb-perks",
-          "viki-perks"
+          "viki-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -2252,25 +2604,27 @@
           "stat": "wildNetworkCostPct",
           "op": "add",
           "value": -10,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
             "psdb-perks",
-            "viki-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "viki-perks",
+            "nicokobo-occupations"
+          ]
         },
         {
           "stat": "insuranceCostPct",
           "op": "add",
           "value": -50,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
             "psdb-perks",
-            "viki-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "viki-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -2282,25 +2636,28 @@
       "sources": [
         "wf-perks",
         "psdb-perks",
-        "viki-perks"
+        "viki-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "neutral",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "conflicting",
-        "note": "Neutral per wf-perks; viki-perks lists it among positive perks."
+        "note": "Neutral per wf-perks and nicokobo-occupations (\"category is not determined by the sign of its cost\"); viki-perks lists it among positive perks."
       },
       "cost": {
         "value": 1,
         "sources": [
           "wf-perks",
           "psdb-perks",
-          "viki-perks"
+          "viki-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -2319,12 +2676,13 @@
           "stat": "augKillRewardPct",
           "op": "add",
           "value": 25,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
-            "psdb-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "psdb-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [
@@ -2339,19 +2697,21 @@
         "wf-perks",
         "psdb-perks",
         "viki-perks",
-        "wiki-best-perks"
+        "wiki-best-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
-      "note": "+3 slots agreed by wf-perks, psdb-perks, viki-perks and wiki-best-perks (\"3 additional slots, net 2\" because it occupies one itself). wiki-starting-scenarios instead says \"extra perk points\" - treated as an error. Not checked in-game.",
+      "note": "+3 slots agreed by wf-perks, psdb-perks, viki-perks and wiki-best-perks (\"3 additional slots, net 2\" because it occupies one itself). wiki-starting-scenarios instead says \"extra perk points\" - treated as an error. Not checked in-game. nicokobo-occupations (0.46D): neutral, costs 1, occupies one slot and raises the slot limit from 4 to 7.",
       "category": {
         "value": "neutral",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "conflicting",
-        "note": "Neutral per wf-perks; viki-perks lists it among positive perks."
+        "note": "Neutral per wf-perks and nicokobo-occupations (\"category is not determined by the sign of its cost\"); viki-perks lists it among positive perks."
       },
       "cost": {
         "value": 1,
@@ -2359,11 +2719,12 @@
           "wf-perks",
           "psdb-perks",
           "viki-perks",
-          "wiki-best-perks"
+          "wiki-best-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified",
-        "note": "+3 slots agreed by wf-perks, psdb-perks, viki-perks and wiki-best-perks (\"3 additional slots, net 2\" because it occupies one itself). wiki-starting-scenarios instead says \"extra perk points\" - treated as an error. Not checked in-game."
+        "note": "+3 slots agreed by wf-perks, psdb-perks, viki-perks and wiki-best-perks (\"3 additional slots, net 2\" because it occupies one itself). wiki-starting-scenarios instead says \"extra perk points\" - treated as an error. Not checked in-game. nicokobo-occupations (0.46D): neutral, costs 1, occupies one slot and raises the slot limit from 4 to 7."
       },
       "description": {
         "value": "Allows you to have 3 additional starting perk slots.",
@@ -2379,14 +2740,15 @@
           "stat": "perkSlots",
           "op": "add",
           "value": 3,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
             "psdb-perks",
             "viki-perks",
-            "wiki-best-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "wiki-best-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -2397,24 +2759,27 @@
       "name": "Makeshift Reactor",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "neutral",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "conflicting",
-        "note": "Neutral per wf-perks; viki-perks lists it among positive perks."
+        "note": "Neutral per wf-perks and nicokobo-occupations (\"category is not determined by the sign of its cost\"); viki-perks lists it among positive perks."
       },
       "cost": {
         "value": 1,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -2439,23 +2804,26 @@
       "name": "Careful Scavenger",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "neutral",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 0,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -2474,12 +2842,13 @@
           "stat": "dumpingGroundSearches",
           "op": "add",
           "value": -2,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
-            "psdb-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "psdb-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [
@@ -2492,23 +2861,26 @@
       "name": "Hoarder",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "neutral",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 0,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -2533,23 +2905,26 @@
       "name": "Prime Real Estate",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "neutral",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": 0,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -2568,23 +2943,25 @@
           "stat": "dailyRandomCustomers",
           "op": "add",
           "value": 1,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
-            "psdb-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "psdb-perks",
+            "nicokobo-occupations"
+          ]
         },
         {
           "stat": "startingRent",
           "op": "add",
           "value": 75,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
-            "psdb-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "psdb-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -2595,23 +2972,26 @@
       "name": "Ascetic",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -4,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -2630,11 +3010,12 @@
           "stat": "inventoryWidth",
           "op": "set",
           "value": 16,
-          "sources": [
-            "wf-perks"
-          ],
           "gameVersion": "1.0.x",
-          "status": "unverified"
+          "status": "unverified",
+          "sources": [
+            "wf-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -2645,23 +3026,26 @@
       "name": "Awful Negotiator",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -3,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -2680,11 +3064,12 @@
           "stat": "tradePenaltyPct",
           "op": "add",
           "value": 5,
-          "sources": [
-            "wf-perks"
-          ],
           "gameVersion": "1.0.x",
-          "status": "unverified"
+          "status": "unverified",
+          "sources": [
+            "wf-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [
@@ -2697,23 +3082,26 @@
       "name": "Sentinel Collapse Disorder",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -3,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -2738,23 +3126,26 @@
       "name": "Blabbermouth",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -2,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -2773,21 +3164,23 @@
           "stat": "crimeEvidencePct",
           "op": "add",
           "value": 33,
-          "sources": [
-            "wf-perks"
-          ],
           "gameVersion": "1.0.x",
-          "status": "unverified"
+          "status": "partially-verified",
+          "sources": [
+            "wf-perks",
+            "nicokobo-occupations"
+          ]
         },
         {
           "stat": "blackMarketRevolutionReputationGainPct",
           "op": "add",
           "value": -50,
-          "sources": [
-            "wf-perks"
-          ],
           "gameVersion": "1.0.x",
-          "status": "unverified"
+          "status": "partially-verified",
+          "sources": [
+            "wf-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -2798,28 +3191,31 @@
       "name": "Blackmail",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
-      "note": "Fee amount is not documented.",
+      "note": "Fee amount: only nicokobo documents it (40 + current day); unverified. nicokobo-occupations (0.46D): demand is 40 + current day Credits, on days congruent to 1 mod 7.",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -2,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified",
-        "note": "Fee amount is not documented."
+        "note": "Fee amount: only nicokobo documents it (40 + current day); unverified. nicokobo-occupations (0.46D): demand is 40 + current day Credits, on days congruent to 1 mod 7."
       },
       "description": {
         "value": "You have a questionable past and a blackmailer is threatening to expose your secret. You will have to pay them a small weekly fee or they will expose you, leading to a major one-time loss to your reputation across most factions.",
@@ -2841,23 +3237,26 @@
       "name": "Known Snitch",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -2,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -2876,21 +3275,23 @@
           "stat": "reputation.revolution",
           "op": "add",
           "value": -10,
-          "sources": [
-            "wf-perks"
-          ],
           "gameVersion": "1.0.x",
-          "status": "unverified"
+          "status": "partially-verified",
+          "sources": [
+            "wf-perks",
+            "nicokobo-occupations"
+          ]
         },
         {
           "stat": "reputation.black-market",
           "op": "add",
           "value": -10,
-          "sources": [
-            "wf-perks"
-          ],
           "gameVersion": "1.0.x",
-          "status": "unverified"
+          "status": "partially-verified",
+          "sources": [
+            "wf-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [
@@ -2903,23 +3304,26 @@
       "name": "Maimed",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -2,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -2944,24 +3348,27 @@
       "name": "Minimalist",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "conflicting",
-      "note": "probablystolen-wiki says Minimalist refunds 3 points; wf-perks and psdb-perks (1.0.0.2) say 2. Using 2.",
+      "note": "probablystolen-wiki says Minimalist refunds 3 points; wf-perks, psdb-perks (1.0.0.2) and nicokobo-occupations (0.46D) say 2. Using 2. nicokobo-occupations (0.46D): cost -2, inventory 20x10.",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -2,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "conflicting",
@@ -2973,7 +3380,7 @@
             ]
           }
         ],
-        "note": "probablystolen-wiki says Minimalist refunds 3 points; wf-perks and psdb-perks (1.0.0.2) say 2. Using 2."
+        "note": "probablystolen-wiki says Minimalist refunds 3 points; wf-perks, psdb-perks (1.0.0.2) and nicokobo-occupations (0.46D) say 2. Using 2. nicokobo-occupations (0.46D): cost -2, inventory 20x10."
       },
       "description": {
         "value": "Your main inventory is reduced to 20x10 instead of 24x10.",
@@ -2989,12 +3396,13 @@
           "stat": "inventoryWidth",
           "op": "set",
           "value": 20,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
-            "psdb-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "psdb-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -3005,23 +3413,26 @@
       "name": "Public Enemy",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -2,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -3040,11 +3451,12 @@
           "stat": "reputation.all",
           "op": "add",
           "value": -15,
-          "sources": [
-            "wf-perks"
-          ],
           "gameVersion": "1.0.x",
-          "status": "unverified"
+          "status": "partially-verified",
+          "sources": [
+            "wf-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -3055,23 +3467,26 @@
       "name": "Agoraphobia",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -1,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -3096,23 +3511,26 @@
       "name": "Alcohol Addiction",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -1,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -3131,13 +3549,14 @@
           "stat": "tradePenaltyPct",
           "op": "add",
           "value": 8,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
             "psdb-perks",
-            "cozy-scenarios"
+            "cozy-scenarios",
+            "nicokobo-occupations"
           ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified",
           "condition": "during withdrawal"
         }
       ],
@@ -3151,23 +3570,26 @@
       "name": "Bad Lease",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -1,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -3186,13 +3608,14 @@
           "stat": "startingRent",
           "op": "add",
           "value": 40,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
             "psdb-perks",
-            "wiki-water-merchant"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "wiki-water-merchant",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -3203,23 +3626,26 @@
       "name": "Banned from the Commissary",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -1,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -3244,7 +3670,8 @@
       "name": "Convict",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
@@ -3252,16 +3679,18 @@
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -1,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified",
@@ -3281,23 +3710,25 @@
           "stat": "reputation.security",
           "op": "add",
           "value": -30,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
-            "psdb-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "psdb-perks",
+            "nicokobo-occupations"
+          ]
         },
         {
           "stat": "wantedReportRewardPct",
           "op": "add",
           "value": -25,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
-            "psdb-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "psdb-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -3308,23 +3739,26 @@
       "name": "Degenerative Osteoarthritis",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -1,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -3349,7 +3783,8 @@
       "name": "Gambling Addiction",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
@@ -3357,16 +3792,18 @@
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -1,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified",
@@ -3392,23 +3829,26 @@
       "name": "Illiterate",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -1,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -3433,23 +3873,26 @@
       "name": "Narcotic Addiction",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -1,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -3468,13 +3911,14 @@
           "stat": "tradePenaltyPct",
           "op": "add",
           "value": 8,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
             "psdb-perks",
-            "cozy-scenarios"
+            "cozy-scenarios",
+            "nicokobo-occupations"
           ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified",
           "condition": "during withdrawal"
         }
       ],
@@ -3488,23 +3932,26 @@
       "name": "Nicotine Addiction",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -1,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -3523,13 +3970,14 @@
           "stat": "tradePenaltyPct",
           "op": "add",
           "value": 8,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
             "psdb-perks",
-            "cozy-scenarios"
+            "cozy-scenarios",
+            "nicokobo-occupations"
           ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified",
           "condition": "during withdrawal"
         }
       ],
@@ -3543,23 +3991,26 @@
       "name": "On Wild's Bad Side",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -1,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -3578,21 +4029,23 @@
           "stat": "wildNetworkCostPct",
           "op": "add",
           "value": 10,
-          "sources": [
-            "wf-perks"
-          ],
           "gameVersion": "1.0.x",
-          "status": "unverified"
+          "status": "partially-verified",
+          "sources": [
+            "wf-perks",
+            "nicokobo-occupations"
+          ]
         },
         {
           "stat": "insuranceCostPct",
           "op": "add",
           "value": 50,
-          "sources": [
-            "wf-perks"
-          ],
           "gameVersion": "1.0.x",
-          "status": "unverified"
+          "status": "partially-verified",
+          "sources": [
+            "wf-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -3603,23 +4056,26 @@
       "name": "Side Street",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -1,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -3638,12 +4094,13 @@
           "stat": "dailyRandomCustomers",
           "op": "add",
           "value": -1,
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
           "sources": [
             "wf-perks",
-            "psdb-perks"
-          ],
-          "gameVersion": "1.0.x",
-          "status": "partially-verified"
+            "psdb-perks",
+            "nicokobo-occupations"
+          ]
         }
       ],
       "flags": [],
@@ -3654,26 +4111,31 @@
       "name": "Unlucky",
       "sources": [
         "wf-perks",
-        "psdb-perks"
+        "psdb-perks",
+        "nicokobo-occupations"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
+      "note": "nicokobo-occupations (0.46D): initial luck -5; each system interprets luck separately.",
       "category": {
         "value": "negative",
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       "cost": {
         "value": -1,
         "sources": [
           "wf-perks",
-          "psdb-perks"
+          "psdb-perks",
+          "nicokobo-occupations"
         ],
         "gameVersion": "1.0.x",
-        "status": "partially-verified"
+        "status": "partially-verified",
+        "note": "nicokobo-occupations (0.46D): initial luck -5; each system interprets luck separately."
       },
       "description": {
         "value": "Decreases your luck. Probably.",
@@ -3684,7 +4146,18 @@
         "status": "unverified",
         "note": "Text as quoted by one community source; not compared against the in-game tooltip."
       },
-      "modifiers": [],
+      "modifiers": [
+        {
+          "stat": "luck",
+          "op": "add",
+          "value": -5,
+          "gameVersion": "1.0.x",
+          "status": "unverified",
+          "sources": [
+            "nicokobo-occupations"
+          ]
+        }
+      ],
       "flags": [
         "luckDecreased"
       ],
@@ -3707,11 +4180,13 @@
         "user-screenshots",
         "wf-perks",
         "psdb-perks",
-        "viki-perks"
+        "viki-perks",
+        "nicokobo-starting-perks",
+        "allthings-difficulty"
       ],
-      "gameVersion": "100-REV6 / 1.0.x",
+      "gameVersion": "100-REV6 / 1.0.x / 0.46D",
       "status": "verified",
-      "note": "User-reported from 100-REV6 screenshots and stated by three independent 1.0 sources."
+      "note": "User-reported from 100-REV6 screenshots (not re-examined in this pass) and stated by five community sources; allthings-difficulty quotes the screen text \"Available Perk Points: 3\"."
     },
     "baseSlots": {
       "value": 4,
@@ -3719,10 +4194,13 @@
         "user-screenshots",
         "wf-perks",
         "psdb-perks",
-        "viki-perks"
+        "viki-perks",
+        "nicokobo-starting-perks",
+        "allthings-difficulty"
       ],
-      "gameVersion": "100-REV6 / 1.0.x",
-      "status": "verified"
+      "gameVersion": "100-REV6 / 1.0.x / 0.46D",
+      "status": "verified",
+      "note": "allthings-difficulty quotes the screen text \"Perks: 0/4\"."
     },
     "firstRunLocksPerks": {
       "value": true,
@@ -3730,11 +4208,13 @@
         "wf-perks",
         "psdb-perks",
         "viki-perks",
-        "gamers-scenarios"
+        "gamers-scenarios",
+        "nicokobo-starting-perks",
+        "allthings-difficulty"
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
-      "note": "Four community sources say the Starting Perks panel is unavailable on the first run. No source lists perks that are only locked for first runs."
+      "note": "allthings-difficulty quotes the screen text \"Starting Perks are not available on your first run\". Community sources say the Starting Perks panel is unavailable on the first run. No source lists perks that are only locked for first runs."
     },
     "everyPerkUsesSlot": {
       "value": true,
@@ -3745,7 +4225,17 @@
       ],
       "gameVersion": "1.0.x",
       "status": "partially-verified",
-      "note": "Negative perks also occupy a slot; Colorful Character occupies one of its own slots (\"net 2\")."
+      "note": "Negative and zero-cost perks also occupy a slot (nicokobo-starting-perks agrees); Colorful Character occupies one of its own slots."
+    },
+    "validatedAtContinue": {
+      "value": true,
+      "sources": [
+        "user-screenshots",
+        "nicokobo-starting-perks"
+      ],
+      "gameVersion": "100-REV6 / 0.46D",
+      "status": "partially-verified",
+      "note": "User report (100-REV6) plus nicokobo-starting-perks: \"selection may temporarily exceed a limit, but Continue validates it\". The game does not auto-remove perks, so neither does this app."
     },
     "exclusions": [
       {
@@ -3754,10 +4244,12 @@
           "minimalist"
         ],
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations",
+          "nicokobo-starting-perks"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       {
         "perks": [
@@ -3765,10 +4257,12 @@
           "welfare-program"
         ],
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations",
+          "nicokobo-starting-perks"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       {
         "perks": [
@@ -3777,7 +4271,9 @@
         ],
         "sources": [
           "wf-perks",
-          "wiki-gunsmith"
+          "wiki-gunsmith",
+          "nicokobo-occupations",
+          "nicokobo-starting-perks"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified",
@@ -3789,10 +4285,12 @@
           "model-citizen"
         ],
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations",
+          "nicokobo-starting-perks"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       {
         "perks": [
@@ -3801,7 +4299,9 @@
         ],
         "sources": [
           "wf-perks",
-          "wiki-gunsmith"
+          "wiki-gunsmith",
+          "nicokobo-occupations",
+          "nicokobo-starting-perks"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -3812,10 +4312,12 @@
           "unlucky"
         ],
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations",
+          "nicokobo-starting-perks"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       {
         "perks": [
@@ -3824,7 +4326,9 @@
         ],
         "sources": [
           "wf-perks",
-          "wiki-gunsmith"
+          "wiki-gunsmith",
+          "nicokobo-occupations",
+          "nicokobo-starting-perks"
         ],
         "gameVersion": "1.0.x",
         "status": "partially-verified"
@@ -3835,10 +4339,12 @@
           "wilds-favorite"
         ],
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations",
+          "nicokobo-starting-perks"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       {
         "perks": [
@@ -3846,10 +4352,12 @@
           "side-street"
         ],
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations",
+          "nicokobo-starting-perks"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       },
       {
         "perks": [
@@ -3857,13 +4365,103 @@
           "well-connected"
         ],
         "sources": [
-          "wf-perks"
+          "wf-perks",
+          "nicokobo-occupations",
+          "nicokobo-starting-perks"
         ],
         "gameVersion": "1.0.x",
-        "status": "unverified"
+        "status": "partially-verified"
       }
     ]
   },
+  "startRules": [
+    {
+      "id": "menu-order",
+      "text": "Start flow: specialization -> Starting Perks -> Difficulty and options.",
+      "sources": [
+        "nicokobo-starting-perks",
+        "allthings-difficulty"
+      ],
+      "gameVersion": "0.46D / 1.0",
+      "status": "partially-verified"
+    },
+    {
+      "id": "first-run-perks-locked",
+      "text": "First run: Starting Perks are not available (\"Starting Perks are not available on your first run\").",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks",
+        "gamers-scenarios",
+        "nicokobo-starting-perks",
+        "allthings-difficulty"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified"
+    },
+    {
+      "id": "first-run-non-apprentice",
+      "text": "First run: choosing a specialization other than Apprentice shows a confirmation prompt, then you can continue.",
+      "sources": [
+        "nicokobo-starting-perks"
+      ],
+      "gameVersion": "0.46D",
+      "status": "unverified",
+      "note": "Single source (static analysis)."
+    },
+    {
+      "id": "first-run-skip-intro",
+      "text": "First run: ticking Skip Intro shows a confirmation prompt.",
+      "sources": [
+        "nicokobo-game-modes"
+      ],
+      "gameVersion": "0.46D",
+      "status": "unverified",
+      "note": "Single source (static analysis)."
+    },
+    {
+      "id": "forced-skip-intro",
+      "text": "Fence, Rock Bottom, Gunsmith and Chemist always skip the intro (Skip Intro is forced on).",
+      "sources": [
+        "nicokobo-game-modes",
+        "nicokobo-occupations"
+      ],
+      "gameVersion": "0.46D",
+      "status": "unverified",
+      "note": "Two pages of one site."
+    },
+    {
+      "id": "first-run-difficulty",
+      "text": "No source documents a difficulty restriction on the first run; all four difficulties appear selectable.",
+      "sources": [
+        "allthings-difficulty",
+        "psdb-difficulty"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "unverified",
+      "note": "Absence of evidence; check in-game."
+    },
+    {
+      "id": "option-skip-intro",
+      "text": "Difficulty screen option: Skip Intro (checkbox).",
+      "sources": [
+        "allthings-difficulty",
+        "nicokobo-game-modes"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified"
+    },
+    {
+      "id": "option-endless",
+      "text": "Difficulty screen option: Endless Mode (checkbox; tooltip \"Certain scripted events and customers will not spawn\").",
+      "sources": [
+        "allthings-difficulty",
+        "nicokobo-game-modes"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified"
+    }
+  ],
   "baseline": {
     "inventoryGrid": {
       "value": {

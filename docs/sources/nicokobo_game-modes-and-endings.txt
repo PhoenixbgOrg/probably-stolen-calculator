@@ -1,0 +1,417 @@
+Source: https://probably-stolen.nicokobo.com/en/wiki/terms/game-modes-and-endings
+Fetched: 2026-11-05
+
+Modes, endings and saves · Probably Stolen Wiki
+PS
+Probably Stolen
+Wiki
+Home
+Items
+Guides
+Mods
+Tools
+About
+Search
+中文
+中文
+Theme
+Follow
+Join
+Skip to content
+Home
+All entries
+Terms & Mechanics
+Modes, endings and saves
+Terms & Mechanics
+Modes, endings and saves
+Endless still processes rent, mortgages, Security, Cartel, Augs, Lou and other ordinary visitors according to their own conditions, and retains property, health and equipment ending checks.…
+Survival and run goals
+Modes, endings and saves
+On this page
+Modes and introduction
+Four difficulty levels
+Business, service and property parameters
+Suppliers, reputation and appraisal parameters
+Augs and assistance
+Endings that allow continued play
+Endings that stop the run
+End-of-day order
+Automatic saving and history
+Loading and preserving branches
+Achievements and run statistics
+Modes and introduction
+Option
+Effects and limits
+Endless Mode
+Selected independently of difficulty; skips the main Georgio, Officer Lun, Eleanor and Serpico storylines, minor-visitor generation and certain timed requests
+Skip Intro
+Changes tutorials and introductions; selecting it on the first run prompts confirmation. Fence, Rock Bottom, Gunsmith and Chemist starts force this setting on
+Endless still processes rent, mortgages, Security, Cartel, Augs, Lou and other ordinary visitors according to their own conditions, and retains property, health and equipment ending checks. If Georgio's lending state already exists, a special repayment branch for a cash shortage on rent/mortgage day after more than five days also lacks an Endless exclusion. See 
+Occupations and perks
+ for occupation availability, starting goods and perks, and 
+Georgio
+, 
+Officer Lun
+, 
+Eleanor
+ and 
+Cadet Serpico
+ for complete character stories.
+Four difficulty levels
+Difficulty title
+Initial retail modifier (percentage points)
+Price Gouge
++20
+Mark Up
++15
+Thin Margins
+0
+Red Ink
+0
+The following columns consistently mean Price Gouge, Mark Up, Thin Margins and Red Ink. Price modifiers enter their respective stages and are not universal final-price changes. See 
+Trading rules
+ for trading and supplier calculations, and the sections on 
+night-service bills
+, 
+rent and ownership
+ and 
+mortgages
+ for those formulas.
+Business, service and property parameters
+Parameter
+Price Gouge
+Mark Up
+Thin Margins
+Red Ink
+Increase at each rent update
+2.5%
+5%
+10%
+10%
+Starting landlord grace
+Yes
+Yes
+No
+No
+Nightly power-cost multiplier
+1
+1
+2
+2
+Insurance-cost multiplier
+1
+1
+2
+3
+Initial power/cleaning/insurance additions (credits)
+0/0/0
+0/0/0
+3/3/4
+3/3/5
+Join appraisal service (credits)
+85
+85
+170
+255
+Business permit (credits)
+500
+1500
+2000
+3000
+Network-upgrade cost multiplier
+1
+1
+1.5
+2
+Starting property price (credits)
+12000
+12000
+24000
+36000
+Property increase per day after day 50 (credits)
+25
+50
+50
+100
+Maximum property-price increase (credits)
+3000
+5000
+10000
+20000
+Annual mortgage interest
+25%
+50%
+75%
+100%
+Mortgage weeks
+8
+12
+16
+16
+Down-payment fraction
+20%
+15%
+12.5%
+20%
+Initial additions are not the final daily bill. Down payments have minimum and rounding rules; network costs also use reputation and perk modifiers, as detailed in their respective systems.
+Suppliers, reputation and appraisal parameters
+Parameter
+Price Gouge
+Mark Up
+Thin Margins
+Red Ink
+First-customer discount magnitude (points)
+75
+75
+35
+10
+Regular supplier-markup multiplier
+1
+1
+2
+3
+Inventor markup (points)
+0
+15
+50
+100
+Retired-supplier markup (points)
+0
+15
+30
+45
+Trader discount magnitude (points)
+10
+15
+20
+25
+Scalper starting markup (points)
+0
+15
+25
+25
+Scalper markup per day (points)
+0.5
+1
+2
+3
+Reputation-gain multiplier
+1.5
+1
+0.75
+0.5
+Reputation-loss multiplier
+0.5
+1
+1.25
+2
+Appraisal-progress gain multiplier
+1.25
+1
+1
+0.75
+Appraisal-progress loss multiplier
+0.5
+1
+1.5
+2
+Wild Favor returned from trades
+10%
+5%
+0
+0
+Favor returned from specified night services
+75%
+50%
+25%
+15%
+Favor from the network introduction
+300
+200
+100
+0
+Augs and assistance
+Parameter
+Price Gouge
+Mark Up
+Thin Margins
+Red Ink
+Presence removed after eliminating an Aug
+25
+25
+10
+8
+Presence added after releasing an Aug
+10
+10
+15
+16
+Full-presence ending enabled
+No
+No
+Yes
+Yes
+Aug warnings, Wild relief/reminders, display-cabinet hint and event countdown
+On
+On
+Off
+Off
+Relief also has trend and starting-scenario requirements. The Aug Menace perk can independently enable the full-presence ending. See 
+Shooting and Augs
+ for Aug handling.
+Endings that allow continued play
+Displayed ending
+Trigger
+Afterwards
+Buyout
+Choose to buy the shop during a landlord visit with enough cash
+Pay, receive ownership and see the ending; continued play is available
+Buyout, mortgage paid off
+Pay the final weekly installment while exactly one payment remains
+Finish the mortgage and receive ownership; continued play is available
+Both routes run the property-ownership achievement checks. A character's story ending does not necessarily end the player's run. See 
+rent and ownership
+ and 
+mortgages
+ for property costs and mortgage steps.
+Endings that stop the run
+Displayed ending
+Actual trigger
+Related rules
+You Defaulted On Your Rent
+Refuse rent while no landlord grace remains; grace is otherwise consumed and temporary arrears accumulate
+rent and ownership
+Repossession
+Refuse a mortgage payment when the total current value of repossessable items is below one installment; sufficient value instead leads to repossession of goods and continued play
+mortgages and repossession
+Arrested
+With evidence level ≥95: crime value >0 and <300 with an unaffordable fine, or crime value 300 to <1500. Severe contraband inspections or unaffordable high fines also have arrest branches without the relevant grace
+case sentencing
+, 
+inspections
+Executed
+Evidence level ≥95 and crime value ≥1500 at sentencing
+execution
+Lynched
+The registered Lower Levels threat is active at reputation ≤−100; its opening event finishes
+Lower Levels reputation
+Framed
+The Security threat is active at reputation ≤−100; its opening event finishes
+Security reputation
+Bombed, Revolutionaries
+The reputation ≤−100 threat triggers a real delayed bomb
+Revolution reputation
+Retired, reputation
+The Cartel threat is registered and reputation is ≤−100; its opening event finishes
+Cartel reputation
+Retired, delivery
+A Chemist start still in the Cartel submits no Dream Dust, or mean actual purity is ≤ the current required purity divided by 4 with integer truncation
+Cartel deliveries
+Sentinel Collapse
+Sentinel's accumulated severity pool reaches 20
+Sentinel Collapse Disorder
+Meltdown
+Any makeshift reactor reaches integrity 0 overnight and the end-of-day explosion flag is checked
+Makeshift Micro Nuclear Reactor
+Augmented
+At the new-day check, presence is ≥100 and the difficulty switch or Aug Menace enables the ending
+Aug handling
+Bombed, Lou's toy box
+The box is missing or original toys are missing at collection and the Taken branch applies; a never-placed exception is handled separately. Opening it without losing toys does not take this ending branch
+Lou: toy-box outcomes
+Bombed, Lou's debt
+At the end of his 1500-credit demand, supplied item value plus payable cash totals less than 500
+Lou: debt settlement
+An underfilled Cartel delivery with some goods is not by itself an immediate Retired trigger. Required purity can change, so the default 10% cutoff is not permanent. Inspectors, fake inspectors, grace and crime-value calculations follow Security rules. A reactor stopping power at integrity 25 also differs from exploding at 0.
+Assassinated and No Permit have ending display data, but their ordinary trigger paths have not been established in this build; display text alone is not a confirmed route.
+End-of-day order
+Night processing handles reactors before health. Health can already display Sentinel Collapse, but processing continues afterwards.
+The remaining night systems run and the new day begins.
+A reactor explosion flag takes the Meltdown branch; otherwise Augmented is checked. Only if neither branch applies does this point call automatic saving.
+Thus the reactor branch precedes Augmented here. Sentinel does not guarantee an early stop and can be followed by saving or another ending display. Opening-time reputation threats also use independent checks; static evidence does not establish a universal ending priority.
+Automatic saving and history
+Time or setting
+Behavior
+New run
+Allocate a slot and save after starting goods, introduction and perk processing
+Confirm End Day
+Follow the night/new-day processing and priority-ending branches before the automatic-save path
+History retention
+1–10 
+including the latest save
+; default 3 means one latest file and at most two historical files
+Rotation
+Before a new save, rotate the previous main file into history and trim the oldest records; changed retention applies at the next rotation
+Return to menu / quit
+These buttons do not make an additional save. The ending display itself does not automatically delete the slot
+Retention limits saved records/files, not one guaranteed file for each calendar day. Main files are 
+save_<slot>.es3
+, the index is 
+saves_index.es3
+, and histories are 
+save_<slot>_day<day>_<timestamp>.es3
+. The actual system directory must be checked on the local machine.
+Loading and preserving branches
+Select a slot on the load screen, expand its history list and choose an existing historical save.
+Loading history keeps the same slot; later saves update that slot. Use slot duplication first to preserve an independent branch. History-file copy failures can leave an incomplete copied history.
+The load screen also supports renaming, orphan-file discovery and confirmed deletion. Deletion handles the main file, index and recorded histories.
+Where a missing file is detected
+Actual handling
+History is expanded and a file is already absent
+Remove its history-index record
+The selected historical file is absent when clicked
+Show a message and refresh; this point does not guarantee fallback
+A historical file disappears between selection and scene loading
+Try the slot's latest main file
+The main file is absent when clicked or actually loaded
+This path clears the slot and indexed histories; it is not a universal automatic-recovery path
+Input/output failures receive at most four attempts, with a 150 ms delay before each retry. Failed writes also try restoring the just-rotated save; certain other errors can quarantine damaged files and rewrite or rebuild the index. These branches do not guarantee complete recovery from every failure.
+Achievements and run statistics
+See the achievements and statistics section of 
+Survival and runs
+ for the 21 connected achievement checks and three Steam counters. Run-summary statistics are saved with the run; Steam cumulative achievements use account statistics. Neither is a substitute for the other.
+Data: 0.46D, Build 26337366. Checked against game text, configuration and implementation; no in-game test was performed.
+Comments
+0
+Loading comments…
+Article information
+Game version
+0.46D / Steam Build 26337366
+Appears in
+Survival and runs
+Support
+Related guides
+Full-release reference update — October 29, 2026
+The wiki now uses the full-release baseline: updated occupations, 48 starting perks, 52 network projects and item data, with all eight game tools checked against the release rules.
+Probably Stolen
+Wiki
+Contact: 
+nicokobo@foxmail.com
+This is an unofficial fan site, not affiliated with the developers or publishers of the game.
+Game names, icons and related assets remain the property of their respective owners and are referenced here for descriptive purposes only.
+Site
+Site statistics
+Home
+Items
+Mechanics
+Guides
+Mods
+Updates
+Collections
+Recipes
+Search
+About
+[深空当铺]Nicoの游戏工坊
+Official Probably Stolen links
+Steam store
+Steam community
+Discord
+X
+Instagram
+TikTok
+Reddit
+Legal & privacy
+Privacy
+Terms
+Analytics cookie settings
+Original text on this site is licensed under CC BY-SA 4.0. Please credit the source when reusing it.

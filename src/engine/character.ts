@@ -2,8 +2,8 @@ import { getPerk, getSpecialization } from '../data/registry';
 import type {
   Difficulty, Fact, FactionId, FlagKey, GameDataRegistry, ModifierDef, PerkDef, SpecializationDef, StatKey, VerificationStatus,
 } from '../data/types';
-import { evaluatePerks } from './perkEngine';
-import type { BuildInput, PerkEvaluation } from './types';
+import { evaluatePerks, validate } from './perkEngine';
+import type { BuildInput, PerkEvaluation, Violation } from './types';
 
 const STATUS_RANK: Record<VerificationStatus, number> = { verified: 0, 'partially-verified': 1, unverified: 2, conflicting: 3 };
 
@@ -38,6 +38,9 @@ export interface CharacterConfig {
   difficulty: Difficulty;
   perks: PerkDef[];
   points: PerkEvaluation;
+  /** Rule violations (empty = valid). The build is never altered to hide them. */
+  violations: Violation[];
+  valid: boolean;
   startingCredits: DerivedNumber;
   startingRent: DerivedNumber;
   /** Specialization starting reputation for the chosen difficulty plus perk modifiers per faction. */
@@ -109,17 +112,17 @@ export function buildCharacter(reg: GameDataRegistry, input: BuildInput): Charac
   if (flags.includes('noScavenging')) dumpingGroundSearches.note = 'Scavenging is disabled entirely (Maimed).';
 
   if (!spec) warnings.push('No specialization selected yet.');
-  if (spec && spec.startingCredits.status === 'conflicting') warnings.push(`Starting credits for ${spec.name} are disputed between sources; no value is shown as fact.`);
+  if (spec && spec.startingCredits.status === 'conflicting') warnings.push(`Starting credits for ${spec.name} are disputed between sources.`);
   for (const p of perks) {
     if (p.status === 'conflicting') warnings.push(`${p.name}: sources disagree. ${p.note ?? ''}`.trim());
     if (p.modifiers.some((m) => m.value === null)) warnings.push(`${p.name}: effect magnitude is unknown.`);
   }
   if (input.playthrough === 'first') warnings.push('First playthrough: starting perks are locked (partially verified).');
   const points = evaluatePerks(reg, input.perkIds);
-  if (!points.valid) warnings.push('The perk selection is invalid. This should never happen; please report it.');
+  const violations = validate(reg, input);
 
   return {
-    dataVersion: reg.dataVersion, input, specialization: spec, difficulty: input.difficulty, perks, points,
+    dataVersion: reg.dataVersion, input, specialization: spec, difficulty: input.difficulty, perks, points, violations, valid: violations.length === 0,
     startingCredits, startingRent, reputation, reputationAllFactions, inventoryWidth,
     inventoryHeight: grid.value?.height ?? null, dumpingGroundSearches, modifiers, flags, warnings,
   };

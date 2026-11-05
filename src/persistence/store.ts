@@ -1,6 +1,6 @@
 import { REGISTRY } from '../data/registry';
 import type { GameDataRegistry } from '../data/types';
-import { normalizeSelection } from '../engine/perkEngine';
+import { validate } from '../engine/perkEngine';
 import type { BuildInput } from '../engine/types';
 import { migrateToCurrent } from './migrations';
 import { EXPORT_FORMAT, QUARANTINE_PREFIX, SCHEMA_VERSION, STORAGE_KEY } from './schema';
@@ -36,17 +36,31 @@ export function newId(prefix = 'p'): string {
   return `${prefix}-${Date.now().toString(36)}-${idCounter}-${rnd}`;
 }
 
-/** Re-applies game rules to a saved build and reports anything that was dropped. */
+/**
+ * Checks a saved/imported build against the current game data. Perks are NEVER removed: an invalid combination is
+ * kept exactly as saved (the game also lets a selection be temporarily invalid) and reported so the user can fix it.
+ * The only change made: a specialization that is unknown or not startable (e.g. Junker, "Work in Progress") is
+ * cleared, because it can never be an active build. That change is always reported.
+ */
 export function revalidateProfile(reg: GameDataRegistry, p: ProfileV2): { profile: ProfileV2; notices: Notice[] } {
   const notices: Notice[] = [];
   let specializationId = p.build.specializationId;
-  if (specializationId !== null && !reg.specializations.some((s) => s.id === specializationId)) {
-    notices.push({ level: 'warning', message: `Profile "${p.name}": unknown specialization "${specializationId}" was cleared.` });
-    specializationId = null;
+  if (specializationId !== null) {
+    const spec = reg.specializations.find((s) => s.id === specializationId);
+    if (!spec) {
+      notices.push({ level: 'warning', message: `Profile "${p.name}": unknown specialization "${specializationId}" was cleared; its perks were kept. Choose a specialization.` });
+      specializationId = null;
+    } else if (!spec.playable) {
+      notices.push({ level: 'warning', message: `Profile "${p.name}": ${spec.name} is "Work in Progress" in the game and cannot be started, so it was cleared; its perks were kept. Choose another specialization.` });
+      specializationId = null;
+    }
   }
-  const norm = normalizeSelection(reg, p.build.perkIds, p.build.playthrough);
-  for (const r of norm.removed) notices.push({ level: 'warning', message: `Profile "${p.name}": removed perk "${r.perkId}" - ${r.reason.message}` });
-  return { profile: { ...p, build: { ...p.build, specializationId, perkIds: norm.perkIds } }, notices };
+  const profile: ProfileV2 = { ...p, build: { ...p.build, specializationId, perkIds: [...p.build.perkIds] } };
+  const perkViolations = validate(reg, profile.build).filter((v) => v.code !== 'no-specialization');
+  if (perkViolations.length > 0) {
+    notices.push({ level: 'warning', message: `Profile "${p.name}" breaks ${perkViolations.length} rule(s) and was kept unchanged: ${perkViolations.map((v) => v.message).join(' ')} Fix it on the Perks screen.` });
+  }
+  return { profile, notices };
 }
 
 /**

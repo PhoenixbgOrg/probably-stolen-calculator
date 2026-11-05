@@ -5,7 +5,7 @@ export type Playthrough = 'first' | 'subsequent';
 /** The minimal, serialisable description of a build. Everything else is derived from it. */
 export interface BuildInput {
   specializationId: string | null;
-  /** Perk ids in selection order (order matters for deterministic cascade removal). */
+  /** Perk ids in selection order. Kept as-is even when the combination is invalid (the game allows that until Continue). */
   perkIds: string[];
   playthrough: Playthrough;
   difficulty: Difficulty;
@@ -26,7 +26,10 @@ export type RejectionCode =
   | 'conflict'
   | 'missing-prerequisite'
   | 'no-free-slot'
-  | 'not-enough-points';
+  | 'not-enough-points'
+  | 'no-specialization'
+  | 'unknown-specialization'
+  | 'specialization-unavailable';
 
 export interface Rejection {
   code: RejectionCode;
@@ -49,7 +52,13 @@ export interface PerkEvaluation {
   problems: Rejection[];
 }
 
-export interface AutoRemoval {
-  perkId: string;
-  reason: Rejection;
+/** One broken rule in a build, as reported by `validate`. Nothing is ever removed automatically. */
+export interface Violation {
+  code: RejectionCode;
+  /** What is wrong. */
+  message: string;
+  /** Which perks are involved (empty for build-level problems). */
+  perkIds: string[];
+  /** How the user can fix it. */
+  fix: string;
 }

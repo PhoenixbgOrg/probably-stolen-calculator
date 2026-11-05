@@ -1,6 +1,6 @@
 import { getPerk } from '../data/registry';
 import type { GameDataRegistry, PerkDef } from '../data/types';
-import type { AutoRemoval, PerkEvaluation, Playthrough, Rejection } from './types';
+import type { BuildInput, PerkEvaluation, Playthrough, Rejection, Violation } from './types';
 
 /**
  * The perk-selection engine. Pure functions only; no React, no storage.
@@ -12,6 +12,10 @@ import type { AutoRemoval, PerkEvaluation, Playthrough, Rejection } from './type
  *  - Mutually exclusive pairs cannot both be selected.
  *  - Prerequisites (`requires`) must already be selected (none documented in 1.0; supported for data).
  *  - On a first playthrough the perk panel is locked.
+ *
+ * Like the game (user report for 100-REV6; nicokobo-starting-perks), a selection may temporarily break these
+ * rules. Nothing is removed automatically: `togglePerk` only toggles, and `validate` reports what is wrong and
+ * how to fix it. The UI blocks "Continue" while `validate` returns violations.
  */
 
 function perkName(reg: GameDataRegistry, id: string): string {
@@ -64,132 +68,73 @@ export function evaluatePerks(reg: GameDataRegistry, perkIds: readonly string[])
   return { basePoints, pointsGranted: granted, pointsSpent: spent, totalPoints, remainingPoints, baseSlots, maxSlots, usedSlots: perkIds.length, valid: problems.length === 0, problems };
 }
 
-/** All reasons why `perkId` cannot be added to `current`. Empty array = allowed. */
-export function whyCannotAdd(reg: GameDataRegistry, current: readonly string[], perkId: string, playthrough: Playthrough): Rejection[] {
-  const perk = getPerk(reg, perkId);
-  if (!perk) return [{ code: 'unknown-perk', message: `Unknown perk "${perkId}".` }];
-  const reasons: Rejection[] = [];
-  if (playthrough === 'first' && reg.rules.firstRunLocksPerks.value === true) {
-    reasons.push({ code: 'first-run-locked', message: 'Starting perks are not available on a first playthrough.' });
-  }
-  if (current.includes(perkId)) reasons.push({ code: 'already-selected', message: `${perk.name} is already selected.` });
-  if (perk.cost.value === null) reasons.push({ code: 'unknown-cost', message: `${perk.name} has no verified point cost, so it cannot be selected.` });
-  const conflicting = conflictsOf(reg, perkId).filter((id) => current.includes(id));
-  if (conflicting.length > 0) {
-    reasons.push({ code: 'conflict', message: `Cannot be combined with ${conflicting.map((id) => perkName(reg, id)).join(', ')}.`, related: conflicting });
-  }
-  const missing = perk.requires.filter((id) => !current.includes(id));
-  if (missing.length > 0) reasons.push({ code: 'missing-prerequisite', message: `Requires ${missing.map((id) => perkName(reg, id)).join(', ')}.`, related: missing });
-  if (!current.includes(perkId)) {
-    const after = evaluatePerks(reg, [...current, perkId]);
-    if (after.usedSlots > after.maxSlots) {
-      const now = evaluatePerks(reg, current);
-      reasons.push({ code: 'no-free-slot', message: `All ${now.maxSlots} perk slots are in use.` });
-    }
-    if (after.remainingPoints < 0) {
-      const now = evaluatePerks(reg, current);
-      reasons.push({ code: 'not-enough-points', message: `Costs ${perk.cost.value ?? '?'} point(s); only ${now.remainingPoints} remaining.` });
-    }
-  }
-  return reasons;
-}
-
-export type AddResult = { ok: true; perkIds: string[] } | { ok: false; reasons: Rejection[] };
-
-export function addPerk(reg: GameDataRegistry, current: readonly string[], perkId: string, playthrough: Playthrough): AddResult {
-  const reasons = whyCannotAdd(reg, current, perkId, playthrough);
-  if (reasons.length > 0) return { ok: false, reasons };
-  return { ok: true, perkIds: [...current, perkId] };
-}
-
-export interface NormalizeResult {
-  perkIds: string[];
-  removed: AutoRemoval[];
+/** Pure toggle: removes the perk if selected, otherwise appends it. Never removes anything else. */
+export function togglePerk(current: readonly string[], perkId: string): string[] {
+  return current.includes(perkId) ? current.filter((id) => id !== perkId) : [...current, perkId];
 }
 
 /**
- * Turns any list of perk ids into a valid selection, deterministically.
- * Used after every deselection, on playthrough changes, and when loading/importing saved data.
- *
- * Order of operations:
- *  1. Drop unknown ids, duplicates and perks with no verified cost.
- *  2. First playthrough: drop everything.
- *  3. Mutually exclusive pairs: keep the one selected earlier, drop the later one.
- *  4. Drop perks whose prerequisites are missing (repeated until stable).
- *  5. While slots are exceeded: drop the most recently selected perk (LIFO), then repeat step 4.
- *  6. While points are negative: drop the most recently selected perk that costs points, then repeat step 4.
+ * Reasons the UI refuses to *add* a perk at all (removal is always allowed).
+ * Only things the game itself prevents: the locked first-run panel and perks that do not exist / have no known cost.
+ * Points, slots and conflicts are NOT checked here; they are reported by `validate`.
  */
-export function normalizeSelection(reg: GameDataRegistry, input: readonly string[], playthrough: Playthrough): NormalizeResult {
-  const removed: AutoRemoval[] = [];
-  const kept: string[] = [];
-  for (const id of input) {
+export function addBlockers(reg: GameDataRegistry, current: readonly string[], perkId: string, playthrough: Playthrough): Rejection[] {
+  if (current.includes(perkId)) return [];
+  const perk = getPerk(reg, perkId);
+  if (!perk) return [{ code: 'unknown-perk', message: `Unknown perk "${perkId}".` }];
+  const out: Rejection[] = [];
+  if (playthrough === 'first' && reg.rules.firstRunLocksPerks.value === true) out.push({ code: 'first-run-locked', message: 'Starting perks are not available on a first playthrough.' });
+  if (perk.cost.value === null) out.push({ code: 'unknown-cost', message: `${perk.name} has no verified point cost, so it cannot be selected.` });
+  return out;
+}
+
+/** Validate a whole build. Returns every violation; an empty array means the build is valid. Pure. */
+export function validate(reg: GameDataRegistry, build: BuildInput): Violation[] {
+  const v: Violation[] = [];
+  if (build.specializationId === null) {
+    v.push({ code: 'no-specialization', message: 'No specialization is selected.', perkIds: [], fix: 'Choose a specialization.' });
+  } else {
+    const spec = reg.specializations.find((s) => s.id === build.specializationId);
+    if (!spec) v.push({ code: 'unknown-specialization', message: `Unknown specialization "${build.specializationId}".`, perkIds: [], fix: 'Choose a specialization from the list.' });
+    else if (!spec.playable) v.push({ code: 'specialization-unavailable', message: `${spec.name} is marked "Work in Progress" in the game and cannot be started.`, perkIds: [], fix: 'Choose a different specialization.' });
+  }
+  const ids = build.perkIds;
+  const seen = new Set<string>();
+  const dupes = ids.filter((id) => (seen.has(id) ? true : (seen.add(id), false)));
+  if (dupes.length > 0) v.push({ code: 'already-selected', message: 'A perk is selected more than once.', perkIds: [...new Set(dupes)], fix: 'Deselect the duplicate.' });
+  if (build.playthrough === 'first' && reg.rules.firstRunLocksPerks.value === true && ids.length > 0) {
+    v.push({ code: 'first-run-locked', message: 'Starting perks are not available on a first playthrough.', perkIds: [...new Set(ids)], fix: 'Clear all perks, or switch to a later playthrough.' });
+  }
+  for (const id of new Set(ids)) {
     const p = getPerk(reg, id);
-    if (!p) { removed.push({ perkId: id, reason: { code: 'unknown-perk', message: `"${id}" is not a known perk in the current game data.` } }); continue; }
-    if (kept.includes(id)) continue;
-    if (p.cost.value === null) { removed.push({ perkId: id, reason: { code: 'unknown-cost', message: `${p.name} has no verified point cost.` } }); continue; }
-    kept.push(id);
+    if (!p) { v.push({ code: 'unknown-perk', message: `"${id}" is not a known perk in the current game data.`, perkIds: [id], fix: `Deselect "${id}".` }); continue; }
+    if (p.cost.value === null) v.push({ code: 'unknown-cost', message: `${p.name} has no verified point cost.`, perkIds: [id], fix: `Deselect ${p.name}.` });
+    for (const r of p.requires) if (!ids.includes(r)) v.push({ code: 'missing-prerequisite', message: `${p.name} requires ${perkName(reg, r)}.`, perkIds: [id, r], fix: `Select ${perkName(reg, r)} or deselect ${p.name}.` });
   }
-  if (playthrough === 'first' && reg.rules.firstRunLocksPerks.value === true) {
-    for (const id of kept) removed.push({ perkId: id, reason: { code: 'first-run-locked', message: 'Starting perks are not available on a first playthrough.' } });
-    return { perkIds: [], removed };
-  }
-  let list: string[] = [];
-  for (const id of kept) {
-    const clash = conflictsOf(reg, id).find((o) => list.includes(o));
-    if (clash) removed.push({ perkId: id, reason: { code: 'conflict', message: `${perkName(reg, id)} conflicts with ${perkName(reg, clash)}, which was selected first.`, related: [clash] } });
-    else list.push(id);
-  }
-  const dropMissingPrereqs = () => {
-    let changed = true;
-    while (changed) {
-      changed = false;
-      for (const id of list) {
-        const p = getPerk(reg, id);
-        const missing = p?.requires.filter((r) => !list.includes(r)) ?? [];
-        if (missing.length > 0) {
-          list = list.filter((x) => x !== id);
-          removed.push({ perkId: id, reason: { code: 'missing-prerequisite', message: `${perkName(reg, id)} requires ${missing.map((m) => perkName(reg, m)).join(', ')}.`, related: missing } });
-          changed = true;
-          break;
-        }
-      }
+  for (const rule of reg.rules.exclusions) {
+    const [a, b] = rule.perks;
+    if (ids.includes(a) && ids.includes(b)) {
+      v.push({ code: 'conflict', message: `${perkName(reg, a)} and ${perkName(reg, b)} cannot be taken together.`, perkIds: [a, b], fix: `Deselect ${perkName(reg, a)} or ${perkName(reg, b)}.` });
     }
-  };
-  dropMissingPrereqs();
-  for (let guard = 0; guard < 1000; guard++) {
-    const ev = evaluatePerks(reg, list);
-    if (ev.usedSlots > ev.maxSlots) {
-      const id = list[list.length - 1]!;
-      list = list.slice(0, -1);
-      removed.push({ perkId: id, reason: { code: 'no-free-slot', message: `${perkName(reg, id)} no longer fits: only ${ev.maxSlots} slots are available.` } });
-      dropMissingPrereqs();
-      continue;
-    }
-    if (ev.remainingPoints < 0) {
-      const idx = findLastIndex(list, (id) => (getPerk(reg, id)?.cost.value ?? 0) > 0);
-      if (idx < 0) break; // cannot happen: negative remaining implies a positive cost exists
-      const id = list[idx]!;
-      list = list.filter((_, i) => i !== idx);
-      removed.push({ perkId: id, reason: { code: 'not-enough-points', message: `${perkName(reg, id)} can no longer be afforded (${ev.totalPoints} points available, ${ev.pointsSpent} spent).` } });
-      dropMissingPrereqs();
-      continue;
-    }
-    break;
   }
-  return { perkIds: list, removed };
+  const ev = evaluatePerks(reg, ids);
+  if (ev.remainingPoints < 0) {
+    const costly = [...new Set(ids)].filter((id) => (getPerk(reg, id)?.cost.value ?? 0) > 0);
+    v.push({ code: 'not-enough-points', message: `Perks cost ${ev.pointsSpent} points but only ${ev.totalPoints} are available (${ev.remainingPoints}).`,
+      perkIds: costly, fix: `Free ${-ev.remainingPoints} point(s): deselect a positive perk or add a negative one.` });
+  }
+  if (ev.usedSlots > ev.maxSlots) {
+    v.push({ code: 'no-free-slot', message: `${ev.usedSlots} perks selected but only ${ev.maxSlots} slots are available.`,
+      perkIds: [...new Set(ids)], fix: `Deselect ${ev.usedSlots - ev.maxSlots} perk(s)${ids.includes('colorful-character') ? '' : ', or take Colorful Character for +3 slots'}.` });
+  }
+  return v;
 }
 
-function findLastIndex<T>(arr: readonly T[], pred: (x: T) => boolean): number {
-  for (let i = arr.length - 1; i >= 0; i--) if (pred(arr[i]!)) return i;
-  return -1;
+export function isValid(reg: GameDataRegistry, build: BuildInput): boolean {
+  return validate(reg, build).length === 0;
 }
 
-/** Deselect a perk and cascade-remove anything that becomes invalid. */
-export function removePerk(reg: GameDataRegistry, current: readonly string[], perkId: string, playthrough: Playthrough): NormalizeResult {
-  return normalizeSelection(reg, current.filter((id) => id !== perkId), playthrough);
-}
-
-/** Preview what would be auto-removed if `perkId` were deselected (used for UI warnings). */
-export function previewRemoval(reg: GameDataRegistry, current: readonly string[], perkId: string, playthrough: Playthrough): AutoRemoval[] {
-  return removePerk(reg, current, perkId, playthrough).removed;
+/** Perk ids that appear in at least one violation (for highlighting). */
+export function offendingPerkIds(violations: readonly Violation[]): Set<string> {
+  return new Set(violations.flatMap((x) => x.perkIds));
 }

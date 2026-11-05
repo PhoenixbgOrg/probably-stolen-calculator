@@ -1,11 +1,11 @@
 import { PERKS } from './perks';
-import { BASELINE, DIFFICULTIES, PERK_RULES } from './rules';
+import { BASELINE, DIFFICULTIES, PERK_RULES, START_RULES } from './rules';
 import { SOURCES } from './sources';
 import { SPECIALIZATIONS } from './specializations';
 import type { GameDataRegistry, PerkDef, SpecializationDef } from './types';
 
 /** Bump whenever game data changes, so saved builds can record which data they were made with. */
-export const DATA_VERSION = '2026-11-05.1';
+export const DATA_VERSION = '2026-11-05.2';
 
 /** The single shared game-data registry. All screens and future calculators read from here. */
 export const REGISTRY: GameDataRegistry = {
@@ -16,6 +16,7 @@ export const REGISTRY: GameDataRegistry = {
   specializations: SPECIALIZATIONS,
   perks: PERKS,
   rules: PERK_RULES,
+  startRules: START_RULES,
   baseline: BASELINE,
 };
 

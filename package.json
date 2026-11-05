@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Unofficial, free, local character builder for the game Probably Stolen (Phase 1).",
   "scripts": {
-    "dev": "vite --port 5173 --strictPort",
+    "dev": "vite --host 0.0.0.0 --port 5173 --strictPort",
     "build": "tsc -p . --noEmit && vite build",
     "typecheck": "tsc -p . --noEmit",
     "test": "vitest run",
