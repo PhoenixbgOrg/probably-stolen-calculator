@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { AppState } from '../state/reducer';
-import { navigate } from '../state/navigation';
+import { navigate, pageFromHash } from '../state/navigation';
+import type { Page } from '../state/navigation';
 import type { Screen } from '../state/navigation';
 import { useBuilder } from '../state/useBuilder';
 import { OverviewScreen } from './OverviewScreen';
@@ -8,6 +9,33 @@ import { PerksScreen } from './PerksScreen';
 import { ProfilesPanel } from './ProfilesPanel';
 import { SpecializationScreen } from './SpecializationScreen';
 import { shouldClearBlockedBanner } from '../engine/perkView';
+import { SourcesScreen } from './SourcesScreen';
+import { EXTERNAL_LINKS, GITHUB_REPO_URL, publicUrl } from '../config';
+
+/** Hash routing (no router dependency): '#/sources' shows Sources & Credits; anything else shows the builder. Works under any sub-path and on refresh. */
+function useHashPage(): Page {
+  const [page, setPage] = useState<Page>(() => (typeof window === 'undefined' ? 'builder' : pageFromHash(window.location.hash)));
+  useEffect(() => {
+    const on = () => { setPage(pageFromHash(window.location.hash)); window.scrollTo(0, 0); };
+    window.addEventListener('hashchange', on);
+    return () => window.removeEventListener('hashchange', on);
+  }, []);
+  return page;
+}
+
+function SiteFooter() {
+  return (
+    <nav className="site-links" aria-label="Game links and credits">
+      <ul>
+        {EXTERNAL_LINKS.map((l) => <li key={l.url}><a href={l.url} target="_blank" rel="noopener noreferrer" title={l.title}>{l.label} ↗</a></li>)}
+        <li><a href="#/sources">Sources &amp; Credits</a></li>
+        <li>{GITHUB_REPO_URL
+          ? <a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          : <span className="disabled-link" aria-disabled="true" title="No official repository exists yet; the link will be added once it is published.">GitHub (coming soon)</span>}</li>
+      </ul>
+    </nav>
+  );
+}
 
 const STEPS: { id: Screen; label: string }[] = [
   { id: 'spec', label: '1. Specialization' },
@@ -16,6 +44,7 @@ const STEPS: { id: Screen; label: string }[] = [
 ];
 
 export function App() {
+  const page = useHashPage();
   const { state, dispatch, dismissNotice, dismissAllNotices, character, registry } = useBuilder();
   const [screen, setScreenRaw] = useState<Screen>('spec');
   const [blocked, setBlocked] = useState<{ msg: string; profileId: string | null } | null>(null);
@@ -37,16 +66,17 @@ export function App() {
   return (
     <div className="app">
       <header className="top">
-        <h1><img src="/favicon.svg" alt="" width="24" height="24" className="logo" /> Probably Stolen Calculator</h1>
+        <h1><img src={publicUrl('favicon.svg')} alt="" width="24" height="24" className="logo" /> Probably Stolen Calculator</h1>
+        <SiteFooter />
         <p className="muted small">Unofficial fan tool · Character Builder · game data {registry.gameVersion} (data {registry.dataVersion})</p>
         <nav aria-label="Builder steps">
           <ol className="steps">
             {STEPS.map((s) => {
               const locked = s.id === 'overview' && !character.valid;
               return (
-                <li key={s.id}><button type="button" aria-current={screen === s.id ? 'step' : undefined} aria-disabled={locked || undefined}
+                <li key={s.id}><button type="button" aria-current={page === 'builder' && screen === s.id ? 'step' : undefined} aria-disabled={locked || undefined}
                   title={locked ? 'Locked: the build is invalid. Click to see why.' : undefined}
-                  className={`${screen === s.id ? 'active' : ''} ${locked ? 'step-locked' : ''}`} onClick={() => setScreen(s.id)}>{s.label}{locked ? ' 🔒' : ''}</button></li>
+                  className={`${page === 'builder' && screen === s.id ? 'active' : ''} ${locked ? 'step-locked' : ''}`} onClick={() => { if (page !== 'builder') window.location.hash = '#/'; setScreen(s.id); }}>{s.label}{locked ? ' 🔒' : ''}</button></li>
               );
             })}
           </ol>
@@ -60,9 +90,10 @@ export function App() {
       {state.notices.length > 0 && <Notices notices={state.notices} onDismiss={dismissNotice} onDismissAll={dismissAllNotices} />}
       <div className="layout">
         <main>
-          {screen === 'spec' && <SpecializationScreen reg={registry} build={state.build} dispatch={dispatch} onNext={() => setScreen('perks')} />}
-          {screen === 'perks' && <PerksScreen reg={registry} state={state} dispatch={dispatch} onBack={() => setScreen('spec')} onNext={() => setScreen('overview')} continueBlocked={continueBlocked} />}
-          {screen === 'overview' && <OverviewScreen reg={registry} c={character} onBack={() => setScreen('perks')} onFix={(sc) => setScreen(sc)} />}
+          {page === 'sources' && <SourcesScreen reg={registry} />}
+          {page === 'builder' && screen === 'spec' && <SpecializationScreen reg={registry} build={state.build} dispatch={dispatch} onNext={() => setScreen('perks')} />}
+          {page === 'builder' && screen === 'perks' && <PerksScreen reg={registry} state={state} dispatch={dispatch} onBack={() => setScreen('spec')} onNext={() => setScreen('overview')} continueBlocked={continueBlocked} />}
+          {page === 'builder' && screen === 'overview' && <OverviewScreen reg={registry} c={character} onBack={() => setScreen('perks')} onFix={(sc) => setScreen(sc)} />}
         </main>
         <div className="side">
           <ProfilesPanel state={state} dispatch={dispatch} />
@@ -71,7 +102,7 @@ export function App() {
         </div>
       </div>
       <footer className="small muted">
-        Not affiliated with the developers of Probably Stolen. Values come from community sources and may be outdated; badges show verification status. See docs/RESEARCH.md.
+        <p>Unofficial fan project, not affiliated with or endorsed by the developers or publisher of Probably Stolen. Values come from community sources and may be outdated; badges show verification status. See <a href="#/sources">Sources &amp; Credits</a>.</p>
       </footer>
     </div>
   );

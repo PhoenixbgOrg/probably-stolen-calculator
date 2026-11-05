@@ -1,5 +1,5 @@
-/* Pixel-style theme. Original styling; font: Pixelify Sans (SIL OFL 1.1, bundled in /public/fonts). */
-@font-face { font-family:'Pixelify Sans'; src:url('/fonts/PixelifySans.ttf') format('truetype'); font-weight:400 700; font-display:swap; }
+/* Pixel-style theme. Original styling; font: Pixelify Sans (SIL OFL 1.1, bundled in src/ui/fonts; licence in public/fonts/OFL.txt). */
+@font-face { font-family:'Pixelify Sans'; src:url('./fonts/PixelifySans.ttf') format('truetype'); font-weight:400 700; font-display:swap; }
 :root { color-scheme:dark;
   --bg:#1d1826; --panel:#292234; --panel2:#332a40; --card:#2c2535; --line:#83a59b; --line-dim:#4f6660; --title:#83a59b;
   --text:#e6e1d6; --muted:#a79fb3; --accent:#9fd3c4; --good:#8fd16a; --warn:#e8c34a; --bad:#e0605a;
@@ -195,3 +195,23 @@ footer { margin-top:2rem; border-top:var(--step) solid var(--line-dim); padding-
   .spec-icon { width:auto; flex:1 1 0; min-width:0; padding:.3rem .15rem; }
   .spec-icon .icon-label { font-size:.66rem; max-width:100%; }
 }
+
+/* Final desktop prep: readability floor for small text (>=13px secondary, >=12px badges), contrast, footer links */
+:root { --muted:#bdb5c9; }
+.small { font-size:max(13px, .85rem); line-height:1.5; }
+.lbl, .tag, .cat-chip, .cost-chip, .sel-chip, .sel-meta, .reason, .legend, .tip-body { font-size:max(13px, .8rem); }
+.badge, .icon-label, .cat-marker { font-size:max(12px, .72rem); }
+@media (min-width:1200px) { .spec-icon .icon-label { font-size:12px; line-height:1.15; } }
+.tip-body { line-height:1.45; }
+.site-links ul { list-style:none; display:flex; flex-wrap:wrap; gap:.2rem 1.1rem; padding:0; margin:.3rem 0; font-family:var(--pixel); font-size:14px; }
+.site-links a { color:var(--accent); display:inline-flex; align-items:center; min-height:28px; }
+.site-links .disabled-link { color:var(--muted); opacity:.75; cursor:not-allowed; display:inline-flex; align-items:center; min-height:28px; }
+a.link-btn { display:inline-flex; align-items:center; text-decoration:none; color:var(--text); background:var(--panel2); box-shadow:0 0 0 var(--step) var(--line-dim); padding:.5rem .9rem; min-height:44px; margin:var(--step); }
+a.link-btn:hover { box-shadow:0 0 0 var(--step) var(--line); }
+.credit-list { list-style:none; padding:0; margin:0; display:grid; gap:.7rem; }
+.credit { background:var(--card); box-shadow:0 0 0 var(--step) var(--line-dim); padding:.6rem .8rem; margin:var(--step); overflow-wrap:anywhere; }
+.credit-head { display:flex; flex-wrap:wrap; gap:.4rem .8rem; align-items:center; font-weight:600; }
+.kind-tag.kind-store { color:var(--good); } .kind-tag.kind-community { color:var(--accent); } .kind-tag.kind-user-report { color:var(--warn); }
+.credit-kv { display:grid; grid-template-columns:8.5rem minmax(0,1fr); gap:.15rem .8rem; margin:.4rem 0 0; font-size:14px; }
+.credit-kv dt { color:var(--muted); } .credit-kv dd { margin:0; }
+.disclaimer { line-height:1.55; }

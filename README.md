@@ -10,6 +10,25 @@ npm run dev        # http://localhost:5173/
 ```
 Other scripts: `npm run typecheck`, `npm test`, `npm run build` (outputs `dist/`), `npm run export-data` (regenerates `data/game-data.json`).
 
+## Deployment (GitHub Pages) — prepared, not deployed
+Nothing has been pushed or deployed. The app is a static site; all URLs are base-aware and navigation uses the URL hash
+(`#/` builder, `#/sources` Sources & Credits), so refresh and deep links work under any sub-path and **no 404.html fallback is needed**.
+
+- **Base path:** `VITE_BASE_PATH` (default `./`, i.e. relative, works from any folder). For a project site use
+  `VITE_BASE_PATH=/<repo-name>/ npm run build` (or `npx vite build --base /<repo-name>/`). For a user site or custom domain use `/`.
+- **Owner steps:** create the repository → push → Settings → Pages → Source: *GitHub Actions*. The prepared workflow
+  `.github/workflows/deploy-pages.yml` (npm ci → typecheck → test → build with `/<repo-name>/` → upload-pages-artifact → deploy-pages) runs on push to `main`.
+  Then set `GITHUB_REPO_URL` in `src/config.ts` to enable the footer GitHub link.
+- **Test locally with a simulated sub-path:**
+  ```bash
+  VITE_BASE_PATH=/probably-stolen-calculator/ npx vite build --outDir /tmp/ghpages-sim/probably-stolen-calculator --emptyOutDir
+  cd /tmp/ghpages-sim && python3 -m http.server 4173
+  # open http://localhost:4173/probably-stolen-calculator/ and .../#/sources
+  ```
+- **Saved data:** localStorage keys (`psc.profiles`, `psc.quarantine.*`, `psc.dismissedNotices.v1`) do not include the path; browsers
+  scope localStorage per origin, so all projects on the same `<owner>.github.io` origin share storage (keys are prefixed `psc.` to avoid clashes).
+  Moving to a different origin (e.g. a custom domain) starts empty: use **Export all (JSON)** / **Import JSON** to move profiles.
+
 ## Architecture
 | Layer | Path | Notes |
 |---|---|---|
@@ -36,7 +55,8 @@ Pixel-style original theme (bundled OFL font *Pixelify Sans* in `public/fonts/`,
   description panel (cost, effects, requirements, conflicts, consequences); the explicit **Add perk / Remove perk**
   button changes the build. Separate "Selected Perks" list; points and x/limit meters are sticky.
 - **Overview** – compact summary, validity banner, perks, resources; breakdown and sources collapsed in `<details>`.
-Display order provenance is in `REGISTRY.ordering` (see `docs/UI_REFERENCE.md`).
+The header shows game links (Steam store page, community wikis), **Sources & Credits** (`#/sources`, generated from
+the data registry) and a GitHub placeholder (`src/config.ts`). Display order provenance is in `REGISTRY.ordering` (see `docs/UI_REFERENCE.md`).
 
 ### Storage
 localStorage key `psc.profiles`. Unreadable data is moved to quarantine (in-store list + `psc.quarantine.<ts>` backup key), shown in the Profiles panel with Download/Discard; never silently dropped.

@@ -35,3 +35,7 @@ export function rovingIndex(current: number, key: string, count: number): number
     default: return null;
   }
 }
+
+/** Top-level page from the URL hash (hash routing: survives refresh/deep links under any sub-path, no 404 fallback needed). */
+export type Page = 'builder' | 'sources';
+export const pageFromHash = (hash: string): Page => (hash.replace(/^#\/?/, '').split(/[?/]/)[0] === 'sources' ? 'sources' : 'builder');
