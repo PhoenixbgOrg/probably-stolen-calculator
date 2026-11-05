@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   calculateDreamDustPerUpdate,
-  dreamCapGramsToMushML,
   type DreamDustInputs,
   type DreamDustOutputs,
   PURITY_GRADES,

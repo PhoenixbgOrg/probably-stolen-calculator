@@ -382,32 +382,38 @@ describe('Dream Dust Calculator - Source-Derived', () => {
   });
 
   describe('Cartel delivery evaluation (SOURCE-VERIFIED formulas)', () => {
-    const day8Req = CARTEL_DELIVERIES[0]; // 10 vials at 40%
-
     test('Fatal: no vials delivered (n=0)', () => {
-      const result = evaluateCartelDelivery(day8Req, 0, 50);
+      const req = CARTEL_DELIVERIES[0];
+      if (!req) throw new Error('Day 8 requirement not found');
+      const result = evaluateCartelDelivery(req, 0, 50);
       expect(result.isFatal).toBe(true);
       expect(result.meetsRequirement).toBe(false);
     });
 
     test('Fatal: purity ≤ R/4 (deception)', () => {
+      const req = CARTEL_DELIVERIES[0];
+      if (!req) throw new Error('Day 8 requirement not found');
       // R=40, R/4=10, so P≤10 is fatal
-      const result = evaluateCartelDelivery(day8Req, 10, 10);
+      const result = evaluateCartelDelivery(req, 10, 10);
       expect(result.isFatal).toBe(true);
       expect(result.note).toContain('deception');
     });
 
     test('Low purity: R/4 < P ≤ R-5 (no purity reward)', () => {
+      const req = CARTEL_DELIVERIES[0];
+      if (!req) throw new Error('Day 8 requirement not found');
       // R=40, so 10 < P ≤ 35 is low
-      const result = evaluateCartelDelivery(day8Req, 10, 35);
+      const result = evaluateCartelDelivery(req, 10, 35);
       expect(result.isFatal).toBe(false);
       expect(result.meetsPurity).toBe(false);
       expect(result.reputationChange).toBe(10 + (-5)); // quota +10, purity -5
     });
 
     test('Good purity below requirement: R-5 < P < R', () => {
+      const req = CARTEL_DELIVERIES[0];
+      if (!req) throw new Error('Day 8 requirement not found');
       // R=40, P=38 is in good range but below requirement
-      const result = evaluateCartelDelivery(day8Req, 10, 38);
+      const result = evaluateCartelDelivery(req, 10, 38);
       expect(result.isFatal).toBe(false);
       expect(result.meetsPurity).toBe(true); // purity reward passes
       expect(result.meetsRequirement).toBe(true);
@@ -415,30 +421,38 @@ describe('Dream Dust Calculator - Source-Derived', () => {
     });
 
     test('Good purity meeting requirement: R ≤ P ≤ R+10', () => {
+      const req = CARTEL_DELIVERIES[0];
+      if (!req) throw new Error('Day 8 requirement not found');
       // R=40, P=45 meets requirement
-      const result = evaluateCartelDelivery(day8Req, 10, 45);
+      const result = evaluateCartelDelivery(req, 10, 45);
       expect(result.meetsRequirement).toBe(true);
       expect(result.reputationChange).toBe(10 + 5); // quota +10, purity +5
     });
 
     test('High purity: P > R+10', () => {
+      const req = CARTEL_DELIVERIES[0];
+      if (!req) throw new Error('Day 8 requirement not found');
       // R=40, P=55 > 50
-      const result = evaluateCartelDelivery(day8Req, 10, 55);
+      const result = evaluateCartelDelivery(req, 10, 55);
       expect(result.meetsPurity).toBe(true);
       expect(result.reputationChange).toBe(10 + 3); // quota +10, purity +trunc((55-40)/4)=+3
     });
 
     test('Insufficient quantity: n < Q', () => {
+      const req = CARTEL_DELIVERIES[0];
+      if (!req) throw new Error('Day 8 requirement not found');
       // Deliver only 8 of 10 required
-      const result = evaluateCartelDelivery(day8Req, 8, 45);
+      const result = evaluateCartelDelivery(req, 8, 45);
       expect(result.meetsQuota).toBe(false);
       expect(result.meetsRequirement).toBe(false);
       expect(result.reputationChange).toBe(8 + 5); // partial quantity +8, good purity +5
     });
 
     test('Excess vials: n > Q (all collected)', () => {
+      const req = CARTEL_DELIVERIES[0];
+      if (!req) throw new Error('Day 8 requirement not found');
       // Deliver 12 (2 extra), but only Q=10 counts for reputation
-      const result = evaluateCartelDelivery(day8Req, 12, 45);
+      const result = evaluateCartelDelivery(req, 12, 45);
       expect(result.meetsQuota).toBe(true);
       expect(result.reputationChange).toBe(10 + 5); // capped at Q=10
     });
