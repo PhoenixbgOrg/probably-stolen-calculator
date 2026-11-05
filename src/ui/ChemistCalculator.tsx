@@ -146,17 +146,20 @@ export function ChemistCalculator() {
           <div className="input-group">
             <label htmlFor="temperature">
               Heating Temperature (°C)
-              <span className="help-text">40-49°C safe, ≥50°C degrades mush, ≥60°C degrades extract</span>
+              <span className="help-text">RESTRICTED: 40-49°C safe range (degradation ≥50°C not quantified in source)</span>
             </label>
             <input
               id="temperature"
               type="number"
-              min="0"
-              max="100"
+              min="40"
+              max="49"
               step="1"
               value={temperature}
               onChange={(e) => setTemperature(Number(e.target.value))}
             />
+            <div className="info-badge warning">
+              Simulation rejects T &lt;40°C or ≥50°C (degradation effects not sourced)
+            </div>
           </div>
           
           <div className="input-group">
@@ -395,8 +398,10 @@ export function ChemistCalculator() {
               
               {!reverseResult ? (
                 <div className="alert error">
-                  <strong>⚠️ No Solution Found</strong><br/>
-                  Unable to find a configuration that meets the target requirements within search constraints. Try lowering purity or vial targets, or increasing budget.
+                  <strong>⚠️ No Solution Found Within Search Bounds</strong><br/>
+                  No configuration found meeting targets within: Dream Cap 16.25-325g, alcohol 5-7:1, modules 0-4, 45°C.<br/>
+                  This does NOT prove impossibility globally—only that no solution exists in the searched range.<br/>
+                  Try adjusting targets, budget, or search different configurations manually in Forward mode.
                 </div>
               ) : (
                 <>
@@ -438,6 +443,10 @@ export function ChemistCalculator() {
                         {reverseResult.achievedVials >= targetVials ? ' ✓' : ' ⚠'}
                       </span>
                     </div>
+                  </div>
+                  
+                  <div className="alert info">
+                    <strong>Search Bounds:</strong> {reverseResult.searchNote}
                   </div>
                 </>
               )}

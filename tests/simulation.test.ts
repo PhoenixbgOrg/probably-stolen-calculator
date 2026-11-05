@@ -244,6 +244,24 @@ describe('Dream Dust Full Simulation', () => {
       expect(result.impossibleReasons![0]).toContain('40°C');
     });
 
+    test('Temperature ≥50°C rejected (degradation not implemented)', () => {
+      const config: SimulationConfig = {
+        dreamCapGrams: DREAM_CAP_REFERENCE_WEIGHT_G,
+        alcoholML: DREAM_CAP_REFERENCE_MUSH_ML * 5,
+        heatingTemperature: 50,
+        maxUpdates: 100,
+        finisherModules: 0,
+      };
+
+      const result = simulateDreamDustProduction(config);
+
+      expect(result.success).toBe(false);
+      expect(result.impossibleReasons).toBeDefined();
+      expect(result.impossibleReasons!.length).toBeGreaterThan(0);
+      expect(result.impossibleReasons![0]).toContain('50°C');
+      expect(result.impossibleReasons![0]).toContain('safe range 40-49');
+    });
+
     test('Insufficient volume for Finisher rejected', () => {
       const config: SimulationConfig = {
         dreamCapGrams: 1, // very small amount

@@ -12,6 +12,9 @@ import {
 /**
  * Component mixture in microliters (µL)
  * All volumes must be integers (truncated per source)
+ * 10 components tracked:
+ * - 6 from Dream Cap: mush, water, protein, mineral, microbes, physical contaminant
+ * - 4 derived: extract (from mush), plant matter (from mush), alcohol (added), insoluble debris (finisher)
  */
 export interface ComponentMixture {
   dreamCapMush: number; // µL
@@ -69,6 +72,7 @@ export interface ReverseSolution {
   achievedPurity: number;
   achievedVials: number;
   simulation: SimulationResult;
+  searchNote: string; // bounded search disclaimer
 }
 
 /**
@@ -160,18 +164,21 @@ function simulateExtractionUpdate(
 }
 
 /**
- * Simulate evaporation (removes alcohol and water above boiling points)
- * Source: Branch 22 "For an evaporative component, only when T is strictly above its boiling point"
+ * Simulate evaporation (removes alcohol and water)
+ * Source: Branch 22 documents per-update boiling formula for T > boiling point
  * Alcohol boils at 78.37°C, Water at 100.0°C
  * 
- * For overnight Evaporator: removes all evaporative components completely
+ * IMPLEMENTATION LIMITATION: Overnight Evaporator assumed to remove all evaporatives
+ * based on gameplay observation. Exact component limits and side effects not sourced.
+ * Per-update boiling not implemented (requires real-time heating loop integration).
  */
 function simulateEvaporation(
   mixture: ComponentMixture,
   overnightEvaporator: boolean
 ): ComponentMixture {
   if (overnightEvaporator) {
-    // Overnight Evaporator removes all alcohol and water
+    // ASSUMPTION: Overnight Evaporator removes all alcohol and water
+    // Source does not specify exact removal limits or component degradation during evaporation
     return {
       ...mixture,
       alcohol: 0,
@@ -240,9 +247,11 @@ export function simulateDreamDustProduction(
   
   const initialComponents = { ...mixture };
   
-  // Validate temperature
+  // Validate temperature: restrict to proven safe range
+  // Source documents degradation at ≥50°C and ≥60°C but does not quantify effects
+  // Without sourced degradation implementation, restrict to safe range
   if (config.heatingTemperature < 40) {
-    impossibleReasons.push(`Temperature ${config.heatingTemperature}°C is below minimum 40°C (extraction requires ≥40°C)`);
+    impossibleReasons.push(`Temperature ${config.heatingTemperature}°C below minimum 40°C (extraction requires ≥40°C per source)`);
     return {
       success: false,
       initialComponents,
@@ -258,12 +267,24 @@ export function simulateDreamDustProduction(
     };
   }
   
-  if (config.heatingTemperature >= 60) {
-    warnings.push(`Temperature ${config.heatingTemperature}°C ≥60°C will degrade extract (source: branch 9)`);
-  }
-  
   if (config.heatingTemperature >= 50) {
-    warnings.push(`Temperature ${config.heatingTemperature}°C ≥50°C will degrade mush to plant matter (source: branch 10)`);
+    impossibleReasons.push(
+      `Temperature ${config.heatingTemperature}°C ≥50°C would degrade mush/extract (source: branches 9, 10). ` +
+      `Degradation effects not quantified in source; simulation restricted to proven safe range 40-49°C.`
+    );
+    return {
+      success: false,
+      initialComponents,
+      extractionUpdates: [],
+      afterExtraction: mixture,
+      afterEvaporation: mixture,
+      afterFinisher: mixture,
+      finalPurity: 0,
+      finalVials: 0,
+      totalUpdates: 0,
+      warnings,
+      impossibleReasons,
+    };
   }
   
   // Iterative extraction
@@ -329,6 +350,12 @@ export function simulateDreamDustProduction(
 
 /**
  * Numeric reverse solver: find configuration to achieve target
+ * BOUNDED SEARCH: Tests specific ranges, not exhaustive
+ * - Dream Cap: 0.5× to 10× reference (16.25g to 325g)
+ * - Alcohol ratios: 5:1, 6:1, 7:1
+ * - Modules: 0 to 4
+ * - Temperature: fixed 45°C (safe range)
+ * Returns null if no solution found WITHIN THESE BOUNDS (not proof of global impossibility)
  */
 export function solveForTarget(
   targetPurity: number,
@@ -343,6 +370,10 @@ export function solveForTarget(
   let bestSolution: ReverseSolution | null = null;
   let bestScore = Infinity; // minimize (cost + shortage)
   
+  const searchNote = 
+    'Solution found within search bounds: Dream Cap 16.25-325g, alcohol 5-7:1, modules 0-4, 45°C. ' +
+    'Not an exhaustive search; other configurations may exist.';
+  
   for (const modules of moduleCounts) {
     const moduleCost = userModuleCost ? modules * userModuleCost : 0;
     
@@ -351,7 +382,7 @@ export function solveForTarget(
     }
     
     for (const ratio of alcoholRatios) {
-      // Try different Dream Cap amounts (wider range)
+      // Try different Dream Cap amounts (bounded range)
       for (let capMultiplier = 0.5; capMultiplier <= 10; capMultiplier += 0.5) {
         const dreamCapGrams = DREAM_CAP_REFERENCE_WEIGHT_G * capMultiplier;
         const mushML = (DREAM_CAP_REFERENCE_MUSH_ML * capMultiplier);
@@ -360,7 +391,7 @@ export function solveForTarget(
         const config: SimulationConfig = {
           dreamCapGrams,
           alcoholML,
-          heatingTemperature: 45, // safe temperature
+          heatingTemperature: 45, // safe temperature (40-49°C range)
           maxUpdates: 200,
           finisherModules: modules,
           userModuleCost,
@@ -387,6 +418,7 @@ export function solveForTarget(
             achievedPurity: simulation.finalPurity,
             achievedVials: simulation.finalVials,
             simulation,
+            searchNote,
           };
           bestScore = score;
         }
@@ -394,5 +426,5 @@ export function solveForTarget(
     }
   }
   
-  return bestSolution;
+  return bestSolution; // null = no solution within search bounds (not globally impossible)
 }
