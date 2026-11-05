@@ -13,6 +13,7 @@ import { SourcesScreen } from './SourcesScreen';
 import { HomePage } from './HomePage';
 import { GameGuidePage } from './GameGuidePage';
 import { CalculatorComingSoon } from './CalculatorComingSoon';
+import { ChemistCalculator } from './ChemistCalculator';
 import { getProfession } from '../calculators/professions';
 import { publicUrl, SOURCES_ROUTE } from '../config';
 import { SiteFooter } from './SiteFooter';
@@ -73,7 +74,7 @@ export function App() {
         <p className="muted small">Unofficial fan tool · game data {registry.gameVersion} (data {registry.dataVersion})</p>
         
         <nav aria-label="Main navigation" className="main-nav">
-          <a href="#/" className={route.page === 'home' ? 'active' : ''}>Home</a>
+          <a href="#/" className={route.page === 'home' ? 'active' : ''}>Calculators</a>
           <a href="#/character-builder" className={route.page === 'character-builder' ? 'active' : ''}>Character Builder</a>
           <a href="#/game-guide" className={route.page === 'game-guide' ? 'active' : ''}>Game Guide</a>
           <a href={SOURCES_ROUTE} className={route.page === 'sources' ? 'active' : ''}>Sources & Credits</a>
@@ -121,14 +122,20 @@ export function App() {
           {route.page === 'game-guide' && <GameGuidePage />}
           {route.page === 'calculator' && route.param && (() => {
             const prof = getProfession(route.param);
-            return prof ? (
-              prof.implemented ? (
-                <div className="panel"><h2 className="panel-title">{prof.name} Calculator</h2><p>Calculator implementation</p></div>
-              ) : (
-                <CalculatorComingSoon professionId={prof.id} professionName={prof.name} tag={prof.tag} />
-              )
+            if (!prof) {
+              return <div className="panel"><h2 className="panel-title">Unknown Calculator</h2><p>Calculator not found. <a href="#/">Return home</a></p></div>;
+            }
+            
+            // Chemist now has functional Dream Dust calculator
+            if (prof.id === 'chemist') {
+              return <ChemistCalculator />;
+            }
+            
+            // Other professions: show coming soon or placeholder
+            return prof.implemented ? (
+              <div className="panel"><h2 className="panel-title">{prof.name} Calculator</h2><p>Calculator implementation</p></div>
             ) : (
-              <div className="panel"><h2 className="panel-title">Unknown Calculator</h2><p>Calculator not found. <a href="#/">Return home</a></p></div>
+              <CalculatorComingSoon professionId={prof.id} professionName={prof.name} tag={prof.tag} />
             );
           })()}
           {isBuilder && screen === 'spec' && <SpecializationScreen reg={registry} build={state.build} dispatch={dispatch} onNext={() => setScreen('perks')} />}

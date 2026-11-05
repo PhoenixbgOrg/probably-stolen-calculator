@@ -8,10 +8,20 @@ All icons in the Probably Stolen Calculator are **original pixel art** created s
 
 ### Visual References
 
-- Existing game research screenshots from the repository's research documentation (`docs/RESEARCH.md`, `docs/UI_REFERENCE.md`) were consulted to understand general visual themes
-- Community wiki screenshots and gameplay videos were reviewed to understand the overall pixel art style of the game
-- No proprietary game icons or distinctive artwork were extracted, copied, or reproduced
-- All icons are independently drawn, original works
+**Available game references consulted**:
+- Official Steam store screenshots for Probably Stolen (appid 4348910), notably the Starting Perks screen from build 052A, were reviewed to understand the pixel art style and visual language (as documented in `docs/UI_REFERENCE.md`)
+- User-reported 100-REV6 menu screenshots (referenced in `docs/RESEARCH.md`) provided insight into specialization menu layout
+- Community wiki screenshots were reviewed for general understanding of game UI themes
+- Existing repository screenshots (`docs/screenshots/`) showing the calculator's own interface design
+
+**How references were used**:
+- High-level style inspiration: pixel art aesthetic, color tone, compact icon approach
+- General visual language understanding: how the game presents information
+- NO copying, tracing, or reproduction of specific game icons or artwork
+- NO extraction or redistribution of proprietary game assets
+- All icons independently drawn as original interpretations
+
+**Result**: All icons are independently created, original pixel art inspired by general retro gaming visual conventions and informed by the observed aesthetic, but not copying any specific game artwork.
 
 ### Design Principles
 
@@ -87,9 +97,18 @@ All original icons in this project are part of the project's codebase and follow
 
 ## References
 
-Visual style inspiration (general pixel art conventions, no specific artwork reproduction):
-- General retro pixel art design principles
-- Game research screenshots (documented in `docs/RESEARCH.md`)
-- Community wikis and gameplay videos for understanding game themes
+**Game visual references** (high-level style inspiration only, no artwork reproduction):
+- Official Steam store screenshots for Probably Stolen (appid 4348910), specifically Starting Perks screen from build 052A (as noted in `docs/UI_REFERENCE.md`)
+- User-reported 100-REV6 screenshots (referenced in `docs/RESEARCH.md`)
+- Community wiki screenshots for general UI understanding
+- Existing calculator screenshots in `docs/screenshots/`
 
-All gameplay mechanics represented by icons are documented with sources in `src/data/perks.ts` and `src/data/specializations.ts`.
+**Gameplay mechanics** (all represented icons reflect verified data):
+- All perk effects and specialization mechanics documented with sources in `src/data/perks.ts` and `src/data/specializations.ts`
+- See `docs/RESEARCH.md` for complete source provenance
+
+**Visual design approach**:
+- Observed pixel art aesthetic from game references
+- General retro pixel art design principles
+- Independent interpretation and original artwork creation
+- No copying, tracing, or extraction of game assets

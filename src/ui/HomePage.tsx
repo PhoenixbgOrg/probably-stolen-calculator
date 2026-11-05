@@ -21,9 +21,9 @@ export function HomePage() {
     <div className="panel">
       <h2 className="panel-title">Probably Stolen Calculator</h2>
       <p className="intro">
-        Unofficial fan tool for calculating production economics, character builds and game mechanics.
+        Unofficial fan tool for production economics, character builds and game mechanics.
         <br />
-        Select a profession to begin.
+        Select a profession calculator to begin.
       </p>
       <div className="profession-grid">
         {PROFESSIONS.map((prof) => (
