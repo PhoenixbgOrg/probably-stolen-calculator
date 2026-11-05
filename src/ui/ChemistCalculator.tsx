@@ -26,6 +26,9 @@ export function ChemistCalculator() {
   const [totalML, setTotalML] = useState<number | undefined>();
   const [targetPurity, setTargetPurity] = useState<number | undefined>(45);
   
+  // Cartel tracking
+  const [currentDay, setCurrentDay] = useState<number | undefined>(8); // first delivery day
+  
   // Calculate
   const inputs: DreamDustInputs = {
     dreamCapGrams,
@@ -34,6 +37,7 @@ export function ChemistCalculator() {
     currentExtractML: hasSpectrometerData ? extractML : undefined,
     currentMixtureTotalML: hasSpectrometerData ? totalML : undefined,
     targetPurity: targetPurity,
+    currentDay: currentDay,
   };
   
   const outputs: DreamDustOutputs = calculateDreamDustPerUpdate(inputs);
@@ -190,6 +194,29 @@ export function ChemistCalculator() {
           )}
         </section>
         
+        {/* CARTEL DELIVERY TRACKING */}
+        <section className="input-section">
+          <h3>Cartel Delivery Tracking (Source-Verified)</h3>
+          <p className="info-text">
+            Weekly deliveries on days 8, 15, 22, 29... (source: nikokobo wiki)
+          </p>
+          
+          <div className="input-group">
+            <label htmlFor="currentDay">
+              Current Game Day
+              <span className="help-text">Day 8 = first delivery (10 vials, 40%), then +5 vials +5% weekly</span>
+            </label>
+            <input
+              id="currentDay"
+              type="number"
+              min="1"
+              step="1"
+              value={currentDay || ''}
+              onChange={(e) => setCurrentDay(e.target.value ? Number(e.target.value) : undefined)}
+            />
+          </div>
+        </section>
+        
         {/* OUTPUTS */}
         <section className="output-section">
           <h3>Per-Update Extraction (Source-Derived Formula)</h3>
@@ -281,6 +308,13 @@ export function ChemistCalculator() {
                   </span>
                 </span>
               </div>
+              <div className="output-row">
+                <span className="output-label">Vials produced:</span>
+                <span className="output-value large">
+                  {outputs.vialsProduced} vials
+                  <span className="badge verified">2 mL each</span>
+                </span>
+              </div>
               {targetPurity !== undefined && (
                 <div className={`alert ${outputs.calculatedPurity >= targetPurity ? 'success' : 'error'}`}>
                   {outputs.calculatedPurity >= targetPurity ? '✓' : '✗'} Target: {targetPurity}%
@@ -295,12 +329,56 @@ export function ChemistCalculator() {
                 </span>
               </div>
               <div className="output-row">
-                <span className="output-label">Base value:</span>
+                <span className="output-label">Value per vial:</span>
                 <span className="output-value">
-                  {outputs.baseValuePerVial}₵ per vial
-                  <span className="badge verified">SOURCE-DERIVED</span>
+                  {(outputs.baseValuePerVial * (1 + (outputs.gradeModifier || 0))).toFixed(1)}₵
                 </span>
               </div>
+              <div className="output-row">
+                <span className="output-label">Total estimated value:</span>
+                <span className="output-value large">
+                  {outputs.estimatedValue?.toFixed(0)}₵
+                </span>
+              </div>
+            </div>
+          )}
+          
+          {/* Cartel Delivery Status */}
+          {outputs.cartelStatus && (
+            <div className={`output-group ${outputs.cartelStatus.isFatal ? 'fatal' : outputs.cartelStatus.meetsRequirement ? 'success-group' : 'warning-group'}`}>
+              <h4>Cartel Delivery Evaluation (Source-Verified)</h4>
+              <div className="cartel-requirement">
+                <div className="output-row">
+                  <span className="output-label">Day {outputs.cartelStatus.requirement.day} Requirement:</span>
+                  <span className="output-value">
+                    {outputs.cartelStatus.requirement.quota} vials at {outputs.cartelStatus.requirement.requiredPurity}% purity
+                    <span className="badge verified">SOURCE-VERIFIED</span>
+                  </span>
+                </div>
+                <div className="output-row">
+                  <span className="output-label">Your production:</span>
+                  <span className="output-value">
+                    {outputs.vialsProduced} vials at {outputs.calculatedPurity?.toFixed(1)}% purity
+                  </span>
+                </div>
+              </div>
+              
+              {outputs.cartelStatus.isFatal ? (
+                <div className="alert error">
+                  <strong>⚠️ FATAL DELIVERY</strong><br/>
+                  {outputs.cartelStatus.note}
+                </div>
+              ) : (
+                <>
+                  <div className={`alert ${outputs.cartelStatus.meetsRequirement ? 'success' : 'warning'}`}>
+                    <strong>{outputs.cartelStatus.meetsRequirement ? '✓ Requirements Met' : '⚠️ Requirements Not Met'}</strong><br/>
+                    Quota: {outputs.cartelStatus.meetsQuota ? 'PASS' : 'FAIL'}<br/>
+                    Purity: {outputs.cartelStatus.meetsPurity ? 'PASS' : 'FAIL'}<br/>
+                    Reputation change: {outputs.cartelStatus.reputationChange && outputs.cartelStatus.reputationChange > 0 ? '+' : ''}{outputs.cartelStatus.reputationChange}
+                  </div>
+                  <p className="output-note small">{outputs.cartelStatus.note}</p>
+                </>
+              )}
             </div>
           )}
           

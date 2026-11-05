@@ -327,6 +327,12 @@ a.link-btn:hover { box-shadow:0 0 0 var(--step) var(--line); }
 .limitations-section ul, .sources-section ul { list-style:disc; padding-left:1.5rem; margin:.5rem 0; }
 .limitations-section li, .sources-section li { margin:.4rem 0; font-size:.85rem; line-height:1.5; }
 
+.fatal { background:#3d1f1f; border:2px solid #ff4444; }
+.success-group { background:#1f3d2a; border:1px solid #44ff88; }
+.warning-group { background:#3d2a1f; border:1px solid #ffaa44; }
+
+.cartel-requirement { background:var(--card); padding:.8rem; margin:.5rem 0; box-shadow:0 0 0 var(--step) var(--line-dim); }
+
 @media (max-width:600px) {
   .calculator { padding:.5rem; }
   .input-section, .output-section, .reference-section { padding:.8rem; }

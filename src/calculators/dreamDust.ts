@@ -23,6 +23,26 @@ export interface DreamDustInputs {
   
   // Targets
   targetPurity?: number; // 0-100, optional
+  
+  // Cartel delivery tracking
+  currentDay?: number; // game day for Cartel delivery lookup
+}
+
+export interface CartelDeliveryRequirement {
+  day: number;
+  quota: number; // number of vials
+  requiredPurity: number; // percentage
+  source: 'VERIFIED' | 'OWNER-REPORTED';
+}
+
+export interface CartelDeliveryStatus {
+  requirement: CartelDeliveryRequirement;
+  meetsQuota: boolean;
+  meetsPurity: boolean;
+  meetsRequirement: boolean;
+  reputationChange?: number;
+  isFatal?: boolean; // P ≤ R/4 or n=0
+  note: string;
 }
 
 export interface DreamDustOutputs {
@@ -56,10 +76,15 @@ export interface DreamDustOutputs {
   // Purity calculation (if extract volume known)
   calculatedPurity?: number;
   purityGrade?: string;
+  vialsProduced?: number; // floor(total / 2mL)
   
   // Value (SOURCE-DERIVED base + modifiers)
   baseValuePerVial: number; // 18 Credits
   gradeModifier?: number; // from purity grade table
+  estimatedValue?: number; // vials × base × (1 + modifier)
+  
+  // Cartel delivery (SOURCE-VERIFIED)
+  cartelStatus?: CartelDeliveryStatus;
   
   // Recommendations
   recommendations: string[];
@@ -79,6 +104,61 @@ export interface DreamDustOutputs {
  */
 export const DREAM_CAP_REFERENCE_WEIGHT_G = 32.5;
 export const DREAM_CAP_REFERENCE_MUSH_ML = 27.333;
+
+/**
+ * Cartel delivery schedule (SOURCE-VERIFIED)
+ * Sources:
+ * - https://probably-stolen.nicokobo.com/en/wiki/terms/cartel-deliveries
+ * - https://showgamer.com/en/guides/7319 (table matches wiki formulas)
+ * 
+ * Day 8 first delivery: 10 vials at 40%
+ * Then +5 vials and +5% purity each week
+ * Purity caps at 70% on day 50
+ * Quantity continues +5 without cap
+ */
+export const CARTEL_DELIVERIES: CartelDeliveryRequirement[] = [
+  { day: 8, quota: 10, requiredPurity: 40, source: 'VERIFIED' },
+  { day: 15, quota: 15, requiredPurity: 45, source: 'VERIFIED' },
+  { day: 22, quota: 20, requiredPurity: 50, source: 'VERIFIED' },
+  { day: 29, quota: 25, requiredPurity: 55, source: 'VERIFIED' },
+  { day: 36, quota: 30, requiredPurity: 60, source: 'VERIFIED' },
+  { day: 43, quota: 35, requiredPurity: 65, source: 'VERIFIED' },
+  { day: 50, quota: 40, requiredPurity: 70, source: 'VERIFIED' },
+  // After day 50: quantity continues +5, purity stays 70%
+  // Formula: day N (N≥50, N%7=1): quota = 40 + 5×((N-50)/7), purity = 70
+];
+
+/**
+ * Get Cartel delivery requirement for a given day
+ * Source: https://probably-stolen.nicokobo.com/en/wiki/terms/cartel-deliveries
+ * "Deliveries on 8,15,22..." (weekly: 8 + 7n)
+ * "Quota +5 without a stated cap; required purity +5, capped at 70%"
+ */
+export function getCartelRequirement(day: number): CartelDeliveryRequirement | null {
+  // Deliveries on days 8, 15, 22, 29, ... (8 + 7n where n ≥ 0)
+  if (day < 8 || (day - 8) % 7 !== 0) {
+    return null; // not a delivery day
+  }
+  
+  // Check explicit table first
+  const explicitReq = CARTEL_DELIVERIES.find((req) => req.day === day);
+  if (explicitReq) {
+    return explicitReq;
+  }
+  
+  // For days after 50: formula-based (purity capped at 70%)
+  if (day >= 50) {
+    const weeksPast50 = Math.floor((day - 50) / 7);
+    return {
+      day,
+      quota: 40 + 5 * weeksPast50,
+      requiredPurity: 70, // capped
+      source: 'VERIFIED',
+    };
+  }
+  
+  return null;
+}
 
 /**
  * Convert Dream Cap grams to mush mL using reference weight
@@ -126,6 +206,111 @@ export function getPurityGrade(purity: number): { name: string; modifier: number
     }
   }
   return { name: 'Starch Grade', modifier: -0.95 };
+}
+
+/**
+ * Evaluate Cartel delivery
+ * Source: https://probably-stolen.nicokobo.com/en/wiki/terms/cartel-deliveries
+ * 
+ * Fatal conditions:
+ * - n=0 (no vials delivered)
+ * - P ≤ trunc(R/4) (mean purity at or below 1/4 required)
+ * 
+ * Reputation:
+ * - n=0: gunshot, game over
+ * - 0<n<Q: +n reputation, but quantity fails
+ * - n≥Q: quantity passes, +Q reputation (capped by n)
+ * - P≤R/4: game over
+ * - R/4<P≤R-5: low purity, -trunc(R-P), no purity reward
+ * - R-5<P≤R+10: good, purity passes, -trunc(R-P) (can be negative if P<R)
+ * - P>R+10: high purity, +trunc(P-R)/4
+ */
+export function evaluateCartelDelivery(
+  requirement: CartelDeliveryRequirement,
+  vialsDelivered: number,
+  meanPurity: number
+): CartelDeliveryStatus {
+  const Q = requirement.quota;
+  const R = requirement.requiredPurity;
+  const n = vialsDelivered;
+  const P = meanPurity;
+  
+  // Fatal condition 1: no vials
+  if (n === 0) {
+    return {
+      requirement,
+      meetsQuota: false,
+      meetsPurity: false,
+      meetsRequirement: false,
+      isFatal: true,
+      note: 'FATAL: No vials delivered (gunshot, game over per source)',
+    };
+  }
+  
+  // Fatal condition 2: P ≤ trunc(R/4)
+  const fatalPurityThreshold = Math.trunc(R / 4);
+  if (P <= fatalPurityThreshold) {
+    return {
+      requirement,
+      meetsQuota: false,
+      meetsPurity: false,
+      meetsRequirement: false,
+      isFatal: true,
+      note: `FATAL: Mean purity ${P.toFixed(1)}% ≤ ${fatalPurityThreshold}% (R/4) - deception branch, game over per source`,
+    };
+  }
+  
+  // Quantity check
+  const meetsQuota = n >= Q;
+  const quantityRep = meetsQuota ? Math.min(n, Q) : n;
+  
+  // Purity check
+  let purityRep = 0;
+  let meetsPurity = false;
+  let purityNote = '';
+  
+  if (P <= R - 5) {
+    // Low purity: R/4 < P ≤ R-5
+    purityRep = -Math.trunc(R - P);
+    meetsPurity = false;
+    purityNote = `Low purity (${P.toFixed(1)}% ≤ ${R - 5}%), no purity reward`;
+  } else if (P <= R + 10) {
+    // Good branch: R-5 < P ≤ R+10
+    purityRep = -Math.trunc(R - P); // can be positive if P > R
+    meetsPurity = true;
+    if (P < R) {
+      purityNote = `Good range but below requirement (${P.toFixed(1)}% < ${R}%), purity reward passes with ${purityRep} rep`;
+    } else {
+      purityNote = `Good purity (${P.toFixed(1)}% ≥ ${R}%), purity reward passes with +${Math.abs(purityRep)} rep`;
+    }
+  } else {
+    // High purity: P > R+10
+    purityRep = Math.trunc((P - R) / 4);
+    meetsPurity = true;
+    purityNote = `High purity (${P.toFixed(1)}% > ${R + 10}%), purity reward passes with +${purityRep} rep`;
+  }
+  
+  const totalRep = quantityRep + purityRep;
+  const meetsRequirement = meetsQuota && meetsPurity;
+  
+  let note = '';
+  if (!meetsQuota) {
+    note += `Quantity: ${n}/${Q} vials (FAILS, +${quantityRep} rep). `;
+  } else {
+    note += `Quantity: ${n}/${Q} vials (PASSES, +${quantityRep} rep). `;
+  }
+  note += purityNote;
+  note += ` Total: ${totalRep > 0 ? '+' : ''}${totalRep} reputation (before difficulty multipliers).`;
+  
+  return {
+    requirement,
+    meetsQuota,
+    meetsPurity,
+    meetsRequirement,
+    reputationChange: totalRep,
+    isFatal: false,
+    note,
+  };
 }
 
 /**
@@ -221,6 +406,8 @@ export function calculateDreamDustPerUpdate(inputs: DreamDustInputs): DreamDustO
   let calculatedPurity: number | undefined;
   let purityGrade: string | undefined;
   let gradeModifier: number | undefined;
+  let vialsProduced: number | undefined;
+  let estimatedValue: number | undefined;
   
   if (inputs.currentExtractML !== undefined && inputs.currentMixtureTotalML !== undefined) {
     // SOURCE-DERIVED: "Product purity P = intended active-component volume / total component volume ×100%"
@@ -228,6 +415,14 @@ export function calculateDreamDustPerUpdate(inputs: DreamDustInputs): DreamDustO
     const grade = getPurityGrade(calculatedPurity);
     purityGrade = grade.name;
     gradeModifier = grade.modifier;
+    
+    // Vials produced (SOURCE-DERIVED: 2mL per vial)
+    vialsProduced = Math.floor(inputs.currentMixtureTotalML / finisherSampleSizeML);
+    
+    // Estimated value
+    const baseValuePerVial = 18; // Credits (SOURCE-DERIVED)
+    const valuePerVial = baseValuePerVial * (1 + gradeModifier);
+    estimatedValue = vialsProduced * valuePerVial;
     
     if (inputs.targetPurity !== undefined) {
       if (calculatedPurity < inputs.targetPurity) {
@@ -241,6 +436,21 @@ export function calculateDreamDustPerUpdate(inputs: DreamDustInputs): DreamDustO
   
   // Value
   const baseValuePerVial = 18; // Credits (SOURCE-DERIVED)
+  
+  // Cartel delivery evaluation (if day and measurements provided)
+  let cartelStatus: CartelDeliveryStatus | undefined;
+  if (inputs.currentDay !== undefined && calculatedPurity !== undefined && vialsProduced !== undefined) {
+    const requirement = getCartelRequirement(inputs.currentDay);
+    if (requirement) {
+      cartelStatus = evaluateCartelDelivery(requirement, vialsProduced, calculatedPurity);
+      
+      if (cartelStatus.isFatal) {
+        recommendations.push(`⚠️ FATAL DELIVERY: ${cartelStatus.note}`);
+      } else if (!cartelStatus.meetsRequirement) {
+        recommendations.push(`⚠️ Cartel delivery requirements not met. ${cartelStatus.note}`);
+      }
+    }
+  }
   
   // Critical limitations
   limitations.push('PER-UPDATE CALCULATION: Formulas show yield per update (~1 second while heated). Actual production requires many updates until mush is depleted.');
@@ -265,13 +475,18 @@ export function calculateDreamDustPerUpdate(inputs: DreamDustInputs): DreamDustO
     requiresDryInput,
     calculatedPurity,
     purityGrade,
+    vialsProduced,
     gradeModifier,
+    estimatedValue,
     baseValuePerVial,
+    cartelStatus,
     recommendations,
     missingInputs,
     sourceRefs: [
       'https://probably-stolen.nicokobo.com/en/wiki/terms/chemical-processing (retrieved 2026-11-05)',
       'https://probably-stolen.org/chemistry/ (finisher contamination table)',
+      'https://probably-stolen.nikokobo.com/en/wiki/terms/cartel-deliveries (retrieved 2026-11-05)',
+      'https://showgamer.com/en/guides/7319 (cartel table verified)',
     ],
     limitations,
   };

@@ -9,8 +9,11 @@ import {
   dreamCapGramsToMushML,
   getFinisherContamination,
   getPurityGrade,
+  getCartelRequirement,
+  evaluateCartelDelivery,
   DREAM_CAP_REFERENCE_WEIGHT_G,
   DREAM_CAP_REFERENCE_MUSH_ML,
+  CARTEL_DELIVERIES,
   type DreamDustInputs,
 } from '../src/calculators/dreamDust';
 
@@ -321,6 +324,164 @@ describe('Dream Dust Calculator - Source-Derived', () => {
 
       expect(result.limitations.length).toBeGreaterThan(0);
       expect(result.limitations.some((lim) => lim.includes('PER-UPDATE'))).toBe(true);
+    });
+  });
+
+  describe('Cartel delivery progression (SOURCE-VERIFIED)', () => {
+    test('Day 8 first delivery: 10 vials at 40%', () => {
+      const req = getCartelRequirement(8);
+      expect(req).not.toBeNull();
+      expect(req?.quota).toBe(10);
+      expect(req?.requiredPurity).toBe(40);
+      expect(req?.source).toBe('VERIFIED');
+    });
+
+    test('Day 15: 15 vials at 45%', () => {
+      const req = getCartelRequirement(15);
+      expect(req).not.toBeNull();
+      expect(req?.quota).toBe(15);
+      expect(req?.requiredPurity).toBe(45);
+    });
+
+    test('Day 50: 40 vials at 70% (purity cap)', () => {
+      const req = getCartelRequirement(50);
+      expect(req).not.toBeNull();
+      expect(req?.quota).toBe(40);
+      expect(req?.requiredPurity).toBe(70);
+    });
+
+    test('Day 57: purity stays capped at 70%', () => {
+      const req = getCartelRequirement(57);
+      expect(req).not.toBeNull();
+      expect(req?.quota).toBe(45); // 40 + 5×1
+      expect(req?.requiredPurity).toBe(70); // capped
+    });
+
+    test('Non-delivery day returns null', () => {
+      expect(getCartelRequirement(5)).toBeNull();
+      expect(getCartelRequirement(9)).toBeNull();
+    });
+
+    test('All explicit entries match owner-provided data', () => {
+      const expected = [
+        { day: 8, quota: 10, purity: 40 },
+        { day: 15, quota: 15, purity: 45 },
+        { day: 22, quota: 20, purity: 50 },
+        { day: 29, quota: 25, purity: 55 },
+        { day: 36, quota: 30, purity: 60 },
+        { day: 43, quota: 35, purity: 65 },
+        { day: 50, quota: 40, purity: 70 },
+      ];
+
+      expected.forEach(({ day, quota, purity }) => {
+        const req = getCartelRequirement(day);
+        expect(req?.quota).toBe(quota);
+        expect(req?.requiredPurity).toBe(purity);
+      });
+    });
+  });
+
+  describe('Cartel delivery evaluation (SOURCE-VERIFIED formulas)', () => {
+    const day8Req = CARTEL_DELIVERIES[0]; // 10 vials at 40%
+
+    test('Fatal: no vials delivered (n=0)', () => {
+      const result = evaluateCartelDelivery(day8Req, 0, 50);
+      expect(result.isFatal).toBe(true);
+      expect(result.meetsRequirement).toBe(false);
+    });
+
+    test('Fatal: purity ≤ R/4 (deception)', () => {
+      // R=40, R/4=10, so P≤10 is fatal
+      const result = evaluateCartelDelivery(day8Req, 10, 10);
+      expect(result.isFatal).toBe(true);
+      expect(result.note).toContain('deception');
+    });
+
+    test('Low purity: R/4 < P ≤ R-5 (no purity reward)', () => {
+      // R=40, so 10 < P ≤ 35 is low
+      const result = evaluateCartelDelivery(day8Req, 10, 35);
+      expect(result.isFatal).toBe(false);
+      expect(result.meetsPurity).toBe(false);
+      expect(result.reputationChange).toBe(10 + (-5)); // quota +10, purity -5
+    });
+
+    test('Good purity below requirement: R-5 < P < R', () => {
+      // R=40, P=38 is in good range but below requirement
+      const result = evaluateCartelDelivery(day8Req, 10, 38);
+      expect(result.isFatal).toBe(false);
+      expect(result.meetsPurity).toBe(true); // purity reward passes
+      expect(result.meetsRequirement).toBe(true);
+      expect(result.reputationChange).toBe(10 + (-2)); // quota +10, purity -2
+    });
+
+    test('Good purity meeting requirement: R ≤ P ≤ R+10', () => {
+      // R=40, P=45 meets requirement
+      const result = evaluateCartelDelivery(day8Req, 10, 45);
+      expect(result.meetsRequirement).toBe(true);
+      expect(result.reputationChange).toBe(10 + 5); // quota +10, purity +5
+    });
+
+    test('High purity: P > R+10', () => {
+      // R=40, P=55 > 50
+      const result = evaluateCartelDelivery(day8Req, 10, 55);
+      expect(result.meetsPurity).toBe(true);
+      expect(result.reputationChange).toBe(10 + 3); // quota +10, purity +trunc((55-40)/4)=+3
+    });
+
+    test('Insufficient quantity: n < Q', () => {
+      // Deliver only 8 of 10 required
+      const result = evaluateCartelDelivery(day8Req, 8, 45);
+      expect(result.meetsQuota).toBe(false);
+      expect(result.meetsRequirement).toBe(false);
+      expect(result.reputationChange).toBe(8 + 5); // partial quantity +8, good purity +5
+    });
+
+    test('Excess vials: n > Q (all collected)', () => {
+      // Deliver 12 (2 extra), but only Q=10 counts for reputation
+      const result = evaluateCartelDelivery(day8Req, 12, 45);
+      expect(result.meetsQuota).toBe(true);
+      expect(result.reputationChange).toBe(10 + 5); // capped at Q=10
+    });
+  });
+
+  describe('Full pipeline with Cartel delivery', () => {
+    test('Day 8 delivery simulation: meets 40% requirement', () => {
+      const inputs: DreamDustInputs = {
+        dreamCapMushML: 27.333,
+        alcoholML: 136.665,
+        finisherModules: 1, // 6% contamination
+        currentExtractML: 10,
+        currentMixtureTotalML: 24, // 10/(10+14) = 41.7% purity
+        currentDay: 8,
+      };
+
+      const result = calculateDreamDustPerUpdate(inputs);
+
+      expect(result.calculatedPurity).toBeCloseTo(41.7, 1);
+      expect(result.vialsProduced).toBe(12); // floor(24/2)
+      expect(result.cartelStatus).toBeDefined();
+      expect(result.cartelStatus?.requirement.quota).toBe(10);
+      expect(result.cartelStatus?.requirement.requiredPurity).toBe(40);
+      expect(result.cartelStatus?.meetsRequirement).toBe(true);
+    });
+
+    test('Day 22 delivery simulation: fails 50% requirement with low purity', () => {
+      const inputs: DreamDustInputs = {
+        dreamCapMushML: 27.333,
+        alcoholML: 136.665,
+        finisherModules: 0, // 12% contamination
+        currentExtractML: 10,
+        currentMixtureTotalML: 25, // 40% purity
+        currentDay: 22,
+      };
+
+      const result = calculateDreamDustPerUpdate(inputs);
+
+      expect(result.calculatedPurity).toBe(40);
+      expect(result.vialsProduced).toBe(12);
+      expect(result.cartelStatus?.requirement.requiredPurity).toBe(50);
+      expect(result.cartelStatus?.meetsPurity).toBe(false); // 40% < 45% (R-5)
+      expect(result.cartelStatus?.meetsRequirement).toBe(false);
     });
   });
 });
