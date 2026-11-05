@@ -1,0 +1,121 @@
+ Rat Wrangler: Setup Guide, Breeding & Meat Farming Tips - Probably Stolen Wiki 
+ P
+ Probably Stolen PS 
+ Guide 
+ Water 
+ Appraisal 
+ Characters 
+ Crafting 
+ Trading 
+ Scenarios 
+ EN 
+ Home / Scenarios Rat Wrangler: Setup Guide, Breeding & Meat Farming Tips
+ Learn how to run a profitable rat ranch in Probably Stolen: cage setup, feeding, serums, breeding, and turning rats into meat.
+ 2026-11-01 
+ Probably Stolen Wiki Team 
+ Quick Guide
+ Rat Wrangler is the rat ranching side business unlocked in Probably Stolen's demo content
+ Core loop : buy rats, feed them high-calorie food, breed them, harvest rat meat
+ Key tools : animal cage, livestock feed dispenser, gene scanner, meat cleaver
+ Serums matter : growth serum speeds maturing; immunity serum prevents disease losses
+ Watch calories : regular Neutrfruit (300 kcal) beats small Neutrfruit for feeding
+ Rat Wrangler Overview: Why Ranch Rats?
+ Rat ranching is one of the most surprising and profitable side activities in Probably Stolen. Beyond your main shopkeeping, smelting, and contraband deals, the animal cage system lets you raise, breed, and eventually process rats into valuable raw meat. It is available in the demo version even when most other vendor options are locked, making it an excellent early income stream.
+ Video Highlights: 
+ Full walkthrough of buying, caging, and breeding rats
+ Steroid and immunity serum experiments on adolescent rats
+ Turning diseased rats into valuable rat meat with a cleaver
+ Expanding the cage with metal ingots and managing filth
+ Why It Works
+ Rat meat sells for a solid price, and rats breed on their own once you have a mixed population. A well-fed cage essentially converts cheap Neutrfruit into sellable meat over time.
+ Essential Equipment
+ You cannot start ranching with just a cage. Several supporting items keep the operation running, and each solves a specific problem.
+ Item Purpose Priority 
+ Animal cage Houses rats, expandable with metal ingots/bars Required 
+ Livestock feed dispenser Stores calories, auto-feeds rats High 
+ Small or regular Neutrfruit Primary feed (300 kcal for regular) High 
+ Gene scanner Displays detailed rat stats when toggled Medium 
+ Growth serum Boosts growth rate, may lower immunity Situational 
+ Immunity serum Removes immunocompromised status Situational 
+ Meat cleaver Converts live/dead rats into rat meat Required 
+ Cleaning robot Removes feces automatically Quality of life 
+ Starter Kit
+ Animal cage 
+ Feed dispenser
+ Small Neutrfruit
+ Meat cleaver
+ Breeder Kit
+ Gene scanner 
+ Growth serum
+ Immunity serum
+ Expanded cage
+ Industrial Kit
+ Cleaning robot 
+ Metal bars for expansion
+ Bulk Neutrfruit stock
+ Multiple storage bays
+ Battery Check
+ The gene scanner and dispenser need battery power. A dead battery mid-cycle means stats vanish and feeding stalls, so keep a spare on hand.
+ Step-by-Step Ranch Setup
+ 1
+ Acquire the Cage
+ Unlock rat ranching from the vendor (it is one of the few non-demo-locked options). Place the cage and expand it early with metal ingots, more space means less crowding and more breeding room.
+ 2
+ Stock the Feed Dispenser
+ Load regular Neutrfruit (300 kcal each) rather than small Neutrfruit when possible. Fill the dispenser and let it auto-feed. Do not manually empty it, that dumps your stored calories.
+ 3
+ Buy and Label Rats
+ Purchase rats when the price is marked down, and negotiate it down further. Label them to track bloodlines. A mixed male/female population will begin breeding naturally.
+ 4
+ Apply Serums Carefully
+ Growth serum raises growth rate but makes rats immunocompromised. Follow up with immunity serum to fix the status. Diseased rats can be treated or culled.
+ 5
+ Harvest for Meat
+ Use the meat cleaver on dying, diseased, or surplus rats. Each rat yields rat meat that sells for a respectable price, or can be fed back to the colony in emergencies.
+ Expansion Priority
+ Bigger cages are almost always worth the metal. Crowded rats live in filth faster than a cleaning robot can manage, and disease spreads through tight populations.
+ Common Problems and Fixes
+ Problem Cause Fix 
+ Rats escaping the cage Overcrowding or food shortage Expand cage, refill dispenser 
+ Immunocompromised rats Growth serum side effect Apply immunity serum 
+ Diseased rats Filth buildup, low immunity Clean feces, cull and harvest 
+ Food disappears instantly Too many rats, low-calorie feed Use regular Neutrfruit, buy bulk food 
+ Feces piling up No cleaning robot Buy robot or manually remove 
+ Rat dies as adolescent Unknown health drain Harvest immediately with cleaver 
+ Starvation Losses
+ If your food stock runs dry, rats die hungry and yield less meat. During water-supply crises, food prices spike, so keep a reserve of Neutrfruit, cheese, or even ramen (high calorie) to grind through shortages.
+ Profit Strategy and Daily Routine
+ Treat the rat ranch as a passive income engine layered on top of your shop. Rats breed, eat, and grow while you handle customers, smelting, and scavenging runs.
+ Daily Ranch Checklist:
+ Check feed dispenser calorie reserve 
+ Remove feces or verify cleaning robot 
+ Scan new rats and apply serums as needed 
+ Harvest diseased or dying rats for meat 
+ Negotiate rat prices down before buying 
+ Queue metal ingots for cage expansion 
+ Meat economics work best when you pair harvesting with a food or raw-meat buyer visiting your counter. Raw meat fits neatly into large food budgets, and a single big-budget customer can absorb an entire harvest.
+ Insider Trading
+ Pair the ranch with market events. When a water treatment breakdown is announced, stockpile water and remember that beer counts as a beverage during shortages, freeing your food stock entirely for the rats.
+ FAQ
+ Q: How do I unlock rat ranching in Probably Stolen?
+ Rat ranching is available through the vendor even in the demo version, where most other unlocks are unavailable. Build up favor with the vendor and purchase the animal cage to begin.
+ Q: What is the best food for rats?
+ Regular Neutrfruit at 300 kcal is the most efficient staple feed. Small Neutrfruit works but stores fewer calories per unit. In a pinch, cheese, ramen, and even ground-up candy bars keep rats from starving.
+ Q: Should I use growth serum on my rats?
+ Yes, but follow it with immunity serum. Growth serum raises the growth rate but leaves rats immunocompromised, and untreated rats are vulnerable to disease outbreaks in the cage.
+ Q: What do I do with diseased rats?
+ You can attempt treatment with immunity serum, but diseased or dying rats are often most valuable harvested. Use the meat cleaver to convert them into rat meat, which sells for a solid price to food buyers.
+ Related Probably Stolen Scenarios
+ Gunsmith: Setup Guide, Perks & Custom Order Walkthrough 
+ Probably Stolen Starting Scenarios: Best Backgrounds & Perks Ranked 
+ Probably Stolen Best Perks: Starting Perk Tier List Rankings 
+ Related Articles
+ Gunsmith: Setup Guide, Perks & Custom Order Walkthrough
+ Master the Gunsmith specialization in Probably Stolen: best perks, firearm permits, custom gun orders, crafting parts, and daily shop strategy.
+ Read More 
+ Probably Stolen Starting Scenarios: Best Backgrounds & Perks Ranked
+ Every Probably Stolen starting scenario compared: Rock Bottom, perks, backgrounds, and survival strategy for your first two weeks.
+ Read More 
+ More Scenarios 
+ Advertisement
+ 

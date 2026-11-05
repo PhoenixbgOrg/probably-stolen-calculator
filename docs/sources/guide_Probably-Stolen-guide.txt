@@ -1,0 +1,142 @@
+ Probably Stolen Guide: Water Purification Walkthrough & Tips - Probably Stolen Wiki 
+ P
+ Probably Stolen PS 
+ Guide 
+ Water 
+ Appraisal 
+ Characters 
+ Crafting 
+ Trading 
+ Scenarios 
+ EN 
+ Home / Guide Probably Stolen Guide: Water Purification Walkthrough & Tips
+ Learn how to make high-quality and pure water in Probably Stolen. Covers purifiers, UV lamps, filters, moisture farms, and selling strategies.
+ 2026-11-01 
+ Probably Stolen Wiki Team 
+ Quick Guide
+ Probably Stolen guide core: water purification is a key income and survival system with distinct quality tiers.
+ Contaminant types matter : UV lamps kill microbes only ; filters remove organic waste, minerals, and physical debris.
+ Pure water requires machines : a Water Purifier at 100%+ quality or a Moisture Farm at 150%+ quality .
+ Selling tip : two bottles of spring water reliably attract a Water Stockpiler buyer from day 14 onward.
+ Storage upgrade : max out your water tank at 50,000 ml to stockpile high-quality and pure water.
+ Water Quality System Basics
+ This Probably Stolen guide starts with the foundation: understanding how water quality works. The game mimics real-life purification, where every tool targets specific contaminants. Water progresses through tiers, from rust water on tap up to base water, high-quality water, and finally pure water. Knowing which tool handles which contaminant is the single most important concept for efficient purification.
+ Video Highlights: 
+ Two easiest paths to high-quality water: overnight purifier or UV lamp plus filter pitcher
+ UV lamps target microbes only; filters handle organic, mineral, and physical contaminants
+ Pure water needs a Water Purifier at 100% quality or a Moisture Farm at 150% quality
+ Spring water bottles trigger high-value Water Stockpiler buyers after day 14
+ Here is how each purification method maps to contaminants:
+ Method Microbes Organic Waste Minerals Physical Debris Notes 
+ UV Lamp Removes No effect No effect No effect Microbes only 
+ Water Filter Pitcher No effect Removes Removes Removes Needs combined use with UV 
+ Water Purifier Machine Removes Removes Removes Removes Works overnight, max purity 99.9% 
+ Gutter Tilapia (RAS) Partial Partial Partial Partial More fish = faster cleaning 
+ Hydra Weed Partial Partial Partial Partial Grows in old hydroponic system 
+ Common Mistake
+ Running base water through a filter alone does not produce high-quality water. The microbes survive because filters never touch them. You must pair a filter with a UV lamp (or use a machine purifier) to clear every contaminant category.
+ Buyer Water Shortcut
+ Purchased scavenger or seller water has a mixture that responds perfectly to the UV lamp plus filter combo. Your self-made base water may behave differently depending on the path you took, so always test with the aqua scan before committing.
+ Four Ways to Make High-Quality Water
+ There are four reliable routes to high-quality water, and each fits a different base layout or budget. Compare them before committing resources:
+ Overnight Purifier
+ Place a standard rust water bottle in the purifier
+ Leave it overnight
+ Wakes up as high-quality water 
+ UV Lamp + Filter Pitcher
+ Zap microbes with a UV lamp 
+ Pour through a filter pitcher
+ Best on purchased base water 
+ Gutter Tilapia (RAS)
+ Fill the recirculating aquaculture system with tilapia
+ Fish clean water over time
+ Check progress with aqua scan 
+ Hydra Weed
+ Plant seeds in the old hydroponic system 
+ Each growth cycle cleans water slightly
+ Repeated cycles reach high quality 
+ A fifth source exists without any purification: the Moisture Farm . At 55% quality it produces base water, but raising it to 100% quality switches production to high-quality water directly.
+ Method Speed Setup Cost Maintenance Scalability 
+ Overnight Purifier Fast (1 night) Medium Low ★★★★ 
+ UV + Filter Fast Low Low ★★★ 
+ Gutter Tilapia Slow High Medium ★★★ 
+ Hydra Weed Slow Low Medium ★★ 
+ Moisture Farm (100%) Passive daily High Low ★★★★★ 
+ Aqua Scan Is Your Friend
+ Use the aqua scan regularly on any tank or system. It reveals remaining contaminants so you know exactly which tool to apply next instead of guessing.
+ Step-by-Step: Making Pure Water
+ Pure water is the top tier and only two machines can produce it. Both routes depend on machine quality, not just the purification process itself. Follow these steps:
+ 1
+ Secure a Rust Water Supply
+ Fill a jug from your faucet or buy base water from sellers. Purchased water mixes predictably with the UV and filter combo.
+ 2
+ Pre-Filter to Base Water
+ Run the water through a filter pitcher to strip organic waste, minerals, and physical debris, leaving only microbes behind.
+ 3
+ Raise Machine Quality to 100%+
+ Slot quality modules into your Water Purifier. Hover the tooltip and confirm max purity 99.9% before proceeding. Use up to two expansion kits to open extra module bays.
+ 4
+ Run Overnight Purification Cycles
+ Pour the jug into the purifier. A fully charged purifier triggers a full day cycle instantly, or sleep through the night. Expect roughly three nights from rust water to pure water depending on machine performance.
+ 5
+ Verify with Aqua Scan
+ Test the water. At 99.9% purity it registers as pure water, ready for storage or premium sale.
+ Alternative: Moisture Farm Route
+ Drop a refinement module into your Moisture Farm to push quality past the 150% threshold. At 150%+ the farm generates pure water daily, around 578 ml per day in tested setups, fully passive income.
+ Requirement Water Purifier Route Moisture Farm Route 
+ Quality threshold 100%+ 150%+ 
+ Output method Batch overnight cycles Passive daily production 
+ Tested output 1 jug to 99.9% in ~3 nights ~578 ml pure water per day 
+ Module slots Expansion kits add up to 2 extra bays Refinement modules boost quality 
+ Machine Optimization & Quality Modules
+ Hitting the quality thresholds is where most players stall. The default machine layout leaves empty module bays, and that wasted space is your biggest optimization opportunity.
+ Expansion kits can be used twice , opening two additional module bays per machine for quality, efficiency, or performance modules.
+ Quality modules push machines past the 100% (purifier) or 150% (moisture farm) thresholds for pure water.
+ Efficiency modules lower energy cost, useful when running purifiers every night.
+ Performance modules speed up purification, so larger jugs finish within a single night.
+ Placement Controls
+ Click a machine and press E or Q to rotate it. Right-click to flip it. Use these controls to fit expansion modules and tanks into tight base layouts.
+ Module Type Effect Best Machine Pairing 
+ Quality Raises output purity tier Water Purifier, Moisture Farm 
+ Efficiency Lowers energy cost Nightly purifier setups 
+ Performance Faster purification cycles Large jug batch runs 
+ Expansion Kit Opens extra module bay (max 2 per machine) Any machine 
+ Storage and Selling Strategy
+ Once you produce high-quality and pure water consistently, storage and sales become the profit engine.
+ Storage: Water tanks start small but can be upgraded to a 50,000 ml maximum . A 24,000 ml tank is a solid mid-game target, but as daily pure water output grows, maxing storage keeps surplus from going to waste.
+ Selling: Place two bottles of spring water on your sale shelf. Each bottle carries a high base value, and together they reliably attract an upper-level Water Stockpiler buyer from around day 14 onward, paying 500+ credits and buying your entire high-quality or pure stock.
+ Water Business Milestones:
+ Establish a steady rust water or purchased base water supply 
+ Build a UV lamp and filter pitcher for quick high-quality batches 
+ Upgrade Water Purifier quality to 100%+ with modules 
+ Push Moisture Farm quality to 150% for daily pure water 
+ Max a water tank at 50,000 ml for stockpiling 
+ Display two spring water bottles to trigger the Water Stockpiler buyer 
+ Spring Water Alternatives
+ If you cannot find a second spring water bottle (one comes from Natalia's quest line, another may drop from random crates), substitute a standard high-quality water bottle. Any displayed combination exceeding roughly 365 total water value triggers the stockpiler.
+ FAQ
+ Q: Why does my filtered water stay at base quality?
+ Filters only remove organic waste, minerals, and physical debris. Microbes survive filtering, so you must also apply a UV lamp or use a water purifier machine to clear every contaminant category and reach high quality.
+ Q: What is the fastest way to get pure water in Probably Stolen?
+ Use a Water Purifier machine raised to 100%+ quality with quality modules, then run overnight cycles. From rust water, expect roughly three nights. Alternatively, push a Moisture Farm to 150% quality for passive daily pure water.
+ Q: How do I hit the 100% or 150% machine quality thresholds?
+ Slot quality-focused modules into your machine and use expansion kits, which can each be used once for up to two extra module bays. Check the machine tooltip to confirm purity limits like 99.9% before running cycles.
+ Q: How do I attract the Water Stockpiler buyer?
+ Display two bottles of spring water on your sales shelf. One comes from Natalia's quest line and another can drop from random crates. From around day 14, this reliably spawns an upper-level buyer who purchases all your high-quality or pure water for 500+ credits.
+ Related Probably Stolen Guide
+ Probably Stolen Best Perks: Starting Perk Tier List Rankings 
+ Probably Stolen How to Bargain: Negotiation Tips & Tricks 
+ Gunsmith: Setup Guide, Perks & Custom Order Walkthrough 
+ Related Articles
+ Probably Stolen Best Perks: Starting Perk Tier List Rankings
+ Every starting perk in Probably Stolen ranked from S to F tier. Learn which perks to take for normal and Rock Bottom runs, with costs and synergies.
+ Read More 
+ Probably Stolen How to Bargain: Negotiation Tips & Tricks
+ Learn how to bargain in Probably Stolen: haggling with suppliers, pricing stolen goods, reading customers, and keeping your reputation intact.
+ Read More 
+ Probably Stolen How to Buy Shop: Beginner Trading Setup Tips
+ Learn how to buy stock in your Probably Stolen shop: negotiation counter basics, wholesale deals, inspection, and early-week money management.
+ Read More 
+ More Guide 
+ Advertisement
+ 

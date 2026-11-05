@@ -1,0 +1,138 @@
+ Probably Stolen Starting Scenarios: Best Backgrounds & Perks Ranked - Probably Stolen Wiki 
+ P
+ Probably Stolen PS 
+ Guide 
+ Water 
+ Appraisal 
+ Characters 
+ Crafting 
+ Trading 
+ Scenarios 
+ EN 
+ Home / Scenarios Probably Stolen Starting Scenarios: Best Backgrounds & Perks Ranked
+ Every Probably Stolen starting scenario compared: Rock Bottom, perks, backgrounds, and survival strategy for your first two weeks.
+ 2026-11-01 
+ Probably Stolen Wiki Team 
+ Quick Guide
+ Probably Stolen starting scenarios define your credits, perks, and early survival odds.
+ Rock Bottom is the hardest start — you begin with nothing and rely on buying and reselling.
+ Best opening perks : Additional 150 Credits, Colorful Character, Vigilant, and Well Connected.
+ Minimalist is the strongest negative perk — low impact, high perk-point refund.
+ Reporting Odin Harlson early gives roughly 300 credits and stabilizes most hard runs.
+ Starting Scenarios Overview
+ In Probably Stolen, your starting scenario — the combination of background, positive perks, and negative perks — shapes the entire opening economy of your shop. The dystopian station setting punishes poor starts harshly: rent arrives weekly, stock is scarce, and RNG-heavy days can sink an unprepared shopkeeper. Choosing the right scenario is the single most important pre-game decision.
+ Video Highlights: 
+ A full hard-mode run using the Rock Bottom background with self-imposed restrictions
+ Early perk selection: Additional 150 Credits, Colorful Character, Convict, Minimalist, Vigilant, Well Connected, Secret Admirer
+ Surviving week one through scavenging, medical goods flipping, and variety buyers
+ Why reporting Odin Harlson for ~300 credits is the strongest standard Rock Bottom opener
+ The scenario system works on a point budget: strong backgrounds cost more, negative perks refund points you can reinvest. A well-built scenario compensates for a weak economic start.
+ Core Principle
+ Match your perks to your background. If your start gives little cash, take economy perks (Extra Credits, Well Connected). If your start gives no protection, take defensive perks (Vigilant).
+ Scenario Element What It Does Impact Level 
+ Rock Bottom background Start with nothing, hardest economy Very High 
+ Additional 150 Credits Starting cash buffer High 
+ Colorful Character Extra perk points to spend High 
+ Convict (background) Revolutionary roleplay, faction ties Medium 
+ Minimalist (negative) Low impact, refunds many perk points High value 
+ Vigilant Never robbed at night High 
+ Well Connected Better seller traffic from connections Medium-High 
+ Secret Admirer Random free items over time Medium 
+ Perk Rankings and Combinations
+ Not all perks pull equal weight in the opening two weeks. Economy and safety perks dominate because the early game is about surviving rent cycles, not maximizing margins.
+ Perk Category Early Game Rating Notes 
+ Additional 150 Credits Economy ★★★★★ Doubles your working capital on poor starts 
+ Vigilant Safety ★★★★★ Removes night robbery, saves insurance costs 
+ Colorful Character Flexibility ★★★★☆ More perk points means more options 
+ Well Connected Economy ★★★★☆ More sellers means more stock to flip 
+ Minimalist Negative ★★★★☆ Cheap drawback, large point refund 
+ Secret Admirer Economy ★★★☆☆ Unreliable but free inventory 
+ Standard Build
+ Extra 150 Credits 
+ Vigilant
+ Well Connected
+ Safe, consistent, recommended for first hard runs
+ Flipping Build
+ Colorful Character 
+ Well Connected
+ Secret Admirer
+ Maximizes seller traffic and free stock for resale
+ Challenge Build
+ Rock Bottom + Minimalist 
+ No reporting, no electricity
+ Low-tech trading only, highest difficulty
+ Avoid Overcommitting
+ Do not spend points on niche perks like specialized appraisal guides at creation. Appraisal tools appear in-game through visitors like the Appraiser, and perk points are better spent on economy and safety.
+ Rock Bottom: Step-by-Step Survival
+ Rock Bottom is the most punishing starting scenario — you begin with effectively nothing. The first week determines whether the run is viable. Follow this proven sequence:
+ 1
+ Take Economy Perks
+ Select Additional 150 Credits and Colorful Character. Add Minimalist as your negative perk to bank extra points, then spend them on Vigilant and Well Connected.
+ 2
+ Buy and Flip Daily
+ Accept cheap medical goods, food, and materials from early sellers. You cannot afford wholesale lots yet, so buy small, sell small, and keep money moving.
+ 3
+ Scavenge at Night (Early Only)
+ Scavenge while wounded risk is tolerable. Stop once your cash flow covers rent — wounds block future scavenging days and worsen overnight.
+ 4
+ Secure Rent by Day 6
+ Use news events (household goods surplus, water shortage) to buy cheap and sell high. Aim to hold full rent one day before it is due.
+ 5
+ Transition to Pure Trading
+ Once stable, invest in neon signs from Dr. Jackson to guarantee seller visits, then drop scavenging and appraisals for a clean buy-and-sell loop.
+ Stability Checkpoint
+ By the end of week two, a healthy Rock Bottom run shows estimated total wealth well above your starting credits — one documented run reached roughly 455 credits from a 150-credit start. If you are below starting wealth after week two, restart with a different perk spread.
+ Key Mechanics That Interact With Your Start
+ Your scenario does not operate in a vacuum. Several station mechanics either amplify or neutralize your starting choices.
+ Mechanic How It Interacts Strategy 
+ Wanted criminals (Odin Harlson) Reporting yields ~300 credits Strongest standard opener; skipping it defines challenge runs 
+ Variety buyers 15% bonus for selling multiple item types Keep one of each cheap category in stock 
+ News events Price swings on household goods, water, weapons Buy on surplus news, sell on shortage news 
+ Power outages Kills machine-dependent shops Low-tech starts ignore this entirely 
+ Appraisal system ~15% of item value as profit Crucial early crutch; drop it later for purity runs 
+ Scavenging wounds Worsen overnight, block scavenging Never scavenge while already wounded 
+ Janitorial Service
+ Keep paying for janitorial service even when cutting costs. It adds customers per day, and losing store attractiveness during a fragile start compounds quickly.
+ Rock Bottom Week One Checklist:
+ Select Additional 150 Credits, Colorful Character, Minimalist, Vigilant 
+ Flip medical goods and food within the first three days 
+ Reach full rent one day before the deadline 
+ Meet the Appraiser and learn at least one appraisal category 
+ Decide whether Odin Harlson gets reported or protected 
+ Challenge Variants and Long-Term Goals
+ Once a standard Rock Bottom run feels stable, self-imposed restrictions create the real replay value. The "Rock Bottom Revolutionary" approach layers restrictions on the hardest background:
+ No electricity — no machines, no power bills, live with outage events
+ No reporting criminals — stay loyal to revolutionary contacts, sacrifice the easy 300-credit bounties
+ No scavenging after stabilization — pure trading economy only
+ No appraisals after takeoff — removes the most lucrative crutch
+ Victory conditions — reach 12,000 credits (the unofficial target) or maximize revolutionary reputation
+ Graduate Restrictions Gradually
+ Appraising and scavenging are near-mandatory for the first two weeks of Rock Bottom. Forbid them only after your weekly cash flow comfortably exceeds rent, or the run will collapse.
+ Restriction When to Apply Risk 
+ No reporting From day one Low-Medium (loses 300 credits) 
+ No electricity From day one Medium (blocks machines) 
+ No scavenging After week two Medium (removes free stock) 
+ No appraisals After week two High (removes top profit source) 
+ FAQ
+ Q: What is the hardest Probably Stolen starting scenario?
+ Rock Bottom is the hardest scenario. You start with nothing, the opening days are highly RNG-dependent, and survival depends on flipping cheap goods and careful perk selection before the first rent payment.
+ Q: Should I report Odin Harlson at the start?
+ For most runs, yes. Reporting him early yields around 300 credits, which is enough to buy machinery and stabilize your economy. Only skip him in challenge runs where staying loyal to revolutionary contacts is part of the rules — note he also becomes a contraband buyer.
+ Q: Which perks are worth taking on a low-cash start?
+ Additional 150 Credits, Vigilant, Well Connected, and Colorful Character form the core. Take Minimalist as your negative perk because its drawback is mild and it refunds substantial perk points.
+ Q: How do I survive the first rent payment on Rock Bottom?
+ Flip medical supplies and food, scavenge at night while unwounded, exploit news events like household goods surpluses to buy at -40 to -60 percent, and target variety buyers for the 15 percent multi-item bonus.
+ Related Probably Stolen Scenarios
+ Gunsmith: Setup Guide, Perks & Custom Order Walkthrough 
+ Rat Wrangler: Setup Guide, Breeding & Meat Farming Tips 
+ Probably Stolen Best Perks: Starting Perk Tier List Rankings 
+ Related Articles
+ Gunsmith: Setup Guide, Perks & Custom Order Walkthrough
+ Master the Gunsmith specialization in Probably Stolen: best perks, firearm permits, custom gun orders, crafting parts, and daily shop strategy.
+ Read More 
+ Rat Wrangler: Setup Guide, Breeding & Meat Farming Tips
+ Learn how to run a profitable rat ranch in Probably Stolen: cage setup, feeding, serums, breeding, and turning rats into meat.
+ Read More 
+ More Scenarios 
+ Advertisement
+ 

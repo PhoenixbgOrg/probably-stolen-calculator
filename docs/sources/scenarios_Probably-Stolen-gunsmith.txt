@@ -1,0 +1,136 @@
+ Gunsmith: Setup Guide, Perks & Custom Order Walkthrough - Probably Stolen Wiki 
+ P
+ Probably Stolen PS 
+ Guide 
+ Water 
+ Appraisal 
+ Characters 
+ Crafting 
+ Trading 
+ Scenarios 
+ EN 
+ Home / Scenarios Gunsmith: Setup Guide, Perks & Custom Order Walkthrough
+ Master the Gunsmith specialization in Probably Stolen: best perks, firearm permits, custom gun orders, crafting parts, and daily shop strategy.
+ 2026-11-01 
+ Probably Stolen Wiki Team 
+ Quick Guide
+ Gunsmith is a weapon-focused specialization built around buying, modding, and selling firearms.
+ Permit system : Your firearm permit requires security reputation of at least 8 or it gets revoked.
+ Custom orders pay big: match firepower, accuracy, ergonomics, or style thresholds for large payouts.
+ Retired Gunsmith NPC visits weekly to sell ammo, parts, and take unwanted items for +30% value .
+ Avoid the gambling perk : it blocks guide reading and pairs poorly with hard mode restrictions.
+ Gunsmith Overview: What the Specialization Does
+ The Gunsmith specialization in Probably Stolen transforms your shop into a firearms workshop. You gain a dedicated gunsmith storage cabinet for firearms and parts, the ability to take guns apart with a screwdriver, a 3D printer for fabricating components like plastic pistol stocks, and access to the custom gun order market. It also unlocks melee-adjacent crafting such as kitchen knives and box cutters from scrap.
+ The core loop is simple: buy cheap guns, strip them for parts, upgrade weapons with attachments, display them in your window to attract gun-buying customers, and fulfill custom build orders for premium payouts.
+ Video Highlights: 
+ Full first-run of the Gunsmith specialization at version 1.0.0
+ Custom order mechanics with firepower, recoil, and accuracy thresholds
+ Retired Gunsmith vendor and permit reputation requirements
+ Metal printer chips, furnaces, and metal ingot crafting explained
+ Core Identity
+ Gunsmith shifts your shop from a general goods store into a weapon trade hub. Displaying firearms in the window increases the chance of gun-buying customers visiting , so keep your best piece showcased at all times.
+ Perk Selection: Best and Worst Options
+ Perk choice defines your run. Here is how the notable Gunsmith perks stack up.
+ Perk Effect Rating 
+ Vending machine start Customers self-serve drinks from day one ★★★★☆ 
+ Upgraded micro nuclear power Disconnected from grid, immune to blackouts ★★★★★ 
+ Three additional perk slots More build flexibility overall ★★★★★ 
+ Upgrade material discount Reduced materials when upgrading items ★★★★☆ 
+ Insurance 10% less Lower loss on confiscated/stolen goods ★★★☆☆ 
+ Starting reputation Pairs well with upper-level reputation unlocks ★★★★☆ 
+ One more customer Extra daily traffic, always useful ★★★★☆ 
+ Cannot read guides Blocks all guide access, harsh for new players ★☆☆☆☆ 
+ Cannot scavenge Locks out scavenging entirely, conflicts with other perks ★☆☆☆☆ 
+ Counter unavailable Blocks counter specialization synergy ★★☆☆☆ 
+ Mutually Exclusive Perks
+ Some perks lock each other out — for example, the full scavenge block and the alternative scavenge perks cannot be combined. Read perk descriptions carefully before committing, because you cannot respec mid-run.
+ Recommended Early Picks
+ Take the micro nuclear power source and extra perk slots first. Blackout immunity keeps your printer and furnace running every night, and extra slots let you stack reputation and insurance perks later.
+ Permits and Security Reputation
+ Your firearm permit is the gate to the whole specialization. It is normally reserved for upper-level merchants and lets you legally trade mid- to high-level contraband. However, it comes with strict conditions.
+ Condition Requirement Consequence 
+ Permit activation Reach 8+ security reputation Permit stays revoked below threshold 
+ Display sign Increases gun-buying customer visits Boosts weapon sales traffic 
+ Security reputation below 0 Fines and possible confiscation Officer visits, item loss 
+ Contraband trading Permit covers mid/high-level items Illegal without it 
+ Keep Security Happy
+ Selling contraband while security reputation is negative invites patrols and fines. Selling medicine and supplies to officers on patrol, and reporting actual criminals, are reliable ways to build the reputation your permit needs.
+ Custom Orders and Gun Modding Step-by-Step
+ Custom orders are the highest-earning activity for a Gunsmith. Customers request a weapon meeting specific stat thresholds — firepower, accuracy, ergonomics, recoil control, reliability, or style. Attachments visibly change the gun's appearance, so experiment freely.
+ 1
+ Accept the Right Orders
+ Check which stat the customer wants and whether you can realistically hit the threshold. Orders listing multiple required stats need all of them satisfied before you can accept payment.
+ 2
+ Source Parts and Materials
+ Buy from the Retired Gunsmith, scavenge gun parts, or craft components. Upgrade parts often require metal ingots — smelt scrap in a furnace and use metal printer chips for 3D-printed components like stocks.
+ 3
+ Strip Donor Weapons
+ Use a screwdriver to take cheap or broken guns apart. Salvaged barrels, springs, and receivers feed your upgrade bench instead of your trash can.
+ 4
+ Mod to Threshold
+ Attach parts targeting the requested stat. Makeshift red dots raise accuracy but lower other stats — watch the trade-offs so you don't tank a secondary requirement.
+ 5
+ Deliver and Upsell
+ Complete the order, then offer ammo and accessories. Gun buyers frequently want rounds, melee weapons, and personal protection gear in the same visit.
+ Stat Common Boosting Parts Trade-off 
+ Firepower Improved springs, receiver parts Often costly in materials 
+ Accuracy Red dot sights, makeshift sights Lowers style/other stats 
+ Recoil control Compensators, grips Minimal downsides 
+ Ergonomics Laser pointers, grips Needs electrical parts 
+ Reliability Quality internals Slower to craft 
+ Style Cosmetic attachments Rarely requested alone 
+ Efficiency and Performance
+ When upgrading your workbench and printer, prioritize performance and efficiency upgrades — they speed up part fabrication, which is your bottleneck for fulfilling multiple custom orders per day.
+ Daily Shop Strategy and Key NPCs
+ Retired Gunsmith
+ Visits next day, then weekly 
+ Sells ammo and crafting materials
+ Buys unneeded items at +30% value 
+ Giorgio the Scavenger
+ Best recurring supplier
+ Backpacks, relics, scavenged goods
+ Negotiates prices when caught selling fakes
+ Security Officers
+ Buy medicine on patrol
+ Report criminals for reputation
+ Gate your permit standing
+ Daily rhythm matters as much as crafting. Watch market events — water surplus, medical shortage, material surplus, weapon demand spikes — and rotate your window displays accordingly. Weapons and ammunition demand increases can be exploited by showcasing your best modded gun that morning.
+ Daily Task Priority Notes 
+ Check market events High Adjust buy/sell focus immediately 
+ Display best gun in window High Drives gun-buying customer traffic 
+ Buy materials on surplus Medium Stock up when prices dip 
+ Fulfill custom orders High Highest profit per transaction 
+ Appraisal board requests Medium Promotions raise appraisal pay tiers 
+ Pay rent and fines Critical Eviction risk if ignored 
+ Appraisal Board Side Income
+ Joining the appraisal board unlocks complex item pricing jobs. Promotions to appraiser raise payouts and qualify you for new item categories — a strong secondary income while guns craft in the background.
+ Gunsmith Run Milestones:
+ Reach 8 security reputation to secure the firearm permit 
+ Set up a furnace and stockpile metal ingots 
+ Acquire metal printer chips for 3D-printed parts 
+ Complete a multi-stat custom gun order 
+ Get promoted by the appraisal board 
+ Establish weekly Retired Gunsmith buying routine 
+ FAQ
+ Q: How do I unlock the Gunsmith firearm permit in Probably Stolen?
+ The permit is normally reserved for upper-level merchants. As a Gunsmith, it activates once you reach at least 8 security reputation, and it will be revoked again if your security reputation drops below zero.
+ Q: Why can't I accept a custom gun order payment?
+ Custom orders list specific stat requirements such as firepower, accuracy, ergonomics, or recoil control. You must satisfy all listed thresholds simultaneously before the accept option becomes available — hitting only one stat is not enough.
+ Q: What are metal printer chips used for?
+ Metal printer chips power the metal printing process, letting you fabricate upgraded gun parts and 3D-printed components like pistol stocks. Pair them with a furnace and scrap metal to produce metal ingots for high-tier upgrades.
+ Q: Is the gambling perk worth taking as a Gunsmith?
+ Generally no. The gambling perk prevents you from reading any in-game guides, which severely limits appraisal accuracy and custom order planning. It also conflicts with scavenge-related perks that lock each other out.
+ Related Probably Stolen Scenarios
+ Rat Wrangler: Setup Guide, Breeding & Meat Farming Tips 
+ Probably Stolen Starting Scenarios: Best Backgrounds & Perks Ranked 
+ Probably Stolen Best Perks: Starting Perk Tier List Rankings 
+ Related Articles
+ Rat Wrangler: Setup Guide, Breeding & Meat Farming Tips
+ Learn how to run a profitable rat ranch in Probably Stolen: cage setup, feeding, serums, breeding, and turning rats into meat.
+ Read More 
+ Probably Stolen Starting Scenarios: Best Backgrounds & Perks Ranked
+ Every Probably Stolen starting scenario compared: Rock Bottom, perks, backgrounds, and survival strategy for your first two weeks.
+ Read More 
+ More Scenarios 
+ Advertisement
+ 

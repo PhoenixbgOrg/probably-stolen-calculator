@@ -1,0 +1,29 @@
+{
+  "name": "probably-stolen-calculator",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Unofficial, free, local character builder for the game Probably Stolen (Phase 1).",
+  "scripts": {
+    "dev": "vite --port 5173 --strictPort",
+    "build": "tsc -p . --noEmit && vite build",
+    "typecheck": "tsc -p . --noEmit",
+    "test": "vitest run",
+    "preview": "vite preview --port 4173",
+    "export-data": "vite-node scripts/export-data.ts"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.0",
+    "vite-node": "^2.1.9",
+    "vitest": "^2.0.5"
+  }
+}

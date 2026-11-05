@@ -1,0 +1,3900 @@
+{
+  "dataVersion": "2026-11-05.1",
+  "gameVersion": "1.0.x (user screenshots: 100-REV6)",
+  "sources": {
+    "user-screenshots": {
+      "id": "user-screenshots",
+      "title": "User-supplied screenshots of the start screens (not available to the developer)",
+      "url": "",
+      "publisher": "Project owner",
+      "gameVersion": "100-REV6",
+      "accessed": "2026-11-05",
+      "notes": "Reported to show: Specialization selection, Starting Perks with 3 points, 4-perk limit, negative perks granting points, mutually exclusive perks, Colorful Character. Content reported second-hand only."
+    },
+    "wiki-home": {
+      "id": "wiki-home",
+      "title": "Probably Stolen Wiki (home)",
+      "url": "https://www.probablystolen-wiki.wiki/",
+      "publisher": "Probably Stolen Wiki Team (fan site)",
+      "gameVersion": null,
+      "accessed": "2026-11-05",
+      "notes": "Article-style fan site; no dedicated per-perk or per-specialization pages exist."
+    },
+    "wiki-best-perks": {
+      "id": "wiki-best-perks",
+      "title": "Probably Stolen Best Perks: Starting Perk Tier List Rankings",
+      "url": "https://www.probablystolen-wiki.wiki/guide/Probably-Stolen-best-perks",
+      "publisher": "Probably Stolen Wiki Team",
+      "gameVersion": null,
+      "accessed": "2026-11-05",
+      "notes": "Lists only 12 perks. Some values match pre-1.0 patch notes (Intimidating 3 pts / 25%, Model Citizen +20%)."
+    },
+    "wiki-starting-scenarios": {
+      "id": "wiki-starting-scenarios",
+      "title": "Probably Stolen Starting Scenarios: Best Backgrounds & Perks Ranked",
+      "url": "https://www.probablystolen-wiki.wiki/scenarios/Probably-Stolen-starting-scenarios",
+      "publisher": "Probably Stolen Wiki Team",
+      "gameVersion": null,
+      "accessed": "2026-11-05"
+    },
+    "wiki-gunsmith": {
+      "id": "wiki-gunsmith",
+      "title": "Gunsmith: Setup Guide, Perks & Custom Order Walkthrough",
+      "url": "https://www.probablystolen-wiki.wiki/scenarios/Probably-Stolen-gunsmith",
+      "publisher": "Probably Stolen Wiki Team",
+      "gameVersion": "1.0.0 (video basis)",
+      "accessed": "2026-11-05"
+    },
+    "wiki-water-merchant": {
+      "id": "wiki-water-merchant",
+      "title": "Water Merchant guide",
+      "url": "https://www.probablystolen-wiki.wiki/water/Probably-Stolen-water-merchant",
+      "publisher": "Probably Stolen Wiki Team",
+      "gameVersion": null,
+      "accessed": "2026-11-05"
+    },
+    "wiki-tips": {
+      "id": "wiki-tips",
+      "title": "Probably Stolen tips",
+      "url": "https://www.probablystolen-wiki.wiki/guide/Probably-Stolen-tips",
+      "publisher": "Probably Stolen Wiki Team",
+      "gameVersion": null,
+      "accessed": "2026-11-05"
+    },
+    "wf-specializations": {
+      "id": "wf-specializations",
+      "title": "Probably Stolen Starting Specializations Guide",
+      "url": "https://walkthroughforge.com/probably-stolen/starting-specializations/",
+      "publisher": "Walkthrough Forge",
+      "gameVersion": "1.0 (published 2026-10-28)",
+      "accessed": "2026-11-05"
+    },
+    "wf-perks": {
+      "id": "wf-perks",
+      "title": "Probably Stolen Starting Perks Guide (48 perks)",
+      "url": "https://walkthroughforge.com/probably-stolen/starting-perks/",
+      "publisher": "Walkthrough Forge",
+      "gameVersion": "1.0 (published 2026-10-28)",
+      "accessed": "2026-11-05"
+    },
+    "psdb-perks": {
+      "id": "psdb-perks",
+      "title": "Probably Stolen Perks: Effects and Point-Cost Table",
+      "url": "https://probablystolendb.wiki/reference/perks/",
+      "publisher": "probablystolendb.wiki",
+      "gameVersion": "1.0.0.2 (updated 2026-10-29)",
+      "accessed": "2026-11-05"
+    },
+    "viki-perks": {
+      "id": "viki-perks",
+      "title": "Probably Stolen starting perks (Vi.ki, citing AllThingsHow 2026-10-28)",
+      "url": "https://probablystolen.vi.ki/starting-perks",
+      "publisher": "Vi.ki",
+      "gameVersion": "1.0",
+      "accessed": "2026-11-05"
+    },
+    "gamers-scenarios": {
+      "id": "gamers-scenarios",
+      "title": "Probably Stolen Starting Scenarios: 9 Launch Choices",
+      "url": "https://gamers.wiki/en/games/probably-stolen/guides/probably-stolen-starting-scenarios-9-launch-choices",
+      "publisher": "Gamers.Wiki",
+      "gameVersion": "Steam build 26263409 (checked 2026-10-28)",
+      "accessed": "2026-11-05"
+    },
+    "cozy-scenarios": {
+      "id": "cozy-scenarios",
+      "title": "Probably Stolen Starting Scenarios: All 9 in 1.0 & Perks",
+      "url": "https://cozygameguides.com/probably-stolen/starting-scenarios/",
+      "publisher": "Cozy Game Guides",
+      "gameVersion": "pre-1.0 patches (Update 049)",
+      "accessed": "2026-11-05",
+      "notes": "Summarises official patch notes: Intimidating changed 3 -> 2 points and 25% -> 33%; Model Citizen 20% -> 50% (Update 049)."
+    },
+    "steam-store": {
+      "id": "steam-store",
+      "title": "Probably Stolen on Steam",
+      "url": "https://store.steampowered.com/app/4348910/",
+      "publisher": "Valve / tinyBuild / Questing Goose Studio",
+      "gameVersion": null,
+      "accessed": "2026-11-05",
+      "notes": "Release date 28 Oct 2026. Contains no perk/specialization numbers."
+    }
+  },
+  "difficulties": [
+    {
+      "id": "price-gouge",
+      "name": "Price Gouge",
+      "subtitle": "Cozy Mode",
+      "sources": [
+        "gamers-scenarios",
+        "wf-specializations"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified"
+    },
+    {
+      "id": "mark-up",
+      "name": "Mark Up",
+      "subtitle": "Normal Mode",
+      "sources": [
+        "gamers-scenarios",
+        "wf-specializations"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified"
+    },
+    {
+      "id": "thin-margins",
+      "name": "Thin Margins",
+      "subtitle": "Hard Mode",
+      "sources": [
+        "gamers-scenarios",
+        "wf-specializations"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified"
+    },
+    {
+      "id": "red-ink",
+      "name": "Red Ink",
+      "subtitle": "Challenge Mode",
+      "sources": [
+        "gamers-scenarios",
+        "wf-specializations"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified"
+    }
+  ],
+  "specializations": [
+    {
+      "id": "apprentice",
+      "name": "Apprentice",
+      "sources": [
+        "wf-specializations",
+        "gamers-scenarios"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "playable": true,
+      "tag": {
+        "value": "Recommended For New Players",
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "A generalist trainee who did not specialize and spent less on setup.",
+        "sources": [
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "startingCredits": {
+        "value": null,
+        "sources": [
+          "wf-specializations",
+          "wiki-best-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "conflicting",
+        "note": "wf-specializations says 550; wiki-best-perks says \"400 starting credits\" for a normal Apprentice run. No value is shown as fact.",
+        "alternatives": [
+          {
+            "value": 550,
+            "sources": [
+              "wf-specializations"
+            ]
+          },
+          {
+            "value": 400,
+            "sources": [
+              "wiki-best-perks"
+            ]
+          }
+        ]
+      },
+      "startingRent": {
+        "value": 200,
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Single source (wf-specializations); not checked in-game."
+      },
+      "startScreenFeatures": {
+        "value": [
+          "Increased starting Credit count",
+          "Additional equipment (Storage Bay)",
+          "Start with a stock of Household Goods and Food"
+        ],
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "startingInventory": {
+        "value": [
+          "Storage Bay (Shabby)",
+          "2 × Peat",
+          "Puice",
+          "2 × Tube of Toothpaste",
+          "2 × Roll of Toilet Paper",
+          "Skipping the intro adds a Food Neon Sign and a Household Item Neon Sign"
+        ],
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "unlocks": {
+        "value": [],
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "startingReputation": {
+        "value": {},
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "advantages": [
+        "Extra storage (Storage Bay) and sellable general stock from day one."
+      ],
+      "disadvantages": [
+        "No specialised production equipment."
+      ],
+      "perkInteractions": {
+        "value": [
+          "Savings adds 150 credits on top of the specialization credits."
+        ],
+        "sources": [
+          "wf-specializations",
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "water-merchant",
+      "name": "Water Merchant",
+      "sources": [
+        "wf-specializations",
+        "gamers-scenarios"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "playable": true,
+      "tag": {
+        "value": null,
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified",
+        "note": "No tag shown on the start screen."
+      },
+      "description": {
+        "value": "Trading in scarce clean water.",
+        "sources": [
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "startingCredits": {
+        "value": 400,
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Single source (wf-specializations); not checked in-game."
+      },
+      "startingRent": {
+        "value": 200,
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Single source (wf-specializations); not checked in-game."
+      },
+      "startScreenFeatures": {
+        "value": [
+          "Water Trading Manual",
+          "Water Testing and Purification Equipment",
+          "Additional storage (Water Containers)"
+        ],
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "startingInventory": {
+        "value": [
+          "Water Trading Manual",
+          "Water Testing Kit (full of Water Testing Strips)",
+          "Bottle of Water Purification Tablets (full)",
+          "Bottle of Water (Large), filled with Ghostwater",
+          "Jug of Water, filled with Rustwater",
+          "Bottle of Water (Large)",
+          "Bottle of Water (Standard)",
+          "Bottle of Water (Small)",
+          "Water Pitcher",
+          "Water Filter",
+          "HydraTech Micro Water Purifier (Shabby, 75/300 durability)",
+          "Bottle Printer (Shabby) holding an Energy Cell",
+          "Skipping the intro adds a Water Neon Sign"
+        ],
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "wiki-water-merchant calls the purifier \"HydroTech\"; wf-specializations says \"HydraTech\"."
+      },
+      "unlocks": {
+        "value": [
+          "Water Trading network upgrade"
+        ],
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "startingReputation": {
+        "value": {},
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "advantages": [
+        "Water testing and purification kit from day one."
+      ],
+      "disadvantages": [
+        "Mislabeled water is the main way this start loses money (per wf-specializations)."
+      ],
+      "perkInteractions": {
+        "value": [
+          "wiki-water-merchant recommends Working Pipes (unlimited Rustwater), Savings, Short Sleeper and Bad Lease."
+        ],
+        "sources": [
+          "wiki-water-merchant"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "fence",
+      "name": "Fence",
+      "sources": [
+        "wf-specializations",
+        "gamers-scenarios"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "playable": true,
+      "tag": {
+        "value": null,
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified",
+        "note": "No tag shown on the start screen."
+      },
+      "description": {
+        "value": "Dealing in stolen goods and keeping them hidden from station security.",
+        "sources": [
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "startingCredits": {
+        "value": 450,
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Single source (wf-specializations); not checked in-game."
+      },
+      "startingRent": {
+        "value": 250,
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "wf-specializations gives 250; \"increased starting rent\" is corroborated by gamers-scenarios."
+      },
+      "startScreenFeatures": {
+        "value": [
+          "Additional equipment (Smuggler’s Bay)",
+          "Start with a stock of Contraband",
+          "Increased starting reputation (Black Market)",
+          "Decreased starting reputation (Security)",
+          "Immediate access to the Janitor Underground Exchange",
+          "Increased starting rent"
+        ],
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "startingInventory": {
+        "value": [
+          "Smuggler’s Bay (Shabby)",
+          "2 × Vial of “Dream Dust”",
+          "Ironcraft 10 (Fair condition)",
+          "2 × 10mm Ammunition",
+          "Disposable Keycard (Medical)",
+          "Disposable Keycard (Engineering)",
+          "Disposable Keycard (Security)",
+          "2 × Black Lamp (Shabby)"
+        ],
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "unlocks": {
+        "value": [
+          "Underground Exchange from day one"
+        ],
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "startingReputation": {
+        "value": {
+          "black-market": {
+            "price-gouge": 45,
+            "mark-up": 30,
+            "thin-margins": 22.5,
+            "red-ink": 15
+          },
+          "security": {
+            "price-gouge": -15,
+            "mark-up": -30,
+            "thin-margins": -37.5,
+            "red-ink": -60
+          }
+        },
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Single source (wf-specializations); not checked in-game."
+      },
+      "advantages": [
+        "Contraband stock, Smuggler’s Bay and Black Market standing from day one."
+      ],
+      "disadvantages": [
+        "Starts with negative Security reputation.",
+        "Increased starting rent.",
+        "Intro not available."
+      ],
+      "perkInteractions": {
+        "value": [
+          "Sawyer's Crew's Underground Exchange unlock overlaps with this start's built-in access.",
+          "Model Citizen (+30 Security) does not reach the 20 Security threshold on Mark Up for this start (per wf-perks)."
+        ],
+        "sources": [
+          "wf-specializations",
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "rock-bottom",
+      "name": "Rock Bottom",
+      "sources": [
+        "wf-specializations",
+        "gamers-scenarios"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "playable": true,
+      "tag": {
+        "value": "Extreme Challenge Mode",
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "The mentor negotiated only a lease; you have the store and a will to survive.",
+        "sources": [
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "startingCredits": {
+        "value": 0,
+        "sources": [
+          "wf-specializations",
+          "wiki-best-perks",
+          "wiki-starting-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified",
+        "note": "wf-specializations: 0; wiki-best-perks: \"zero credits\"; wiki-starting-scenarios: \"start with nothing\"."
+      },
+      "startingRent": {
+        "value": 200,
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Single source (wf-specializations); not checked in-game."
+      },
+      "startScreenFeatures": {
+        "value": [],
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified",
+        "note": "No starting equipment."
+      },
+      "startingInventory": {
+        "value": [],
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "No cassettes, no stock, no equipment."
+      },
+      "unlocks": {
+        "value": [],
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "startingReputation": {
+        "value": {},
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "advantages": [],
+      "disadvantages": [
+        "No credits, stock, equipment or cassettes.",
+        "Intro not available."
+      ],
+      "perkInteractions": {
+        "value": [
+          "Savings and Welfare Program are recommended for this start by wiki-best-perks."
+        ],
+        "sources": [
+          "wiki-best-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "hydroponic-farmer",
+      "name": "Hydroponic Farmer",
+      "sources": [
+        "wf-specializations",
+        "gamers-scenarios"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "playable": true,
+      "tag": {
+        "value": "Advanced Start",
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "Growing crops hydroponically in limited station space.",
+        "sources": [
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "startingCredits": {
+        "value": 450,
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Single source (wf-specializations); not checked in-game."
+      },
+      "startingRent": {
+        "value": 240,
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "wf-specializations gives 240; \"increased starting rent\" is corroborated by gamers-scenarios."
+      },
+      "startScreenFeatures": {
+        "value": [
+          "Hydroponic Farming Manual",
+          "Additional equipment (Hydroponic Systems)",
+          "Start with a stock of Farming Supplies and Seeds",
+          "Increased starting rent"
+        ],
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "startingInventory": {
+        "value": [
+          "Hydroponic Farming Manual",
+          "Old Hydroponic System (Shabby)",
+          "Decrepit Hydroponic System (Shabby) holding an Energy Cell, a Bottle of Water (Large) with Ghostwater, 2 × Eco Module and 2 × Ruined Module (not removable)",
+          "2 × Sealed Water Ration (Small)",
+          "2 × Nutrifruit Seed",
+          "Hydroponic Nutrient Tablet Bottle (full)",
+          "2 × Fillerweed Seed"
+        ],
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "unlocks": {
+        "value": [
+          "Retired Farmer network upgrade"
+        ],
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "startingReputation": {
+        "value": {},
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "advantages": [
+        "Hydroponic systems, seeds and nutrients from day one."
+      ],
+      "disadvantages": [
+        "Increased starting rent."
+      ],
+      "perkInteractions": {
+        "value": [],
+        "sources": [],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "gunsmith",
+      "name": "Gunsmith",
+      "sources": [
+        "wf-specializations",
+        "gamers-scenarios"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "playable": true,
+      "tag": {
+        "value": "Advanced Start",
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "Selling firearms and munitions, modifying weapons and handling licensed orders.",
+        "sources": [
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "startingCredits": {
+        "value": 150,
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Single source (wf-specializations); not checked in-game."
+      },
+      "startingRent": {
+        "value": 250,
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "wf-specializations gives 250, but neither it nor gamers-scenarios lists \"Increased starting rent\" among Gunsmith start-screen bullets. Treat with caution."
+      },
+      "startScreenFeatures": {
+        "value": [
+          "Class I Weapon Permit",
+          "Start with a stock of Firearms and Gun Mods",
+          "Start with a stock of Ammunition"
+        ],
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "startingInventory": {
+        "value": [
+          "3D Printer",
+          "Firearm Neon Sign",
+          "4 × 3D Printing Filament",
+          "Gunsmith Storage Bay (Shabby)",
+          "6 × .22 SR Ammunition (Non-Lethal)",
+          "5 × .22 SR Ammunition",
+          "Nestfire Compact (Poor)",
+          "Nestfire Compact (Good)",
+          "Liberator 3D Printed Pistol (Poor)",
+          "Liberator 3D Printed Pistol (New)",
+          "Suppressor",
+          "Red Dot Sight",
+          "2 × .22 Magazine",
+          "High Capacity .22 Magazine",
+          "Toy Laser Pointer",
+          "Makeshift Suppressor",
+          "Laser Sight",
+          "Improved Internal Springs",
+          "Screwdriver",
+          "Class I Weapon Permit (in the Display Case)",
+          "Gun Parts"
+        ],
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "unlocks": {
+        "value": [
+          "Retired Gunsmith network upgrade",
+          "Weapon Permit I network upgrade"
+        ],
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "startingReputation": {
+        "value": {
+          "security": {
+            "price-gouge": 37.5,
+            "mark-up": 25,
+            "thin-margins": 18.75,
+            "red-ink": 12.5
+          }
+        },
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Single source (wf-specializations); not checked in-game."
+      },
+      "advantages": [
+        "Weapon permit, firearms, mods and ammunition from day one."
+      ],
+      "disadvantages": [
+        "Low starting credits.",
+        "Permit requires Security reputation of at least 8 (per wiki-gunsmith, unverified).",
+        "Intro not available."
+      ],
+      "perkInteractions": {
+        "value": [
+          "Convict / Public Enemy lower Security reputation, which the weapon permit depends on (inference from wiki-gunsmith permit rule; unverified)."
+        ],
+        "sources": [
+          "wiki-gunsmith",
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "chemist",
+      "name": "Chemist",
+      "sources": [
+        "wf-specializations",
+        "gamers-scenarios"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "playable": true,
+      "tag": {
+        "value": "Advanced Start",
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "Working with controlled substances and a chemistry lab.",
+        "sources": [
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "startingCredits": {
+        "value": 300,
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Single source (wf-specializations); not checked in-game."
+      },
+      "startingRent": {
+        "value": 200,
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Single source (wf-specializations); not checked in-game."
+      },
+      "startScreenFeatures": {
+        "value": [
+          "Chemistry Manual",
+          "Chemistry Lab Equipment"
+        ],
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "startingInventory": {
+        "value": [
+          "Blender (Shabby)",
+          "Heating Plate (Shabby)",
+          "Evaporator (Shabby) with an Energy Cell",
+          "Chem Finisher (Shabby)",
+          "1ml Dropper",
+          "5ml Dropper",
+          "25ml Graduated Cylinder",
+          "50ml Graduated Cylinder",
+          "100ml Graduated Cylinder",
+          "2 × Bottle of Water (Standard)",
+          "Coffee Beans",
+          "Water Pitcher",
+          "Kotton Fabric",
+          "Composition Spectrometer (Shabby)",
+          "Mini Smuggler’s Bay (Shabby)",
+          "Chemistry Manual"
+        ],
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "unlocks": {
+        "value": [
+          "Retired Chemist network upgrade",
+          "Cartel Protection nightly service",
+          "Sector 13 Cartel faction (only exists in this start)"
+        ],
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "startingReputation": {
+        "value": {
+          "security": {
+            "price-gouge": -7.5,
+            "mark-up": -15,
+            "thin-margins": -18.75,
+            "red-ink": -30
+          }
+        },
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Single source (wf-specializations); not checked in-game."
+      },
+      "advantages": [
+        "Full chemistry lab from day one."
+      ],
+      "disadvantages": [
+        "Starts with negative Security reputation.",
+        "Intro not available."
+      ],
+      "perkInteractions": {
+        "value": [
+          "Model Citizen alone does not reach 20 Security on Mark Up for this start (per wf-perks)."
+        ],
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "rat-wrangler",
+      "name": "Rat Wrangler",
+      "sources": [
+        "wf-specializations",
+        "gamers-scenarios"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "playable": true,
+      "tag": {
+        "value": "Advanced Start",
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "Raising rats for meat.",
+        "sources": [
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "startingCredits": {
+        "value": 600,
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Single source (wf-specializations); not checked in-game."
+      },
+      "startingRent": {
+        "value": 200,
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Single source (wf-specializations); not checked in-game."
+      },
+      "startScreenFeatures": {
+        "value": [
+          "Animal Cage",
+          "Rats",
+          "Food"
+        ],
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "startingInventory": {
+        "value": [
+          "Animal Cage (Shabby) with a Livestock Feed Dispenser",
+          "3 × Rat (Male)",
+          "3 × Rat (Female)",
+          "Meat Cleaver",
+          "Blue Labeler",
+          "Marking Pen",
+          "Livestock Immunity Serum (2 uses left)",
+          "6 × Small Nutrifruit"
+        ],
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "unlocks": {
+        "value": [
+          "Ranching network upgrade"
+        ],
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "startingReputation": {
+        "value": {},
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "advantages": [
+        "Breeding rat herd and feed from day one."
+      ],
+      "disadvantages": [],
+      "perkInteractions": {
+        "value": [],
+        "sources": [],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "aquafarmer",
+      "name": "Aquafarmer",
+      "sources": [
+        "wf-specializations",
+        "gamers-scenarios"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "playable": true,
+      "tag": {
+        "value": "Advanced Start",
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "Raising fish in tanks for meat.",
+        "sources": [
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "startingCredits": {
+        "value": 150,
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Single source (wf-specializations); not checked in-game."
+      },
+      "startingRent": {
+        "value": 240,
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "wf-specializations gives 240; \"increased starting rent\" is corroborated by gamers-scenarios."
+      },
+      "startScreenFeatures": {
+        "value": [
+          "Recirculating Aquaculture Systems",
+          "Start with a stock of Tilapia and Fish Food",
+          "Increased starting rent"
+        ],
+        "sources": [
+          "wf-specializations",
+          "gamers-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "startingInventory": {
+        "value": [
+          "2 × Recirculating Aquaculture System (Shabby), each holding a RAS Water Tank, Energy Cell, Tilapia (Male), Tilapia (Female) and Fertilized Tilapia Roe",
+          "2 × Industrial Fish Feed",
+          "Scrap Metal",
+          "Electronic Parts (Common)",
+          "Kitchen Knife",
+          "Marking Pen",
+          "2 × Jug of Water, filled with Ghostwater"
+        ],
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "unlocks": {
+        "value": [
+          "Aquaculture network upgrade"
+        ],
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "startingReputation": {
+        "value": {},
+        "sources": [
+          "wf-specializations"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "advantages": [
+        "Two aquaculture systems with breeding Tilapia from day one."
+      ],
+      "disadvantages": [
+        "Low starting credits.",
+        "Increased starting rent."
+      ],
+      "perkInteractions": {
+        "value": [],
+        "sources": [],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      }
+    }
+  ],
+  "perks": [
+    {
+      "id": "diplomatic",
+      "name": "Diplomatic",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 2,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "Reputation generated from trade is increased by 33%.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "tradeReputationGainPct",
+          "op": "add",
+          "value": 33,
+          "sources": [
+            "wf-perks",
+            "psdb-perks",
+            "viki-perks",
+            "wiki-best-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "intimidating",
+      "name": "Intimidating",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks",
+        "cozy-scenarios"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "conflicting",
+      "note": "probablystolen-wiki lists 3 points / 25% less evidence. Patch notes summarised by cozy-scenarios say it was changed from 3 to 2 points and 25% to 33%, so the wiki appears outdated. Using 2 points / 33% (wf-perks, psdb-perks, viki-perks).",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 2,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks",
+          "cozy-scenarios"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "conflicting",
+        "alternatives": [
+          {
+            "value": 3,
+            "sources": [
+              "wiki-best-perks"
+            ]
+          }
+        ],
+        "note": "probablystolen-wiki lists 3 points / 25% less evidence. Patch notes summarised by cozy-scenarios say it was changed from 3 to 2 points and 25% to 33%, so the wiki appears outdated. Using 2 points / 33% (wf-perks, psdb-perks, viki-perks)."
+      },
+      "description": {
+        "value": "All committed crimes generate 33% less available evidence.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "crimeEvidencePct",
+          "op": "add",
+          "value": -33,
+          "sources": [
+            "wf-perks",
+            "psdb-perks",
+            "viki-perks",
+            "cozy-scenarios"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "conflicting"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "vending-machine",
+      "name": "Vending Machine",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 2,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "Start with a vending machine installed in front of your store. Allows customers to purchase items automatically during after-hours.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "vendingMachine"
+      ],
+      "requires": []
+    },
+    {
+      "id": "vigilant",
+      "name": "Vigilant",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks",
+        "wiki-best-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 2,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks",
+          "wiki-best-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "You will never get robbed during the night.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "noNightRobbery"
+      ],
+      "requires": []
+    },
+    {
+      "id": "well-connected",
+      "name": "Well Connected",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks",
+        "wiki-best-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "note": "probablystolen-wiki spells it \"Well-Connected\".",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 2,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks",
+          "wiki-best-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified",
+        "note": "probablystolen-wiki spells it \"Well-Connected\"."
+      },
+      "description": {
+        "value": "Start with an additional 15 Reputation with all factions.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "reputation.all",
+          "op": "add",
+          "value": 15,
+          "sources": [
+            "wf-perks",
+            "psdb-perks",
+            "viki-perks",
+            "wiki-best-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "working-pipes",
+      "name": "Working Pipes",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 2,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "You will start with the water lines already connected with unlimited Rustwater.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "waterLinesConnected"
+      ],
+      "requires": []
+    },
+    {
+      "id": "handy",
+      "name": "Handy",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "Start with a shabby toolbox and a set of shabby tools: a screwdriver, a wire cutter, a crowbar and a plasma cutter.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "shabbyToolbox"
+      ],
+      "requires": []
+    },
+    {
+      "id": "lucky",
+      "name": "Lucky",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "note": "Magnitude of the luck change is not documented anywhere.",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified",
+        "note": "Magnitude of the luck change is not documented anywhere."
+      },
+      "description": {
+        "value": "Increases your luck. Probably.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "luckIncreased"
+      ],
+      "requires": []
+    },
+    {
+      "id": "model-citizen",
+      "name": "Model Citizen",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "conflicting",
+      "note": "probablystolen-wiki says +20% wanted-list rewards; patch notes (Update 049, via cozy-scenarios) raised it from 20% to 50%. Using 50%.",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified",
+        "note": "probablystolen-wiki says +20% wanted-list rewards; patch notes (Update 049, via cozy-scenarios) raised it from 20% to 50%. Using 50%."
+      },
+      "description": {
+        "value": "Start with 30 extra Security Reputation and receive 50% more reward for reporting customers on the Wanted List.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "reputation.security",
+          "op": "add",
+          "value": 30,
+          "sources": [
+            "wf-perks",
+            "psdb-perks",
+            "viki-perks",
+            "wiki-best-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        },
+        {
+          "stat": "wantedReportRewardPct",
+          "op": "add",
+          "value": 50,
+          "sources": [
+            "wf-perks",
+            "psdb-perks",
+            "cozy-scenarios"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "conflicting"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "proficient-scavenger",
+      "name": "Proficient Scavenger",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "You can perform up to 2 additional Search actions in the Dumping Grounds every time you visit.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "dumpingGroundSearches",
+          "op": "add",
+          "value": 2,
+          "sources": [
+            "wf-perks",
+            "psdb-perks",
+            "viki-perks",
+            "wiki-best-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "revolution-sympathizer",
+      "name": "Revolution Sympathizer",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "Start with an additional 25 Reputation with The Revolution. You will receive Marketplace Requests from The Revolution more frequently.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "reputation.revolution",
+          "op": "add",
+          "value": 25,
+          "sources": [
+            "wf-perks",
+            "psdb-perks",
+            "viki-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "savings",
+      "name": "Savings",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks",
+        "wiki-best-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "note": "probablystolen-wiki scenario page calls this \"Additional 150 Credits\".",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks",
+          "wiki-best-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified",
+        "note": "probablystolen-wiki scenario page calls this \"Additional 150 Credits\"."
+      },
+      "description": {
+        "value": "Start with an additional 150 Credits.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "startingCredits",
+          "op": "add",
+          "value": 150,
+          "sources": [
+            "wf-perks",
+            "psdb-perks",
+            "viki-perks",
+            "wiki-best-perks",
+            "wiki-starting-scenarios"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "sawyers-crew",
+      "name": "Sawyer's Crew",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks",
+        "wiki-best-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks",
+          "wiki-best-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "The Underground Exchange is available from the start. Janitorial Service is always free, unless the Store is vandalized. Vandalism clean up cost is significantly reduced.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "undergroundExchangeAtStart",
+        "freeJanitorialService"
+      ],
+      "requires": []
+    },
+    {
+      "id": "secret-admirer",
+      "name": "Secret Admirer",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "You will occasionally receive random items from a secret admirer when opening the Store.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "secretAdmirerGifts"
+      ],
+      "requires": []
+    },
+    {
+      "id": "short-sleeper",
+      "name": "Short Sleeper",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "You won't miss out on any customers when going out during after-hours activities the night before.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "retainCustomersAfterNightOut"
+      ],
+      "requires": []
+    },
+    {
+      "id": "sycophant",
+      "name": "Sycophant",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "Start with 15 extra Upper Levels Reputation. Reputation gained with the Upper Levels is increased by 25%, and Upper Level customers have 10% more budget.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "reputation.upper-levels",
+          "op": "add",
+          "value": 15,
+          "sources": [
+            "wf-perks",
+            "psdb-perks",
+            "viki-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        },
+        {
+          "stat": "upperLevelsReputationGainPct",
+          "op": "add",
+          "value": 25,
+          "sources": [
+            "wf-perks",
+            "psdb-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        },
+        {
+          "stat": "upperLevelsBudgetPct",
+          "op": "add",
+          "value": 10,
+          "sources": [
+            "wf-perks",
+            "psdb-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "tapehead",
+      "name": "Tapehead",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "note": "probablystolen-wiki spells it \"Tape Head\".",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified",
+        "note": "probablystolen-wiki spells it \"Tape Head\"."
+      },
+      "description": {
+        "value": "You start with all music cassettes available inside the cassette player.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "allCassettes"
+      ],
+      "requires": []
+    },
+    {
+      "id": "tinkerer",
+      "name": "Tinkerer",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "When you upgrade an item, there is a 20% chance the material used is not consumed.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "upgradeMaterialSaveChancePct",
+          "op": "add",
+          "value": 20,
+          "sources": [
+            "wf-perks",
+            "psdb-perks",
+            "viki-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "welfare-program",
+      "name": "Welfare Program",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks",
+        "wiki-best-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "note": "probablystolen-wiki claims a 160-token food stamp at start; not corroborated, so not modelled.",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks",
+          "wiki-best-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified",
+        "note": "probablystolen-wiki claims a 160-token food stamp at start; not corroborated, so not modelled."
+      },
+      "description": {
+        "value": "The Commissary is available from the start. On Mondays, you may receive Food Stamps depending on your total wealth.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "commissaryAtStart"
+      ],
+      "requires": []
+    },
+    {
+      "id": "wilds-favorite",
+      "name": "Wild's Favorite",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "positive",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "All upgrades from Wild's Network cost 10% less. Insurance costs 50% less.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "wildNetworkCostPct",
+          "op": "add",
+          "value": -10,
+          "sources": [
+            "wf-perks",
+            "psdb-perks",
+            "viki-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        },
+        {
+          "stat": "insuranceCostPct",
+          "op": "add",
+          "value": -50,
+          "sources": [
+            "wf-perks",
+            "psdb-perks",
+            "viki-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "aug-menace",
+      "name": "Aug Menace",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "neutral",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "conflicting",
+        "note": "Neutral per wf-perks; viki-perks lists it among positive perks."
+      },
+      "cost": {
+        "value": 1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "The Augmented content is unlocked at the start of the game. Earn 25% more credits for killing an aug. The aug menace never ends, and letting too many augs get away ends the game on every difficulty.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "augKillRewardPct",
+          "op": "add",
+          "value": 25,
+          "sources": [
+            "wf-perks",
+            "psdb-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        }
+      ],
+      "flags": [
+        "augContentAtStart"
+      ],
+      "requires": []
+    },
+    {
+      "id": "colorful-character",
+      "name": "Colorful Character",
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks",
+        "wiki-best-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "note": "+3 slots agreed by wf-perks, psdb-perks, viki-perks and wiki-best-perks (\"3 additional slots, net 2\" because it occupies one itself). wiki-starting-scenarios instead says \"extra perk points\" - treated as an error. Not checked in-game.",
+      "category": {
+        "value": "neutral",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "conflicting",
+        "note": "Neutral per wf-perks; viki-perks lists it among positive perks."
+      },
+      "cost": {
+        "value": 1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks",
+          "viki-perks",
+          "wiki-best-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified",
+        "note": "+3 slots agreed by wf-perks, psdb-perks, viki-perks and wiki-best-perks (\"3 additional slots, net 2\" because it occupies one itself). wiki-starting-scenarios instead says \"extra perk points\" - treated as an error. Not checked in-game."
+      },
+      "description": {
+        "value": "Allows you to have 3 additional starting perk slots.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "perkSlots",
+          "op": "add",
+          "value": 3,
+          "sources": [
+            "wf-perks",
+            "psdb-perks",
+            "viki-perks",
+            "wiki-best-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "makeshift-reactor",
+      "name": "Makeshift Reactor",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "neutral",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "conflicting",
+        "note": "Neutral per wf-perks; viki-perks lists it among positive perks."
+      },
+      "cost": {
+        "value": 1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "You are permanently disconnected from the station power grid and are not affected by blackouts. Start with an upgradable Makeshift Micro Nuclear Reactor sold to you by Dr. Jackson. It powers the Store but needs regular repairs.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "offGridReactor"
+      ],
+      "requires": []
+    },
+    {
+      "id": "careful-scavenger",
+      "name": "Careful Scavenger",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "neutral",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 0,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "You can perform 2 fewer actions in the Dumping Grounds every time you visit, but you never get injured while searching.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "dumpingGroundSearches",
+          "op": "add",
+          "value": -2,
+          "sources": [
+            "wf-perks",
+            "psdb-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        }
+      ],
+      "flags": [
+        "noInjuryWhileScavenging"
+      ],
+      "requires": []
+    },
+    {
+      "id": "hoarder",
+      "name": "Hoarder",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "neutral",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 0,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "Start with three piles of immovable debris along the bottom of your inventory. Each pile can be removed.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "inventoryDebris"
+      ],
+      "requires": []
+    },
+    {
+      "id": "prime-real-estate",
+      "name": "Prime Real Estate",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "neutral",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": 0,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "1 more normal customer will visit every day, but starting rent costs 75 credits more.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "dailyRandomCustomers",
+          "op": "add",
+          "value": 1,
+          "sources": [
+            "wf-perks",
+            "psdb-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        },
+        {
+          "stat": "startingRent",
+          "op": "add",
+          "value": 75,
+          "sources": [
+            "wf-perks",
+            "psdb-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "ascetic",
+      "name": "Ascetic",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -4,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "Your main inventory is reduced to 16x10 instead of 24x10.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "inventoryWidth",
+          "op": "set",
+          "value": 16,
+          "sources": [
+            "wf-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "unverified"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "awful-negotiator",
+      "name": "Awful Negotiator",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -3,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "You cannot bargain with customers, and you suffer a permanent trade penalty of 5%.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "tradePenaltyPct",
+          "op": "add",
+          "value": 5,
+          "sources": [
+            "wf-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "unverified"
+        }
+      ],
+      "flags": [
+        "noBargaining"
+      ],
+      "requires": []
+    },
+    {
+      "id": "sentinel-collapse-disorder",
+      "name": "Sentinel Collapse Disorder",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -3,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "You suffer from a deadly, incurable auto-immune condition and must take a weekly Immunivax injection to stay alive. Start the game with 1 Immunivax Injector.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "weeklyImmunivaxRequired"
+      ],
+      "requires": []
+    },
+    {
+      "id": "blabbermouth",
+      "name": "Blabbermouth",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -2,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "All committed crimes generate 33% more available evidence. You will gain 50% less reputation with the Black Market and the Revolution.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "crimeEvidencePct",
+          "op": "add",
+          "value": 33,
+          "sources": [
+            "wf-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "unverified"
+        },
+        {
+          "stat": "blackMarketRevolutionReputationGainPct",
+          "op": "add",
+          "value": -50,
+          "sources": [
+            "wf-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "unverified"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "blackmail",
+      "name": "Blackmail",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "note": "Fee amount is not documented.",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -2,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified",
+        "note": "Fee amount is not documented."
+      },
+      "description": {
+        "value": "You have a questionable past and a blackmailer is threatening to expose your secret. You will have to pay them a small weekly fee or they will expose you, leading to a major one-time loss to your reputation across most factions.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "blackmailWeeklyFee"
+      ],
+      "requires": []
+    },
+    {
+      "id": "known-snitch",
+      "name": "Known Snitch",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -2,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "Customers from the wanted poster will never visit your store. Start with -10 reputation with the Revolution and the Black Market.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "reputation.revolution",
+          "op": "add",
+          "value": -10,
+          "sources": [
+            "wf-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "unverified"
+        },
+        {
+          "stat": "reputation.black-market",
+          "op": "add",
+          "value": -10,
+          "sources": [
+            "wf-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "unverified"
+        }
+      ],
+      "flags": [
+        "noWantedCustomers"
+      ],
+      "requires": []
+    },
+    {
+      "id": "maimed",
+      "name": "Maimed",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -2,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "The Dumping Ground is not available. You cannot scavenge at all.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "noScavenging"
+      ],
+      "requires": []
+    },
+    {
+      "id": "minimalist",
+      "name": "Minimalist",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "conflicting",
+      "note": "probablystolen-wiki says Minimalist refunds 3 points; wf-perks and psdb-perks (1.0.0.2) say 2. Using 2.",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -2,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "conflicting",
+        "alternatives": [
+          {
+            "value": -3,
+            "sources": [
+              "wiki-best-perks"
+            ]
+          }
+        ],
+        "note": "probablystolen-wiki says Minimalist refunds 3 points; wf-perks and psdb-perks (1.0.0.2) say 2. Using 2."
+      },
+      "description": {
+        "value": "Your main inventory is reduced to 20x10 instead of 24x10.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "inventoryWidth",
+          "op": "set",
+          "value": 20,
+          "sources": [
+            "wf-perks",
+            "psdb-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "public-enemy",
+      "name": "Public Enemy",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -2,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "Start with -15 Reputation with all factions.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "reputation.all",
+          "op": "add",
+          "value": -15,
+          "sources": [
+            "wf-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "unverified"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "agoraphobia",
+      "name": "Agoraphobia",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "After visiting an after-hours location, you must rest at the Store for 2 nights before going out again.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "agoraphobiaRest"
+      ],
+      "requires": []
+    },
+    {
+      "id": "alcohol-addiction",
+      "name": "Alcohol Addiction",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "You will suffer a trade penalty of 8% if you don't consume alcohol regularly. The addiction can be cured.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "tradePenaltyPct",
+          "op": "add",
+          "value": 8,
+          "sources": [
+            "wf-perks",
+            "psdb-perks",
+            "cozy-scenarios"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
+          "condition": "during withdrawal"
+        }
+      ],
+      "flags": [
+        "addictionAlcohol"
+      ],
+      "requires": []
+    },
+    {
+      "id": "bad-lease",
+      "name": "Bad Lease",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "Your starting rent is increased by 40 Credits.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "startingRent",
+          "op": "add",
+          "value": 40,
+          "sources": [
+            "wf-perks",
+            "psdb-perks",
+            "wiki-water-merchant"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "banned-from-the-commissary",
+      "name": "Banned from the Commissary",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "The Commissary is not available, and food stamps are never introduced.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "commissaryBanned"
+      ],
+      "requires": []
+    },
+    {
+      "id": "convict",
+      "name": "Convict",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "note": "wiki-starting-scenarios mislabels Convict as a \"background\"; 1.0 sources list it as a negative perk.",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified",
+        "note": "wiki-starting-scenarios mislabels Convict as a \"background\"; 1.0 sources list it as a negative perk."
+      },
+      "description": {
+        "value": "Start with 30 less Security Reputation and receive 25% less reward for reporting customers on the Wanted List.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "reputation.security",
+          "op": "add",
+          "value": -30,
+          "sources": [
+            "wf-perks",
+            "psdb-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        },
+        {
+          "stat": "wantedReportRewardPct",
+          "op": "add",
+          "value": -25,
+          "sources": [
+            "wf-perks",
+            "psdb-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "degenerative-osteoarthritis",
+      "name": "Degenerative Osteoarthritis",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "Scavenging in the dumping ground works normally for the first week. After that, you lose 1 max scavenging attempt every week that passes. Once your max attempts fall below 3, you can no longer scavenge at all. Normal shopkeepers start with 5 daily max attempts. Start with 2 additional topical medication bandages.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "scavengingDeclinesWeekly"
+      ],
+      "requires": []
+    },
+    {
+      "id": "gambling-addiction",
+      "name": "Gambling Addiction",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "note": "wiki-gunsmith claims the \"gambling perk\" blocks guide reading - that matches Illiterate, not Gambling Addiction, in 1.0 sources.",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified",
+        "note": "wiki-gunsmith claims the \"gambling perk\" blocks guide reading - that matches Illiterate, not Gambling Addiction, in 1.0 sources."
+      },
+      "description": {
+        "value": "You will always buy some Lottery Tickets when possible. All lottery content is unlocked from the start. The addiction can be cured.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "lotteryUnlocked"
+      ],
+      "requires": []
+    },
+    {
+      "id": "illiterate",
+      "name": "Illiterate",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "You won't be able to read any guide.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "cannotReadGuides"
+      ],
+      "requires": []
+    },
+    {
+      "id": "narcotic-addiction",
+      "name": "Narcotic Addiction",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "You will suffer a trade penalty of 8% if you don't consume narcotics regularly. The addiction can be cured.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "tradePenaltyPct",
+          "op": "add",
+          "value": 8,
+          "sources": [
+            "wf-perks",
+            "psdb-perks",
+            "cozy-scenarios"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
+          "condition": "during withdrawal"
+        }
+      ],
+      "flags": [
+        "addictionNarcotic"
+      ],
+      "requires": []
+    },
+    {
+      "id": "nicotine-addiction",
+      "name": "Nicotine Addiction",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "You will suffer a trade penalty of 8% if you don't consume nicotine regularly. The addiction can be cured.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "tradePenaltyPct",
+          "op": "add",
+          "value": 8,
+          "sources": [
+            "wf-perks",
+            "psdb-perks",
+            "cozy-scenarios"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified",
+          "condition": "during withdrawal"
+        }
+      ],
+      "flags": [
+        "addictionNicotine"
+      ],
+      "requires": []
+    },
+    {
+      "id": "on-wilds-bad-side",
+      "name": "On Wild's Bad Side",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "All upgrades from Wild's Network cost 10% more. Insurance costs 50% more.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "wildNetworkCostPct",
+          "op": "add",
+          "value": 10,
+          "sources": [
+            "wf-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "unverified"
+        },
+        {
+          "stat": "insuranceCostPct",
+          "op": "add",
+          "value": 50,
+          "sources": [
+            "wf-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "unverified"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "side-street",
+      "name": "Side Street",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "You get one less random customer per day.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [
+        {
+          "stat": "dailyRandomCustomers",
+          "op": "add",
+          "value": -1,
+          "sources": [
+            "wf-perks",
+            "psdb-perks"
+          ],
+          "gameVersion": "1.0.x",
+          "status": "partially-verified"
+        }
+      ],
+      "flags": [],
+      "requires": []
+    },
+    {
+      "id": "unlucky",
+      "name": "Unlucky",
+      "sources": [
+        "wf-perks",
+        "psdb-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "category": {
+        "value": "negative",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      "cost": {
+        "value": -1,
+        "sources": [
+          "wf-perks",
+          "psdb-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      "description": {
+        "value": "Decreases your luck. Probably.",
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified",
+        "note": "Text as quoted by one community source; not compared against the in-game tooltip."
+      },
+      "modifiers": [],
+      "flags": [
+        "luckDecreased"
+      ],
+      "requires": []
+    }
+  ],
+  "rules": {
+    "sources": [
+      "user-screenshots",
+      "wf-perks",
+      "psdb-perks",
+      "viki-perks",
+      "gamers-scenarios"
+    ],
+    "gameVersion": "1.0.x",
+    "status": "verified",
+    "basePoints": {
+      "value": 3,
+      "sources": [
+        "user-screenshots",
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks"
+      ],
+      "gameVersion": "100-REV6 / 1.0.x",
+      "status": "verified",
+      "note": "User-reported from 100-REV6 screenshots and stated by three independent 1.0 sources."
+    },
+    "baseSlots": {
+      "value": 4,
+      "sources": [
+        "user-screenshots",
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks"
+      ],
+      "gameVersion": "100-REV6 / 1.0.x",
+      "status": "verified"
+    },
+    "firstRunLocksPerks": {
+      "value": true,
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "viki-perks",
+        "gamers-scenarios"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "note": "Four community sources say the Starting Perks panel is unavailable on the first run. No source lists perks that are only locked for first runs."
+    },
+    "everyPerkUsesSlot": {
+      "value": true,
+      "sources": [
+        "wf-perks",
+        "psdb-perks",
+        "wiki-best-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "note": "Negative perks also occupy a slot; Colorful Character occupies one of its own slots (\"net 2\")."
+    },
+    "exclusions": [
+      {
+        "perks": [
+          "ascetic",
+          "minimalist"
+        ],
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      {
+        "perks": [
+          "banned-from-the-commissary",
+          "welfare-program"
+        ],
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      {
+        "perks": [
+          "careful-scavenger",
+          "maimed"
+        ],
+        "sources": [
+          "wf-perks",
+          "wiki-gunsmith"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified",
+        "note": "wiki-gunsmith confirms the full scavenge block and alternative scavenge perks are exclusive (no names given)."
+      },
+      {
+        "perks": [
+          "convict",
+          "model-citizen"
+        ],
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      {
+        "perks": [
+          "degenerative-osteoarthritis",
+          "maimed"
+        ],
+        "sources": [
+          "wf-perks",
+          "wiki-gunsmith"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      {
+        "perks": [
+          "lucky",
+          "unlucky"
+        ],
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      {
+        "perks": [
+          "maimed",
+          "proficient-scavenger"
+        ],
+        "sources": [
+          "wf-perks",
+          "wiki-gunsmith"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "partially-verified"
+      },
+      {
+        "perks": [
+          "on-wilds-bad-side",
+          "wilds-favorite"
+        ],
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      {
+        "perks": [
+          "prime-real-estate",
+          "side-street"
+        ],
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      },
+      {
+        "perks": [
+          "public-enemy",
+          "well-connected"
+        ],
+        "sources": [
+          "wf-perks"
+        ],
+        "gameVersion": "1.0.x",
+        "status": "unverified"
+      }
+    ]
+  },
+  "baseline": {
+    "inventoryGrid": {
+      "value": {
+        "width": 24,
+        "height": 10
+      },
+      "sources": [
+        "wf-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "unverified",
+      "note": "Inferred from Minimalist/Ascetic texts (\"instead of 24x10\")."
+    },
+    "dumpingGroundSearches": {
+      "value": 5,
+      "sources": [
+        "wf-perks"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "unverified",
+      "note": "From the Degenerative Osteoarthritis text (\"Normal shopkeepers start with 5 daily max attempts\")."
+    },
+    "usualRent": {
+      "value": 200,
+      "sources": [
+        "wf-specializations",
+        "wiki-tips"
+      ],
+      "gameVersion": "1.0.x",
+      "status": "partially-verified",
+      "note": "wiki-tips: \"starts around 200 credits\"."
+    }
+  }
+}

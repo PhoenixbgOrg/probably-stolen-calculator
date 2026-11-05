@@ -1,0 +1,138 @@
+ Probably Stolen Best Perks: Starting Perk Tier List Rankings - Probably Stolen Wiki 
+ P
+ Probably Stolen PS 
+ Guide 
+ Water 
+ Appraisal 
+ Characters 
+ Crafting 
+ Trading 
+ Scenarios 
+ EN 
+ Home / Guide Probably Stolen Best Perks: Starting Perk Tier List Rankings
+ Every starting perk in Probably Stolen ranked from S to F tier. Learn which perks to take for normal and Rock Bottom runs, with costs and synergies.
+ 2026-11-01 
+ Probably Stolen Wiki Team 
+ Quick Guide
+ Probably Stolen best perks : Diplomatic (+33% trade reputation) and Sawyer's Crew are the top picks
+ Best 1-point perk : Sawyer's Crew gives free janitor service and early Underground Exchange access
+ Rock Bottom pick : Welfare Program provides 160 commissary tokens for a day-one jump start
+ Avoid : Intimidating costs 3 perk points and the evidence reduction rarely matters
+ Combo tip : Pair Colorful Character with Minimalist for extra points and slots
+ Probably Stolen Best Perks: Full Tier List Overview
+ Choosing your starting perks in Probably Stolen is one of the most important decisions of any run. Perk points are limited, so every point spent needs to pull its weight across the early survival weeks and the late-game economy. This tier list ranks every positive starting perk based on cost efficiency, early-game impact, and long-term value.
+ Video Highlights: 
+ Full tier list covering every positive starting perk
+ Separate advice for normal runs and Rock Bottom starts
+ Breakdown of the Intimidating trap perk and why it fails
+ Synergies between Colorful Character, Minimalist, and perk slots
+ Here is the complete ranking, from must-take picks to perks you should skip entirely:
+ Perk Cost Effect Tier 
+ Diplomatic 2 +33% reputation from trade S 
+ Sawyer's Crew 1 Free janitor service, Underground Exchange from start, reduced vandalism cost S 
+ Vigilant 2 Never get robbed during the night A 
+ Well-Connected 2 Start with +15 reputation with all factions A 
+ Welfare Program 1 Commissary from start, Monday food stamps A 
+ Model Citizen 1 +30 security reputation, +20% wanted-list rewards B 
+ Savings 1 Start with +150 credits B 
+ Colorful Character 1 3 additional perk slots (net 2) C 
+ Proficient Scavenger 1 2 extra search actions in dumping grounds C 
+ Secret Admirer 1 Occasional random gifts when opening store C 
+ Tape Head 1 Start with all music cassettes C 
+ Intimidating 3 Crimes generate 25% less evidence F 
+ Avoid This Trap
+ Intimidating is the most expensive perk in the game at 3 perk points, yet most builds never struggle with evidence. Joe Wild's fixes and alarm systems handle security reputation far more efficiently. Treat it as the worst perk in Probably Stolen.
+ S-Tier Perks: Always Take These
+ Diplomatic (2 Points)
+ +33% reputation from all trade 
+ Scales into early and late game
+ No downside whatsoever
+ Boosts faction budgets and customer satisfaction
+ Sawyer's Crew (1 Point)
+ Janitor service always free 
+ Underground Exchange unlocked from day one
+ Vandalism cleanup heavily discounted
+ Best value per perk point in the game
+ Diplomatic is arguably the strongest perk overall. Reputation is the core engine of every run: it activates faction perks, raises customer budgets, and directly increases daily earnings. Because trading is your main reputation source anyway, the 33% bonus applies constantly.
+ Sawyer's Crew saves money from day one. Normally you skip utilities like janitor service in the first week to conserve credits — this perk makes it free, freeing up cash for insurance or power. Even without the Underground Exchange access, it would still rank S-tier on the janitor savings alone.
+ Factor Diplomatic Sawyer's Crew 
+ Cost 2 points 1 point 
+ Early game value High Very high 
+ Late game value Very high High 
+ Downside None None 
+ Best mode All modes All modes 
+ Build Priority
+ If you only have 2 perk points, take Sawyer's Crew plus one more. If you have 4 points, Sawyer's Crew and Diplomatic together form the strongest opening combination in the game.
+ A-Tier and B-Tier Perks: Strong Support Picks
+ A-Tier: Vigilant, Well-Connected, Welfare Program 
+ Vigilant eliminates night robberies entirely, which matters most in the critical first two weeks when protecting your goods decides whether you survive. The only drawback is that buying insurance daily builds Joe Wild's favor faster than this perk does — but in the late game, saved insurance premiums on a high-net-worth store add up quickly.
+ Well-Connected gives +15 starting reputation across every faction, putting you within 5 points of key lower-level and security perks like the extra normal customer and the security merchant unlock.
+ Welfare Program starts you with a food stamp worth 160 commissary tokens (about 120 credits if sold, but worth far more spent on food). Buy commissary food on day one, resell it day two, and jump-start your entire economy.
+ B-Tier: Model Citizen and Savings 
+ Perk Key Benefit Why Not Higher 
+ Model Citizen +30 security rep unlocks security merchant instantly Better A-tier perks compete for points 
+ Savings +150 credits on day one Weak on normal Apprentice runs (400 starting credits) 
+ Rock Bottom Note
+ On Rock Bottom starts with zero credits, Savings jumps to S-tier value — 150 credits means you can trade on day one. Similarly, Welfare Program is exceptionally strong when you begin with nothing.
+ How to Pick Perks for Your Run
+ 1
+ Lock In the S-Tier Core
+ Spend your first points on Sawyer's Crew (1 point) and Diplomatic (2 points). This combination covers economy, reputation, and utilities for the lowest cost.
+ 2
+ Add Survival Coverage
+ With points remaining, take Vigilant for night protection on normal runs, or Welfare Program for an economic jump start on Rock Bottom.
+ 3
+ Consider the Slot Combo
+ For hardest challenge runs, take Colorful Character (3 extra slots, net 2) paired with Minimalist (-3 points cost, smaller inventory) to net extra perk points for stronger picks.
+ 4
+ Fill Flex Slots
+ Round out with Model Citizen for security builds or Well-Connected for general reputation. Skip Intimidating regardless of build.
+ Build Type Recommended Perks 
+ Normal Apprentice Sawyer's Crew, Diplomatic, Vigilant 
+ Rock Bottom Sawyer's Crew, Welfare Program, Diplomatic 
+ Contraband/Smuggler Diplomatic, Model Citizen, Sawyer's Crew 
+ Hardest Challenge Colorful Character, Minimalist, Sawyer's Crew 
+ Remember the Satchel
+ When using Welfare Program, bring a satchel to the commissary. You only start with two pockets, and you cannot carry back a full haul of food with base inventory space.
+ Perk Synergies and Common Mistakes
+ The strongest perk interactions in Probably Stolen come from pairing reputation and economy perks. Model Citizen's +30 security reputation pairs with the smuggler's bay strategy — higher security reputation means less frequent inspections, protecting your contraband pipeline. The Colorful Character plus Minimalist combo effectively trades a smaller inventory for an extra positive perk, which is worth it only if the extra perk is a strong one.
+ Common mistakes to avoid:
+ Taking Intimidating and wasting 3 points on an effect alarm systems replicate cheaper
+ Taking Tape Head over Savings — the tapes net roughly 190 credits but cannot be sold until day seven, while Savings gives 150 usable on day one
+ Spending all commissary tokens without inventory space to carry the food home
+ Skipping insurance entirely late game when your store's net worth drives up theft risk
+ Tape Head vs Savings
+ Tape Head yields about 40 credits more than Savings overall, but the 7-day delay kills its value. Day-one capital compounds through buying and reselling inventory, so earlier money is always worth more.
+ Your Run Setup Checklist
+ Before Starting Your Run:
+ Select Sawyer's Crew as your first perk 
+ Add Diplomatic if you have 2+ points available 
+ Pick Welfare Program for Rock Bottom starts 
+ Verify satchel or inventory space for commissary hauls 
+ Confirm you have not taken Intimidating 
+ FAQ
+ Q: What are the best perks in Probably Stolen?
+ Diplomatic and Sawyer's Crew are the consensus S-tier picks. Diplomatic boosts all trade reputation by 33% with no downside, while Sawyer's Crew provides free janitor service and Underground Exchange access for just 1 perk point.
+ Q: Is Intimidating worth taking?
+ No. At 3 perk points it is the most expensive perk in the game, and most builds never struggle with evidence generation. Alarm systems and Joe Wild's fixes handle security concerns far more efficiently.
+ Q: Which perks are best for a Rock Bottom start?
+ Welfare Program and Savings shine here. Welfare Program's 160 commissary tokens let you buy food on day one and resell it for a huge head start, while 150 starting credits enables immediate trading.
+ Q: Does Colorful Character give extra perk slots?
+ It grants 3 additional slots but uses one itself, netting 2 extra slots. Since you typically need a negative perk to fill them, pair it with Minimalist, which refunds 3 perk points for a smaller inventory.
+ Related Probably Stolen Guide
+ Probably Stolen Guide: Water Purification Walkthrough & Tips 
+ Probably Stolen How to Bargain: Negotiation Tips & Tricks 
+ Gunsmith: Setup Guide, Perks & Custom Order Walkthrough 
+ Related Articles
+ Probably Stolen Guide: Water Purification Walkthrough & Tips
+ Learn how to make high-quality and pure water in Probably Stolen. Covers purifiers, UV lamps, filters, moisture farms, and selling strategies.
+ Read More 
+ Probably Stolen How to Bargain: Negotiation Tips & Tricks
+ Learn how to bargain in Probably Stolen: haggling with suppliers, pricing stolen goods, reading customers, and keeping your reputation intact.
+ Read More 
+ Probably Stolen How to Buy Shop: Beginner Trading Setup Tips
+ Learn how to buy stock in your Probably Stolen shop: negotiation counter basics, wholesale deals, inspection, and early-week money management.
+ Read More 
+ More Guide 
+ Advertisement
+ 

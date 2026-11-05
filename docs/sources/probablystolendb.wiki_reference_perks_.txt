@@ -1,0 +1,234 @@
+ Probably Stolen Perks: Effects and Point-Cost Table Skip to content PS Wiki Guides Tools & Tables Patch Notes 
+ Esc Close · ↵ Search 
+Powered by Pagefind
+ English English 
+ Search Guides Tools & Tables Patch Notes Language 
+ English 
+ Home / Probably Stolen Tools & Reference Tables Probably Stolen Tools & Reference Tables 
+ Probably Stolen Perks: Effects and Point-Cost Table
+ Search Probably Stolen starting perks by name or effect, compare point costs and weigh the business trade-offs before a run.
+ 10/29/2026 1.0.0.2 Last updated: 10/29/2026 2 min read Share 
+ Quick Answer
+ Starting perks trade points and slots for benefits or drawbacks. Search the table for a business effect or perk name, and sort the numeric point column to compare costs. Positive numbers spend points; negative numbers grant them. Keep weekly obligations, inventory limits and scavenging restrictions in mind before choosing a loadout.
+ On this page 
+ How do perk points work? 
+ Which perks come from faction reputation? 
+ Which benefits fit your business? 
+ Which drawbacks deserve extra care? 
+ On this page How do perk points work? 
+ Which perks come from faction reputation? 
+ Which benefits fit your business? 
+ Which drawbacks deserve extra care? 
+ How do perk points work?
+ The starting-perk screen follows specialization selection on later runs; the first run begins without perk selection. You have three available points and four slots . A drawback can provide more points while still occupying a slot.
+ In this table, positive numbers cost points , negative numbers grant points , and zero is a free trade-off . Effect entries are short summaries; read the in-game tooltip before committing, especially when perks conflict.
+ Search table Clear search 48 of 48 rows
+ 48 starting perks: effects and point costs Perk | Point cost | Effect | Source | 
+ Vigilant | 2 | No overnight robberies | Launch menu | 
+ Diplomatic | 2 | Trade reputation +33% | Launch menu | 
+ Intimidating | 2 | Crime evidence −33% | Launch menu | 
+ Vending Machine | 2 | Overnight vending | Launch menu | 
+ Well Connected | 2 | All factions +15 reputation | Launch menu | 
+ Working Pipes | 2 | Rustwater connection | Launch menu | 
+ Aug Menace | 1 | Persistent Aug danger; rewards +25% | Launch menu | 
+ Colorful Character | 1 | Three extra perk slots | Launch menu | 
+ Handy | 1 | Shabby tools and toolbox | Launch menu | 
+ Lucky | 1 | Luck increase | Launch menu | 
+ Makeshift Reactor | 1 | Off-grid reactor; repairs required | Launch menu | 
+ Model Citizen | 1 | Security +30; reporting reward +50% | Launch menu | 
+ Proficient Scavenger | 1 | Two extra searches | Launch menu | 
+ Revolution Sympathizer | 1 | Revolution +25; more requests | Launch menu | 
+ Savings | 1 | Starting credits +150 | Launch menu | 
+ Sawyer's Crew | 1 | Exchange access; cheaper cleaning | Launch menu | 
+ Secret Admirer | 1 | Occasional opening gifts | Launch menu | 
+ Short Sleeper | 1 | Retain customers after outings | Launch menu | 
+ Sycophant | 1 | Upper Levels +15; reputation +25%; budgets +10% | Launch menu | 
+ Tapehead | 1 | All music cassettes | Launch menu | 
+ Tinkerer | 1 | 20% upgrade-material saving chance | Launch menu | 
+ Welfare Program | 1 | Commissary; wealth-based Monday stamps | Launch menu | 
+ Wild's Favorite | 1 | Network −10%; insurance −50% | Launch menu | 
+ Careful Scavenger | 0 | Two fewer searches; no search injuries | Launch menu | 
+ Hoarder | 0 | Three removable debris piles | Launch menu | 
+ Prime Real Estate | 0 | One extra customer; rent +75 | Launch menu | 
+ Agoraphobia | -1 | Two store nights between outings | Launch menu | 
+ Alcohol Addiction | -1 | Withdrawal: trading −8% | Launch menu | 
+ Bad Lease | -1 | Starting rent +40 | Launch menu | 
+ Banned from the Commissary | -1 | No Commissary or stamps | Launch menu | 
+ Convict | -1 | Security −30; reporting reward −25% | Launch menu | 
+ Degenerative Osteoarthritis | -1 | Scavenging limit declines weekly | Launch menu | 
+ Gambling Addiction | -1 | Automatic lottery purchases | Launch menu | 
+ Illiterate | -1 | Cannot read guides | Launch menu | 
+ Narcotic Addiction | -1 | Withdrawal: trading −8% | Launch menu | 
+ Nicotine Addiction | -1 | Withdrawal: trading −8% | Launch menu | 
+ Ascetic | -4 | Reduced inventory | 1.0 perk catalog | 
+ Awful Negotiator | -3 | No bargaining; trade penalty | 1.0 perk catalog | 
+ Blabbermouth | -2 | More evidence; reduced faction gains | 1.0 perk catalog | 
+ Blackmail | -2 | Weekly fee or reputation loss | 1.0 perk catalog | 
+ Known Snitch | -2 | No wanted customers | 1.0 perk catalog | 
+ Maimed | -2 | No scavenging | 1.0 perk catalog | 
+ Minimalist | -2 | Inventory 20×10 | 1.0 perk catalog | 
+ On Wild's Bad Side | -1 | Higher Network and insurance costs | 1.0 perk catalog | 
+ Public Enemy | -2 | Lower starting faction standing | 1.0 perk catalog | 
+ Sentinel Collapse Disorder | -3 | Weekly Immunivax needed | 1.0 perk catalog | 
+ Side Street | -1 | One fewer daily customer | 1.0 perk catalog | 
+ Unlucky | -1 | Luck decrease | 1.0 perk catalog | 
+ No matching rows. Try a different search.
+ All rows remain available without JavaScript. Enable it to search and sort.
+ Which perks come from faction reputation?
+ Reputation effects activate during a run rather than spending starting points. Positive thresholds are benefits, negative thresholds are penalties; Honor Amongst Thieves applies at every standing. Thresholds below are player-tested launch figures. Open the panel for effects that include faction story spoilers.
+ Show all 47 reputation effects — faction spoilers Search table Clear search 47 of 47 rows
+ Faction reputation effects (automatic; no point cost) Faction | Perk | Reputation threshold | Effect | Source | 
+ Lower Levels | Pillar of the Lower Levels | 100 | Supplier discounts | Player-tested launch | 
+ Lower Levels | Tight Lips | 80 | Less contraband evidence | Player-tested launch | 
+ Lower Levels | Word on the Street | 60 | Event tips | Launch effect / threshold | 
+ Lower Levels | Rare Goods | 40 | Rare-goods visitors | Launch effect / threshold | 
+ Lower Levels | Referral | 20 | Extra customer | Launch effect / threshold | 
+ Lower Levels | Poor Reviews | -20 | Fewer customers | Player-tested launch | 
+ Lower Levels | Mistrusted | -40 | No contraband sellers | Launch effect / threshold | 
+ Lower Levels | Marked | -60 | More thieves; insurance doubles | Player-tested launch | 
+ Lower Levels | Shunned | -80 | Suppliers unavailable | Launch effect / threshold | 
+ Lower Levels | Mob Justice | -100 | Lethal mob | Player-tested launch | 
+ Upper Levels | Rave Reviews | 100 | Larger budgets | Player-tested launch | 
+ Upper Levels | Household Name | 80 | Extra visitors | Player-tested launch | 
+ Upper Levels | Gossipmonger | 60 | Event warnings | Player-tested launch | 
+ Upper Levels | Upper Level Charity | 40 | Occasional donations | Launch effect / threshold | 
+ Upper Levels | Pourboire | 20 | Sale bonus | Launch effect / threshold | 
+ Upper Levels | Discerning Taste | 0 | Luxury-display visitors | Launch effect / threshold | 
+ Upper Levels | Tourist Trap | -40 | Fewer visitors | Player-tested launch | 
+ Upper Levels | Petition to Security | -60 | Faster investigations | Player-tested launch | 
+ Upper Levels | Hired Hitman | -100 | Lethal hit | Player-tested launch | 
+ Security | VIP | 100 | No inspections or thieves | Player-tested launch | 
+ Security | Reliable Vendor | 80 | Better stock; larger budgets | Player-tested launch | 
+ Security | Trusted | 60 | Lighter scrutiny | Player-tested launch | 
+ Security | Security Protection | 40 | Fewer thieves | Launch effect / threshold | 
+ Security | Security Surplus | 20 | Surplus merchant | Launch effect / threshold | 
+ Security | Requisition Order | 0 | Supply-buying officer | Launch effect / threshold | 
+ Security | Watchlist | -20 | Faster investigations | Player-tested launch | 
+ Security | Must Be The Wind | -40 | Alarms unanswered | Player-tested launch | 
+ Security | Most Wanted | -60 | Faster investigations | Player-tested launch | 
+ Security | No Stone Unturned | -80 | Strict inspectors | Player-tested launch | 
+ Security | No Quarter | -100 | Maximum prosecution | Player-tested launch | 
+ Security | By Any Means | -100 | Evidence-independent arrest | Player-tested launch | 
+ Black Market | Underground Network | 60 | Event warnings | Player-tested launch | 
+ Black Market | Safe Hands | 40 | Weekly thief; better stock | Launch effect / threshold | 
+ Black Market | Small Time Broker | 20 | More petty thieves | Launch effect / threshold | 
+ Black Market | Honor Amongst Thieves | — | Reputation losses multiplied | Launch effect / threshold | 
+ Black Market | Blacklisted | -40 | Exchange barred; costly cleaning | Player-tested launch | 
+ Black Market | Uninsurable | -60 | No insurance | Player-tested launch | 
+ Revolution | Raid Loot | 80 | Loot sellers | Player-tested launch | 
+ Revolution | Friend of the Revolution | 60 | Event warnings | Player-tested launch | 
+ Revolution | Revolution Quartermaster | 40 | Discount materials | Launch effect / threshold | 
+ Revolution | Revolution Marketplace Request | 20 | Faction requests | Player-tested launch | 
+ Revolution | Blacklisted | -40 | Fewer sympathizers | Player-tested launch | 
+ Revolution | Hit list | -100 | Lethal squad | Player-tested launch | 
+ Sector 13 Cartel | Authorized Exit | 100 | Exit processing | Player-tested launch | 
+ Sector 13 Cartel | Reliable Chemist | 50 | Cheaper material requests | Player-tested launch | 
+ Sector 13 Cartel | Increased Stipend | 25 | Reputation-scaled stipend | Player-tested launch | 
+ Sector 13 Cartel | Forced Retirement | -100 | Lethal hitman | Player-tested launch | 
+ No matching rows. Try a different search.
+ All rows remain available without JavaScript. Enable it to search and sort.
+ Which benefits fit your business?
+ Think about the problem you want the perk to solve. Extra starting money helps an opening purchase; protection helps preserve stock; a connection helps an intended specialty. A perk that is valuable for a scavenging run may do little for a shop that never makes an after-hours trip.
+ Compare a loadout against the starting scenario rather than choosing several attractive effects in isolation. Each slot should support a job you actually plan to do.
+ Which drawbacks deserve extra care?
+ A small point gain can add a large obligation. Rent increases compete with early investment. Withdrawal affects trading. A reduced inventory can make a production business harder to manage. A survival requirement follows you into every busy day.
+ The official 1.0 preview specifically advises against Sentinel Collapse Disorder for a first run. Some challenge perks also connect to run-ending outcomes. Those details stay inside the collapsed panels of the endings guide .
+ For a low-friction opening, learn the beginner routine before adding several constraints. Keep the money guide nearby when comparing an immediate bonus with a recurring cost.
+ Advertisement 
+ progression economy 
+ Advertisement 
+ Related Articles
+ guides
+ Probably Stolen Achievement Walkthrough: Every Unlock and the 100% Route
+ Unlock every Probably Stolen achievement with the exact trigger for each, the three counters that carry across saves, and the one run that holds five at once.
+ guides
+ Probably Stolen Late Game: What to Do After You Buy the Deed
+ Owning the deed ends rent but not the run: what the win screen records, which goals stay open, and what a shop can afford once the weekly bill is gone.
+ guides
+ Probably Stolen Rock Bottom Run: From Nothing on Hard
+ Win from an empty room: what Rock Bottom removes, what Thin Margins charges, and the income a shop with no stock can run on before the first rent day.
+ Advertisement 
+ Previous 
+ Probably Stolen Recipes and Items: Searchable Tables
+ Next 
+ Probably Stolen Achievements: All 21 Steam Goals
+ Was this helpful?
+ Thanks for the feedback!
+ On this page 
+ How do perk points work? 
+ Which perks come from faction reputation? 
+ Which benefits fit your business? 
+ Which drawbacks deserve extra care? 
+ On this page How do perk points work? 
+ Which perks come from faction reputation? 
+ Which benefits fit your business? 
+ Which drawbacks deserve extra care? 
+ PS Wiki 
+ Guides 36 Probably Stolen Achievement Walkthrough: Every Unlock and the 100% Route 
+ Probably Stolen Late Game: What to Do After You Buy the Deed 
+ Probably Stolen Rock Bottom Run: From Nothing on Hard 
+ Probably Stolen Secrets: Hidden Stash, Scenario and Missable Events 
+ Probably Stolen: Care Package for Eleanor Walkthrough 
+ Probably Stolen Haggling Guide: Discounts, Markups, Reputation 
+ Probably Stolen Cadet Serpico: Visits and Evidence 
+ Probably Stolen: The Butcher Wanted Guide 
+ Probably Stolen Vending Machine: Overnight Sales Guide 
+ Probably Stolen Water Measuring: Exact 150 ml and 50 ml 
+ Probably Stolen Display Case and Customer Guide 
+ Probably Stolen Lottery Tickets and Scratch Cards 
+ Probably Stolen Theft, Alarm and Insurance Guide 
+ Probably Stolen After-Hours and Scavenging Guide 
+ Probably Stolen Appraisal Guide: Inspect Counterfeits 
+ Probably Stolen Aquafarming Guide: Tanks, Fish and Water 
+ Probably Stolen Beginner Guide: Your First Shop 
+ Probably Stolen Characters: Key Visitors and Storylines 
+ Probably Stolen Chemistry Guide: Chemist and Recipes 
+ Probably Stolen Difficulty Modes Guide 
+ Probably Stolen Endings Guide: Buyout and Failure Routes 
+ Probably Stolen Factions and Reputation Guide 
+ Probably Stolen Gunsmith Guide: 3D Printer, Permits and Orders 
+ Probably Stolen Hydroponic Farming Guide: Seeds and Crops 
+ Probably Stolen Joe Wild Network and Starter Kits Guide 
+ Probably Stolen Money Guide: Build a Reliable Margin 
+ Probably Stolen Power, Batteries and Machine Modules Guide 
+ Probably Stolen Rat Wrangling Guide: Breeding and Meat 
+ Probably Stolen Release Date, Price and Platforms 
+ Probably Stolen Rent, Deed and Mortgage Guide 
+ Probably Stolen Security, Heat and Contraband Guide 
+ Probably Stolen Shop Management: A Daily Routine 
+ Probably Stolen Starting Scenarios: All 9 Launch Starts 
+ Probably Stolen System Requirements and PC Settings 
+ Probably Stolen Water Purification Guide (1.0.0.5) 
+ Probably Stolen Winemaking Guide: Berries, Water and Yeast 
+ Tools & Tables 7 Probably Stolen Chips and Goods: Base Values and Print Jobs 
+ Probably Stolen Machines: Power, Outputs and Night Rules 
+ Probably Stolen Modules: Quality, Performance and Efficiency 
+ Probably Stolen Achievements: All 21 Steam Goals 
+ Probably Stolen Perks: Effects and Point-Cost Table 
+ Probably Stolen Recipes and Items: Searchable Tables 
+ Probably Stolen Water Purity Calculator 
+ Patch Notes 5 Probably Stolen 1.0.0.6: Modding Security and Menu Key 
+ Probably Stolen Hotfix 1.0.0.5: Bell Hotkey and Purifier Price 
+ Probably Stolen Hotfix 1.0.0.1: Lou and Inspection Fixes 
+ Probably Stolen 1.0.0.2: Water Balance and Hotfix 
+ Probably Stolen 1.0 Launch: What Is in the Full Game? 
+ Advertisement 
+ Advertisement 
+ Probably Stolen Wiki 
+ Keep the lights on. Own the shop.
+ Recent Updates · All Tags 
+ Community 
+ Play Probably Stolen 
+ Official Discord 
+ Official Twitter 
+ Reddit community 
+ Legal
+ About 
+ FAQ 
+ Privacy Policy 
+ Terms of Service 
+ Copyright 
+ Contact 
+ © 2026 Probably Stolen Wiki. All rights reserved.
+ Probably Stolen Wiki is an independent fan site. Not affiliated with or endorsed by Questing Goose Studio or tinyBuild.
+ 

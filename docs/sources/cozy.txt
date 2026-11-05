@@ -1,0 +1,131 @@
+ Probably Stolen Starting Scenarios: All 9 in 1.0 & Perks Skip to content 
+ Cozy Game Guides 
+ Search Close Try “Crowning Glory”, “Vivian measurements” or “Loftia release time”.
+ Menu ▾ Dressmaker Harvest Moon Loftia Games Lists Dressmaker Harvest Moon Loftia Games Lists Home 
+ / Probably Stolen 
+ / All 9 Starting Scenarios 
+ Probably Stolen Starting Scenarios: All 9 and Which to Pick
+ Updated October 23, 2026 
+ Probably Stolen has nine starting scenarios in 1.0 : Apprentice, Water Merchant, Fence, Rock Bottom, Hydroponic Farmer, Gunsmith, Chemist, Rat Wrangler and Aquafarmer. Each one sets your first stock and the kind of trouble you'll be dealing with. Below: what each starts with, its main risk, where it came from, and the starting perks named in patch notes. Checked on October 23, 2026 against the developer's posts.
+ On this page
+ All nine scenarios 
+ Which one to pick 
+ Difficulty options 
+ Starting perks 
+ Coming after launch 
+ Sponsored
+ Quick answer
+ New player? Start as the Apprentice . Want a challenge? Rock Bottom starts you with nothing. The Rat Wrangler was the playtest's secret scenario.
+ All nine starting scenarios
+ Apprentice
+ Beginner The generalist start. Learn every system at your own pace and upgrade as you go.
+ Starts with: A general store with no specialty Main risk: None in particular: you choose your risks later History: The developer calls it the best start for new players. Water Merchant
+ Standard Test, purify and relabel water, honestly or not. Pure water is worth more than gold on the station.
+ Starts with: Water testing and purification gear Main risk: Liability: mislabeled or dirty water comes back to you History: Added with the Steam demo on September 14. Fence
+ Standard Deal in stolen goods. Move them fast and stay out of Security's sight.
+ Starts with: A stolen-goods business Main risk: Raids: contraband in the shop can be found History: Listed on the Steam page since announcement. Rock Bottom
+ Hardest Start with nothing at all. The game's maximum difficulty.
+ Starts with: Nothing Main risk: Everything: no stock, no tools, rent still rises History: Added in playtest patch 48.3.10 (August 7) as the hardcore start; players named it a favorite in the September playtest survey. Hydroponic Farmer
+ Standard Grow crops in a cramped space, ending with genetically modified strains that sell for a fortune, including some people probably shouldn't buy.
+ Starts with: Hydroponic machines and farming supplies Main risk: Space and power: crops need room and energy History: Called “farmer” on the Steam page; named Hydroponic Farmer in the 1.0 list. Gunsmith
+ Standard Weapons and weapon mods: high margins, regular security inspections.
+ Starts with: A Class 1 weapon permit, a stock of firearms and ammunition Main risk: Inspections: weapons draw Security History: Listed on the Steam page since announcement. Chemist
+ Standard Profitable chemicals made from closely guarded recipes.
+ Starts with: Chemistry lab equipment Main risk: Addiction: chemicals can hook (or hurt) your customers History: Listed on the Steam page since announcement. Rat Wrangler
+ Standard Breed rats. The developer's challenge: can you grow a healthy 2×3 rat?
+ Starts with: Rats and cages Main risk: Cages wear out, rats breed and escape History: The playtest's secret scenario, hidden on the profession screen; made visible in patch 48.3.12 (August 8). Aquafarmer
+ Beginner Breed fish in recirculating tanks. Water quality, food and environment decide what fish you end up with.
+ Starts with: A stock of tilapia and recirculating aquaculture systems Main risk: Tank water quality, filtration and energy cells History: Arrived in the demo on October 19 as a Wild's Network upgrade (Retired Aquafarmer); a full starting scenario in 1.0. Difficulty labels are ours, based on the developer's descriptions (“best for beginners”, “maximum difficulty”, “more beginner friendly than rat ranching”). We'll rate the rest once we've played 1.0.
+ Sponsored
+ Which one to pick
+ If you want… | Pick | 
+ To learn every system first | Apprentice | 
+ A steady, low-maintenance income | Aquafarmer (fish) or Water Merchant | 
+ Big margins and you don't mind inspections | Gunsmith | 
+ Crafting with recipes | Chemist | 
+ To deal in stolen goods | Fence | 
+ A breeding project | Rat Wrangler (aim for a healthy 2×3 rat) | 
+ Farming, including crops people shouldn't buy | Hydroponic Farmer | 
+ The hardest run | Rock Bottom | 
+ A Rat Wrangler setup: cage after cage, each one wearing down with the size of its rats. Image: Questing Goose Studio / tinyBuild, from the game's Steam page Difficulty options
+ In 1.0 you pick one of four difficulty options after choosing a scenario. Before 1.0, Hard Mode was the only toggle: it is the one mode where missing too many augs ends the run with the “Augmented” ending.
+ Sponsored
+ Starting perks we know about
+ Perks are bought with starting points at the start of a run. These are the ones named in official patch notes (playtest and demo). 1.0 adds more; we'll list them all after launch.
+ Perk | What it does (latest patch) | 
+ Model Citizen | Bonus credits for reporting criminal customers: 50% since Update 049 (was 20%). | 
+ Intimidating | Generates 33% less evidence (was 25%); costs 2 starting points (was 3). | 
+ Diplomatic | Boosts reputation gains. A bug that also boosted losses was fixed in Update 049. | 
+ Addiction perks | Negative perks: an 8% trading penalty, you start with one item of your vice and withdrawal begins at once. | 
+ Gambling Addiction | An addiction perk: scratch tickets are bought automatically, a whole stack when you can afford it. | 
+ Sawyer's Crew | Ties into the smuggler bay and Sawyer's Underground Exchange Directive. | 
+ Scenarios coming after launch
+ Planned | Notes | 
+ Junker | Starting scenario, “shortly after launch” | 
+ Organ Trader | Starting scenario, “for the Butcher fans” | 
+ Street Food Vendor | Starting scenario | 
+ For the rest of the roadmap see the patch notes and updates page. Starting your first run? Read the beginner guide .
+ Frequently asked questions
+ What is the best starting scenario in Probably Stolen for beginners?
+ + Apprentice: the developer calls it the best start for new players, a generalist shop where you learn each system at your own pace. Aquafarmer is also described as beginner-friendly: fish need less upkeep than rats.
+ What is the secret scenario in Probably Stolen?
+ + The Rat Wrangler. It was hidden on the playtest's profession selection screen from day one, and the developer made it visible in patch 48.3.12 on August 8, 2026.
+ What is the hardest start?
+ + Rock Bottom: you start with nothing, and the developer calls it maximum difficulty. On top of the scenario, 1.0 adds four difficulty options.
+ How many starting scenarios does Probably Stolen have?
+ + Nine in the 1.0 release. Junker (shortly after launch), Organ Trader and Street Food Vendor are planned as free updates.
+ What are starting perks?
+ + Traits you buy with starting points when you begin a run. Positive perks such as Intimidating cost points; addiction perks are drawbacks with a trading penalty. 1.0 adds new ones, and the demo added two perks designed for challenge runs.
+ Sources
+ Probably Stolen on Steam (store page, PC requirements, languages) 
+ Questing Goose Studio: Opening October 28, What's in Store for 1.0 (Oct 22, 2026) 
+ Demo Update: Aquafarmer (Oct 19, 2026) 
+ Update 049 patch notes: Release Date + New Demo (Sep 14, 2026) 
+ Playtest patches 48.3.10 and 48.3.12 (Aug 7–8, 2026) 
+ Keep reading
+ Probably Stolen Guide
+ Probably Stolen launches October 28 on Steam: what the 1.0 release adds (an ending, 9 starting scenarios, 21 achievements), demo saves, languages and PC specs. 
+ Patch Notes & Updates
+ Every Probably Stolen update in plain English, from the August playtest and Update 049 to the Aquafarmer demo patch and 1.0, plus the post-launch roadmap. 
+ All Endings
+ Every Probably Stolen ending: the two Buyout wins, each way to lose (rent, Security, factions, Lou, perks), what triggers it, and why guides say 15 or 17. 
+ Crafting Recipes
+ All Probably Stolen crafting recipes: 3D Printer chips sorted by batch value, Chem Finisher, keycards, hydroponic crops, furnace. Cross-checked, with conflicts shown. 
+ Wine Recipes & Calculator
+ Probably Stolen winemaking: a calculator for every berry, water and yeast mix, how to hit Master Vintage, aging value per day, Gloomberry wine and where to get berries. 
+ Water Guide
+ Probably Stolen water trading: the six water grades and prices, how to purify each one, the Moisture Farm and Water Purifier settings, who buys what, and taps. 
+ Cozy Game Guides
+ Guides, walkthroughs and recommendation lists for cozy games — from Dressmaker to Stardew Valley.
+ All games & guides directory → 
+ Dressmaker ▸ Dressmaker Guide 
+ Characters & Customers 
+ All Commissions 
+ Measurements 
+ Walkthrough 
+ Tips & Tricks 
+ Harvest Moon: Echoes of Teradea ▸ Echoes of Teradea Guide 
+ Release Date & Time 
+ Platforms & Prices 
+ Marriage Candidates 
+ Beginner Guide 
+ Money Guide 
+ Cozy game hubs ▸ Loftia Guide 
+ Aniimo Guide 
+ Warrior Cats: Clans of the Forest 
+ Emberville 
+ Deep Dish Dungeon 
+ Planet Zoo 2 
+ Probably Stolen 
+ Lists & recommendations ▸ Games Like Dressmaker 
+ Games Like Stardew Valley 
+ Games Like Animal Crossing 
+ Best Cozy Games on Steam 
+ Best Cozy Switch Games 
+ Beyond cozy ▸ Castlevania: Belmont's Curse 
+ Enshrouded 1.0 
+ Tenebris Somnia 
+ Azeroth Survivors 
+ Valor Mortis 
+ Unofficial fan site. Not affiliated with Cozy Lives, Free Lives, Nintendo, Valve or any game publisher. Game names and trademarks belong to their owners.
+ About Contact Disclaimer Privacy 

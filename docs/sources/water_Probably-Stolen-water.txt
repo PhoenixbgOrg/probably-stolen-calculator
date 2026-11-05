@@ -1,0 +1,121 @@
+ Probably Stolen Water: Water Merchant Setup Guide - Probably Stolen Wiki 
+ P
+ Probably Stolen PS 
+ Guide 
+ Water 
+ Appraisal 
+ Characters 
+ Crafting 
+ Trading 
+ Scenarios 
+ EN 
+ Home / Water Probably Stolen Water: Water Merchant Setup Guide
+ Learn how to build a profitable water merchant empire in Probably Stolen with purifier priorities, perks, and a day-by-day early-game plan.
+ 2026-11-01 
+ Probably Stolen Wiki Team 
+ Quick Guide
+ Probably Stolen water is purified from toxic rust water into base, high-quality, or pure grades
+ Water purifiers are your top priority: get three running by day 8-14
+ Perk setup : Working Pipes, Savings, Short Sleeper, and Bad Lease for maximum starting credits
+ Core loop : purify at night, sell high-quality bottles at 50 credits each morning
+ Insurance from day 4 : prevents theft until you build a security system
+ Probably Stolen Water Basics: Grades and Purification
+ In Probably Stolen, the water merchant run revolves around turning free toxic rust water from your faucet into sellable product. Customers only start buying at base water quality or higher , and every grade above that improves your margins. The purification chain is the backbone of the entire build.
+ Video Highlights: 
+ Best perk setup for a water merchant start (Working Pipes, Savings, Short Sleeper, Bad Lease)
+ Get three water purifiers running by day 8-14 before any other spending
+ Trick to bulk-move bottles with click-and-drag selection
+ Daily core loop worth roughly 150 credits with three purifiers
+ Water quality determines both who buys and how much they pay:
+ Water Grade Source Customer Demand Notes 
+ Rust Water Faucet (free) None Raw input, must be purified 
+ Base Water HydroTech purifier Low Minimum sellable grade 
+ High-Quality Water purifier overnight Steady Main mid-game product, ~50 credits per bottle 
+ Pure Late-game upgrades High Long-term goal, much deeper into the run 
+ Start With the HydroTech Purifier
+ On day one, use the HydroTech purifier on the entire jug to make base water, then split 1,500 ml into a separate bottle and purify the remainder. Every charge counts early.
+ Best Starting Perks for a Water Merchant Run
+ Perk selection defines your early economy. The goal is maximum starting value and no missed customers, even at the cost of slightly higher rent.
+ Working Pipes
+ +600 credits of starting value
+ Single best economic perk for water merchants
+ Savings
+ Extra starting credits for purifier purchases
+ Short Sleeper
+ Never miss customers from oversleeping
+ Keeps morning sales consistent
+ Bad Lease
+ Starting rent increases by 40
+ Trivial cost versus perk value gained
+ Use normal markup and skip the intro to accelerate the setup phase.
+ Do Not Buy Wholesale Early
+ Resist spending on anything besides purifiers, batteries, and rent. Discount deals appear regularly, and you need liquid credits to grab purifiers the moment they show up.
+ Day-by-Day Water Merchant Route
+ 1
+ Day 1: First Sales and Bottle Stock
+ Purify the starting jug to base water, place it in the display case, and sell to your first customer. Buy their empty bottles since you cannot manufacture them yet. Skip other purchases entirely.
+ 2
+ Day 2: First Purifier Online
+ Visit Jackson and buy a purifier if stocked. Move the battery from the bottle maker into it, fill a standard bottle with rust water, and slot it in. Let Odin Haraldson pass untouched — he matters later.
+ 3
+ Day 3: Flip Discount Modules
+ When Jackson offers a friend discount on three modules, buy it. Sell the efficiency and quality modules to the low-level inventor for a big profit (~160 credits), but keep the performance module for a future security system.
+ 4
+ Day 4: Second and Third Purifiers
+ The traveling water merchant always carries a purifier — buy it. Keep checking Jackson nightly (roughly a 20-25% chance he stocks one). Buy batteries only when prices are normal; power shortages inflate them badly.
+ 5
+ Day 5-14: Core Loop
+ Every morning, pour out high-quality water into main containers, refill empty bottles with rust water using drag-select, and sell out your stock. Join the appraisal board when offered and sell the spare magnifying glass for bonus income.
+ Drag-Select Trick
+ Click and drag from outside the bottle boxes to highlight multiple bottles at once, then drag the group to the rust water faucet. This saves significant time once you run three purifiers.
+ Day Priority Action Expected Result 
+ 1 Sell base water, buy customer bottles Starting capital preserved 
+ 2 First purifier from Jackson ~1 high-quality bottle per night 
+ 3 Flip discounted modules +160 credits or more 
+ 4+ Second and third purifiers Scaling toward 150 credits/day 
+ 4+ Buy insurance nightly Protects stock from theft 
+ Risk Management: Rent, Events, and Theft
+ Random events and shop restocks shift the strategy's timing, but the purifier-first focus removes most variance. The main threats are rent shortfalls, battery price spikes, and theft.
+ Risk Cause Countermeasure 
+ Missed rent Overspending on machines Track credits before every purchase 
+ Battery price spikes Power shortage events Delay battery buys until prices normalize 
+ Stolen stock No insurance Buy insurance daily from day 4 onward 
+ Repeated insurance cost Ongoing theft risk Build security system (49 performance) 
+ Watch Your Rent Buffer
+ Balancing purifier purchases, batteries, and events makes it easy to fall behind on rent. Always confirm you can cover the next payment before committing credits.
+ Milestones Checklist
+ Water Empire Milestones:
+ Set up perks: Working Pipes, Savings, Short Sleeper, Bad Lease 
+ Get first water purifier running by day 2 
+ Flip friend-discount modules for ~160 credits profit 
+ Reach three purifiers online by day 8-14 
+ Join the appraisal board and sell the spare magnifying glass 
+ Install security system with 49 performance 
+ Endgame Economy
+ With three purifiers running, each bottle sells for 50 credits — roughly 150 credits per day on autopilot. Once the security system replaces insurance costs, the water empire funds whatever path you choose next.
+ FAQ
+ Q: What is the best Probably Stolen water merchant start?
+ Take Working Pipes, Savings, Short Sleeper, and Bad Lease perks, then spend everything on getting three water purifiers online by day 8-14. Avoid all other wholesale purchases until then.
+ Q: Where do I buy water purifiers?
+ Jackson stocks them with roughly a 20-25% chance per visit, while the traveling water merchant always carries one. Check Jackson every night after closing.
+ Q: How much money do three purifiers generate?
+ Each purifier turns a standard bottle of rust water into high-quality water overnight. At 50 credits per bottle, three purifiers yield about 150 credits per day.
+ Q: Should I keep any of the discount modules?
+ Sell the efficiency and quality modules for profit, but keep the performance module — it is required for the security alarm system you should build later.
+ Related Probably Stolen Water
+ Probably Stolen Aquascan: Water Quality Scanning Guide 
+ Probably Stolen Evaporator: Setup & Usage Guide 
+ Probably Stolen Chemistry: Lab Setup & Dream Dust Guide 
+ Related Articles
+ Probably Stolen Aquascan: Water Quality Scanning Guide
+ Learn how to use the Aquascan in Probably Stolen to check water quality, price purified water correctly, and run a profitable Water Merchant business.
+ Read More 
+ Probably Stolen Evaporator: Setup & Usage Guide
+ Learn how the Probably Stolen evaporator works: power cells, solvent removal, purity stages, and upgrade tips for your chem lab production line.
+ Read More 
+ How to Purify Water: High-Quality & Pure Water Setup Guide
+ Learn how to purify water in Probably Stolen: UV lamps, filters, water purifiers, moisture farms, and the quality thresholds for pure water.
+ Read More 
+ More Water 
+ Advertisement
+ 

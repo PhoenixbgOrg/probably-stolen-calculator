@@ -1,0 +1,210 @@
+ Probably Stolen Starting Specializations Guide | Walkthrough Forge Skip to content 
+ Walkthrough Forge Games Tags About 
+ Home / Probably Stolen / Probably Stolen Starting Specializations Guide Guide
+ Probably Stolen Starting Specializations Guide
+ Every starting specialization in Probably Stolen, the credits, rent and gear each one gives you, and which start to pick first.
+ Probably Stolen By Johan Published Oct 28, 2026 Beginner 
+ Specializations 
+ Your specialization decides how many credits you open with, what rent you start paying, what’s already in your store and which trade you can run from day one. Take Apprentice on your first run. The start screen marks it as recommended for new players, and its stock is ordinary food and household goods that sell without special equipment.
+ You can pick from nine specializations. The difficulty you pick doesn’t change your starting credits or your kit. It does scale the reputation some specializations start with, as each section below shows.
+ Starting Perks stack on top of your specialization from your second run onward. Savings , for example, adds 150 credits to whatever your specialization gives you. The Starting Perks guide lists them all.
+ What every start includes
+ Every specialization opens with the Lease Agreement for your store in your Dossier. Every start except Rock Bottom also puts four corrupted music cassettes in the cassette player: High Stakes , Stardust , Afterglow and Spaceflight . Take the Tapehead perk and you get the full cassette set instead.
+ On Price Gouge (Cozy) and Mark Up (Normal), you also start with Rent Grace already owned. It lets you miss one rent payment and pay it together with the next week’s rent. On harder difficulties you have to buy it from Joe Wild.
+ The table lists every specialization you can pick, in start screen order, with the gear the start screen promises. Starting rent is the rent you open the run with; the Rent guide explains how it grows.
+ Specialization | Tag | Starting credits | Starting rent | Start screen gear | 
+ Apprentice | Recommended For New Players | 550 | 200 | Increased starting Credit count; Additional equipment (Storage Bay); Start with a stock of Household Goods and Food | 
+ Water Merchant | — | 400 | 200 | Water Trading Manual; Water Testing and Purification Equipment; Additional storage (Water Containers) | 
+ Fence | — | 450 | 250 | Additional equipment (Smuggler’s Bay); Start with a stock of Contraband; Increased starting reputation (Black Market); Decreased starting reputation (Security); Immediate access to the Janitor Underground Exchange; Increased starting rent | 
+ Rock Bottom | Extreme Challenge Mode | 0 | 200 | None. | 
+ Hydroponic Farmer | Advanced Start | 450 | 240 | Hydroponic Farming Manual; Additional equipment (Hydroponic Systems); Start with a stock of Farming Supplies and Seeds; Increased starting rent | 
+ Gunsmith | Advanced Start | 150 | 250 | Class I Weapon Permit; Start with a stock of Firearms and Gun Mods; Start with a stock of Ammunition | 
+ Chemist | Advanced Start | 300 | 200 | Chemistry Manual; Chemistry Lab Equipment | 
+ Rat Wrangler | Advanced Start | 600 | 200 | Animal Cage; Rats; Food | 
+ Aquafarmer | Advanced Start | 150 | 240 | Recirculating Aquaculture Systems; Start with a stock of Tilapia and Fish Food; Increased starting rent | 
+ Apprentice
+ You open with 550 credits , a Storage Bay and a small mixed stock. The stock is worth 144 credits at base value, so your first customers have something to buy before you restock.
+ You start with:
+ Storage Bay (Shabby)
+ 2 × Peat
+ Puice
+ 2 × Tube of Toothpaste
+ 2 × Roll of Toilet Paper
+ Skipping the intro also adds a Food Neon Sign and a Household Item Neon Sign.
+ The start screen promises Apprentice extra credits, but it opens with 50 fewer than Rat Wrangler. What you really gain is the Storage Bay and the stock.
+ Water Merchant
+ You open with 400 credits and a kit built around testing water and cleaning it before you sell it.
+ You start with:
+ Water Trading Manual
+ Water Testing Kit, full of Water Testing Strips
+ Bottle of Water Purification Tablets, full
+ Bottle of Water (Large), filled with Ghostwater
+ Jug of Water, filled with Rustwater
+ Bottle of Water (Large)
+ Bottle of Water (Standard)
+ Bottle of Water (Small)
+ Water Pitcher
+ Water Filter
+ HydraTech Micro Water Purifier (Shabby, at 75 of 300 durability)
+ Bottle Printer (Shabby) holding:
+ Energy Cell
+ Skipping the intro also adds a Water Neon Sign.
+ The Water Trading network upgrade is already unlocked, so you don’t have to buy it from Joe Wild.
+ Mislabeled water is the main way this start loses money.
+ Fence
+ You open with 450 credits , a Smuggler’s Bay and a small stock of contraband. This start leans on the Black Market from the first day, and Security already distrusts you.
+ Your starting rent is 250 credits , 50 more than the usual 200.
+ You start with:
+ Smuggler’s Bay (Shabby)
+ 2 × Vial of “Dream Dust”
+ Ironcraft 10 (Fair condition)
+ 2 × 10mm Ammunition
+ Disposable Keycard (Medical)
+ Disposable Keycard (Engineering)
+ Disposable Keycard (Security)
+ 2 × Black Lamp (Shabby)
+ The Underground Exchange is open from day one.
+ Your starting reputation shifts with the difficulty you pick:
+ Faction | Price Gouge (Cozy) | Mark Up (Normal) | Thin Margins (Hard) | Red Ink (Challenge) | 
+ Black Market | +45 | +30 | +22.5 | +15 | 
+ Security | -15 | -30 | -37.5 | -60 | 
+ The intro isn’t available for this specialization.
+ Keep an eye on Security. You start in the red with them.
+ Rock Bottom
+ You open with 0 credits , no cassettes, no stock and no equipment. This is the hardest start, so save it for a run where you already know the economy.
+ The intro isn’t available for this specialization.
+ Hydroponic Farmer
+ You open with 450 credits and worn-out Hydroponic Systems, with seeds and nutrient tablets to get them growing.
+ Your starting rent is 240 credits , 40 more than the usual 200.
+ You start with:
+ Hydroponic Farming Manual
+ Old Hydroponic System (Shabby)
+ Decrepit Hydroponic System (Shabby) holding:
+ Energy Cell
+ Bottle of Water (Large), filled with Ghostwater
+ 2 × Eco Module (can’t be removed)
+ 2 × Ruined Module (can’t be removed)
+ 2 × Sealed Water Ration (Small)
+ 2 × Nutrifruit Seed
+ Hydroponic Nutrient Tablet Bottle, full
+ 2 × Fillerweed Seed
+ The Retired Farmer network upgrade is already unlocked, so you don’t have to buy it from Joe Wild.
+ Gunsmith
+ You open with 150 credits and a store full of guns, ammunition and gun mods.
+ Your starting rent is 250 credits , 50 more than the usual 200.
+ You start with:
+ 3D Printer
+ Firearm Neon Sign
+ 4 × 3D Printing Filament
+ Gunsmith Storage Bay (Shabby)
+ 6 × .22 SR Ammunition (Non-Lethal)
+ 5 × .22 SR Ammunition
+ Nestfire Compact (Poor condition)
+ Nestfire Compact (Good condition)
+ Liberator 3D Printed Pistol (Poor condition)
+ Liberator 3D Printed Pistol (New condition)
+ Suppressor
+ Red Dot Sight
+ 2 × .22 Magazine
+ High Capacity .22 Magazine
+ Toy Laser Pointer
+ Makeshift Suppressor
+ Laser Sight
+ Improved Internal Springs
+ Screwdriver
+ Class I Weapon Permit (in the Display Case)
+ Gun Parts
+ The Retired Gunsmith and Weapon Permit I network upgrades are already unlocked, so you don’t have to buy them from Joe Wild.
+ The Class I Weapon Permit is already granted, so you can trade the guns it covers from day one.
+ Your starting reputation shifts with the difficulty you pick:
+ Faction | Price Gouge (Cozy) | Mark Up (Normal) | Thin Margins (Hard) | Red Ink (Challenge) | 
+ Security | +37.5 | +25 | +18.75 | +12.5 | 
+ The intro isn’t available for this specialization.
+ Cash is tight here: after Rock Bottom, Gunsmith and Aquafarmer open with the fewest credits of any start. Sell some of the spare guns and mods early to cover your first rent. On Price Gouge (Cozy) and Mark Up (Normal), the Security reputation you start with clears the 20 needed for Security Surplus , so a Security Surplus Merchant visits now and then.
+ Chemist
+ You open with 300 credits and a full chemistry setup: lab machines, droppers, graduated cylinders and the Chemistry Manual.
+ You start with:
+ Blender (Shabby)
+ Heating Plate (Shabby)
+ Evaporator (Shabby), with an Energy Cell
+ Chem Finisher (Shabby)
+ 1ml Dropper
+ 5ml Dropper
+ 25ml Graduated Cylinder
+ 50ml Graduated Cylinder
+ 100ml Graduated Cylinder
+ 2 × Bottle of Water (Standard)
+ Coffee Beans
+ Water Pitcher
+ Kotton Fabric
+ Composition Spectrometer (Shabby)
+ Mini Smuggler’s Bay (Shabby)
+ Chemistry Manual
+ The Retired Chemist network upgrade is already unlocked, so you don’t have to buy it from Joe Wild.
+ The Cartel Protection nightly service is unlocked, and this is the only start where the Sector 13 Cartel faction exists.
+ Your starting reputation shifts with the difficulty you pick:
+ Faction | Price Gouge (Cozy) | Mark Up (Normal) | Thin Margins (Hard) | Red Ink (Challenge) | 
+ Security | -7.5 | -15 | -18.75 | -30 | 
+ The intro isn’t available for this specialization.
+ Rat Wrangler
+ You open with 600 credits and a breeding herd of rats, with the food to keep them going.
+ You start with:
+ Animal Cage (Shabby), with a Livestock Feed Dispenser
+ 3 × Rat (Male)
+ 3 × Rat (Female)
+ Meat Cleaver
+ Blue Labeler
+ Marking Pen
+ Livestock Immunity Serum (2 uses left)
+ 6 × Small Nutrifruit
+ The Ranching network upgrade is already unlocked, so you don’t have to buy it from Joe Wild.
+ Aquafarmer
+ You open with 150 credits , fish farming systems and Tilapia to breed, plus roe and feed to grow the stock.
+ Your starting rent is 240 credits , 40 more than the usual 200.
+ You start with:
+ 2 × Recirculating Aquaculture System (Shabby) each holding:
+ RAS Water Tank
+ Energy Cell
+ Tilapia (Male)
+ Tilapia (Female)
+ Fertilized Tilapia Roe
+ 2 × Industrial Fish Feed
+ Scrap Metal
+ Electronic Parts (Common)
+ Kitchen Knife
+ Marking Pen
+ 2 × Jug of Water, filled with Ghostwater
+ The Aquaculture network upgrade is already unlocked, so you don’t have to buy it from Joe Wild.
+ Work In Progress specializations
+ Junker, Organ Dealer and Street Food Vendor appear on the start screen with the Work In Progress tag, but you can’t start a run with them yet.
+ On This Page
+ What every start includes Apprentice Water Merchant Fence Rock Bottom Hydroponic Farmer Gunsmith Chemist Rat Wrangler Aquafarmer Work In Progress specializations 
+ Related
+ More Probably Stolen Guides
+ Probably Stolen First Two Weeks Guide
+ A day-by-day guide to Probably Stolen's scripted first two weeks: who visits on each day, what they unlock, how to make the most money, and the milestones that follow.
+ Beginner 
+ Walkthrough 
+ Probably Stolen How to Spot Augs Guide
+ How to recognise Augs in Probably Stolen: visual tells, speech patterns, the Aug Scanner, the bounty for a kill, the cost of shooting the wrong customer and how difficulty changes the Aug presence.
+ Augs 
+ Beginner 
+ Probably Stolen Starting Perks Guide
+ All 48 starting perks in Probably Stolen with their exact effects, point costs and conflicts, plus the best picks for your second run.
+ Perks 
+ Beginner 
+ Probably Stolen Item Price List
+ Base values for every item in Probably Stolen, sorted by category, with contraband marked, so you can spot overpriced offers.
+ Items 
+ Economy 
+ Probably Stolen Rent, Buyout and Endings Guide
+ How rent rises in Probably Stolen on each difficulty, what it costs to buy out your store or take the Loan Shark's mortgage, and every way a run can end.
+ Economy 
+ Endings 
+ Discussion
+ Comments
+ Walkthrough Forge
+ Privacy 
+We use cookies to analyze site traffic. Privacy policy 
+ Accept Decline 
+ 

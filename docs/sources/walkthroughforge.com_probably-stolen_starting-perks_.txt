@@ -1,0 +1,112 @@
+ Probably Stolen Starting Perks Guide | Walkthrough Forge Skip to content 
+ Walkthrough Forge Games Tags About 
+ Home / Probably Stolen / Probably Stolen Starting Perks Guide Guide
+ Probably Stolen Starting Perks Guide
+ All 48 starting perks in Probably Stolen with their exact effects, point costs and conflicts, plus the best picks for your second run.
+ Probably Stolen By Johan Published Oct 28, 2026 Perks 
+ Beginner 
+ Starting Perks unlock after your first run. When you start a new store you can pick up to 4 perks and spend up to 3 perk points . Positive perks cost 1 or 2 points. Negative perks give points back, 1 to 4 each, so a drawback can pay for another positive perk. Every perk takes one of your 4 slots either way.
+ Colorful Character is the exception to the slot limit: it costs 1 point and gives you 3 more perk slots. That pays off when you stack drawbacks for points, because 4 slots fill up fast once each negative perk is buying you a positive one.
+ Some perks can’t be combined. Once you pick one perk of a pair, the other is locked:
+ Ascetic and Minimalist
+ Banned from the Commissary and Welfare Program
+ Careful Scavenger and Maimed
+ Convict and Model Citizen
+ Degenerative Osteoarthritis and Maimed
+ Lucky and Unlucky
+ Maimed and Proficient Scavenger
+ On Wild’s Bad Side and Wild’s Favorite
+ Prime Real Estate and Side Street
+ Public Enemy and Well Connected
+ Positive perks
+ Cost is in perk points. With 3 points you can take one 2-point perk and one 1-point perk, or three 1-point perks, before any negative perks add to your budget.
+ Cost | Perk | Effect | 
+ 2 | Diplomatic | Reputation generated from trade is increased by 33%. | 
+ 2 | Intimidating | All committed crimes generate 33% less available evidence. | 
+ 2 | Vending Machine | Start with a vending machine installed in front of your store. Allows customers to purchase items automatically during after-hours. | 
+ 2 | Vigilant | You will never get robbed during the night. | 
+ 2 | Well Connected | Start with an additional 15 Reputation with all factions. | 
+ 2 | Working Pipes | You will start with the water lines already connected with unlimited Rustwater. | 
+ 1 | Handy | Start with a shabby toolbox and a set of shabby tools: a screwdriver, a wire cutter, a crowbar and a plasma cutter. | 
+ 1 | Lucky | Increases your luck. Probably. | 
+ 1 | Model Citizen | Start with 30 extra Security Reputation and receive 50% more reward for reporting customers on the Wanted List. | 
+ 1 | Proficient Scavenger | You can perform up to 2 additional Search actions in the Dumping Grounds every time you visit. | 
+ 1 | Revolution Sympathizer | Start with an additional 25 Reputation with The Revolution. You will receive Marketplace Requests from The Revolution more frequently. | 
+ 1 | Savings | Start with an additional 150 Credits. | 
+ 1 | Sawyer’s Crew | The Underground Exchange is available from the start. Janitorial Service is always free, unless the Store is vandalized. Vandalism clean up cost is significantly reduced. | 
+ 1 | Secret Admirer | You will occasionally receive random items from a secret admirer when opening the Store. | 
+ 1 | Short Sleeper | You won’t miss out on any customers when going out during after-hours activities the night before. | 
+ 1 | Sycophant | Start with 15 extra Upper Levels Reputation. Reputation gained with the Upper Levels is increased by 25%, and Upper Level customers have 10% more budget. | 
+ 1 | Tapehead | You start with all music cassettes available inside the cassette player. | 
+ 1 | Tinkerer | When you upgrade an item, there is a 20% chance the material used is not consumed. | 
+ 1 | Welfare Program | The Commissary is available from the start. On Mondays, you may receive Food Stamps depending on your total wealth. | 
+ 1 | Wild’s Favorite | All upgrades from Wild’s Network cost 10% less. Insurance costs 50% less. | 
+ Negative perks
+ Each negative perk gives back the points in the first column. Take Ascetic (4 points back) and your budget grows to 7 points, enough to fill your other 3 slots with 2-point perks. A few drawbacks carry a small upside, such as Gambling Addiction unlocking all lottery content, but they all make the run harder in some way, so pick ones your play style can absorb.
+ Points back | Perk | Effect | 
+ 4 | Ascetic | Your main inventory is reduced to 16x10 instead of 24x10. | 
+ 3 | Awful Negotiator | You cannot bargain with customers, and you suffer a permanent trade penalty of 5%. | 
+ 3 | Sentinel Collapse Disorder | You suffer from a deadly, incurable auto-immune condition and must take a weekly Immunivax injection to stay alive. Start the game with 1 Immunivax Injector. | 
+ 2 | Blabbermouth | All committed crimes generate 33% more available evidence. You will gain 50% less reputation with the Black Market and the Revolution. | 
+ 2 | Blackmail | You have a questionable past and a blackmailer is threatening to expose your secret. You will have to pay them a small weekly fee or they will expose you, leading to a major one-time loss to your reputation across most factions. | 
+ 2 | Known Snitch | Customers from the wanted poster will never visit your store. Start with -10 reputation with the Revolution and the Black Market. | 
+ 2 | Maimed | The Dumping Ground is not available. You cannot scavenge at all. | 
+ 2 | Minimalist | Your main inventory is reduced to 20x10 instead of 24x10. | 
+ 2 | Public Enemy | Start with -15 Reputation with all factions. | 
+ 1 | Agoraphobia | After visiting an after-hours location, you must rest at the Store for 2 nights before going out again. | 
+ 1 | Alcohol Addiction | You will suffer a trade penalty of 8% if you don’t consume alcohol regularly. The addiction can be cured. | 
+ 1 | Bad Lease | Your starting rent is increased by 40 Credits. | 
+ 1 | Banned from the Commissary | The Commissary is not available, and food stamps are never introduced. | 
+ 1 | Convict | Start with 30 less Security Reputation and receive 25% less reward for reporting customers on the Wanted List. | 
+ 1 | Degenerative Osteoarthritis | Scavenging in the dumping ground works normally for the first week. After that, you lose 1 max scavenging attempt every week that passes. Once your max attempts fall below 3, you can no longer scavenge at all. Normal shopkeepers start with 5 daily max attempts. Start with 2 additional topical medication bandages. | 
+ 1 | Gambling Addiction | You will always buy some Lottery Tickets when possible. All lottery content is unlocked from the start. The addiction can be cured. | 
+ 1 | Illiterate | You won’t be able to read any guide. | 
+ 1 | Narcotic Addiction | You will suffer a trade penalty of 8% if you don’t consume narcotics regularly. The addiction can be cured. | 
+ 1 | Nicotine Addiction | You will suffer a trade penalty of 8% if you don’t consume nicotine regularly. The addiction can be cured. | 
+ 1 | On Wild’s Bad Side | All upgrades from Wild’s Network cost 10% more. Insurance costs 50% more. | 
+ 1 | Side Street | You get one less random customer per day. | 
+ 1 | Unlucky | Decreases your luck. Probably. | 
+ Neutral perks
+ Cost | Perk | Effect | 
+ 1 | Aug Menace | The Augmented content is unlocked at the start of the game. Earn 25% more credits for killing an aug. The aug menace never ends, and letting too many augs get away ends the game on every difficulty. | 
+ 1 | Colorful Character | Allows you to have 3 additional starting perk slots. | 
+ 1 | Makeshift Reactor | You are permanently disconnected from the station power grid and are not affected by blackouts. Start with an upgradable Makeshift Micro Nuclear Reactor sold to you by Dr. Jackson. It powers the Store but needs regular repairs. | 
+ 0 | Careful Scavenger | You can perform 2 fewer actions in the Dumping Grounds every time you visit, but you never get injured while searching. | 
+ 0 | Hoarder | Start with three piles of immovable debris along the bottom of your inventory. Each pile can be removed. | 
+ 0 | Prime Real Estate | 1 more normal customer will visit every day, but starting rent costs 75 credits more. | 
+ Good picks for a second run
+ Savings (1 point) is the simplest pick: 150 extra credits on day one, which covers early stock while you learn what sells.
+ Model Citizen (1 point) starts you at 30 Security reputation. That already clears the 20 needed for the Security Surplus reputation perk, so a Security Surplus Merchant visits now and then. It also pays 50% more for reporting customers on the Wanted List. On a Fence or Chemist start it won’t get you there alone: on Mark Up (Normal), those specializations open with less Security reputation and pull you back under 20.
+ Well Connected (2 points) adds 15 reputation with every faction. That leaves you 5 points short of the +20 perks that five factions offer, which a few good trades will cover.
+ Vigilant (2 points) stops night-time robberies completely, which matters most once your store holds valuable stock.
+ On This Page
+ Positive perks Negative perks Neutral perks Good picks for a second run 
+ Related
+ More Probably Stolen Guides
+ Probably Stolen First Two Weeks Guide
+ A day-by-day guide to Probably Stolen's scripted first two weeks: who visits on each day, what they unlock, how to make the most money, and the milestones that follow.
+ Beginner 
+ Walkthrough 
+ Probably Stolen How to Spot Augs Guide
+ How to recognise Augs in Probably Stolen: visual tells, speech patterns, the Aug Scanner, the bounty for a kill, the cost of shooting the wrong customer and how difficulty changes the Aug presence.
+ Augs 
+ Beginner 
+ Probably Stolen Starting Specializations Guide
+ Every starting specialization in Probably Stolen, the credits, rent and gear each one gives you, and which start to pick first.
+ Beginner 
+ Specializations 
+ Probably Stolen Item Price List
+ Base values for every item in Probably Stolen, sorted by category, with contraband marked, so you can spot overpriced offers.
+ Items 
+ Economy 
+ Probably Stolen Rent, Buyout and Endings Guide
+ How rent rises in Probably Stolen on each difficulty, what it costs to buy out your store or take the Loan Shark's mortgage, and every way a run can end.
+ Economy 
+ Endings 
+ Discussion
+ Comments
+ Walkthrough Forge
+ Privacy 
+We use cookies to analyze site traffic. Privacy policy 
+ Accept Decline 
+ 

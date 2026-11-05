@@ -1,0 +1,129 @@
+ Probably Stolen Tips: Early-Game Shop Strategy & Money Guide - Probably Stolen Wiki 
+ P
+ Probably Stolen PS 
+ Guide 
+ Water 
+ Appraisal 
+ Characters 
+ Crafting 
+ Trading 
+ Scenarios 
+ EN 
+ Home / Guide Probably Stolen Tips: Early-Game Shop Strategy & Money Guide
+ Essential Probably Stolen tips: pick the right perks, verify counterfeit goods, time market events, and keep rent paid in your post-apocalyptic shop.
+ 2026-11-01 
+ Probably Stolen Wiki Team 
+ Quick Guide
+ Probably Stolen tips start with perk choice: burglary grace and luck carry the early game
+ Counterfeit checks with the magnifying glass protect you from bad wholesale deals
+ Market events (material surplus, water shortage) decide what to buy and sell each day
+ Rent is weekly — always keep at least 200 credits in reserve before shopping
+ Buy low, smelt high : a furnace turns cheap scrap into valuable high-purity ingots
+ Getting Started: Perks, Setup, and Day One
+ Probably Stolen drops you into a post-apocalyptic station where you run a small shop, buying and selling goods of questionable origin. Your first decisions matter more than any single deal you'll make later. New players should prioritize perks that reduce early pressure: the burglary grace perk keeps thieves away for three nights, and increased luck improves scavenge results at the dumping grounds.
+ Your shop layout also affects daily efficiency. Keep frequently sold categories near the front, tools like the label maker and magnifying glass in fixed spots, and storage in the corners so the floor stays clear for customers.
+ Video Highlights: 
+ A full apprentice playthrough covering the first two in-game weeks
+ Live examples of counterfeit verification on cigarettes and food stamps
+ Furnace smelting, market event timing, and rent survival strategy
+ Encounters with revolutionaries, appraisers, and wanted criminals
+ Perk / Upgrade Effect Early-Game Value 
+ Burglary grace Thieves leave shop alone for 3 nights ★★★★★ 
+ Increased luck Better scavenge results at dumping grounds ★★★★ 
+ Storage bay Extra organized inventory space ★★★★ 
+ Fanny pack Carry items on wasteland trips ★★★★ 
+ Label maker Rework or verify item labels ★★★★ 
+ Magnifying glass Inspect items for counterfeits ★★★★★ 
+ Pro Tip
+ Don't fill your display case with food unless you actually want to sell it. Whatever you place in the case sets what customers expect to buy — mixing buy and sell intent confuses your daily flow.
+ Verifying Goods and Handling Contraband
+ Counterfeit detection is one of the core Probably Stolen mechanics. When a supplier offers cigarettes, food stamps, or documents at a suspicious discount, inspect them with the magnifying glass before accepting a wholesale deal. Check the lettering, seal, chip, and box condition — the appraisal guides you unlock (like the cybernetic hand guide) teach you what a genuine item should look like.
+ Stolen goods carry heat , a hidden risk that marks the item on your record. Selling hot items for quick cash works early on, but it can draw security attention and hurt your standing with certain factions.
+ Check Point Genuine Signs Counterfeit Signs 
+ Lettering Correct spelling, correct font Incorrect spelling, wrong font 
+ Seal Intact and properly placed Broken or off-center 
+ Chip / internals Matches appraisal guide Visible tampering 
+ Packaging Unbroken box Damaged or resealed 
+ Value Matches listed price Too cheap or inflated 
+ Watch Your Heat
+ Items marked "Stolen — 25% heat" sell fast, but offloading them repeatedly damages your reputation with security. Early in a run, one quick flip is usually fine; a habit of it is not.
+ Money and Market Timing
+ The economy moves on a calendar. Newspapers and the daily event list tell you what's coming: a material surplus means material prices crash for a day, a water shortage means water and filters spike, and a household relief drive floods the market with cheap toiletries. Smart shopkeepers buy during the crash and sell during the spike.
+ The single most important number is rent. It's due weekly, starts around 200 credits, and increases each cycle. Nothing ends a run faster than a lease you can't pay because you sank every credit into stock.
+ 1
+ Read the news each morning
+ Check the event list before opening. Note anything arriving in 1–3 days so you can pre-position cash.
+ 2
+ Set your display intent
+ Place the category you want to sell (or signal you want to buy) in the case before the first customer walks in.
+ 3
+ Accept good wholesale deals only
+ Verify goods first, then use bulk-buy to grab discounted lots from farmers, scavengers, and doctors.
+ 4
+ Reserve rent money
+ Lock away at least the upcoming rent amount before spending on upgrades or stock.
+ 5
+ End the day with a night errand
+ Visit the dumping grounds or commissary after closing for free extra income — but expect fewer customers the next morning.
+ Market Event Price Effect Best Action 
+ Material surplus Materials crash for 1 day Stockpile scrap and parts 
+ Water shortage Water and filters spike Sell filters and sealed water 
+ Household relief drive Toiletries cheap, then demand Buy low, hold, sell to bulk buyers 
+ Material shortage Ingots and parts rise Sell smelted stock 
+ Security budget increase Weapons and meds demand up Move legal gear quickly 
+ Furnace Profit Loop
+ Buy scrap cheaply during a material surplus, smelt it into ingots with flux added for higher purity, then sell when material prices recover. A low-purity ingot can roughly double the value of its raw input — high purity is worth even more.
+ Customers, Factions, and Side Encounters
+ Not every visitor is a normal customer. Revolutionaries may demand contraband at implied threat — but reporting wanted criminals like Odin or Juan can pay 300+ credits instantly. The appraiser board lets you offer appraisal services for a base fee plus bonus. Doctors sell efficiency modules and machines like fridges (chilled drinks sell for more). Security officers reward cooperation with reputation, and the android-hunting mandate gives you a license to deal with suspicious "augmented" customers.
+ Reputation Is a Resource
+ Every faction tracks you separately. Reporting a revolutionary leader earns credits and security favor but costs revolutionary standing — and revolutionary squads may visit your shop afterward expecting free supplies. Weigh the cash against the fallout.
+ First Two Weeks Checklist
+ Week 1 Core
+ Pick defensive perks at creation
+ Join the appraiser board
+ Buy the furnace and an energy cell
+ Keep 200 credits for first rent
+ Economy Habits
+ Verify before every bulk buy
+ Track events on the calendar
+ Smelt scrap into ingots
+ Rotate display intent daily
+ Wasteland Runs
+ Carry a fanny pack or backpack
+ Bring bandages for bleeding
+ Grab tools, not junk
+ Accept wound risk only when stocked on meds
+ Milestones Before Day 14:
+ Join the appraiser board and unlock appraisal services 
+ Install a furnace and produce your first ingot 
+ Pay the first rent with at least 60 credits to spare 
+ Complete a successful counterfeit verification 
+ Survive a full market cycle buying low and selling high 
+ Upgrade Priority
+ If cash is tight, prioritize the furnace over showcase expansions. Production upgrades compound daily; cosmetic ones don't. The alarm system only pays off once you have stock worth stealing.
+ FAQ
+ Q: What are the best starting perks in Probably Stolen?
+ Burglary grace and increased luck are the strongest early picks. Grace protects your thin starting inventory for three nights, while luck improves dumping ground finds. Avoid addiction-style perks — their drawback outweighs the point savings early on.
+ Q: How do I tell if an item is counterfeit?
+ Use the magnifying glass and inspect lettering, seal, chip, packaging, and value against appraisal guides. Food stamps, cigarettes, and documents are the most common fakes. Buying counterfeit goods at full price is one of the fastest ways to lose money.
+ Q: How does rent work?
+ Rent is due weekly and increases each cycle, starting around 200 credits. If you can't pay when the collector arrives, you're in serious trouble — always reserve the rent amount before spending on stock or upgrades.
+ Q: Should I sell stolen goods with heat?
+ Occasionally, yes — especially early when 25%-heat items can cover a rent gap. But frequent flips damage your security reputation. As your shop grows, shift toward legitimate high-margin goods like smelted ingots and verified items.
+ Related Probably Stolen Guide
+ Probably Stolen Best Perks: Starting Perk Tier List Rankings 
+ Probably Stolen Guide: Water Purification Walkthrough & Tips 
+ Gunsmith: Setup Guide, Perks & Custom Order Walkthrough 
+ Related Articles
+ Probably Stolen Best Perks: Starting Perk Tier List Rankings
+ Every starting perk in Probably Stolen ranked from S to F tier. Learn which perks to take for normal and Rock Bottom runs, with costs and synergies.
+ Read More 
+ Probably Stolen Guide: Water Purification Walkthrough & Tips
+ Learn how to make high-quality and pure water in Probably Stolen. Covers purifiers, UV lamps, filters, moisture farms, and selling strategies.
+ Read More 
+ Probably Stolen How to Bargain: Negotiation Tips & Tricks
+ Learn how to bargain in Probably Stolen: haggling with suppliers, pricing stolen goods, reading customers, and keeping your reputation intact.
+ Read More 
+ More Guide 
+ Advertisement
+ 

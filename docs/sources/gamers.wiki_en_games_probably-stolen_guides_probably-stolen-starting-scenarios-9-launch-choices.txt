@@ -1,0 +1,123 @@
+ Probably Stolen Starting Scenarios: 9 Launch Choices | Gamers.Wiki 
+ Skip to content 
+ gamers .wiki 
+ Home 
+ Games 
+ Guides 
+ News 
+ Lists 
+ / 
+ Home 
+ Games 
+ Probably Stolen 
+ Guide 
+ Probably Stolen Starting Scenarios: 9 Launch Choices 
+ Probably Stolen Starting Scenarios: 9 Launch Choices
+ Compare all nine selectable starts and learn that first-run perks are unavailable; checked October 28, 2026 against Steam build 26263409.
+ Christian Kuri • Oct 28, 2026 • 6 MIN READ 
+ Share 
+ Checked October 28, 2026 against Steam build 26263409, this chooser compares nine launch starts by specialty and the opening equipment the game lists. Choose a scenario for the trade or challenge you want, then select difficulty separately; starting perks are unavailable on a first run. Recheck this comparison after patches that change starts, labels, or difficulty.
+ The nine launch starts give you different opening setups
+ The checked reference lists nine playable starts. Their official specialties describe the kind of trade or challenge each run is built around; the separate equipment column records what the launch-build data lists you as starting with. Labels appear only where the reference supplies one.
+ A Gunsmith run opens with firearms, gun mods and ammunition alongside its Class I permit. 
+ Scenario | Official specialty | Game-listed equipment or conditions | Start-screen label | Consider it if… | 
+ Generalist and commerce | | | | | 
+ Apprentice | A generalist trainee who did not specialize and spent less on setup. | Increased starting Credits; Storage Bay; Household Goods and Food. | Recommended For New Players | You want a broad shop setup with extra starting credits and storage. | 
+ Water Merchant | Trading in scarce clean water. | Water Trading Manual; Water Testing and Purification Equipment; Water Containers. | No label listed in the checked reference. | You want the water trade and its testing and purification equipment. | 
+ Fence | Dealing in stolen goods and keeping them hidden from station security. | Smuggler’s Bay; Contraband; increased Black Market reputation and decreased Security reputation; immediate Janitor Underground Exchange access; increased rent. | No label listed in the checked reference. | You want a contraband-focused opening with reputation, access and rent conditions already in place. | 
+ Production and farming | | | | | 
+ Hydroponic Farmer | Growing crops hydroponically in limited station space. | Hydroponic Farming Manual; Hydroponic Systems; Farming Supplies and Seeds; increased rent. | Advanced Start | You want to begin with hydroponic systems and farming supplies. | 
+ Gunsmith | Selling firearms and munitions, modifying weapons and handling licensed orders. | Class I Weapon Permit; Firearms and Gun Mods; Ammunition. | Advanced Start | You want a licensed firearms business with weapons, mods and ammunition listed at the start. | 
+ Chemist | Working with controlled substances and a chemistry lab. | Chemistry Manual; Chemistry Lab Equipment. | Advanced Start | You want a lab-focused opening. | 
+ Challenges and animal systems | | | | | 
+ Rock Bottom | The mentor negotiated only a lease; you have the store and a will to survive. | No starting equipment. | Extreme Challenge Mode | You want to begin without equipment. | 
+ Rat Wrangler | Raising rats for meat; the official challenge is to raise a healthy 2×3 rat. | Animal Cage; Rats and Food. | Advanced Start | You want the rat-raising challenge and its animal-care setup. | 
+ Aquafarmer | Raising fish in tanks for meat. | Recirculating Aquaculture Systems; Tilapia and Fish Food; increased rent. | Advanced Start | You want a tank-based fish-farming opening. | 
+ The equipment reference gives categories, not item counts, prices, credit totals or rent amounts. Use the table to choose the opening trade or challenge that interests you; it does not predict earnings or establish which start performs best.
+ + 
+ What if your group played by its own rules?
+ A server of your own to tune the world your way. You decide when to update, so your mods keep working.
+ See if my game is there 
+ ( Game Hosting , opens in a new tab ) 
+ Game Hosting 
+ The launch roster is smaller than the game-data list
+ Checked October 28, 2026 against Steam build 26263409, the launch roster is nine playable starts: Apprentice, Water Merchant, Fence, Rock Bottom, Hydroponic Farmer, Gunsmith, Chemist, Rat Wrangler, and Aquafarmer. That matches the nine scenarios in the developer’s October 21 prelaunch overview. The October 28 launch update repeats the nine-start count; its text is mirrored by SteamDB.
+ The 1.0 launch paths include specialist trades such as the Gunsmith's; the dated roster separates those nine starts from later plans. 
+ The more detailed availability check comes from a third-party release-build audit, which reports reading build 26263409 and marks nine scenario definitions “Playable.” It lists three others as “Work In Progress”—Junker, Organ Dealer, and Street Food Vendor—and two more, Moonshiner and Pharmacist, as absent from the start screen. A scenario definition in the game’s data is not by itself a selectable start.
+ The official announcements call the planned organ scenario “Organ Trader,” while the data page calls its WIP entry “Organ Dealer.” Those are the respective sources’ labels; the available evidence does not resolve the naming difference. Both the launch-day update and prelaunch overview place the announced future starts outside the nine available at launch.
+ The prelaunch and release-build rosters therefore agree on which nine starts launch, and the scenario subjects remain consistent. The release-build reference adds a more specific availability status than the preview could provide. For a launch run, use the nine dated playable entries rather than a demo roster or a WIP/hidden definition.
+ Choose difficulty and perks after the scenario
+ The scenario’s label does not set your difficulty. Rock Bottom is marked “Extreme Challenge Mode,” but the launch build offers a separate choice of four settings: Price Gouge (Cozy Mode), Mark Up (Normal Mode), Thin Margins (Hard Mode), and Red Ink (Challenge Mode). The launch announcement makes the distinction explicit by suggesting Rock Bottom together with the super-hard setting for an added challenge. Treat that as an option the game points out, not a recommendation that every Rock Bottom run must use it.
+ Price Gouge, Mark Up and Thin Margins appear on the separate difficulty panel; Red Ink is the fourth launch option, while perks have their own screen. 
+ Starting Perks are another separate panel that appears after scenario selection. On a first run, the panel is unavailable, so you cannot configure starting perks yet; the scenario’s listed opening conditions are not preassigned perks.
+ Choose the scenario for the trade or challenge in its opening, then select difficulty independently. If this is your first run, proceed without expecting a perk choice.
+ Frequently Asked Questions
+ 1 Can you choose Starting Perks on a first run? 
+ No. The Starting Perks panel is unavailable on a first run, so proceed with the scenario’s listed opening conditions.
+ 2 Are the work-in-progress scenarios playable at launch? 
+ No. The checked release-build audit marks Junker, Organ Dealer, and Street Food Vendor as work in progress; the launch roster has nine playable starts.
+ Join the community
+ Found this useful?
+ Get our new guides and gaming news in your inbox.
+ Email address 
+ JOIN No spam. Unsubscribe any time.
+ Important: one step left
+ Open your email and confirm your subscription.
+ Got it Can't see it? Check Promotions or Spam.
+ Already subscribed? Nothing to do. Wrong address? 
+ More Probably Stolen guides
+ All Probably Stolen guides 
+ Probably Stolen Starting Perks: Costs & Rules 
+ Probably Stolen Loan Shark Mortgage: Terms & Repossession 
+ Probably Stolen Rent: Due Dates, Grace, and Rising Bills 
+ Probably Stolen Appraiser Board Guide 
+ How to Verify Probably Stolen Game Details Before Buying 
+ Continue Back to the Probably Stolen hub Guides, news, screenshots, and the codex — all in one place. Enter the hub 
+ + 
+ Your server. Your rules. 
+ You pick the map, the mods, the difficulty and who gets in. All from one panel, without wrestling with config files.
+ See if my game is there 
+ ( Game Hosting , opens in a new tab ) 
+ Game Hosting 
+ GAMERS.WIKI 
+ Subscribe to the newsletter
+ New guides and gaming news, straight to your inbox.
+ Email address 
+ JOIN No spam. Unsubscribe any time.
+ Important: one step left
+ Open your email and confirm your subscription.
+ Got it Can't see it? Check Promotions or Spam.
+ Already subscribed? Nothing to do. Wrong address? 
+ gamers .wiki Your ultimate gaming knowledge hub. In-depth guides, reviews, and the latest news — built by gamers, for gamers.
+ Join the party
+ All systems online
+ Explore
+ All Games 
+ Genres 
+ Platforms 
+ All Posts 
+ Guides
+ Latest Guides 
+ Build Guides 
+ Beginner Guides 
+ Walkthroughs 
+ Tips & Tricks 
+ Lists
+ Best Games 
+ Tier Lists 
+ Rankings 
+ Recommendations 
+ News
+ Latest News 
+ Game Updates 
+ Industry 
+ Reviews 
+ Announcements 
+ The site
+ About 
+ Editorial Policy 
+ Contact 
+ © 2026 Gamers.Wiki — All rights reserved.
+ ↑ ↑ ↓ ↓ ← → ← → B A
+ Made by gamers, for gamers 
+ 
