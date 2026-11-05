@@ -25,6 +25,10 @@ export class MemoryStorage implements StorageLike {
 export interface Notice {
   level: 'info' | 'warning' | 'error';
   message: string;
+  /** Profile the notice is about (startup revalidation notices only). */
+  profileId?: string;
+  /** Stable problem signature, used to remember a per-profile dismissal (see noticeDismissals.ts). */
+  signature?: string;
 }
 
 export const emptyStore = (): StoreV2 => ({ schemaVersion: 2, activeProfileId: null, profiles: [], quarantine: [] });
@@ -58,7 +62,7 @@ export function revalidateProfile(reg: GameDataRegistry, p: ProfileV2): { profil
   const profile: ProfileV2 = { ...p, build: { ...p.build, specializationId, perkIds: [...p.build.perkIds] } };
   const perkViolations = validate(reg, profile.build).filter((v) => v.code !== 'no-specialization');
   if (perkViolations.length > 0) {
-    notices.push({ level: 'warning', message: `Profile "${p.name}" breaks ${perkViolations.length} rule(s) and was kept unchanged: ${perkViolations.map((v) => v.message).join(' ')} Fix it on the Perks screen.` });
+    notices.push({ level: 'warning', profileId: p.id, signature: `rules:${perkViolations.map((v) => v.code).sort().join(',')}:${[...profile.build.perkIds].sort().join(',')}`, message: `Profile "${p.name}" breaks ${perkViolations.length} rule(s) and was kept unchanged: ${perkViolations.map((v) => v.message).join(' ')} Fix it on the Perks screen.` });
   }
   return { profile, notices };
 }

@@ -41,3 +41,11 @@ There were 61 tests before this phase and 74 now, all passing. The new tests are
 `npm run typecheck`, `npm test` and `npm run build` all pass.
 
 Not done: no browser verification was performed in this phase. Use the tester checklist in the final report.
+
+## Browser-test follow-up fixes
+- **B1** Selected Perks chips: name has `min-width:8rem`; cost / "breaks a rule" wrap onto a line below; Remove wraps; chips use `minmax(min(100%,300px),1fr)`.
+- **B2** Sticky meters: `html, body` used `overflow-x:hidden` (breaks `position:sticky`); now `overflow-x:clip` (hidden kept only as fallback). Meters are opaque full-width bar with `top:0` (there is no sticky header); details panel has `scroll-margin-top` so it is not covered.
+- **B4** ⓘ buttons get a 44×44 hit area under `(pointer:coarse), (max-width:900px)`. The ~20×20 interactive element was the playthrough radio input (inside a 44px-tall label); radios are now 24px with padded labels.
+- Specialization icons: one row (10 icons) at ≥1200px; wrap below.
+- Tapping a perk icon (or a Selected Perks row) on ≤900px scrolls the details panel into view with `block:'nearest'` (instant when `prefers-reduced-motion`); focus stays on the icon.
+- Startup "Profile … breaks N rule(s)" notices: shown only for the active profile; dismissal persisted in `psc.dismissedNotices.v1` (`{v:1, ids:["<profileId>|<signature>"]}`, max 200) — signature = violation codes + perk ids, so a changed problem shows again. Profile schema unchanged. `Notice` gained optional `profileId`/`signature`. Tests: `tests/notices.test.ts` (78 total).

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { Dispatch } from 'react';
-import type { Action, AppState } from '../state/reducer';
+import type { AppState } from '../state/reducer';
 import { navigate } from '../state/navigation';
 import type { Screen } from '../state/navigation';
 import { useBuilder } from '../state/useBuilder';
@@ -17,7 +16,7 @@ const STEPS: { id: Screen; label: string }[] = [
 ];
 
 export function App() {
-  const { state, dispatch, character, registry } = useBuilder();
+  const { state, dispatch, dismissNotice, dismissAllNotices, character, registry } = useBuilder();
   const [screen, setScreenRaw] = useState<Screen>('spec');
   const [blocked, setBlocked] = useState<{ msg: string; profileId: string | null } | null>(null);
   const blockedMsg = blocked?.msg ?? null;
@@ -58,7 +57,7 @@ export function App() {
           <div className="callout error" data-testid="blocked-msg">{blockedMsg} <button type="button" className="link" onClick={() => setBlocked(null)}>Dismiss</button></div>
         )}
       </div>
-      {state.notices.length > 0 && <Notices notices={state.notices} dispatch={dispatch} />}
+      {state.notices.length > 0 && <Notices notices={state.notices} onDismiss={dismissNotice} onDismissAll={dismissAllNotices} />}
       <div className="layout">
         <main>
           {screen === 'spec' && <SpecializationScreen reg={registry} build={state.build} dispatch={dispatch} onNext={() => setScreen('perks')} />}
@@ -78,7 +77,7 @@ export function App() {
   );
 }
 
-function Notices({ notices, dispatch }: { notices: AppState['notices']; dispatch: Dispatch<Action> }) {
+function Notices({ notices, onDismiss, onDismissAll }: { notices: AppState['notices']; onDismiss: (i: number) => void; onDismissAll: () => void }) {
   const [open, setOpen] = useState(notices.length <= 2);
   const errors = notices.filter((n) => n.level === 'error').length;
   const warnings = notices.filter((n) => n.level === 'warning').length;
@@ -87,12 +86,12 @@ function Notices({ notices, dispatch }: { notices: AppState['notices']; dispatch
     <div className={`notices callout ${errors ? 'error' : warnings ? 'warn' : ''}`} role="status">
       <div className="notice-summary">
         <button type="button" className="link" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? '▾' : '▸'} {summary}</button>
-        <button type="button" className="link" onClick={() => dispatch({ type: 'dismissAllNotices' })}>Dismiss all</button>
+        <button type="button" className="link" onClick={onDismissAll}>Dismiss all</button>
       </div>
       {open && (
         <ul className="plain notice-list">
           {notices.map((n, i) => (
-            <li key={i} className={`notice ${n.level}`}>{n.message} <button type="button" className="link" onClick={() => dispatch({ type: 'dismissNotice', index: i })} aria-label="Dismiss notice">Dismiss</button></li>
+            <li key={i} className={`notice ${n.level}`}>{n.message} <button type="button" className="link" onClick={() => onDismiss(i)} aria-label="Dismiss notice">Dismiss</button></li>
           ))}
         </ul>
       )}

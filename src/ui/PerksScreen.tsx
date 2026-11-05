@@ -73,7 +73,17 @@ export function PerksScreen({ reg, state, dispatch, onBack, onNext, continueBloc
   const unknownSelected = build.perkIds.filter((id) => !reg.perks.some((p) => p.id === id));
   const selectedPerks = build.perkIds.map((id) => reg.perks.find((p) => p.id === id)).filter((p): p is PerkDef => !!p);
   const name = (id: string) => reg.perks.find((p) => p.id === id)?.name ?? id;
-  const view = (id: string) => { setViewId(id); const i = ordered.findIndex((p) => p.id === id); if (i >= 0) setFocusIdx(i); };
+  const detailRef = useRef<HTMLDivElement>(null);
+  const view = (id: string, reveal = false) => {
+    setViewId(id);
+    const i = ordered.findIndex((p) => p.id === id);
+    if (i >= 0) setFocusIdx(i);
+    // Narrow screens: bring the details/Add-Remove panel into view (minimal scroll; focus stays on the icon).
+    if (reveal && typeof window !== 'undefined' && window.matchMedia?.('(max-width: 900px)').matches) {
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      requestAnimationFrame(() => detailRef.current?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' }));
+    }
+  };
   const onKey = (e: KeyboardEvent<HTMLButtonElement>, i: number) => {
     const n = rovingIndex(i, e.key, ordered.length);
     if (n === null) return;
@@ -130,7 +140,7 @@ export function PerksScreen({ reg, state, dispatch, onBack, onNext, continueBloc
           return (
             <button key={p.id} type="button" className={`icon-btn perk-icon cat-${cat} ${st} ${viewId === p.id ? 'viewing' : ''}`}
               data-perk={p.id} aria-label={ariaFor(p, st)} aria-current={viewId === p.id ? 'true' : undefined} aria-controls="perk-detail-area"
-              tabIndex={i === focusIdx ? 0 : -1} onKeyDown={(e) => onKey(e, i)} onClick={() => view(p.id)} title={p.name}>
+              tabIndex={i === focusIdx ? 0 : -1} onKeyDown={(e) => onKey(e, i)} onClick={() => view(p.id, true)} title={p.name}>
               <PixelIcon id={p.id} tone={cat} />
               <CategoryMarker category={cat} />
               {st.includes('selected') && <span className="sel-mark" aria-hidden="true">✔</span>}
@@ -140,7 +150,7 @@ export function PerksScreen({ reg, state, dispatch, onBack, onNext, continueBloc
         })}
       </div>
       <p className="small muted order-note">Perk order: <StatusBadge status={reg.ordering.perks.status} /> {reg.ordering.perks.note} <ProvenanceTip p={reg.ordering.perks} /></p>
-      <div id="perk-detail-area" className="detail-area">
+      <div id="perk-detail-area" className="detail-area" ref={detailRef}>
         {viewId ? <PerkDetail reg={reg} build={build} perkId={viewId} dispatch={dispatch} /> : <p className="muted" data-testid="perk-detail-empty">Select a perk icon to see its description, cost, conflicts and the Add / Remove button.</p>}
       </div>
       <h3 className="section-h">Selected Perks</h3>
@@ -148,11 +158,13 @@ export function PerksScreen({ reg, state, dispatch, onBack, onNext, continueBloc
         <ul className="selected-perks" data-testid="selected-perks">
           {selectedPerks.map((p) => (
             <li key={p.id} className={offending.has(p.id) ? 'offending' : ''}>
-              <button type="button" className={`sel-row cat-${p.category.value ?? 'neutral'}`} onClick={() => view(p.id)} aria-label={`View ${p.name}`}>
+              <button type="button" className={`sel-row cat-${p.category.value ?? 'neutral'}`} onClick={() => view(p.id, true)} aria-label={`View ${p.name}`}>
                 <PixelIcon id={p.id} tone={p.category.value ?? 'neutral'} size={28} />
                 <span className="sel-name">{p.name}</span>
-                <span className="sel-cost">{perkCostLabel(p)}</span>
-                {offending.has(p.id) && <span className="warn-text">breaks a rule</span>}
+                <span className="sel-meta">
+                  <span className="sel-cost">{perkCostLabel(p)}</span>
+                  {offending.has(p.id) && <span className="warn-text">breaks a rule</span>}
+                </span>
               </button>
               <button type="button" className="pix-btn small-btn" onClick={() => dispatch({ type: 'removePerk', perkId: p.id })} aria-label={`Remove ${p.name}`}>Remove</button>
             </li>

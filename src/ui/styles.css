@@ -6,7 +6,8 @@
   --pos:#8fd16a; --neu:#e8a84a; --neg:#e0605a; --pixel:'Pixelify Sans', ui-monospace, monospace;
   --step:2px; }
 * { box-sizing:border-box; }
-html, body { overflow-x:hidden; }
+/* clip (not hidden) so position:sticky keeps working; hidden is the fallback for old browsers */
+html, body { overflow-x:hidden; overflow-x:clip; }
 body { margin:0; background:var(--bg); color:var(--text); font:15px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
 h1, h2, h3, h4, legend, .panel-title, .lbl, .icon-label, .pix-btn, .steps button, .meter-box, .section-h, summary, .tag, .cat-chip, .cost-chip, .sel-chip { font-family:var(--pixel); letter-spacing:.02em; }
 a { color:var(--accent); }
@@ -169,4 +170,28 @@ footer { margin-top:2rem; border-top:var(--step) solid var(--line-dim); padding-
   table.stats tr { border-bottom:1px solid var(--line-dim); padding:.3rem 0; }
   table.stats td, table.stats th { border:0; padding:.15rem .3rem; }
   table.stats td[data-label]::before { content:attr(data-label) ": "; color:var(--muted); }
+}
+
+/* Phase 1.5 browser-test fixes */
+.selected-perks { grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr)); }
+.selected-perks li { flex-wrap:wrap; align-items:stretch; }
+.sel-row { flex:1 1 220px; flex-wrap:wrap; row-gap:.2rem; }
+.sel-name { flex:1 1 8rem; min-width:8rem; overflow-wrap:normal; word-break:normal; }
+.sel-meta { flex:1 1 100%; display:flex; flex-wrap:wrap; gap:.2rem .7rem; padding-left:calc(28px + .5rem); font-size:.85rem; }
+.sel-meta .sel-cost { padding-left:0; }
+.selected-perks li > .small-btn { flex:0 0 auto; }
+.perk-meters { top:0; box-shadow:0 2px 0 var(--line-dim), 0 6px 8px -4px #0009; margin-left:-1rem; margin-right:-1rem; padding-left:1rem; padding-right:1rem; }
+.detail-area, .perk-detail { scroll-margin-top:5.5rem; scroll-margin-bottom:1rem; }
+@media (max-width:600px) { .perk-meters { margin-left:-.6rem; margin-right:-.6rem; padding-left:.6rem; padding-right:.6rem; } .detail-area, .perk-detail { scroll-margin-top:7rem; } }
+/* B4: >=44px hit area for the info buttons on touch / narrow screens; visual glyph stays small */
+@media (pointer:coarse), (max-width:900px) {
+  .tip-trigger { min-width:44px; min-height:44px; display:inline-flex; align-items:center; justify-content:center; }
+  .pix-fieldset label { padding:0 .3rem; }
+  input[type=radio], input[type=checkbox] { width:24px; height:24px; }
+}
+/* Specialization row: single row on wide desktop */
+@media (min-width:1200px) {
+  .spec-icons { flex-wrap:nowrap; gap:.25rem; }
+  .spec-icon { width:auto; flex:1 1 0; min-width:0; padding:.3rem .15rem; }
+  .spec-icon .icon-label { font-size:.66rem; max-width:100%; }
 }
