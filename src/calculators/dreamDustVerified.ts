@@ -49,6 +49,12 @@ export interface ExtractionResult {
   sourceBoundary: string;
 }
 
+export interface PreparedExtractionConfig {
+  initialMixture: ComponentMixture;
+  temperatureC: number;
+  updates: number;
+}
+
 export interface MeasuredComposition {
   totalUL: number;
   activeUL: number;
@@ -264,12 +270,37 @@ export function simulateExtraction(config: ExtractionConfig): ExtractionResult {
     ...initialAfterBlender,
     alcohol: Math.trunc(config.alcoholML * 1_000),
   };
+  const prepared = simulateExtractionFromMixture(
+    initialMixture,
+    config.temperatureC,
+    config.updates,
+  );
+  return {
+    ...prepared,
+    initialRaw,
+    initialAfterBlender,
+    initialMixture,
+  };
+}
+
+export function simulateExtractionFromMixture(
+  initialMixture: ComponentMixture,
+  temperatureC: number,
+  updates: number,
+): ExtractionResult {
+  if (!Number.isFinite(temperatureC)) throw new Error('Temperature must be finite');
+  if (!Number.isInteger(updates) || updates < 0 || updates > 10_000) {
+    throw new Error('Updates must be an integer from 0 to 10,000');
+  }
+  for (const key of COMPONENT_KEYS) {
+    assertWholeNonNegative(initialMixture[key], key);
+  }
   let state = { ...initialMixture };
   const ticks: ExtractionTick[] = [];
   let stoppedBecause: ExtractionResult['stoppedBecause'] = 'updates-complete';
 
-  for (let tick = 1; tick <= config.updates; tick += 1) {
-    const result = runTick(state, config.temperatureC, tick);
+  for (let tick = 1; tick <= updates; tick += 1) {
+    const result = runTick(state, temperatureC, tick);
     ticks.push(result);
     state = result.state;
     if (state.dreamCapMush === 0) {
@@ -289,14 +320,14 @@ export function simulateExtraction(config: ExtractionConfig): ExtractionResult {
   }
 
   return {
-    initialRaw,
-    initialAfterBlender,
-    initialMixture,
+    initialRaw: { ...initialMixture },
+    initialAfterBlender: { ...initialMixture },
+    initialMixture: { ...initialMixture },
     final: state,
     ticks,
     stoppedBecause,
     sourceBoundary:
-      'Implements applicable branches 1, 2, 4, 9, 10 and 22. Filtering and overnight Evaporator callbacks require measured post-processing composition.',
+      'Implements applicable branches 1, 2, 4, 9, 10 and 22 in whole µL. Filtering, Evaporator and finishing are modeled separately from their versioned item rules.',
   };
 }
 

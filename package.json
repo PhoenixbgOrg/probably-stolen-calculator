@@ -10,7 +10,8 @@
     "typecheck": "tsc -p . --noEmit",
     "test": "vitest run",
     "preview": "vite preview --port 4173",
-    "export-data": "vite-node scripts/export-data.ts"
+    "export-data": "vite-node scripts/export-data.ts",
+    "example:dream-dust": "vite-node scripts/dream-dust-example.ts"
   },
   "dependencies": {
     "react": "^18.3.1",

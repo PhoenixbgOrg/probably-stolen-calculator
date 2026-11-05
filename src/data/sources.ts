@@ -91,8 +91,8 @@ export const SOURCES: Record<string, SourceRef> = {
   'nicokobo-chemical-processing': {
     id: 'nicokobo-chemical-processing', title: 'Chemical processing',
     url: 'https://probably-stolen.nicokobo.com/en/wiki/terms/chemical-processing',
-    publisher: 'Probably Stolen Wiki by nicokobo (fan site)', gameVersion: 'Current wiki snapshot; static-analysis provenance', accessed: ACCESSED,
-    notes: 'Implemented formulas are summarized in docs/sources/calculator-formulas-2026-11-05.md. Final composition uses player measurements where filtering/overnight callbacks are incomplete.',
+    publisher: 'Probably Stolen Wiki by nicokobo (fan site)', gameVersion: '0.46D / Steam Build 26337366; static-analysis provenance', accessed: ACCESSED,
+    notes: 'Implemented formulas are summarized in docs/sources/calculator-formulas-2026-11-05.md. The supported planner includes versioned filtering, Evaporator and Finisher rules; measured mode covers unsupported or version-mismatched stages.',
   },
   'nicokobo-water-purification': {
     id: 'nicokobo-water-purification', title: 'Water purification',

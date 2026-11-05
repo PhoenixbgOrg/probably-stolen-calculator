@@ -12,7 +12,7 @@ import { shouldClearBlockedBanner } from '../engine/perkView';
 import { SourcesScreen } from './SourcesScreen';
 import { HomePage } from './HomePage';
 import { GameGuidePage } from './GameGuidePage';
-import { ChemistVerifiedCalculator } from './ChemistVerifiedCalculator';
+import { ChemistProductionPlanner } from './ChemistProductionPlanner';
 import { ProfessionCalculatorPage } from './ProfessionCalculatorPage';
 import { getProfession } from '../calculators/professions';
 import { publicUrl, SOURCES_ROUTE } from '../config';
@@ -128,7 +128,7 @@ export function App() {
             
             // Chemist now has functional Dream Dust calculator
             if (prof.id === 'chemist') {
-              return <ChemistVerifiedCalculator />;
+              return <ChemistProductionPlanner />;
             }
             
             return <ProfessionCalculatorPage profession={prof} />;
