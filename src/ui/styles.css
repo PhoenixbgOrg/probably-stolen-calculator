@@ -219,3 +219,32 @@ a.link-btn:hover { box-shadow:0 0 0 var(--step) var(--line); }
 .ft-h { font-size:14px; color:var(--text); margin:.2rem 0 0; }
 .site-links ul { margin:.15rem 0; }
 .donation-slot:empty { display:none; }
+
+/* Main navigation (new restructured nav) */
+.main-nav { display:flex; flex-wrap:wrap; gap:.4rem; margin:.6rem 0; }
+.main-nav a { font-family:var(--pixel); background:var(--panel2); box-shadow:0 0 0 var(--step) var(--line-dim); padding:.5rem .9rem; min-height:44px; text-decoration:none; color:var(--text); display:inline-flex; align-items:center; }
+.main-nav a:hover { box-shadow:0 0 0 var(--step) var(--line); background:#3b3149; }
+.main-nav a.active { background:var(--title); color:#1d1826; box-shadow:0 0 0 var(--step) var(--accent); }
+
+/* Layout variants */
+.layout-single { max-width:900px; margin:0 auto; }
+.layout-single main { min-width:0; }
+
+/* Homepage profession grid */
+.profession-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:1rem; margin:1.5rem 0; }
+.profession-card { display:flex; flex-direction:column; align-items:center; gap:.5rem; background:var(--card); box-shadow:0 0 0 var(--step) var(--line-dim); padding:1rem; text-decoration:none; color:var(--text); min-height:44px; }
+.profession-card:hover { box-shadow:0 0 0 var(--step) var(--line); background:#2f3840; }
+.profession-card-text { text-align:center; width:100%; }
+.profession-name { font-family:var(--pixel); font-size:1rem; font-weight:600; }
+.profession-tag { font-size:.75rem; color:var(--muted); margin-top:.2rem; }
+.home-callout { background:var(--panel2); box-shadow:0 0 0 var(--step) var(--line-dim); padding:1rem; margin:1.5rem 2px; }
+.home-callout p { margin:.5rem 0; }
+
+/* Coming soon page */
+.coming-soon-header { display:flex; align-items:center; gap:1rem; margin-bottom:1rem; flex-wrap:wrap; }
+.coming-soon-content { margin-top:1rem; }
+
+@media (max-width:600px) {
+  .profession-grid { grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:.8rem; }
+  .profession-card { padding:.8rem; }
+}

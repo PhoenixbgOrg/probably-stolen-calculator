@@ -82,11 +82,11 @@ describe('site links and routing', () => {
     expect(renderToStaticMarkup(createElement(DonationSlot, { config: { enabled: true, url: null, label: 'x' } }))).toBe('');
   });
   it('parses hash routes', () => {
-    expect(pageFromHash('#/sources')).toBe('sources');
-    expect(pageFromHash('#sources')).toBe('sources');
-    expect(pageFromHash('#/sources/x')).toBe('sources');
-    expect(pageFromHash('')).toBe('builder');
-    expect(pageFromHash('#/')).toBe('builder');
-    expect(pageFromHash('#/sourcesx')).toBe('builder');
+    expect(pageFromHash('#/sources')).toEqual({ page: 'sources' });
+    expect(pageFromHash('#sources')).toEqual({ page: 'sources' });
+    expect(pageFromHash('#/sources/x')).toEqual({ page: 'sources' });
+    expect(pageFromHash('')).toEqual({ page: 'home' });
+    expect(pageFromHash('#/')).toEqual({ page: 'home' });
+    expect(pageFromHash('#/sourcesx')).toEqual({ page: 'home' });
   });
 });

@@ -10,18 +10,24 @@ import { ProfilesPanel } from './ProfilesPanel';
 import { SpecializationScreen } from './SpecializationScreen';
 import { shouldClearBlockedBanner } from '../engine/perkView';
 import { SourcesScreen } from './SourcesScreen';
+import { HomePage } from './HomePage';
+import { GameGuidePage } from './GameGuidePage';
+import { CalculatorComingSoon } from './CalculatorComingSoon';
+import { getProfession } from '../calculators/professions';
 import { publicUrl, SOURCES_ROUTE } from '../config';
 import { SiteFooter } from './SiteFooter';
 
-/** Hash routing (no router dependency): '#/sources' shows Sources & Credits; anything else shows the builder. Works under any sub-path and on refresh. */
-function useHashPage(): Page {
-  const [page, setPage] = useState<Page>(() => (typeof window === 'undefined' ? 'builder' : pageFromHash(window.location.hash)));
+/** Hash routing (no router dependency). Works under any sub-path and on refresh. */
+function useHashRoute(): { page: Page; param?: string } {
+  const [route, setRoute] = useState<{ page: Page; param?: string }>(() => 
+    typeof window === 'undefined' ? { page: 'home' } : pageFromHash(window.location.hash)
+  );
   useEffect(() => {
-    const on = () => { setPage(pageFromHash(window.location.hash)); window.scrollTo(0, 0); };
+    const on = () => { setRoute(pageFromHash(window.location.hash)); window.scrollTo(0, 0); };
     window.addEventListener('hashchange', on);
     return () => window.removeEventListener('hashchange', on);
   }, []);
-  return page;
+  return route;
 }
 
 
@@ -32,62 +38,112 @@ const STEPS: { id: Screen; label: string }[] = [
 ];
 
 export function App() {
-  const page = useHashPage();
+  const route = useHashRoute();
   const { state, dispatch, dismissNotice, dismissAllNotices, character, registry } = useBuilder();
   const [screen, setScreenRaw] = useState<Screen>('spec');
   const [blocked, setBlocked] = useState<{ msg: string; profileId: string | null } | null>(null);
   const blockedMsg = blocked?.msg ?? null;
   const setBlockedMsg = (msg: string | null) => setBlocked(msg ? { msg, profileId: state.store.activeProfileId } : null);
   const activeId = state.store.activeProfileId;
-  // Stale-banner fix: the "cannot open Overview" message is cleared when the active profile
-  // changes or the build becomes valid, so it never describes a different build.
+  
   useEffect(() => {
     if (blocked && shouldClearBlockedBanner(blocked.profileId, activeId, character.valid)) setBlocked(null);
   }, [blocked, activeId, character.valid]);
+  
   const continueBlocked = blockedMsg !== null;
-  // Continue gating: like the game, the Overview can only be reached with a valid build.
   const setScreen = (next: Screen) => {
     const r = navigate(next, character.violations);
     setBlockedMsg(r.message);
     setScreenRaw(r.screen);
   };
+  
+  const isBuilder = route.page === 'character-builder';
+  const showBuilderNav = isBuilder;
+  const showProfilePanel = isBuilder;
+  
   return (
     <div className="app">
       <header className="top">
-        <h1><img src={publicUrl('favicon.svg')} alt="" width="24" height="24" className="logo" /> Probably Stolen Calculator</h1>
-        <p className="muted small">Unofficial fan tool · Character Builder · game data {registry.gameVersion} (data {registry.dataVersion})</p>
-        <nav aria-label="Builder steps">
-          <ol className="steps">
-            {STEPS.map((s) => {
-              const locked = s.id === 'overview' && !character.valid;
-              return (
-                <li key={s.id}><button type="button" aria-current={page === 'builder' && screen === s.id ? 'step' : undefined} aria-disabled={locked || undefined}
-                  title={locked ? 'Locked: the build is invalid. Click to see why.' : undefined}
-                  className={`${page === 'builder' && screen === s.id ? 'active' : ''} ${locked ? 'step-locked' : ''}`} onClick={() => { if (page !== 'builder') window.location.hash = '#/'; setScreen(s.id); }}>{s.label}{locked ? ' 🔒' : ''}</button></li>
-              );
-            })}
-          </ol>
+        <h1>
+          <a href="#/" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <img src={publicUrl('favicon.svg')} alt="" width="24" height="24" className="logo" />
+            Probably Stolen Calculator
+          </a>
+        </h1>
+        <p className="muted small">Unofficial fan tool · game data {registry.gameVersion} (data {registry.dataVersion})</p>
+        
+        <nav aria-label="Main navigation" className="main-nav">
+          <a href="#/" className={route.page === 'home' ? 'active' : ''}>Home</a>
+          <a href="#/character-builder" className={route.page === 'character-builder' ? 'active' : ''}>Character Builder</a>
+          <a href="#/game-guide" className={route.page === 'game-guide' ? 'active' : ''}>Game Guide</a>
+          <a href={SOURCES_ROUTE} className={route.page === 'sources' ? 'active' : ''}>Sources & Credits</a>
         </nav>
+        
+        {showBuilderNav && (
+          <nav aria-label="Builder steps">
+            <ol className="steps">
+              {STEPS.map((s) => {
+                const locked = s.id === 'overview' && !character.valid;
+                return (
+                  <li key={s.id}>
+                    <button
+                      type="button"
+                      aria-current={screen === s.id ? 'step' : undefined}
+                      aria-disabled={locked || undefined}
+                      title={locked ? 'Locked: the build is invalid. Click to see why.' : undefined}
+                      className={`${screen === s.id ? 'active' : ''} ${locked ? 'step-locked' : ''}`}
+                      onClick={() => setScreen(s.id)}
+                    >
+                      {s.label}{locked ? ' 🔒' : ''}
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+          </nav>
+        )}
       </header>
+      
       <div aria-live="assertive" role="alert" className="live-region">
         {blockedMsg && !character.valid && (
-          <div className="callout error" data-testid="blocked-msg">{blockedMsg} <button type="button" className="link" onClick={() => setBlocked(null)}>Dismiss</button></div>
+          <div className="callout error" data-testid="blocked-msg">
+            {blockedMsg} <button type="button" className="link" onClick={() => setBlocked(null)}>Dismiss</button>
+          </div>
         )}
       </div>
+      
       {state.notices.length > 0 && <Notices notices={state.notices} onDismiss={dismissNotice} onDismissAll={dismissAllNotices} />}
-      <div className="layout">
+      
+      <div className={showProfilePanel ? 'layout' : 'layout-single'}>
         <main>
-          {page === 'sources' && <SourcesScreen reg={registry} />}
-          {page === 'builder' && screen === 'spec' && <SpecializationScreen reg={registry} build={state.build} dispatch={dispatch} onNext={() => setScreen('perks')} />}
-          {page === 'builder' && screen === 'perks' && <PerksScreen reg={registry} state={state} dispatch={dispatch} onBack={() => setScreen('spec')} onNext={() => setScreen('overview')} continueBlocked={continueBlocked} />}
-          {page === 'builder' && screen === 'overview' && <OverviewScreen reg={registry} c={character} onBack={() => setScreen('perks')} onFix={(sc) => setScreen(sc)} />}
+          {route.page === 'home' && <HomePage />}
+          {route.page === 'sources' && <SourcesScreen reg={registry} />}
+          {route.page === 'game-guide' && <GameGuidePage />}
+          {route.page === 'calculator' && route.param && (() => {
+            const prof = getProfession(route.param);
+            return prof ? (
+              prof.implemented ? (
+                <div className="panel"><h2 className="panel-title">{prof.name} Calculator</h2><p>Calculator implementation</p></div>
+              ) : (
+                <CalculatorComingSoon professionId={prof.id} professionName={prof.name} tag={prof.tag} />
+              )
+            ) : (
+              <div className="panel"><h2 className="panel-title">Unknown Calculator</h2><p>Calculator not found. <a href="#/">Return home</a></p></div>
+            );
+          })()}
+          {isBuilder && screen === 'spec' && <SpecializationScreen reg={registry} build={state.build} dispatch={dispatch} onNext={() => setScreen('perks')} />}
+          {isBuilder && screen === 'perks' && <PerksScreen reg={registry} state={state} dispatch={dispatch} onBack={() => setScreen('spec')} onNext={() => setScreen('overview')} continueBlocked={continueBlocked} />}
+          {isBuilder && screen === 'overview' && <OverviewScreen reg={registry} c={character} onBack={() => setScreen('perks')} onFix={(sc) => setScreen(sc)} />}
         </main>
-        <div className="side">
-          <ProfilesPanel state={state} dispatch={dispatch} />
-          {/* Reserved layout region for a possible future ad slot. Intentionally empty: no scripts, no trackers. */}
-          <div className="reserved-slot" aria-hidden="true" data-reserved="future-ad-slot" />
-        </div>
+        
+        {showProfilePanel && (
+          <div className="side">
+            <ProfilesPanel state={state} dispatch={dispatch} />
+            <div className="reserved-slot" aria-hidden="true" data-reserved="future-ad-slot" />
+          </div>
+        )}
       </div>
+      
       <footer className="small muted">
         <SiteFooter />
         <p>Unofficial fan project, not affiliated with or endorsed by the developers or publisher of Probably Stolen. Values come from community sources and may be outdated; badges show verification status. See <a href={SOURCES_ROUTE}>Sources &amp; Credits</a>.</p>

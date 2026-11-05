@@ -37,5 +37,25 @@ export function rovingIndex(current: number, key: string, count: number): number
 }
 
 /** Top-level page from the URL hash (hash routing: survives refresh/deep links under any sub-path, no 404 fallback needed). */
-export type Page = 'builder' | 'sources';
-export const pageFromHash = (hash: string): Page => (hash.replace(/^#\/?/, '').split(/[?/]/)[0] === 'sources' ? 'sources' : 'builder');
+export type Page = 'home' | 'character-builder' | 'calculator' | 'game-guide' | 'sources';
+
+export function pageFromHash(hash: string): { page: Page; param?: string } {
+  const cleaned = hash.replace(/^#\/?/, '');
+  const path = cleaned.split('?')[0] || '';
+  const parts = path.split('/').filter(Boolean);
+  
+  if (!parts.length) return { page: 'home' };
+  if (parts[0] === 'sources') return { page: 'sources' };
+  if (parts[0] === 'character-builder') return { page: 'character-builder' };
+  if (parts[0] === 'game-guide') return { page: 'game-guide' };
+  if (parts[0] === 'calculators' && parts[1]) return { page: 'calculator', param: parts[1] };
+  
+  // Backward compatibility: #/ without param goes to home (was builder, now shows home with builder link)
+  // #/perks, #/spec, #/overview -> redirect to character-builder
+  if (parts[0] && ['perks', 'spec', 'overview'].includes(parts[0])) {
+    if (typeof window !== 'undefined') window.location.hash = '#/character-builder';
+    return { page: 'character-builder' };
+  }
+  
+  return { page: 'home' };
+}

@@ -1,7 +1,7 @@
 import type { CharacterConfig, DerivedNumber } from '../engine/character';
 import type { GameDataRegistry } from '../data/types';
 import { fmt, SourceList, StatusBadge } from './common';
-import { CategoryMarker, PixelIcon } from './PixelIcon';
+import { CategoryMarker, ImprovedPixelIcon } from './ImprovedPixelIcon';
 import { flagLabel } from '../data/flags';
 import { perkCostLabel } from '../engine/labels';
 import { fixScreenFor } from '../state/navigation';
@@ -56,7 +56,7 @@ export function OverviewScreen({ reg, c, onBack, onFix }: { reg: GameDataRegistr
           <h3 className="section-h">Selected perks</h3>
           {c.perks.length === 0 ? <p className="muted small">No perks selected.</p> : (
             <ul className="ov-perks">{c.perks.map((p) => (
-              <li key={p.id} className={`cat-${p.category.value ?? 'neutral'}`}><PixelIcon id={p.id} tone={p.category.value ?? 'neutral'} size={24} /><CategoryMarker category={p.category.value ?? 'neutral'} /><span className="sel-name">{p.name}</span><span className="sel-cost">{perkCostLabel(p)}</span></li>
+              <li key={p.id} className={`cat-${p.category.value ?? 'neutral'}`}><ImprovedPixelIcon id={p.id} tone={p.category.value ?? 'neutral'} size={24} /><CategoryMarker category={p.category.value ?? 'neutral'} /><span className="sel-name">{p.name}</span><span className="sel-cost">{perkCostLabel(p)}</span></li>
             ))}</ul>
           )}
         </div>

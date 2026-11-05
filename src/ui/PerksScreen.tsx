@@ -9,7 +9,7 @@ import { rovingIndex } from '../state/navigation';
 import { flagLabel } from '../data/flags';
 import { fmt, ProvenanceTip, SourceList, StatusBadge, Tip } from './common';
 import { firstRunExplanation, perkCostLabel } from '../engine/labels';
-import { CategoryMarker, PixelIcon } from './PixelIcon';
+import { CategoryMarker, ImprovedPixelIcon } from './ImprovedPixelIcon';
 
 const CAT_LABEL = { positive: 'Positive', negative: 'Negative', neutral: 'Neutral' } as const;
 
@@ -22,7 +22,7 @@ function PerkDetail({ reg, build, perkId, dispatch }: { reg: GameDataRegistry; b
   return (
     <div className="perk-detail" data-testid="perk-detail" aria-live="polite">
       <div className="title-row">
-        <PixelIcon id={p.id} tone={cat} size={32} />
+        <ImprovedPixelIcon id={p.id} tone={cat} size={32} showTooltip={false} />
         <h3>{p.name}</h3>
         <span className={`cat-chip cat-${cat}`}><CategoryMarker category={cat} /> {CAT_LABEL[cat]}</span>
         <span className="cost-chip">{perkCostLabel(p)}</span>
@@ -141,7 +141,7 @@ export function PerksScreen({ reg, state, dispatch, onBack, onNext, continueBloc
             <button key={p.id} type="button" className={`icon-btn perk-icon cat-${cat} ${st} ${viewId === p.id ? 'viewing' : ''}`}
               data-perk={p.id} aria-label={ariaFor(p, st)} aria-current={viewId === p.id ? 'true' : undefined} aria-controls="perk-detail-area"
               tabIndex={i === focusIdx ? 0 : -1} onKeyDown={(e) => onKey(e, i)} onClick={() => view(p.id, true)} title={p.name}>
-              <PixelIcon id={p.id} tone={cat} />
+              <ImprovedPixelIcon id={p.id} tone={cat} />
               <CategoryMarker category={cat} />
               {st.includes('selected') && <span className="sel-mark" aria-hidden="true">✔</span>}
               {(st === 'blocked' || st === 'conflict' || st.includes('offending')) && <span className="warn-mark" aria-hidden="true">{st === 'blocked' ? '⊘' : '!'}</span>}
@@ -159,7 +159,7 @@ export function PerksScreen({ reg, state, dispatch, onBack, onNext, continueBloc
           {selectedPerks.map((p) => (
             <li key={p.id} className={offending.has(p.id) ? 'offending' : ''}>
               <button type="button" className={`sel-row cat-${p.category.value ?? 'neutral'}`} onClick={() => view(p.id, true)} aria-label={`View ${p.name}`}>
-                <PixelIcon id={p.id} tone={p.category.value ?? 'neutral'} size={28} />
+                <ImprovedPixelIcon id={p.id} tone={p.category.value ?? 'neutral'} size={28} />
                 <span className="sel-name">{p.name}</span>
                 <span className="sel-meta">
                   <span className="sel-cost">{perkCostLabel(p)}</span>

@@ -5,7 +5,7 @@ import type { Action } from '../state/reducer';
 import type { BuildInput } from '../engine/types';
 import { rovingIndex } from '../state/navigation';
 import { fmt, ProvenanceTip, SourceList, StatusBadge } from './common';
-import { PixelIcon } from './PixelIcon';
+import { ImprovedPixelIcon } from './ImprovedPixelIcon';
 
 function List({ title, items }: { title: string; items: string[] | null | undefined }) {
   if (!items || items.length === 0) return null;
@@ -79,14 +79,14 @@ export function SpecializationScreen({ reg, build, dispatch, onNext }: { reg: Ga
               return (
                 <button key={s.id} type="button" role="radio" aria-checked={false} aria-disabled="true" tabIndex={-1} disabled
                   className="icon-btn spec-icon disabled" data-testid={`spec-${s.id}`} title={`${s.name}: Work in Progress in the game, cannot be started`}>
-                  <PixelIcon id={s.id} tone="disabled" /><span className="icon-label">{s.name}</span><span className="sr-only"> (Work in Progress, unavailable)</span>
+                  <ImprovedPixelIcon id={s.id} tone="disabled" /><span className="icon-label">{s.name}</span><span className="sr-only"> (Work in Progress, unavailable)</span>
                 </button>
               );
             }
             return (
               <button key={s.id} type="button" role="radio" aria-checked={selected} className={`icon-btn spec-icon ${selected ? 'selected' : ''}`} data-spec={s.id}
                 tabIndex={idx === focusIdx ? 0 : -1} onKeyDown={(e) => onKey(e, idx)} onClick={() => dispatch({ type: 'selectSpecialization', id: s.id })}>
-                <PixelIcon id={s.id} tone="spec" /><span className="icon-label">{s.name}</span>
+                <ImprovedPixelIcon id={s.id} tone="spec" /><span className="icon-label">{s.name}</span>
               </button>
             );
           })}
