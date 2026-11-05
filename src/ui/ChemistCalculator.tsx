@@ -1,89 +1,105 @@
 import React, { useState } from 'react';
 import {
-  calculateDreamDust,
-  calculatePurityUpgrade,
+  calculateDreamDustPerUpdate,
+  dreamCapGramsToMushML,
   type DreamDustInputs,
   type DreamDustOutputs,
   PURITY_GRADES,
+  DREAM_CAP_REFERENCE_WEIGHT_G,
+  DREAM_CAP_REFERENCE_MUSH_ML,
 } from '../calculators/dreamDust';
 
 /**
  * Dream Dust production calculator UI
- * Supports the primary scenario: 42% → 45% purity with limited beginner budget
+ * Shows PER-UPDATE extraction formulas from source
+ * Requires Composition Spectrometer measurements for purity
  */
 export function ChemistCalculator() {
-  // Input state
-  const [dreamCapAmount, setDreamCapAmount] = useState(10); // grams
-  const [alcoholAmount, setAlcoholAmount] = useState(50); // mL
+  // Basic inputs
+  const [dreamCapGrams, setDreamCapGrams] = useState(32.5); // reference weight
+  const [alcoholML, setAlcoholML] = useState(136.7); // 5:1 ratio
   const [finisherModules, setFinisherModules] = useState(0);
-  const [targetPurity, setTargetPurity] = useState(45); // percentage
-  const [showAdvanced, setShowAdvanced] = useState(false);
+  
+  // Optional Spectrometer measurements
+  const [hasSpectrometerData, setHasSpectrometerData] = useState(false);
+  const [extractML, setExtractML] = useState<number | undefined>();
+  const [totalML, setTotalML] = useState<number | undefined>();
+  const [targetPurity, setTargetPurity] = useState<number | undefined>(45);
   
   // Calculate
   const inputs: DreamDustInputs = {
-    dreamCapAmount,
-    alcoholAmount,
-    alcoholType: 'ethanol',
-    blenderModules: 0,
+    dreamCapGrams,
+    alcoholML,
     finisherModules,
-    hasEvaporator: true,
-    hasSpectrometer: false,
-    targetPurity,
+    currentExtractML: hasSpectrometerData ? extractML : undefined,
+    currentMixtureTotalML: hasSpectrometerData ? totalML : undefined,
+    targetPurity: targetPurity,
   };
   
-  const outputs: DreamDustOutputs = calculateDreamDust(inputs);
-  const upgrade = calculatePurityUpgrade(outputs.finalPurityPercent, finisherModules, targetPurity);
+  const outputs: DreamDustOutputs = calculateDreamDustPerUpdate(inputs);
   
   return (
     <div className="calculator chemist-calculator">
       <div className="calculator-header">
-        <h2>Dream Dust Production Calculator</h2>
+        <h2>Dream Dust Per-Update Calculator</h2>
         <p className="subtitle">
-          Calculate optimal Dream Cap extraction and Chem Finisher purity
+          Source-derived extraction formulas (per heating-plate update, ~1 second)
         </p>
         <p className="subtitle small">
-          Based on verified mechanics from <a href="https://probably-stolen.org/chemistry/" target="_blank" rel="noopener noreferrer">probably-stolen.org/chemistry/</a>
+          Primary source: <a href="https://probably-stolen.nicokobo.com/en/wiki/terms/chemical-processing" target="_blank" rel="noopener noreferrer">nicokobo.com wiki (retrieved via WebSearch 2026-11-05)</a>
         </p>
       </div>
       
       <div className="calculator-content">
+        {/* CRITICAL NOTICE */}
+        <section className="disclaimer-section">
+          <h4>⚠️ Per-Update Calculation</h4>
+          <p className="disclaimer">
+            <strong>These are per-update values</strong> (~once per second while heated at ≥40°C). Actual extraction requires heating mush with alcohol over many updates until mush is depleted. This calculator shows the source-derived formula but cannot predict total production without heating duration.
+          </p>
+        </section>
+        
         {/* INPUTS */}
         <section className="input-section">
-          <h3>Materials & Equipment</h3>
+          <h3>Materials</h3>
           
           <div className="input-group">
             <label htmlFor="dreamCap">
               Dream Cap Amount (grams)
-              <span className="help-text">Raw mushroom material to blend</span>
+              <span className="help-text">Reference: {DREAM_CAP_REFERENCE_WEIGHT_G}g = {DREAM_CAP_REFERENCE_MUSH_ML}mL mush (before blending loss)</span>
             </label>
             <input
               id="dreamCap"
               type="number"
-              min="1"
+              min="0"
+              step="0.1"
               max="1000"
-              value={dreamCapAmount}
-              onChange={(e) => setDreamCapAmount(Number(e.target.value))}
+              value={dreamCapGrams}
+              onChange={(e) => setDreamCapGrams(Number(e.target.value))}
             />
+            <div className="info-badge">
+              Converts to: {outputs.dreamCapMushML.toFixed(3)} mL mush
+            </div>
           </div>
           
           <div className="input-group">
             <label htmlFor="alcohol">
               Alcohol Amount (mL)
-              <span className="help-text">Optimal ratio is 5:1 alcohol to mush</span>
+              <span className="help-text">Optimal: 5:1 alcohol to mush (≥5:1 reaches 50% per-update cap)</span>
             </label>
             <input
               id="alcohol"
               type="number"
-              min="1"
+              min="0"
+              step="0.1"
               max="5000"
-              value={alcoholAmount}
-              onChange={(e) => setAlcoholAmount(Number(e.target.value))}
+              value={alcoholML}
+              onChange={(e) => setAlcoholML(Number(e.target.value))}
             />
-            {!outputs.isOptimalRatio && (
-              <div className="alert warning">
-                {outputs.ratioRecommendation}
-              </div>
-            )}
+            <div className={`info-badge ${outputs.isOptimalRatio ? 'success' : 'warning'}`}>
+              Ratio: {outputs.alcoholToMushRatio.toFixed(2)}:1
+              {outputs.isOptimalRatio ? ' (OPTIMAL ≥5)' : ' (SUBOPTIMAL <5)'}
+            </div>
           </div>
           
           <div className="input-group">
@@ -103,198 +119,207 @@ export function ChemistCalculator() {
               Contamination: {outputs.finisherContaminationPercent}%
             </div>
           </div>
+        </section>
+        
+        {/* SPECTROMETER INPUTS */}
+        <section className="input-section">
+          <h3>Composition Spectrometer Measurements (Optional)</h3>
+          <p className="info-text">
+            For purity calculation, measure your finished mixture with the Composition Spectrometer
+          </p>
           
           <div className="input-group">
-            <label htmlFor="targetPurity">
-              Target Purity (%)
-              <span className="help-text">Required for Cartel mission or personal goal</span>
+            <label>
+              <input
+                type="checkbox"
+                checked={hasSpectrometerData}
+                onChange={(e) => setHasSpectrometerData(e.target.checked)}
+              />
+              {' '}I have Composition Spectrometer readings
             </label>
-            <input
-              id="targetPurity"
-              type="number"
-              min="0"
-              max="100"
-              value={targetPurity}
-              onChange={(e) => setTargetPurity(Number(e.target.value))}
-            />
           </div>
           
-          <button
-            className="toggle-advanced"
-            onClick={() => setShowAdvanced(!showAdvanced)}
-          >
-            {showAdvanced ? '▼' : '▶'} Advanced options
-          </button>
-          
-          {showAdvanced && (
-            <div className="advanced-section">
-              <p className="info-text">
-                Advanced options coming in future update (Blender modules, Spectrometer, mid-process resume)
-              </p>
-            </div>
+          {hasSpectrometerData && (
+            <>
+              <div className="input-group">
+                <label htmlFor="extractML">
+                  Dream Cap Extract (mL)
+                  <span className="help-text">Active ingredient volume from Spectrometer</span>
+                </label>
+                <input
+                  id="extractML"
+                  type="number"
+                  min="0"
+                  step="0.001"
+                  value={extractML || ''}
+                  onChange={(e) => setExtractML(e.target.value ? Number(e.target.value) : undefined)}
+                />
+              </div>
+              
+              <div className="input-group">
+                <label htmlFor="totalML">
+                  Total Mixture (mL)
+                  <span className="help-text">Total volume from Spectrometer</span>
+                </label>
+                <input
+                  id="totalML"
+                  type="number"
+                  min="0"
+                  step="0.001"
+                  value={totalML || ''}
+                  onChange={(e) => setTotalML(e.target.value ? Number(e.target.value) : undefined)}
+                />
+              </div>
+              
+              <div className="input-group">
+                <label htmlFor="targetPurity">
+                  Target Purity (%)
+                  <span className="help-text">Optional comparison target</span>
+                </label>
+                <input
+                  id="targetPurity"
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="0.01"
+                  value={targetPurity || ''}
+                  onChange={(e) => setTargetPurity(e.target.value ? Number(e.target.value) : undefined)}
+                />
+              </div>
+            </>
           )}
         </section>
         
         {/* OUTPUTS */}
         <section className="output-section">
-          <h3>Production Results</h3>
+          <h3>Per-Update Extraction (Source-Derived Formula)</h3>
           
-          {/* Step 1-2: Blending & Ratio */}
           <div className="output-group">
-            <h4>1. Blending & Alcohol Ratio</h4>
-            <div className="output-row">
-              <span className="output-label">Blended volume:</span>
-              <span className="output-value">
-                {outputs.blendedVolume.toFixed(1)} mL mush
-                <span className="badge estimated">ESTIMATED</span>
-              </span>
-            </div>
-            <div className="output-row">
-              <span className="output-label">Alcohol ratio:</span>
-              <span className="output-value">
-                {outputs.alcoholToMushRatio.toFixed(1)}:1
-                {outputs.isOptimalRatio && <span className="badge verified">OPTIMAL</span>}
-                {!outputs.isOptimalRatio && <span className="badge warning">SUBOPTIMAL</span>}
-              </span>
-            </div>
-            <p className="output-note">
-              {outputs.ratioRecommendation}
+            <h4>Extraction Formula (Branch 4)</h4>
+            <p className="output-note small">
+              Source: "q=min(M,max(2000,round(0.1M)))" and "y=round(q×min(0.5,0.1A/M))"
             </p>
-          </div>
-          
-          {/* Step 3: Temperature */}
-          <div className="output-group">
-            <h4>2. Reaction Conditions</h4>
             <div className="output-row">
-              <span className="output-label">Temperature range:</span>
+              <span className="output-label">Processed mush per update:</span>
               <span className="output-value">
-                {outputs.temperatureRange}
-                <span className="badge verified">VERIFIED</span>
-              </span>
-            </div>
-            {outputs.temperatureWarning && (
-              <div className="alert warning">
-                ⚠️ {outputs.temperatureWarning}
-              </div>
-            )}
-          </div>
-          
-          {/* Step 4: Extraction */}
-          <div className="output-group">
-            <h4>3. Extraction</h4>
-            <div className="output-row">
-              <span className="output-label">Dream Cap extract:</span>
-              <span className="output-value">
-                {outputs.extractedDreamCapML.toFixed(2)} mL
-                <span className="badge estimated">ESTIMATED</span>
+                {outputs.perUpdateProcessedMushML.toFixed(3)} mL
+                <span className="badge verified">SOURCE-DERIVED</span>
               </span>
             </div>
             <div className="output-row">
-              <span className="output-label">Efficiency:</span>
-              <span className="output-value">{outputs.extractionEfficiency.toFixed(1)}%</span>
-            </div>
-            <p className="output-note small">{outputs.extractionNote}</p>
-          </div>
-          
-          {/* Step 5: Evaporation */}
-          <div className="output-group">
-            <h4>4. Evaporation</h4>
-            <div className="output-row">
-              <span className="output-label">Alcohol to remove:</span>
-              <span className="output-value">{outputs.alcoholToRemove.toFixed(1)} mL</span>
-            </div>
-            <div className="output-row">
-              <span className="output-label">Dry extract:</span>
+              <span className="output-label">Extract yield per update:</span>
               <span className="output-value">
-                {outputs.remainingAfterEvap.toFixed(2)} mL
-                <span className="badge verified">REQUIRED</span>
+                {outputs.perUpdateExtractYieldML.toFixed(3)} mL
+                <span className="badge verified">SOURCE-DERIVED</span>
               </span>
             </div>
-            <p className="output-note">Finisher requires dry batch (alcohol removed)</p>
+            <div className="output-row">
+              <span className="output-label">Plant Matter per update:</span>
+              <span className="output-value">
+                {outputs.perUpdatePlantMatterML.toFixed(3)} mL
+              </span>
+            </div>
+            <div className="output-row">
+              <span className="output-label">Extraction efficiency:</span>
+              <span className="output-value">
+                {outputs.extractionEfficiency.toFixed(1)}%
+                {outputs.atYieldCap && <span className="badge success">AT 50% CAP</span>}
+              </span>
+            </div>
           </div>
           
-          {/* Step 6: Finisher contamination */}
           <div className="output-group">
-            <h4>5. Chem Finisher</h4>
+            <h4>Temperature Requirements</h4>
+            <div className="output-row">
+              <span className="output-label">Extraction starts at:</span>
+              <span className="output-value">
+                {outputs.extractionTempRange}
+                <span className="badge verified">SOURCE-DERIVED</span>
+              </span>
+            </div>
+            <div className="alert warning">
+              ⚠️ Mush degrades: {outputs.degradationThresholds.mush}<br/>
+              ⚠️ Extract degrades: {outputs.degradationThresholds.extract}
+            </div>
+          </div>
+          
+          <div className="output-group">
+            <h4>Chem Finisher Requirements</h4>
+            <div className="output-row">
+              <span className="output-label">Sample size:</span>
+              <span className="output-value">
+                {outputs.finisherSampleSizeML} mL
+                <span className="badge verified">SOURCE-DERIVED</span>
+              </span>
+            </div>
             <div className="output-row">
               <span className="output-label">Contamination:</span>
               <span className="output-value">
-                {outputs.finisherContaminationPercent}% ({outputs.contaminationML.toFixed(2)} mL)
-                <span className="badge verified">VERIFIED</span>
+                {outputs.finisherContaminationPercent}% (with {finisherModules} modules)
+                <span className="badge verified">SOURCE-DERIVED</span>
               </span>
             </div>
             <div className="output-row">
-              <span className="output-label">Final batch volume:</span>
-              <span className="output-value">{outputs.totalBatchVolume.toFixed(2)} mL</span>
-            </div>
-          </div>
-          
-          {/* Step 7: Final purity */}
-          <div className="output-group highlight">
-            <h4>6. Final Purity</h4>
-            <div className="output-row">
-              <span className="output-label">Purity:</span>
-              <span className="output-value large">
-                {outputs.finalPurityPercent.toFixed(2)}%
-                <span className={`badge grade-${outputs.finalPurityGrade.toLowerCase().replace(/\s+/g, '-')}`}>
-                  {outputs.finalPurityGrade}
-                </span>
-              </span>
-            </div>
-            {outputs.cartelMissionStatus && (
-              <div className={`alert ${outputs.cartelMissionStatus.meetsRequirement ? 'success' : 'error'}`}>
-                {outputs.cartelMissionStatus.meetsRequirement ? '✓' : '✗'} Target: {outputs.cartelMissionStatus.requiredPurity}%
-                {outputs.cartelMissionStatus.meetsRequirement ? ' (MEETS REQUIREMENT)' : ' (DOES NOT MEET)'}
-              </div>
-            )}
-          </div>
-          
-          {/* Step 8: Vials */}
-          <div className="output-group">
-            <h4>7. Vial Production</h4>
-            <div className="output-row">
-              <span className="output-label">Vials produced:</span>
-              <span className="output-value large">
-                {outputs.vialsProduced} vials
-                <span className="badge verified">2 mL each</span>
-              </span>
-            </div>
-            {outputs.leftoverML > 0 && (
-              <div className="output-row">
-                <span className="output-label">Leftover:</span>
-                <span className="output-value">{outputs.leftoverML.toFixed(2)} mL</span>
-              </div>
-            )}
-          </div>
-          
-          {/* Step 9: Value */}
-          <div className="output-group">
-            <h4>8. Estimated Value</h4>
-            <div className="output-row">
-              <span className="output-label">Base price:</span>
-              <span className="output-value">{outputs.baseValuePerVial}₵ per vial</span>
-            </div>
-            <div className="output-row">
-              <span className="output-label">Grade modifier:</span>
+              <span className="output-label">Dry input required:</span>
               <span className="output-value">
-                {(outputs.gradeModifier * 100).toFixed(0)}%
-                <span className="badge estimated">ESTIMATED</span>
+                Evaporative components ≤0.1 mL
+                <span className="badge verified">SOURCE-DERIVED</span>
               </span>
-            </div>
-            <div className="output-row">
-              <span className="output-label">Value per vial:</span>
-              <span className="output-value">{outputs.estimatedValuePerVial.toFixed(1)}₵</span>
-            </div>
-            <div className="output-row highlight">
-              <span className="output-label">Total value:</span>
-              <span className="output-value large">{outputs.totalEstimatedValue.toFixed(0)}₵</span>
             </div>
           </div>
           
-          {/* Step 10: Recommendations */}
+          {/* Purity (only if Spectrometer data provided) */}
+          {outputs.calculatedPurity !== undefined && (
+            <div className="output-group highlight">
+              <h4>Measured Purity (from Spectrometer)</h4>
+              <div className="output-row">
+                <span className="output-label">Purity:</span>
+                <span className="output-value large">
+                  {outputs.calculatedPurity.toFixed(2)}%
+                  <span className={`badge grade-${outputs.purityGrade?.toLowerCase().replace(/\s+/g, '-')}`}>
+                    {outputs.purityGrade}
+                  </span>
+                </span>
+              </div>
+              {targetPurity !== undefined && (
+                <div className={`alert ${outputs.calculatedPurity >= targetPurity ? 'success' : 'error'}`}>
+                  {outputs.calculatedPurity >= targetPurity ? '✓' : '✗'} Target: {targetPurity}%
+                  {outputs.calculatedPurity >= targetPurity ? ' (MEETS TARGET)' : ' (BELOW TARGET)'}
+                </div>
+              )}
+              <div className="output-row">
+                <span className="output-label">Grade modifier:</span>
+                <span className="output-value">
+                  {((outputs.gradeModifier || 0) * 100).toFixed(0)}%
+                  <span className="badge verified">SOURCE-DERIVED</span>
+                </span>
+              </div>
+              <div className="output-row">
+                <span className="output-label">Base value:</span>
+                <span className="output-value">
+                  {outputs.baseValuePerVial}₵ per vial
+                  <span className="badge verified">SOURCE-DERIVED</span>
+                </span>
+              </div>
+            </div>
+          )}
+          
+          {/* Missing inputs warning */}
+          {outputs.missingInputs.length > 0 && (
+            <div className="output-group">
+              <h4>⚠️ Missing Inputs</h4>
+              <ul>
+                {outputs.missingInputs.map((input, i) => (
+                  <li key={i}>{input}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          
+          {/* Recommendations */}
           {outputs.recommendations.length > 0 && (
             <div className="output-group recommendations">
-              <h4>9. Recommendations</h4>
+              <h4>Recommendations</h4>
               <ul>
                 {outputs.recommendations.map((rec, i) => (
                   <li key={i}>{rec}</li>
@@ -302,49 +327,24 @@ export function ChemistCalculator() {
               </ul>
             </div>
           )}
-          
-          {/* Upgrade path */}
-          {upgrade.needsUpgrade && (
-            <div className="output-group upgrade-path">
-              <h4>10. Upgrade Path (42% → 45% scenario)</h4>
-              <div className="upgrade-card">
-                <div className="output-row">
-                  <span className="output-label">Current purity:</span>
-                  <span className="output-value">{outputs.finalPurityPercent.toFixed(2)}%</span>
-                </div>
-                <div className="output-row">
-                  <span className="output-label">Modules needed:</span>
-                  <span className="output-value">{upgrade.modulesNeeded} (+{upgrade.modulesNeeded - finisherModules})</span>
-                </div>
-                <div className="output-row">
-                  <span className="output-label">Estimated new purity:</span>
-                  <span className="output-value">{upgrade.estimatedPurityWithUpgrade.toFixed(2)}%</span>
-                </div>
-                <div className="output-row">
-                  <span className="output-label">Cost:</span>
-                  <span className="output-value large">{upgrade.cost}₵</span>
-                </div>
-              </div>
-            </div>
-          )}
         </section>
         
         {/* Purity grades reference */}
         <section className="reference-section">
-          <h3>Purity Grades Reference</h3>
+          <h3>Purity Grades Reference (Source-Derived)</h3>
           <table className="purity-table">
             <thead>
               <tr>
                 <th>Grade</th>
-                <th>Min Purity</th>
-                <th>Price Modifier</th>
+                <th>Purity Range</th>
+                <th>Value Modifier</th>
               </tr>
             </thead>
             <tbody>
               {PURITY_GRADES.map((grade) => (
                 <tr key={grade.name}>
                   <td>{grade.name}</td>
-                  <td>{grade.minPurity}%</td>
+                  <td>≥{grade.minPurity}%</td>
                   <td>{(grade.modifier * 100).toFixed(0)}%</td>
                 </tr>
               ))}
@@ -352,24 +352,10 @@ export function ChemistCalculator() {
           </table>
         </section>
         
-        {/* Cartel mission note */}
-        {outputs.cartelMissionStatus && (
-          <section className="disclaimer-section">
-            <h4>Cartel Mission Note</h4>
-            <p className="disclaimer">
-              {outputs.cartelMissionStatus.note}
-            </p>
-            <p className="disclaimer">
-              <strong>Manual mission inputs:</strong> Enter your current Cartel mission required purity in the "Target Purity" field.
-              If actual game progression differs from displayed results, please provide source documentation.
-            </p>
-          </section>
-        )}
-        
-        {/* Source limitations */}
+        {/* Limitations */}
         {outputs.limitations.length > 0 && (
           <section className="limitations-section">
-            <h4>⚠️ Calculation Limitations</h4>
+            <h4>⚠️ Calculator Limitations</h4>
             <ul>
               {outputs.limitations.map((lim, i) => (
                 <li key={i}>{lim}</li>

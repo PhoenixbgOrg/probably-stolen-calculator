@@ -1,423 +1,326 @@
 /**
- * Dream Dust calculator tests
- * Verifies mechanics from probably-stolen.org/chemistry/
+ * Dream Dust calculator tests - SOURCE-DERIVED FORMULAS ONLY
+ * Tests verify implementation matches wiki formulas exactly
  */
 
 import { describe, test, expect } from 'vitest';
 import {
-  calculateDreamDust,
-  calculatePurityUpgrade,
+  calculateDreamDustPerUpdate,
+  dreamCapGramsToMushML,
   getFinisherContamination,
   getPurityGrade,
+  DREAM_CAP_REFERENCE_WEIGHT_G,
+  DREAM_CAP_REFERENCE_MUSH_ML,
   type DreamDustInputs,
 } from '../src/calculators/dreamDust';
 
-describe('Dream Dust Calculator', () => {
-  describe('Finisher contamination (VERIFIED)', () => {
-    test('0 modules = 12% contamination', () => {
+describe('Dream Dust Calculator - Source-Derived', () => {
+  describe('Dream Cap reference weight conversion (SOURCE-DERIVED)', () => {
+    test('32.5g reference = 27.333mL mush', () => {
+      const result = dreamCapGramsToMushML(DREAM_CAP_REFERENCE_WEIGHT_G);
+      expect(result).toBe(DREAM_CAP_REFERENCE_MUSH_ML);
+    });
+
+    test('65g (2x reference) = 54.666mL mush', () => {
+      const result = dreamCapGramsToMushML(65);
+      expect(result).toBeCloseTo(54.666, 3);
+    });
+
+    test('16.25g (0.5x reference) = 13.666mL mush (truncated to µL)', () => {
+      const result = dreamCapGramsToMushML(16.25);
+      // 0.5 * 27.333 = 13.6665, truncate to µL = 13.666mL
+      expect(result).toBe(13.666);
+    });
+  });
+
+  describe('Finisher contamination (SOURCE-DERIVED)', () => {
+    test('0 modules = 12%', () => {
       expect(getFinisherContamination(0)).toBe(12);
     });
 
-    test('1 module = 6% contamination', () => {
+    test('1 module = 6%', () => {
       expect(getFinisherContamination(1)).toBe(6);
     });
 
-    test('2 modules = 3% contamination', () => {
+    test('2 modules = 3%', () => {
       expect(getFinisherContamination(2)).toBe(3);
     });
 
-    test('3 modules = 1% contamination', () => {
+    test('3 modules = 1%', () => {
       expect(getFinisherContamination(3)).toBe(1);
     });
 
-    test('4+ modules = 0% contamination', () => {
+    test('4+ modules = 0%', () => {
       expect(getFinisherContamination(4)).toBe(0);
       expect(getFinisherContamination(5)).toBe(0);
       expect(getFinisherContamination(10)).toBe(0);
     });
   });
 
-  describe('Purity grades (VERIFIED)', () => {
-    test('Lab Pure ≥99% with +135% modifier', () => {
+  describe('Purity grades (SOURCE-DERIVED)', () => {
+    test('Lab Pure ≥99% = +135%', () => {
       const grade = getPurityGrade(99);
       expect(grade.name).toBe('Lab Pure');
       expect(grade.modifier).toBe(1.35);
     });
 
-    test('Street Standard 60-89%', () => {
+    test('Pharma-Grade 90-98.99% = +85%', () => {
+      const grade = getPurityGrade(95);
+      expect(grade.name).toBe('Pharma-Grade');
+      expect(grade.modifier).toBe(0.85);
+    });
+
+    test('Near Pharma 80-89.99% = +40%', () => {
+      const grade = getPurityGrade(85);
+      expect(grade.name).toBe('Near Pharma');
+      expect(grade.modifier).toBe(0.40);
+    });
+
+    test('Street Standard 60-79.99% = +0%', () => {
       const grade = getPurityGrade(70);
       expect(grade.name).toBe('Street Standard');
       expect(grade.modifier).toBe(0);
     });
 
-    test('Starch Grade <30% with -95% modifier', () => {
+    test('Cut Product 45-59.99% = -45%', () => {
+      const grade = getPurityGrade(50);
+      expect(grade.name).toBe('Cut Product');
+      expect(grade.modifier).toBe(-0.45);
+    });
+
+    test('Junk Grade 30-44.99% = -75%', () => {
+      const grade = getPurityGrade(40);
+      expect(grade.name).toBe('Junk Grade');
+      expect(grade.modifier).toBe(-0.75);
+    });
+
+    test('Starch Grade <30% = -95%', () => {
       const grade = getPurityGrade(25);
       expect(grade.name).toBe('Starch Grade');
       expect(grade.modifier).toBe(-0.95);
     });
+  });
 
-    test('Cut Product 45-59%', () => {
-      const grade = getPurityGrade(45);
-      expect(grade.name).toBe('Cut Product');
+  describe('Per-update extraction formula (SOURCE-DERIVED branch 4)', () => {
+    test('Optimal 5:1 ratio reaches 50% per-update yield cap', () => {
+      const inputs: DreamDustInputs = {
+        dreamCapMushML: 27.333, // reference amount
+        alcoholML: 136.665, // 5x mush (5:1)
+        finisherModules: 0,
+      };
+
+      const result = calculateDreamDustPerUpdate(inputs);
+
+      // M = 27.333mL = 27333µL
+      // q = min(M, max(2000, round(0.1*M))) = min(27333, max(2000, 2733)) = 2733µL
+      expect(result.perUpdateProcessedMushML).toBeCloseTo(2.733, 3);
+
+      // A/M = 136.665/27.333 = 5 >= 5, so min(0.5, 0.1*A/M) = 0.5
+      // y = round(2733 * 0.5) = 1367µL
+      expect(result.perUpdateExtractYieldML).toBeCloseTo(1.367, 3);
+      expect(result.extractionEfficiency).toBeCloseTo(50, 1);
+      expect(result.atYieldCap).toBe(true);
+    });
+
+    test('Suboptimal 3:1 ratio yields <50% per update', () => {
+      const inputs: DreamDustInputs = {
+        dreamCapMushML: 27.333,
+        alcoholML: 82, // 3x mush (3:1)
+        finisherModules: 0,
+      };
+
+      const result = calculateDreamDustPerUpdate(inputs);
+
+      // A/M = 82/27.333 = 3, so min(0.5, 0.1*3) = 0.3
+      // y = round(2733 * 0.3) = 820µL
+      expect(result.perUpdateExtractYieldML).toBeCloseTo(0.820, 3);
+      expect(result.extractionEfficiency).toBeCloseTo(30, 1);
+      expect(result.atYieldCap).toBe(false);
+    });
+
+    test('10:1 ratio still caps at 50% per update (no benefit beyond 5:1)', () => {
+      const inputs: DreamDustInputs = {
+        dreamCapMushML: 27.333,
+        alcoholML: 273.33, // 10x mush
+        finisherModules: 0,
+      };
+
+      const result = calculateDreamDustPerUpdate(inputs);
+
+      // A/M = 10, min(0.5, 0.1*10) = min(0.5, 1) = 0.5
+      expect(result.extractionEfficiency).toBeCloseTo(50, 1);
+      expect(result.atYieldCap).toBe(true);
+    });
+
+    test('Minimum 2mL mush processing when M < 20mL', () => {
+      const inputs: DreamDustInputs = {
+        dreamCapMushML: 10, // 10mL mush
+        alcoholML: 50, // 5:1 optimal
+        finisherModules: 0,
+      };
+
+      const result = calculateDreamDustPerUpdate(inputs);
+
+      // M = 10mL = 10000µL
+      // q = min(10000, max(2000, round(0.1*10000))) = min(10000, 2000) = 2000µL
+      expect(result.perUpdateProcessedMushML).toBe(2);
+
+      // y = round(2000 * 0.5) = 1000µL = 1mL
+      expect(result.perUpdateExtractYieldML).toBe(1);
     });
   });
 
-  describe('Primary scenario: 42% → 45% purity', () => {
-    test('0 modules produces ~42% purity (12% contamination)', () => {
+  describe('Purity calculation (requires Spectrometer)', () => {
+    test('Calculates purity from measured extract and total', () => {
       const inputs: DreamDustInputs = {
-        dreamCapAmount: 10,
-        alcoholAmount: 50,
-        alcoholType: 'ethanol',
-        blenderModules: 0,
+        dreamCapMushML: 27.333,
+        alcoholML: 136.665,
         finisherModules: 0,
-        hasEvaporator: true,
-        hasSpectrometer: false,
-        targetPurity: 45,
+        currentExtractML: 5, // measured Dream Cap Extract
+        currentMixtureTotalML: 10, // measured total mixture
       };
 
-      const result = calculateDreamDust(inputs);
+      const result = calculateDreamDustPerUpdate(inputs);
 
-      // With 0 modules, finisher adds 12% contamination
-      expect(result.finisherContaminationPercent).toBe(12);
-
-      // Optimal 5:1 ratio
-      expect(result.alcoholToMushRatio).toBeCloseTo(5.0, 1);
-      expect(result.isOptimalRatio).toBe(true);
-
-      // Final purity should be around 42-47% range (depends on extraction estimate)
-      expect(result.finalPurityPercent).toBeGreaterThan(35);
-      expect(result.finalPurityPercent).toBeLessThan(50);
-
-      // Should fail 45% target with 0 modules
-      expect(result.meetsTarget).toBe(false);
-      expect(result.recommendations.length).toBeGreaterThan(0);
+      // P = 5/10 * 100% = 50%
+      expect(result.calculatedPurity).toBe(50);
+      expect(result.purityGrade).toBe('Cut Product');
+      expect(result.gradeModifier).toBe(-0.45);
     });
 
-    test('1 module improves purity to ~44% (6% contamination)', () => {
+    test('Reports missing inputs when Spectrometer data absent', () => {
       const inputs: DreamDustInputs = {
-        dreamCapAmount: 10,
-        alcoholAmount: 50,
-        alcoholType: 'ethanol',
-        blenderModules: 0,
-        finisherModules: 1,
-        hasEvaporator: true,
-        hasSpectrometer: false,
-        targetPurity: 45,
+        dreamCapMushML: 27.333,
+        alcoholML: 136.665,
+        finisherModules: 0,
+        // no currentExtractML or currentMixtureTotalML
       };
 
-      const result = calculateDreamDust(inputs);
+      const result = calculateDreamDustPerUpdate(inputs);
 
-      expect(result.finisherContaminationPercent).toBe(6);
-      expect(result.finalPurityPercent).toBeGreaterThan(42);
-      expect(result.finalPurityPercent).toBeLessThan(46);
-
-      // 1 module gets close but may not quite reach 45% with this extract purity
-      // Expect recommendation for further improvement
-      expect(result.recommendations.length).toBeGreaterThan(0);
-    });
-
-    test('2 modules achieves ~46% purity (3% contamination)', () => {
-      const inputs: DreamDustInputs = {
-        dreamCapAmount: 10,
-        alcoholAmount: 50,
-        alcoholType: 'ethanol',
-        blenderModules: 0,
-        finisherModules: 2,
-        hasEvaporator: true,
-        hasSpectrometer: false,
-        targetPurity: 45,
-      };
-
-      const result = calculateDreamDust(inputs);
-
-      expect(result.finisherContaminationPercent).toBe(3);
-      expect(result.finalPurityPercent).toBeGreaterThan(44);
-      expect(result.meetsTarget).toBe(true);
+      expect(result.calculatedPurity).toBeUndefined();
+      expect(result.missingInputs.length).toBeGreaterThan(0);
+      expect(result.missingInputs.some((m) => m.includes('Spectrometer'))).toBe(true);
     });
   });
 
-  describe('Alcohol ratio validation (VERIFIED)', () => {
-    test('5:1 ratio is optimal', () => {
+  describe('Temperature requirements (SOURCE-DERIVED)', () => {
+    test('Extraction starts at ≥40°C', () => {
       const inputs: DreamDustInputs = {
-        dreamCapAmount: 10,
-        alcoholAmount: 50,
-        alcoholType: 'ethanol',
-        blenderModules: 0,
+        dreamCapMushML: 27.333,
+        alcoholML: 136.665,
         finisherModules: 0,
-        hasEvaporator: true,
-        hasSpectrometer: false,
       };
 
-      const result = calculateDreamDust(inputs);
+      const result = calculateDreamDustPerUpdate(inputs);
 
-      expect(result.alcoholToMushRatio).toBeCloseTo(5.0, 1);
-      expect(result.isOptimalRatio).toBe(true);
-      expect(result.ratioRecommendation).toContain('optimal');
+      expect(result.extractionTempRange).toBe('≥40°C');
     });
 
-    test('Suboptimal ratio triggers recommendation', () => {
+    test('Degradation thresholds documented', () => {
       const inputs: DreamDustInputs = {
-        dreamCapAmount: 10,
-        alcoholAmount: 30, // 3:1 ratio
-        alcoholType: 'ethanol',
-        blenderModules: 0,
+        dreamCapMushML: 27.333,
+        alcoholML: 136.665,
         finisherModules: 0,
-        hasEvaporator: true,
-        hasSpectrometer: false,
       };
 
-      const result = calculateDreamDust(inputs);
+      const result = calculateDreamDustPerUpdate(inputs);
 
-      expect(result.alcoholToMushRatio).toBeCloseTo(3.0, 1);
-      expect(result.isOptimalRatio).toBe(false);
-      expect(result.ratioRecommendation).toContain('below optimal');
-      expect(result.recommendations.length).toBeGreaterThan(0);
+      expect(result.degradationThresholds.mush).toContain('50°C');
+      expect(result.degradationThresholds.extract).toContain('60°C');
     });
   });
 
-  describe('Temperature range (VERIFIED)', () => {
-    test('Temperature range is 40-59°C', () => {
+  describe('Finisher requirements (SOURCE-DERIVED)', () => {
+    test('Dream Dust requires 2mL sample', () => {
       const inputs: DreamDustInputs = {
-        dreamCapAmount: 10,
-        alcoholAmount: 50,
-        alcoholType: 'ethanol',
-        blenderModules: 0,
+        dreamCapMushML: 27.333,
+        alcoholML: 136.665,
         finisherModules: 0,
-        hasEvaporator: true,
-        hasSpectrometer: false,
       };
 
-      const result = calculateDreamDust(inputs);
+      const result = calculateDreamDustPerUpdate(inputs);
 
-      expect(result.temperatureRange).toBe('40-59°C');
-      expect(result.temperatureWarning).toContain('60°C');
-    });
-  });
-
-  describe('Vial production (VERIFIED)', () => {
-    test('2 mL batch size per vial', () => {
-      const inputs: DreamDustInputs = {
-        dreamCapAmount: 10,
-        alcoholAmount: 50,
-        alcoholType: 'ethanol',
-        blenderModules: 0,
-        finisherModules: 0,
-        hasEvaporator: true,
-        hasSpectrometer: false,
-      };
-
-      const result = calculateDreamDust(inputs);
-
-      // Total batch should equal (extract + contamination)
-      const expectedBatch = result.remainingAfterEvap + result.contaminationML;
-      expect(result.totalBatchVolume).toBeCloseTo(expectedBatch, 2);
-
-      // Vials = floor(batch / 2)
-      const expectedVials = Math.floor(result.totalBatchVolume / 2);
-      expect(result.vialsProduced).toBe(expectedVials);
-
-      // Leftover
-      const expectedLeftover = result.totalBatchVolume % 2;
-      expect(result.leftoverML).toBeCloseTo(expectedLeftover, 2);
+      expect(result.finisherSampleSizeML).toBe(2);
     });
 
-    test('Base vial value is 18 Credits', () => {
+    test('Requires dry input (evaporatives ≤0.1mL)', () => {
       const inputs: DreamDustInputs = {
-        dreamCapAmount: 10,
-        alcoholAmount: 50,
-        alcoholType: 'ethanol',
-        blenderModules: 0,
+        dreamCapMushML: 27.333,
+        alcoholML: 136.665,
         finisherModules: 0,
-        hasEvaporator: true,
-        hasSpectrometer: false,
       };
 
-      const result = calculateDreamDust(inputs);
+      const result = calculateDreamDustPerUpdate(inputs);
+
+      expect(result.requiresDryInput).toBe(true);
+    });
+
+    test('Base value is 18 Credits per vial', () => {
+      const inputs: DreamDustInputs = {
+        dreamCapMushML: 27.333,
+        alcoholML: 136.665,
+        finisherModules: 0,
+      };
+
+      const result = calculateDreamDustPerUpdate(inputs);
 
       expect(result.baseValuePerVial).toBe(18);
-    });
-
-    test('Grade modifiers apply to vial value', () => {
-      const inputs: DreamDustInputs = {
-        dreamCapAmount: 10,
-        alcoholAmount: 50,
-        alcoholType: 'ethanol',
-        blenderModules: 0,
-        finisherModules: 4, // 0% contamination = very high purity
-        hasEvaporator: true,
-        hasSpectrometer: false,
-      };
-
-      const result = calculateDreamDust(inputs);
-
-      const expectedValue = result.baseValuePerVial * (1 + result.gradeModifier);
-      expect(result.estimatedValuePerVial).toBeCloseTo(expectedValue, 2);
-      expect(result.totalEstimatedValue).toBeCloseTo(
-        result.estimatedValuePerVial * result.vialsProduced,
-        1
-      );
-    });
-  });
-
-  describe('Evaporation requirement (VERIFIED)', () => {
-    test('Finisher requires dry batch', () => {
-      const inputs: DreamDustInputs = {
-        dreamCapAmount: 10,
-        alcoholAmount: 50,
-        alcoholType: 'ethanol',
-        blenderModules: 0,
-        finisherModules: 0,
-        hasEvaporator: true,
-        hasSpectrometer: false,
-      };
-
-      const result = calculateDreamDust(inputs);
-
-      expect(result.needsEvaporation).toBe(true);
-      expect(result.alcoholToRemove).toBe(50);
-    });
-  });
-
-  describe('Cartel mission (OWNER-PROVIDED)', () => {
-    test('70% cap constraint is labeled as owner-provided', () => {
-      const inputs: DreamDustInputs = {
-        dreamCapAmount: 10,
-        alcoholAmount: 50,
-        alcoholType: 'ethanol',
-        blenderModules: 0,
-        finisherModules: 4,
-        hasEvaporator: true,
-        hasSpectrometer: false,
-        targetPurity: 70,
-      };
-
-      const result = calculateDreamDust(inputs);
-
-      expect(result.cartelMissionStatus).toBeDefined();
-      expect(result.cartelMissionStatus?.requiredPurity).toBe(70);
-      expect(result.cartelMissionStatus?.note).toContain('owner-provided');
-      expect(result.cartelMissionStatus?.note).toContain('pending');
-    });
-
-    test('Mission status check works', () => {
-      const inputs: DreamDustInputs = {
-        dreamCapAmount: 10,
-        alcoholAmount: 50,
-        alcoholType: 'ethanol',
-        blenderModules: 0,
-        finisherModules: 0,
-        hasEvaporator: true,
-        hasSpectrometer: false,
-        targetPurity: 50,
-      };
-
-      const result = calculateDreamDust(inputs);
-
-      expect(result.cartelMissionStatus?.meetsRequirement).toBe(
-        result.finalPurityPercent >= 50
-      );
-    });
-  });
-
-  describe('Purity upgrade calculator', () => {
-    test('Upgrade from 0 to 1 module', () => {
-      const upgrade = calculatePurityUpgrade(40, 0, 45);
-
-      expect(upgrade.needsUpgrade).toBe(true);
-      expect(upgrade.modulesNeeded).toBeGreaterThan(0);
-      expect(upgrade.cost).toBeGreaterThan(0);
-    });
-
-    test('No upgrade needed if already meeting target', () => {
-      const upgrade = calculatePurityUpgrade(50, 2, 45);
-
-      expect(upgrade.needsUpgrade).toBe(false);
-    });
-
-    test('Module cost is 250 Credits per module', () => {
-      const upgrade = calculatePurityUpgrade(40, 0, 45);
-
-      const moduleDiff = upgrade.modulesNeeded - 0;
-      expect(upgrade.cost).toBe(moduleDiff * 250);
-    });
-  });
-
-  describe('Source limitations', () => {
-    test('Limitations array documents unverified mechanics', () => {
-      const inputs: DreamDustInputs = {
-        dreamCapAmount: 10,
-        alcoholAmount: 50,
-        alcoholType: 'ethanol',
-        blenderModules: 0,
-        finisherModules: 0,
-        hasEvaporator: true,
-        hasSpectrometer: false,
-      };
-
-      const result = calculateDreamDust(inputs);
-
-      expect(result.limitations.length).toBeGreaterThan(0);
-      expect(result.limitations.some((lim) => lim.includes('Blending'))).toBe(true);
-      expect(result.limitations.some((lim) => lim.includes('Extraction'))).toBe(true);
-    });
-
-    test('Source references are included', () => {
-      const inputs: DreamDustInputs = {
-        dreamCapAmount: 10,
-        alcoholAmount: 50,
-        alcoholType: 'ethanol',
-        blenderModules: 0,
-        finisherModules: 0,
-        hasEvaporator: true,
-        hasSpectrometer: false,
-      };
-
-      const result = calculateDreamDust(inputs);
-
-      expect(result.sourceRefs.length).toBeGreaterThan(0);
-      expect(result.sourceRefs.some((ref) => ref.includes('probably-stolen.org'))).toBe(
-        true
-      );
     });
   });
 
   describe('Recommendations system', () => {
-    test('Recommends module upgrades when helpful', () => {
+    test('Recommends increasing alcohol for suboptimal ratio', () => {
       const inputs: DreamDustInputs = {
-        dreamCapAmount: 10,
-        alcoholAmount: 50,
-        alcoholType: 'ethanol',
-        blenderModules: 0,
+        dreamCapMushML: 27.333,
+        alcoholML: 82, // 3:1 ratio
         finisherModules: 0,
-        hasEvaporator: true,
-        hasSpectrometer: false,
-        targetPurity: 50,
       };
 
-      const result = calculateDreamDust(inputs);
+      const result = calculateDreamDustPerUpdate(inputs);
 
       expect(result.recommendations.length).toBeGreaterThan(0);
-      expect(
-        result.recommendations.some((rec) => rec.includes('module') || rec.includes('Module'))
-      ).toBe(true);
+      expect(result.recommendations.some((r) => r.includes('5:1'))).toBe(true);
     });
 
-    test('Recommends alcohol adjustment for suboptimal ratio', () => {
+    test('Recommends adding modules when contamination high', () => {
       const inputs: DreamDustInputs = {
-        dreamCapAmount: 10,
-        alcoholAmount: 20, // 2:1 ratio
-        alcoholType: 'ethanol',
-        blenderModules: 0,
+        dreamCapMushML: 27.333,
+        alcoholML: 136.665,
         finisherModules: 0,
-        hasEvaporator: true,
-        hasSpectrometer: false,
       };
 
-      const result = calculateDreamDust(inputs);
+      const result = calculateDreamDustPerUpdate(inputs);
 
-      expect(
-        result.recommendations.some((rec) => rec.toLowerCase().includes('alcohol'))
-      ).toBe(true);
+      expect(result.recommendations.some((r) => r.includes('module'))).toBe(true);
+    });
+  });
+
+  describe('Source references and limitations', () => {
+    test('Includes source references', () => {
+      const inputs: DreamDustInputs = {
+        dreamCapMushML: 27.333,
+        alcoholML: 136.665,
+        finisherModules: 0,
+      };
+
+      const result = calculateDreamDustPerUpdate(inputs);
+
+      expect(result.sourceRefs.length).toBeGreaterThan(0);
+      expect(result.sourceRefs.some((ref) => ref.includes('nikokobo.com') || ref.includes('probably-stolen.org'))).toBe(true);
+    });
+
+    test('Documents limitations clearly', () => {
+      const inputs: DreamDustInputs = {
+        dreamCapMushML: 27.333,
+        alcoholML: 136.665,
+        finisherModules: 0,
+      };
+
+      const result = calculateDreamDustPerUpdate(inputs);
+
+      expect(result.limitations.length).toBeGreaterThan(0);
+      expect(result.limitations.some((lim) => lim.includes('PER-UPDATE'))).toBe(true);
     });
   });
 });
