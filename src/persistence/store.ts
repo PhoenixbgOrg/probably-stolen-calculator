@@ -214,3 +214,25 @@ export function importProfiles(text: string, reg: GameDataRegistry = REGISTRY, n
 }
 
 export type { QuarantinedItem };
+
+/** Name for an imported profile that does not clash with `taken`: "X", then "X (imported)", "X (imported 2)", ... */
+export function uniqueImportName(name: string, taken: ReadonlySet<string>): string {
+  if (!taken.has(name)) return name;
+  let candidate = `${name} (imported)`;
+  for (let n = 2; taken.has(candidate); n++) candidate = `${name} (imported ${n})`;
+  return candidate;
+}
+
+/** Renames imported profiles whose names clash with existing ones (or each other). Never drops a profile. */
+export function dedupeImportedNames(imported: ProfileV2[], existingNames: readonly string[]): { profiles: ProfileV2[]; notices: Notice[] } {
+  const taken = new Set(existingNames);
+  const notices: Notice[] = [];
+  const profiles = imported.map((p) => {
+    const name = uniqueImportName(p.name, taken);
+    taken.add(name);
+    if (name === p.name) return p;
+    notices.push({ level: 'info', message: `A profile named "${p.name}" already exists; the imported copy was renamed to "${name}".` });
+    return { ...p, name };
+  });
+  return { profiles, notices };
+}

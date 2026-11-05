@@ -5,6 +5,7 @@ import { EMPTY_BUILD } from '../engine/types';
 import type { BuildInput, Playthrough, Rejection } from '../engine/types';
 import type { ProfileV2, StoreV2 } from '../persistence/schema';
 import {
+  dedupeImportedNames,
   createProfile, deleteProfile, duplicateProfile, removeQuarantined, renameProfile, updateProfileBuild,
 } from '../persistence/store';
 import type { Notice } from '../persistence/store';
@@ -34,7 +35,8 @@ export type Action =
   | { type: 'importProfiles'; profiles: ProfileV2[]; notices: Notice[] }
   | { type: 'discardQuarantine'; id: string }
   | { type: 'notify'; notice: Notice }
-  | { type: 'dismissNotice'; index: number };
+  | { type: 'dismissNotice'; index: number }
+  | { type: 'dismissAllNotices' };
 
 export function initState(store: StoreV2, notices: Notice[]): AppState {
   let s = store;
@@ -97,13 +99,16 @@ export function makeReducer(reg: GameDataRegistry = REGISTRY) {
         return activate(state, deleteProfile(state.store, action.id));
       case 'importProfiles': {
         if (action.profiles.length === 0) return { ...state, notices: [...state.notices, ...action.notices] };
-        const store = { ...state.store, profiles: [...state.store.profiles, ...action.profiles], activeProfileId: action.profiles[0]!.id };
-        return activate(state, store, action.notices);
+        const d = dedupeImportedNames(action.profiles, state.store.profiles.map((p) => p.name));
+        const store = { ...state.store, profiles: [...state.store.profiles, ...d.profiles], activeProfileId: d.profiles[0]!.id };
+        return activate(state, store, [...action.notices, ...d.notices]);
       }
       case 'discardQuarantine':
         return { ...state, store: removeQuarantined(state.store, action.id) };
       case 'notify':
         return { ...state, notices: [...state.notices, action.notice] };
+      case 'dismissAllNotices':
+        return { ...state, notices: [] };
       case 'dismissNotice':
         return { ...state, notices: state.notices.filter((_, i) => i !== action.index) };
     }

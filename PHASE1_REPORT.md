@@ -68,3 +68,16 @@ Scope: data cross-check against nicokobo (0.46D) and difficulty guides, plus a p
 - 53 tests pass. They cover points, conflicts, slots, Colorful Character, prerequisites, Junker, invalid builds surviving save/load/import, v1 migration and Continue gating.
 - build: OK.
 - Dev server: `npm run dev`, which runs `vite --host 0.0.0.0 --port 5173 --strictPort`.
+
+## Browser-test fixes (2026-11-05)
+
+1. **Step bar gating**: "3. Overview" gets `aria-disabled` and a locked style (🔒) while the build is invalid. Clicking it, or Continue, now shows the same explanation in an `aria-live` alert, then opens the screen where the problem can be fixed (`navigate()` / `blockedMessage()` / `fixScreenFor()` in `src/state/navigation.ts`).
+2. **Empty-build Overview**: the "Fix on the … screen" button goes to Specialization for no/unknown/unavailable-specialization problems and to Perks for anything else. The duplicate "No specialization selected yet." warning (the stray bullet) is hidden when violations already explain it.
+3. **Overview**: an empty starting kit shows "No starting kit documented for X". Gameplay flags use `FLAG_LABELS` (`src/data/flags.ts`, exported as `flagLabels` in `data/game-data.json`). The `Record<FlagKey,…>` type makes the compiler require a label for every flag. The labels restate the perk descriptions and add no new facts.
+4. **Cost labels**: `perkCostLabel()` produces labels like "costs 1 point, adds 3 slots" (Colorful Character), "grants N points" and "free (still uses a slot)". No sourced value changed.
+5. **Import**: names that clash with existing profiles, or with each other in the same file, become "X (imported)", "X (imported 2)", and so on, with an info notice. No profile is dropped. Notices are grouped into one collapsible summary with per-item Dismiss and "Dismiss all".
+6. **Specialization radiogroup**: roving tabindex. Arrow keys, Home and End move focus and select. Enter and Space select. The Work-in-Progress Junker card is skipped.
+7. **Mobile (≤600px)**: perk and spec grids use one column. Tooltips are capped at 80vw. Long text wraps. The breakdown table stacks into labelled rows and sits in an `overflow-x:auto` wrapper.
+8. **First-run wording**: the tooltip and callout say "This app locks Starting Perks when 'First playthrough' is selected, because these sources say…" and list each source publisher and the status (partially-verified).
+
+DATA_VERSION is now 2026-11-05.3 (flag labels added). The schema is unchanged, so v1/v2 saves still load. Tests: 61 passing (previously 53).

@@ -4,7 +4,10 @@ import { addBlockers, evaluatePerks, isValid, offendingPerkIds, togglePerk, vali
 import { buildCharacter, createModifierQuery } from '../src/engine/character';
 import { EMPTY_BUILD } from '../src/engine/types';
 import type { BuildInput } from '../src/engine/types';
-import { navigate } from '../src/state/navigation';
+import { fixScreenFor, navigate, rovingIndex } from '../src/state/navigation';
+import { flagLabel } from '../src/data/flags';
+import { firstRunExplanation, perkCostLabel } from '../src/engine/labels';
+import type { Violation } from '../src/engine/types';
 
 const R = REGISTRY;
 const b = (perkIds: string[], extra: Partial<BuildInput> = {}): BuildInput => ({ ...EMPTY_BUILD, specializationId: 'fence', perkIds, ...extra });
@@ -181,7 +184,7 @@ describe('character overview', () => {
 
 describe('Continue gating follows validity', () => {
   // App.setScreen('overview') is allowed iff buildCharacter(...).valid; this mirrors that predicate.
-  const canContinue = (build: BuildInput) => navigate('overview', buildCharacter(R, build).valid, build.specializationId !== null).screen === 'overview';
+  const canContinue = (build: BuildInput) => navigate('overview', buildCharacter(R, build).violations).screen === 'overview';
   it('valid build can continue', () => expect(canContinue(b(['ascetic', 'diplomatic', 'vigilant']))).toBe(true));
   it('blocked while over points, over slots, conflicting, first-run perks, or no/Junker specialization', () => {
     expect(canContinue(b(['diplomatic', 'vigilant']))).toBe(false);
@@ -198,11 +201,58 @@ describe('Continue gating follows validity', () => {
   });
 });
 
-describe('navigate', () => {
-  it('redirects to the screen where the problem can be fixed', () => {
-    expect(navigate('overview', false, true)).toEqual({ screen: 'perks', blocked: true });
-    expect(navigate('overview', false, false)).toEqual({ screen: 'spec', blocked: true });
-    expect(navigate('overview', true, true)).toEqual({ screen: 'overview', blocked: false });
-    expect(navigate('perks', false, true)).toEqual({ screen: 'perks', blocked: false });
+describe('navigate / step gating', () => {
+  const v = (code: string) => ({ code, message: `m-${code}`, perkIds: [], fix: '' }) as unknown as Violation;
+  it('redirects to the screen where the problem can be fixed, with a message', () => {
+    const perk = navigate('overview', [v('exclusive')]);
+    expect(perk).toMatchObject({ screen: 'perks', blocked: true });
+    expect(perk.message).toContain('m-exclusive');
+    expect(perk.message).toContain('Starting Perks screen');
+    for (const c of ['no-specialization', 'unknown-specialization', 'specialization-unavailable']) {
+      const r = navigate('overview', [v(c)]);
+      expect(r).toMatchObject({ screen: 'spec', blocked: true });
+      expect(r.message).toContain('Specialization screen');
+    }
+    expect(navigate('overview', [])).toEqual({ screen: 'overview', blocked: false, message: null });
+    expect(navigate('perks', [v('exclusive')])).toEqual({ screen: 'perks', blocked: false, message: null });
+  });
+  it('fixScreenFor matches the empty build (no specialization) to Specialization', () => {
+    expect(fixScreenFor(buildCharacter(R, EMPTY_BUILD).violations)).toBe('spec');
+    expect(fixScreenFor([v('over-points')])).toBe('perks');
+  });
+  it('rovingIndex wraps and handles Home/End', () => {
+    expect(rovingIndex(0, 'ArrowRight', 3)).toBe(1);
+    expect(rovingIndex(2, 'ArrowDown', 3)).toBe(0);
+    expect(rovingIndex(0, 'ArrowLeft', 3)).toBe(2);
+    expect(rovingIndex(1, 'End', 3)).toBe(2);
+    expect(rovingIndex(1, 'Home', 3)).toBe(0);
+    expect(rovingIndex(1, 'a', 3)).toBeNull();
+  });
+});
+
+describe('labels', () => {
+  it('every flag used by a perk has a human-readable label', () => {
+    const used = new Set(R.perks.flatMap((p) => p.flags));
+    for (const f of used) {
+      const l = R.flagLabels[f];
+      expect(l, f).toBeTruthy();
+      expect(l).not.toMatch(/^[a-z]+[A-Z]/);
+    }
+    expect(flagLabel('luckIncreased')).toBe('Luck increased');
+    expect(flagLabel('shabbyToolbox')).toMatch(/shabby toolbox/i);
+    expect(flagLabel('someNewFlag')).toBe('Some New Flag');
+  });
+  it('Colorful Character cost label explains cost and slots without changing the sourced cost', () => {
+    const cc = R.perks.find((p) => p.id === 'colorful-character')!;
+    expect(cc.cost.value).toBe(1);
+    expect(perkCostLabel(cc)).toBe('costs 1 point, adds 3 slots');
+    const neg = R.perks.find((p) => (p.cost.value ?? 0) < 0)!;
+    expect(perkCostLabel(neg)).toMatch(/^grants \d+ point/);
+  });
+  it('first-run explanation names sources and status', () => {
+    const t = firstRunExplanation(R);
+    expect(t).toContain('This app locks Starting Perks');
+    expect(t).toContain(R.rules.firstRunLocksPerks.status);
+    for (const s of R.rules.firstRunLocksPerks.sources) expect(t).toContain(R.sources[s]!.publisher);
   });
 });

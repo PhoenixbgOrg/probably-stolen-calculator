@@ -3,7 +3,8 @@ import type { GameDataRegistry, PerkCategory } from '../data/types';
 import { addBlockers, conflictsOf, evaluatePerks, offendingPerkIds, validate } from '../engine/perkEngine';
 import type { BuildInput } from '../engine/types';
 import type { AppState, Action } from '../state/reducer';
-import { ProvenanceTip, StatusBadge } from './common';
+import { ProvenanceTip, SourceList, StatusBadge, Tip } from './common';
+import { firstRunExplanation, perkCostLabel } from '../engine/labels';
 
 const CATS: { id: PerkCategory; label: string }[] = [
   { id: 'positive', label: 'Positive perks (cost points)' },
@@ -26,7 +27,7 @@ export function PerksScreen({ reg, state, dispatch, onBack, onNext, continueBloc
           <legend>Playthrough</legend>
           <label><input type="radio" name="pt" checked={build.playthrough === 'subsequent'} onChange={() => dispatch({ type: 'setPlaythrough', playthrough: 'subsequent' })} /> New Game+ / later run</label>
           <label><input type="radio" name="pt" checked={build.playthrough === 'first'} onChange={() => dispatch({ type: 'setPlaythrough', playthrough: 'first' })} /> First playthrough</label>
-          <ProvenanceTip p={reg.rules.firstRunLocksPerks} />
+          <Tip label="ⓘ"><span className="tip-note">{firstRunExplanation(reg)}</span><StatusBadge status={reg.rules.firstRunLocksPerks.status} /><SourceList p={reg.rules.firstRunLocksPerks} /></Tip>
         </fieldset>
         <button type="button" onClick={() => dispatch({ type: 'clearPerks' })} disabled={build.perkIds.length === 0}>Clear perks</button>
       </div>
@@ -37,7 +38,7 @@ export function PerksScreen({ reg, state, dispatch, onBack, onNext, continueBloc
           <span className="muted small"> (base {ev.baseSlots}{ev.maxSlots !== ev.baseSlots ? ` + ${ev.maxSlots - ev.baseSlots} from perks` : ''})</span>
           {ev.usedSlots > ev.maxSlots && <span className="over small"> {ev.usedSlots - ev.maxSlots} over the limit</span>} <ProvenanceTip p={reg.rules.baseSlots} /></div>
       </div>
-      {build.playthrough === 'first' && <p className="callout">Perks are locked on a first playthrough (community-reported). Switch to "later run" to plan perks.</p>}
+      {build.playthrough === 'first' && <p className="callout">{firstRunExplanation(reg)}</p>}
       <p className="small muted">Like the game, a selection may temporarily break the rules; nothing is removed automatically. You cannot continue until it is valid. <ProvenanceTip p={reg.rules.validatedAtContinue} /></p>
       {state.lastRejection && (
         <div className="callout error" role="alert">
@@ -71,7 +72,7 @@ export function PerksScreen({ reg, state, dispatch, onBack, onNext, continueBloc
                     <button type="button" aria-pressed={selected} aria-disabled={blocked} aria-describedby={descId}
                       className="perk-toggle" onClick={() => dispatch({ type: 'togglePerk', perkId: p.id })}>
                       <span className="perk-name">{p.name}</span>
-                      <span className={`cost ${cost !== null && cost < 0 ? 'gain' : ''}`}>{cost === null ? '?' : cost < 0 ? `+${-cost}` : cost === 0 ? 'free' : `−${cost}`} pts</span>
+                      <span className={`cost ${cost !== null && cost < 0 ? 'gain' : ''}`}>{perkCostLabel(p)}</span>
                     </button>
                     <div id={descId} className="perk-body">
                       <p>{p.description.value ?? 'No verified description.'}</p>

@@ -4,7 +4,7 @@ import { EMPTY_BUILD } from '../src/engine/types';
 import { migrateToCurrent } from '../src/persistence/migrations';
 import { QUARANTINE_PREFIX, SCHEMA_VERSION, STORAGE_KEY } from '../src/persistence/schema';
 import {
-  createProfile, deleteProfile, duplicateProfile, emptyStore, exportProfiles, importProfiles, MemoryStorage, ProfileRepository, renameProfile,
+  createProfile, deleteProfile, duplicateProfile, emptyStore, exportProfiles, importProfiles, MemoryStorage, uniqueImportName, dedupeImportedNames, ProfileRepository, renameProfile,
 } from '../src/persistence/store';
 import { initState, makeReducer } from '../src/state/reducer';
 
@@ -195,5 +195,33 @@ describe('state reducer', () => {
     expect(s.build.perkIds).toEqual(['ascetic', 'awful-negotiator', 'diplomatic', 'vigilant', 'hoarder', 'well-connected']);
     s = reducer(s, { type: 'removePerk', perkId: 'hoarder' });
     expect(s.build.perkIds).toHaveLength(5);
+  });
+});
+
+describe('import name handling', () => {
+  const p = (name: string) => createProfile(emptyStore(), name, { ...EMPTY_BUILD, specializationId: 'gunsmith' }, 'x').profile;
+  it('uniqueImportName suffixes " (imported)" then numbers', () => {
+    expect(uniqueImportName('A', new Set())).toBe('A');
+    expect(uniqueImportName('A', new Set(['A']))).toBe('A (imported)');
+    expect(uniqueImportName('A', new Set(['A', 'A (imported)']))).toBe('A (imported 2)');
+  });
+  it('renames clashes (also within the file) and never drops a profile', () => {
+    const r = dedupeImportedNames([p('A'), p('A'), p('B')], ['A']);
+    expect(r.profiles.map((x) => x.name)).toEqual(['A (imported)', 'A (imported 2)', 'B']);
+    expect(r.notices).toHaveLength(2);
+  });
+  it('reducer import keeps existing and imported profiles, renamed, and dismissAll clears notices', () => {
+    const reducer = makeReducer(REGISTRY);
+    let s = initState(emptyStore(), []);
+    const existing = s.store.profiles.map((x) => x.name);
+    const imp = importProfiles(exportProfiles([p(existing[0]!), p('New')]));
+    const before = s.store.profiles.length;
+    s = reducer(s, { type: 'importProfiles', profiles: imp.profiles, notices: imp.notices });
+    expect(s.store.profiles).toHaveLength(before + 2);
+    expect(s.store.profiles.map((x) => x.name)).toContain(`${existing[0]} (imported)`);
+    expect(new Set(s.store.profiles.map((x) => x.name)).size).toBe(s.store.profiles.length);
+    expect(s.notices.length).toBeGreaterThan(0);
+    s = reducer(s, { type: 'dismissAllNotices' });
+    expect(s.notices).toEqual([]);
   });
 });

@@ -187,6 +187,8 @@ export interface GameDataRegistry {
   dataVersion: string;
   gameVersion: string;
   sources: Record<string, SourceRef>;
+  /** Human-readable label for every gameplay flag (UI text; restates perk descriptions). */
+  flagLabels: Record<FlagKey, string>;
   difficulties: DifficultyDef[];
   specializations: SpecializationDef[];
   perks: PerkDef[];

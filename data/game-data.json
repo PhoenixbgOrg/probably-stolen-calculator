@@ -1,5 +1,5 @@
 {
-  "dataVersion": "2026-11-05.2",
+  "dataVersion": "2026-11-05.3",
   "gameVersion": "1.0.x (user screenshots: 100-REV6)",
   "sources": {
     "user-screenshots": {
@@ -4494,5 +4494,36 @@
       "status": "partially-verified",
       "note": "wiki-tips: \"starts around 200 credits\"."
     }
+  },
+  "flagLabels": {
+    "noNightRobbery": "Never robbed during the night",
+    "vendingMachine": "Starts with a vending machine",
+    "waterLinesConnected": "Water lines connected from the start",
+    "shabbyToolbox": "Starts with a shabby toolbox and shabby tools",
+    "undergroundExchangeAtStart": "Underground Exchange available from the start",
+    "freeJanitorialService": "Janitorial Service is free",
+    "commissaryAtStart": "Commissary available from the start",
+    "commissaryBanned": "Banned from the Commissary",
+    "allCassettes": "All music cassettes in the cassette player at start",
+    "offGridReactor": "Off the station power grid (not affected by blackouts)",
+    "augContentAtStart": "Augmented content unlocked from the start",
+    "noScavenging": "Cannot scavenge",
+    "noBargaining": "Cannot bargain with customers",
+    "cannotReadGuides": "Cannot read guides",
+    "noWantedCustomers": "Wanted-poster customers never visit",
+    "lotteryUnlocked": "Lottery content unlocked; always buys lottery tickets",
+    "weeklyImmunivaxRequired": "Weekly Immunivax shot required",
+    "blackmailWeeklyFee": "Weekly blackmail payment",
+    "noInjuryWhileScavenging": "No injuries while scavenging",
+    "retainCustomersAfterNightOut": "Keeps customers after a night out",
+    "secretAdmirerGifts": "Occasional random items from a secret admirer",
+    "agoraphobiaRest": "Must rest 2 nights at the Store between after-hours outings",
+    "addictionAlcohol": "Alcohol addiction",
+    "addictionNarcotic": "Narcotic addiction",
+    "addictionNicotine": "Nicotine addiction",
+    "scavengingDeclinesWeekly": "Scavenging attempts decline each week",
+    "inventoryDebris": "Inventory starts with three removable debris piles",
+    "luckIncreased": "Luck increased",
+    "luckDecreased": "Luck decreased"
   }
 }

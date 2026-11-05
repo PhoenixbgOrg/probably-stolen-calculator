@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import type { Dispatch } from 'react';
+import type { Action, AppState } from '../state/reducer';
 import { navigate } from '../state/navigation';
 import type { Screen } from '../state/navigation';
 import { useBuilder } from '../state/useBuilder';
@@ -16,11 +18,12 @@ const STEPS: { id: Screen; label: string }[] = [
 export function App() {
   const { state, dispatch, character, registry } = useBuilder();
   const [screen, setScreenRaw] = useState<Screen>('spec');
-  const [continueBlocked, setContinueBlocked] = useState(false);
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const continueBlocked = blockedMsg !== null;
   // Continue gating: like the game, the Overview can only be reached with a valid build.
   const setScreen = (next: Screen) => {
-    const r = navigate(next, character.valid, state.build.specializationId !== null);
-    setContinueBlocked(r.blocked);
+    const r = navigate(next, character.violations);
+    setBlockedMsg(r.message);
     setScreenRaw(r.screen);
   };
   return (
@@ -30,27 +33,28 @@ export function App() {
         <p className="muted small">Unofficial fan tool · Character Builder · game data {registry.gameVersion} (data {registry.dataVersion})</p>
         <nav aria-label="Builder steps">
           <ol className="steps">
-            {STEPS.map((s) => (
-              <li key={s.id}><button type="button" aria-current={screen === s.id ? 'step' : undefined} className={screen === s.id ? 'active' : ''} onClick={() => setScreen(s.id)}>{s.label}</button></li>
-            ))}
+            {STEPS.map((s) => {
+              const locked = s.id === 'overview' && !character.valid;
+              return (
+                <li key={s.id}><button type="button" aria-current={screen === s.id ? 'step' : undefined} aria-disabled={locked || undefined}
+                  title={locked ? 'Locked: the build is invalid. Click to see why.' : undefined}
+                  className={`${screen === s.id ? 'active' : ''} ${locked ? 'step-locked' : ''}`} onClick={() => setScreen(s.id)}>{s.label}{locked ? ' 🔒' : ''}</button></li>
+              );
+            })}
           </ol>
         </nav>
       </header>
-      {state.notices.length > 0 && (
-        <div className="notices" role="status">
-          {state.notices.map((n, i) => (
-            <div key={i} className={`callout ${n.level === 'error' ? 'error' : n.level === 'warning' ? 'warn' : ''}`}>
-              {n.message} <button type="button" className="link" onClick={() => dispatch({ type: 'dismissNotice', index: i })} aria-label="Dismiss notice">Dismiss</button>
-            </div>
-          ))}
-        </div>
-      )}
+      <div aria-live="assertive" role="alert" className="live-region">
+        {blockedMsg && !character.valid && (
+          <div className="callout error" data-testid="blocked-msg">{blockedMsg} <button type="button" className="link" onClick={() => setBlockedMsg(null)}>Dismiss</button></div>
+        )}
+      </div>
+      {state.notices.length > 0 && <Notices notices={state.notices} dispatch={dispatch} />}
       <div className="layout">
         <main>
-          {screen === 'spec' && continueBlocked && <div className="callout error" role="alert">Cannot open the Overview: {character.violations.map((v) => v.message).join(' ')}</div>}
           {screen === 'spec' && <SpecializationScreen reg={registry} build={state.build} dispatch={dispatch} onNext={() => setScreen('perks')} />}
           {screen === 'perks' && <PerksScreen reg={registry} state={state} dispatch={dispatch} onBack={() => setScreen('spec')} onNext={() => setScreen('overview')} continueBlocked={continueBlocked} />}
-          {screen === 'overview' && <OverviewScreen reg={registry} c={character} onBack={() => setScreen('perks')} />}
+          {screen === 'overview' && <OverviewScreen reg={registry} c={character} onBack={() => setScreen('perks')} onFix={(sc) => setScreen(sc)} />}
         </main>
         <div className="side">
           <ProfilesPanel state={state} dispatch={dispatch} />
@@ -61,6 +65,28 @@ export function App() {
       <footer className="small muted">
         Not affiliated with the developers of Probably Stolen. Values come from community sources and may be outdated; badges show verification status. See docs/RESEARCH.md.
       </footer>
+    </div>
+  );
+}
+
+function Notices({ notices, dispatch }: { notices: AppState['notices']; dispatch: Dispatch<Action> }) {
+  const [open, setOpen] = useState(notices.length <= 2);
+  const errors = notices.filter((n) => n.level === 'error').length;
+  const warnings = notices.filter((n) => n.level === 'warning').length;
+  const summary = `${notices.length} notice${notices.length === 1 ? '' : 's'}${errors ? ` · ${errors} error${errors === 1 ? '' : 's'}` : ''}${warnings ? ` · ${warnings} warning${warnings === 1 ? '' : 's'}` : ''}`;
+  return (
+    <div className={`notices callout ${errors ? 'error' : warnings ? 'warn' : ''}`} role="status">
+      <div className="notice-summary">
+        <button type="button" className="link" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? '▾' : '▸'} {summary}</button>
+        <button type="button" className="link" onClick={() => dispatch({ type: 'dismissAllNotices' })}>Dismiss all</button>
+      </div>
+      {open && (
+        <ul className="plain notice-list">
+          {notices.map((n, i) => (
+            <li key={i} className={`notice ${n.level}`}>{n.message} <button type="button" className="link" onClick={() => dispatch({ type: 'dismissNotice', index: i })} aria-label="Dismiss notice">Dismiss</button></li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
