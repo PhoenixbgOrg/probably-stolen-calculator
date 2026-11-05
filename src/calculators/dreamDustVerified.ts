@@ -29,6 +29,7 @@ export interface ExtractionConfig {
 
 export interface ExtractionTick {
   tick: number;
+  microbesRemovedUL: number;
   processedMushUL: number;
   extractProducedUL: number;
   plantMatterProducedUL: number;
@@ -197,6 +198,7 @@ function boilingLoss(componentUL: number, temperatureC: number, boilingPointC: n
 
 function runTick(input: ComponentMixture, temperatureC: number, tick: number): ExtractionTick {
   const state = { ...input };
+  const startingMicrobesUL = state.microbes;
 
   // Branch 1: microbes under heat.
   if (temperatureC >= 100) state.microbes = 0;
@@ -248,6 +250,7 @@ function runTick(input: ComponentMixture, temperatureC: number, tick: number): E
 
   return {
     tick,
+    microbesRemovedUL: startingMicrobesUL - state.microbes,
     processedMushUL,
     extractProducedUL,
     plantMatterProducedUL,

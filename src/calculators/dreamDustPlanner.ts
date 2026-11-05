@@ -434,6 +434,7 @@ export interface ProductionCandidate {
   alcoholUsedUL: number;
   purchaseCost: number;
   extraction: ReturnType<typeof simulateExtractionFromMixture>;
+  extractionLoss: ComponentMixture;
   filtration: FiltrationResult;
   evaporation: EvaporationResult;
   finishing: ComponentFinisherResult;
@@ -506,14 +507,28 @@ function validatePlannerInput(input: ProductionPlannerInput): string[] {
 
 function candidateWaste(
   blenderLoss: ComponentMixture,
+  extractionLoss: ComponentMixture,
   filtration: FiltrationResult,
   evaporation: EvaporationResult,
   finishing: ComponentFinisherResult,
 ): ComponentMixture {
   return addMixture(
-    addMixture(blenderLoss, filtration.removed),
+    addMixture(addMixture(blenderLoss, extractionLoss), filtration.removed),
     addMixture(evaporation.lost, finishing.replaced),
   );
+}
+
+function totalExtractionLoss(
+  extraction: ReturnType<typeof simulateExtractionFromMixture>,
+): ComponentMixture {
+  const loss = emptyMixture();
+  for (const tick of extraction.ticks) {
+    loss.microbes += tick.microbesRemovedUL;
+    loss.dreamCapExtract += tick.degradedExtractUL;
+    loss.alcohol += tick.evaporatedAlcoholUL;
+    loss.water += tick.evaporatedWaterUL;
+  }
+  return loss;
 }
 
 function evaluateCandidate(
@@ -532,6 +547,7 @@ function evaluateCandidate(
     SAFE_EXTRACTION_TEMPERATURE_C,
     10_000,
   );
+  const extractionLoss = totalExtractionLoss(extraction);
   const filtration = filterDreamDustMixture(
     extraction.final,
     input.filterContainerOwned ? input.kottonDurability : 0,
@@ -572,10 +588,11 @@ function evaluateCandidate(
     alcoholUsedUL: alcoholUL,
     purchaseCost,
     extraction,
+    extractionLoss,
     filtration,
     evaporation,
     finishing,
-    waste: candidateWaste(blenderLoss, filtration, evaporation, finishing),
+    waste: candidateWaste(blenderLoss, extractionLoss, filtration, evaporation, finishing),
     finalMixtureBeforeFinishing: evaporation.output,
   };
 }

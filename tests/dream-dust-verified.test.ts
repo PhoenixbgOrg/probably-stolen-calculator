@@ -332,6 +332,7 @@ describe('verified Dream Dust pipeline', () => {
     // documented pre-finisher loss/recovery branch plus the dried mixture.
     expect(totalUL(plan.materialUsed) + plan.alcoholUsedUL).toBe(
       totalUL(plan.blenderLoss) +
+      totalUL(plan.extractionLoss) +
       totalUL(plan.filtration.removed) +
       totalUL(plan.evaporation.removed) +
       totalUL(plan.finalMixtureBeforeFinishing),

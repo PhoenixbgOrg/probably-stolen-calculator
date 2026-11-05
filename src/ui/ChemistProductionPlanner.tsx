@@ -281,7 +281,8 @@ export function ChemistProductionPlanner() {
                 <strong>Extract:</strong> set the plate to {SAFE_EXTRACTION_TEMPERATURE_C}°C, verify the
                 liquid is within 40–49°C, and hold for {shown.extraction.ticks.length} successful
                 chemical updates until 0.000 mL mush remains. Extract produced:{' '}
-                {ml(shown.extraction.final.dreamCapExtract)} mL.
+                {ml(shown.extraction.final.dreamCapExtract)} mL; documented reaction loss{' '}
+                {ml(totalUL(shown.extractionLoss))} mL.
               </li>
               <li>
                 <strong>Filter:</strong>{' '}
