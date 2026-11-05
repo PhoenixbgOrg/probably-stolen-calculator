@@ -1,13 +1,9 @@
-# Prepared GitHub Pages workflow.
-# DISABLED for the initial source push: no automatic deploy on push.
-# To activate later (only after the owner explicitly enables GitHub Pages
-# with Source: GitHub Actions): restore the `push: branches: [main]` trigger
-# below and remove the `if: false` guards.
+# Deploy to GitHub Pages on push to main or manual trigger
 name: Deploy to GitHub Pages
 
 on:
-  # push:
-  #   branches: [main]
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -21,7 +17,6 @@ concurrency:
 
 jobs:
   build:
-    if: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -41,7 +36,6 @@ jobs:
           path: dist
 
   deploy:
-    if: false
     needs: build
     runs-on: ubuntu-latest
     environment:
