@@ -7,35 +7,57 @@ import {
   DREAM_CAP_REFERENCE_WEIGHT_G,
   DREAM_CAP_REFERENCE_MUSH_ML,
 } from '../calculators/dreamDust';
+import {
+  simulateDreamDustProduction,
+  solveForTarget,
+  type SimulationConfig,
+} from '../calculators/dreamDustSimulation';
 
 /**
  * Dream Dust production calculator UI
- * Shows PER-UPDATE extraction formulas from source
- * Requires Composition Spectrometer measurements for purity
+ * Full iterative simulation with component tracking
  */
 export function ChemistCalculator() {
+  // Mode selection
+  const [mode, setMode] = useState<'forward' | 'reverse'>('forward');
+  
   // Basic inputs
   const [dreamCapGrams, setDreamCapGrams] = useState(32.5); // reference weight
   const [alcoholML, setAlcoholML] = useState(136.7); // 5:1 ratio
+  const [temperature, setTemperature] = useState(45); // safe temperature
   const [finisherModules, setFinisherModules] = useState(0);
+  const [userModuleCost, setUserModuleCost] = useState<number | undefined>(250);
   
-  // Optional Spectrometer measurements
-  const [hasSpectrometerData, setHasSpectrometerData] = useState(false);
-  const [extractML, setExtractML] = useState<number | undefined>();
-  const [totalML, setTotalML] = useState<number | undefined>();
-  const [targetPurity, setTargetPurity] = useState<number | undefined>(45);
+  // Reverse mode inputs
+  const [targetPurity, setTargetPurity] = useState(45);
+  const [targetVials, setTargetVials] = useState(10);
+  const [maxBudget, setMaxBudget] = useState<number | undefined>();
   
   // Cartel tracking
   const [currentDay, setCurrentDay] = useState<number | undefined>(8); // first delivery day
   
-  // Calculate
+  // Calculate forward simulation
+  const forwardConfig: SimulationConfig = {
+    dreamCapGrams,
+    alcoholML,
+    heatingTemperature: temperature,
+    maxUpdates: 200,
+    finisherModules,
+    userModuleCost,
+  };
+  
+  const forwardResult = simulateDreamDustProduction(forwardConfig);
+  
+  // Calculate reverse solution
+  const reverseResult = mode === 'reverse' 
+    ? solveForTarget(targetPurity, targetVials, maxBudget, userModuleCost)
+    : null;
+  
+  // Legacy per-update calculation (for reference)
   const inputs: DreamDustInputs = {
     dreamCapGrams,
     alcoholML,
     finisherModules,
-    currentExtractML: hasSpectrometerData ? extractML : undefined,
-    currentMixtureTotalML: hasSpectrometerData ? totalML : undefined,
-    targetPurity: targetPurity,
     currentDay: currentDay,
   };
   
@@ -44,32 +66,48 @@ export function ChemistCalculator() {
   return (
     <div className="calculator chemist-calculator">
       <div className="calculator-header">
-        <h2>Dream Dust Per-Update Calculator</h2>
+        <h2>Dream Dust Production Calculator</h2>
         <p className="subtitle">
-          Source-derived extraction formulas (per heating-plate update, ~1 second)
+          Full iterative simulation with component tracking (µL precision)
         </p>
         <p className="subtitle small">
           Primary source: <a href="https://probably-stolen.nicokobo.com/en/wiki/terms/chemical-processing" target="_blank" rel="noopener noreferrer">nicokobo.com wiki (retrieved via WebSearch 2026-11-05)</a>
         </p>
       </div>
       
+      <div className="mode-selector">
+        <button 
+          className={mode === 'forward' ? 'active' : ''}
+          onClick={() => setMode('forward')}
+        >
+          Forward Simulation
+        </button>
+        <button 
+          className={mode === 'reverse' ? 'active' : ''}
+          onClick={() => setMode('reverse')}
+        >
+          Reverse Solver
+        </button>
+      </div>
+      
       <div className="calculator-content">
-        {/* CRITICAL NOTICE */}
-        <section className="disclaimer-section">
-          <h4>⚠️ Per-Update Calculation</h4>
-          <p className="disclaimer">
-            <strong>These are per-update values</strong> (~once per second while heated at ≥40°C). Actual extraction requires heating mush with alcohol over many updates until mush is depleted. This calculator shows the source-derived formula but cannot predict total production without heating duration.
-          </p>
-        </section>
+        {mode === 'forward' && (
+          <>
+            {/* FORWARD SIMULATION */}
+            <section className="disclaimer-section">
+              <h4>Full Production Simulation</h4>
+              <p className="disclaimer">
+                <strong>Complete iterative extraction</strong> simulating all heating updates until mush is depleted, followed by evaporation and finisher processing with accurate component tracking in integer microliters (µL).
+              </p>
+            </section>
         
-        {/* INPUTS */}
         <section className="input-section">
           <h3>Materials</h3>
           
           <div className="input-group">
             <label htmlFor="dreamCap">
               Dream Cap Amount (grams)
-              <span className="help-text">Reference: {DREAM_CAP_REFERENCE_WEIGHT_G}g = {DREAM_CAP_REFERENCE_MUSH_ML}mL mush (before blending loss)</span>
+              <span className="help-text">Reference: {DREAM_CAP_REFERENCE_WEIGHT_G}g = {DREAM_CAP_REFERENCE_MUSH_ML}mL mush</span>
             </label>
             <input
               id="dreamCap"
@@ -81,14 +119,14 @@ export function ChemistCalculator() {
               onChange={(e) => setDreamCapGrams(Number(e.target.value))}
             />
             <div className="info-badge">
-              Converts to: {outputs.dreamCapMushML.toFixed(3)} mL mush
+              Initial mush: {Math.trunc((dreamCapGrams / DREAM_CAP_REFERENCE_WEIGHT_G) * DREAM_CAP_REFERENCE_MUSH_ML * 1000)} µL
             </div>
           </div>
           
           <div className="input-group">
             <label htmlFor="alcohol">
               Alcohol Amount (mL)
-              <span className="help-text">Optimal: 5:1 alcohol to mush (≥5:1 reaches 50% per-update cap)</span>
+              <span className="help-text">Optimal: ≥5:1 alcohol to mush (reaches 50% yield cap)</span>
             </label>
             <input
               id="alcohol"
@@ -101,8 +139,24 @@ export function ChemistCalculator() {
             />
             <div className={`info-badge ${outputs.isOptimalRatio ? 'success' : 'warning'}`}>
               Ratio: {outputs.alcoholToMushRatio.toFixed(2)}:1
-              {outputs.isOptimalRatio ? ' (OPTIMAL ≥5)' : ' (SUBOPTIMAL <5)'}
+              {outputs.isOptimalRatio ? ' ✓ OPTIMAL' : ' ⚠ SUBOPTIMAL'}
             </div>
+          </div>
+          
+          <div className="input-group">
+            <label htmlFor="temperature">
+              Heating Temperature (°C)
+              <span className="help-text">40-49°C safe, ≥50°C degrades mush, ≥60°C degrades extract</span>
+            </label>
+            <input
+              id="temperature"
+              type="number"
+              min="0"
+              max="100"
+              step="1"
+              value={temperature}
+              onChange={(e) => setTemperature(Number(e.target.value))}
+            />
           </div>
           
           <div className="input-group">
@@ -122,80 +176,278 @@ export function ChemistCalculator() {
               Contamination: {outputs.finisherContaminationPercent}%
             </div>
           </div>
-        </section>
-        
-        {/* SPECTROMETER INPUTS */}
-        <section className="input-section">
-          <h3>Composition Spectrometer Measurements (Optional)</h3>
-          <p className="info-text">
-            For purity calculation, measure your finished mixture with the Composition Spectrometer
-          </p>
           
           <div className="input-group">
-            <label>
-              <input
-                type="checkbox"
-                checked={hasSpectrometerData}
-                onChange={(e) => setHasSpectrometerData(e.target.checked)}
-              />
-              {' '}I have Composition Spectrometer readings
+            <label htmlFor="moduleCost">
+              Module Cost (Credits, user-provided)
+              <span className="help-text">Optional: your quoted cost per Chemical Equipment Module</span>
             </label>
+            <input
+              id="moduleCost"
+              type="number"
+              min="0"
+              step="1"
+              value={userModuleCost || ''}
+              onChange={(e) => setUserModuleCost(e.target.value ? Number(e.target.value) : undefined)}
+            />
+            {userModuleCost && (
+              <div className="info-badge">
+                {finisherModules} modules × {userModuleCost}₵ = {finisherModules * userModuleCost}₵ total
+              </div>
+            )}
           </div>
+        </section>
+        
+        {/* SIMULATION RESULTS */}
+        <section className="output-section">
+          <h3>Simulation Results</h3>
           
-          {hasSpectrometerData && (
+          {!forwardResult.success ? (
+            <div className="alert error">
+              <strong>⚠️ Simulation Failed</strong><br/>
+              {forwardResult.impossibleReasons?.map((reason, i) => (
+                <div key={i}>{reason}</div>
+              ))}
+            </div>
+          ) : (
             <>
-              <div className="input-group">
-                <label htmlFor="extractML">
-                  Dream Cap Extract (mL)
-                  <span className="help-text">Active ingredient volume from Spectrometer</span>
-                </label>
-                <input
-                  id="extractML"
-                  type="number"
-                  min="0"
-                  step="0.001"
-                  value={extractML || ''}
-                  onChange={(e) => setExtractML(e.target.value ? Number(e.target.value) : undefined)}
-                />
+              <div className="output-group highlight">
+                <h4>Final Product</h4>
+                <div className="output-row">
+                  <span className="output-label">Purity:</span>
+                  <span className="output-value large">
+                    {forwardResult.finalPurity.toFixed(2)}%
+                    <span className={`badge grade-${outputs.purityGrade?.toLowerCase().replace(/\s+/g, '-')}`}>
+                      {outputs.purityGrade}
+                    </span>
+                  </span>
+                </div>
+                <div className="output-row">
+                  <span className="output-label">Vials produced:</span>
+                  <span className="output-value large">
+                    {forwardResult.finalVials} vials
+                    <span className="badge verified">2 mL each</span>
+                  </span>
+                </div>
               </div>
               
-              <div className="input-group">
-                <label htmlFor="totalML">
-                  Total Mixture (mL)
-                  <span className="help-text">Total volume from Spectrometer</span>
-                </label>
-                <input
-                  id="totalML"
-                  type="number"
-                  min="0"
-                  step="0.001"
-                  value={totalML || ''}
-                  onChange={(e) => setTotalML(e.target.value ? Number(e.target.value) : undefined)}
-                />
+              <div className="output-group">
+                <h4>Extraction Process</h4>
+                <div className="output-row">
+                  <span className="output-label">Total updates:</span>
+                  <span className="output-value">{forwardResult.totalUpdates}</span>
+                </div>
+                <div className="output-row">
+                  <span className="output-label">Initial mush:</span>
+                  <span className="output-value">{forwardResult.initialComponents.dreamCapMush} µL</span>
+                </div>
+                <div className="output-row">
+                  <span className="output-label">Extract produced:</span>
+                  <span className="output-value">{forwardResult.afterExtraction.dreamCapExtract} µL</span>
+                </div>
+                <div className="output-row">
+                  <span className="output-label">Plant matter:</span>
+                  <span className="output-value">{forwardResult.afterExtraction.plantMatter} µL</span>
+                </div>
               </div>
+              
+              <div className="output-group">
+                <h4>Component Tracking (after finisher)</h4>
+                <table className="component-table">
+                  <thead>
+                    <tr>
+                      <th>Component</th>
+                      <th>Volume (µL)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Dream Cap Extract</td>
+                      <td className="highlight-value">{forwardResult.afterFinisher.dreamCapExtract}</td>
+                    </tr>
+                    <tr>
+                      <td>Plant Matter</td>
+                      <td>{forwardResult.afterFinisher.plantMatter}</td>
+                    </tr>
+                    <tr>
+                      <td>Protein</td>
+                      <td>{forwardResult.afterFinisher.protein}</td>
+                    </tr>
+                    <tr>
+                      <td>Mineral</td>
+                      <td>{forwardResult.afterFinisher.mineral}</td>
+                    </tr>
+                    <tr>
+                      <td>Microbes</td>
+                      <td>{forwardResult.afterFinisher.microbes}</td>
+                    </tr>
+                    <tr>
+                      <td>Physical Contaminant</td>
+                      <td>{forwardResult.afterFinisher.physicalContaminant}</td>
+                    </tr>
+                    <tr>
+                      <td>Insoluble Debris (finisher)</td>
+                      <td>{forwardResult.afterFinisher.insolubleDebris}</td>
+                    </tr>
+                    <tr>
+                      <td>Alcohol (evaporated)</td>
+                      <td>{forwardResult.afterFinisher.alcohol}</td>
+                    </tr>
+                    <tr>
+                      <td>Water (evaporated)</td>
+                      <td>{forwardResult.afterFinisher.water}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              {forwardResult.warnings.length > 0 && (
+                <div className="alert warning">
+                  <strong>⚠️ Warnings:</strong>
+                  {forwardResult.warnings.map((warning, i) => (
+                    <div key={i}>{warning}</div>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+        </section>
+          </>
+        )}
+        
+        {mode === 'reverse' && (
+          <>
+            {/* REVERSE SOLVER */}
+            <section className="disclaimer-section">
+              <h4>Reverse Solver</h4>
+              <p className="disclaimer">
+                <strong>Find required materials</strong> to achieve target purity and vial count. Searches over Dream Cap amounts, alcohol ratios, and module configurations.
+              </p>
+            </section>
+            
+            <section className="input-section">
+              <h3>Target Requirements</h3>
               
               <div className="input-group">
                 <label htmlFor="targetPurity">
                   Target Purity (%)
-                  <span className="help-text">Optional comparison target</span>
+                  <span className="help-text">Desired final purity</span>
                 </label>
                 <input
                   id="targetPurity"
                   type="number"
                   min="0"
                   max="100"
-                  step="0.01"
-                  value={targetPurity || ''}
-                  onChange={(e) => setTargetPurity(e.target.value ? Number(e.target.value) : undefined)}
+                  step="0.1"
+                  value={targetPurity}
+                  onChange={(e) => setTargetPurity(Number(e.target.value))}
                 />
               </div>
-            </>
-          )}
-        </section>
+              
+              <div className="input-group">
+                <label htmlFor="targetVials">
+                  Target Vials
+                  <span className="help-text">Minimum vials needed</span>
+                </label>
+                <input
+                  id="targetVials"
+                  type="number"
+                  min="1"
+                  step="1"
+                  value={targetVials}
+                  onChange={(e) => setTargetVials(Number(e.target.value))}
+                />
+              </div>
+              
+              <div className="input-group">
+                <label htmlFor="maxBudget">
+                  Max Budget (Credits, optional)
+                  <span className="help-text">Maximum to spend on modules</span>
+                </label>
+                <input
+                  id="maxBudget"
+                  type="number"
+                  min="0"
+                  step="1"
+                  value={maxBudget || ''}
+                  onChange={(e) => setMaxBudget(e.target.value ? Number(e.target.value) : undefined)}
+                />
+              </div>
+              
+              <div className="input-group">
+                <label htmlFor="moduleCostReverse">
+                  Module Cost (Credits, user-provided)
+                  <span className="help-text">Your quoted cost per Chemical Equipment Module</span>
+                </label>
+                <input
+                  id="moduleCostReverse"
+                  type="number"
+                  min="0"
+                  step="1"
+                  value={userModuleCost || ''}
+                  onChange={(e) => setUserModuleCost(e.target.value ? Number(e.target.value) : undefined)}
+                />
+              </div>
+            </section>
+            
+            <section className="output-section">
+              <h3>Recommended Configuration</h3>
+              
+              {!reverseResult ? (
+                <div className="alert error">
+                  <strong>⚠️ No Solution Found</strong><br/>
+                  Unable to find a configuration that meets the target requirements within search constraints. Try lowering purity or vial targets, or increasing budget.
+                </div>
+              ) : (
+                <>
+                  <div className="output-group highlight">
+                    <h4>Required Materials</h4>
+                    <div className="output-row">
+                      <span className="output-label">Dream Cap:</span>
+                      <span className="output-value large">{reverseResult.dreamCapGrams.toFixed(1)} grams</span>
+                    </div>
+                    <div className="output-row">
+                      <span className="output-label">Alcohol:</span>
+                      <span className="output-value large">{reverseResult.alcoholML.toFixed(1)} mL</span>
+                    </div>
+                    <div className="output-row">
+                      <span className="output-label">Finisher Modules:</span>
+                      <span className="output-value large">{reverseResult.finisherModules}</span>
+                    </div>
+                    {reverseResult.estimatedCost !== undefined && (
+                      <div className="output-row">
+                        <span className="output-label">Module Cost:</span>
+                        <span className="output-value large">{reverseResult.estimatedCost}₵</span>
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="output-group">
+                    <h4>Achieved Results</h4>
+                    <div className="output-row">
+                      <span className="output-label">Purity:</span>
+                      <span className="output-value">
+                        {reverseResult.achievedPurity.toFixed(2)}%
+                        {reverseResult.achievedPurity >= targetPurity ? ' ✓' : ' ⚠'}
+                      </span>
+                    </div>
+                    <div className="output-row">
+                      <span className="output-label">Vials:</span>
+                      <span className="output-value">
+                        {reverseResult.achievedVials}
+                        {reverseResult.achievedVials >= targetVials ? ' ✓' : ' ⚠'}
+                      </span>
+                    </div>
+                  </div>
+                </>
+              )}
+            </section>
+          </>
+        )}
         
         {/* CARTEL DELIVERY TRACKING */}
         <section className="input-section">
-          <h3>Cartel Delivery Tracking (Source-Verified)</h3>
+          <h3>Cartel Delivery Tracking (Optional)</h3>
           <p className="info-text">
             Weekly deliveries on days 8, 15, 22, 29... (source: nikokobo wiki)
           </p>
@@ -216,136 +468,11 @@ export function ChemistCalculator() {
           </div>
         </section>
         
-        {/* OUTPUTS */}
-        <section className="output-section">
-          <h3>Per-Update Extraction (Source-Derived Formula)</h3>
-          
-          <div className="output-group">
-            <h4>Extraction Formula (Branch 4)</h4>
-            <p className="output-note small">
-              Source: "q=min(M,max(2000,round(0.1M)))" and "y=round(q×min(0.5,0.1A/M))"
-            </p>
-            <div className="output-row">
-              <span className="output-label">Processed mush per update:</span>
-              <span className="output-value">
-                {outputs.perUpdateProcessedMushML.toFixed(3)} mL
-                <span className="badge verified">SOURCE-DERIVED</span>
-              </span>
-            </div>
-            <div className="output-row">
-              <span className="output-label">Extract yield per update:</span>
-              <span className="output-value">
-                {outputs.perUpdateExtractYieldML.toFixed(3)} mL
-                <span className="badge verified">SOURCE-DERIVED</span>
-              </span>
-            </div>
-            <div className="output-row">
-              <span className="output-label">Plant Matter per update:</span>
-              <span className="output-value">
-                {outputs.perUpdatePlantMatterML.toFixed(3)} mL
-              </span>
-            </div>
-            <div className="output-row">
-              <span className="output-label">Extraction efficiency:</span>
-              <span className="output-value">
-                {outputs.extractionEfficiency.toFixed(1)}%
-                {outputs.atYieldCap && <span className="badge success">AT 50% CAP</span>}
-              </span>
-            </div>
-          </div>
-          
-          <div className="output-group">
-            <h4>Temperature Requirements</h4>
-            <div className="output-row">
-              <span className="output-label">Extraction starts at:</span>
-              <span className="output-value">
-                {outputs.extractionTempRange}
-                <span className="badge verified">SOURCE-DERIVED</span>
-              </span>
-            </div>
-            <div className="alert warning">
-              ⚠️ Mush degrades: {outputs.degradationThresholds.mush}<br/>
-              ⚠️ Extract degrades: {outputs.degradationThresholds.extract}
-            </div>
-          </div>
-          
-          <div className="output-group">
-            <h4>Chem Finisher Requirements</h4>
-            <div className="output-row">
-              <span className="output-label">Sample size:</span>
-              <span className="output-value">
-                {outputs.finisherSampleSizeML} mL
-                <span className="badge verified">SOURCE-DERIVED</span>
-              </span>
-            </div>
-            <div className="output-row">
-              <span className="output-label">Contamination:</span>
-              <span className="output-value">
-                {outputs.finisherContaminationPercent}% (with {finisherModules} modules)
-                <span className="badge verified">SOURCE-DERIVED</span>
-              </span>
-            </div>
-            <div className="output-row">
-              <span className="output-label">Dry input required:</span>
-              <span className="output-value">
-                Evaporative components ≤0.1 mL
-                <span className="badge verified">SOURCE-DERIVED</span>
-              </span>
-            </div>
-          </div>
-          
-          {/* Purity (only if Spectrometer data provided) */}
-          {outputs.calculatedPurity !== undefined && (
-            <div className="output-group highlight">
-              <h4>Measured Purity (from Spectrometer)</h4>
-              <div className="output-row">
-                <span className="output-label">Purity:</span>
-                <span className="output-value large">
-                  {outputs.calculatedPurity.toFixed(2)}%
-                  <span className={`badge grade-${outputs.purityGrade?.toLowerCase().replace(/\s+/g, '-')}`}>
-                    {outputs.purityGrade}
-                  </span>
-                </span>
-              </div>
-              <div className="output-row">
-                <span className="output-label">Vials produced:</span>
-                <span className="output-value large">
-                  {outputs.vialsProduced} vials
-                  <span className="badge verified">2 mL each</span>
-                </span>
-              </div>
-              {targetPurity !== undefined && (
-                <div className={`alert ${outputs.calculatedPurity >= targetPurity ? 'success' : 'error'}`}>
-                  {outputs.calculatedPurity >= targetPurity ? '✓' : '✗'} Target: {targetPurity}%
-                  {outputs.calculatedPurity >= targetPurity ? ' (MEETS TARGET)' : ' (BELOW TARGET)'}
-                </div>
-              )}
-              <div className="output-row">
-                <span className="output-label">Grade modifier:</span>
-                <span className="output-value">
-                  {((outputs.gradeModifier || 0) * 100).toFixed(0)}%
-                  <span className="badge verified">SOURCE-DERIVED</span>
-                </span>
-              </div>
-              <div className="output-row">
-                <span className="output-label">Value per vial:</span>
-                <span className="output-value">
-                  {(outputs.baseValuePerVial * (1 + (outputs.gradeModifier || 0))).toFixed(1)}₵
-                </span>
-              </div>
-              <div className="output-row">
-                <span className="output-label">Total estimated value:</span>
-                <span className="output-value large">
-                  {outputs.estimatedValue?.toFixed(0)}₵
-                </span>
-              </div>
-            </div>
-          )}
-          
-          {/* Cartel Delivery Status */}
-          {outputs.cartelStatus && (
+        {/* Cartel Delivery Status */}
+        {mode === 'forward' && forwardResult.success && outputs.cartelStatus && (
+          <section className="output-section">
             <div className={`output-group ${outputs.cartelStatus.isFatal ? 'fatal' : outputs.cartelStatus.meetsRequirement ? 'success-group' : 'warning-group'}`}>
-              <h4>Cartel Delivery Evaluation (Source-Verified)</h4>
+              <h4>Cartel Delivery Evaluation</h4>
               <div className="cartel-requirement">
                 <div className="output-row">
                   <span className="output-label">Day {outputs.cartelStatus.requirement.day} Requirement:</span>
@@ -357,7 +484,7 @@ export function ChemistCalculator() {
                 <div className="output-row">
                   <span className="output-label">Your production:</span>
                   <span className="output-value">
-                    {outputs.vialsProduced} vials at {outputs.calculatedPurity?.toFixed(1)}% purity
+                    {forwardResult.finalVials} vials at {forwardResult.finalPurity.toFixed(1)}% purity
                   </span>
                 </div>
               </div>
@@ -379,32 +506,8 @@ export function ChemistCalculator() {
                 </>
               )}
             </div>
-          )}
-          
-          {/* Missing inputs warning */}
-          {outputs.missingInputs.length > 0 && (
-            <div className="output-group">
-              <h4>⚠️ Missing Inputs</h4>
-              <ul>
-                {outputs.missingInputs.map((input, i) => (
-                  <li key={i}>{input}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-          
-          {/* Recommendations */}
-          {outputs.recommendations.length > 0 && (
-            <div className="output-group recommendations">
-              <h4>Recommendations</h4>
-              <ul>
-                {outputs.recommendations.map((rec, i) => (
-                  <li key={i}>{rec}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </section>
+          </section>
+        )}
         
         {/* Purity grades reference */}
         <section className="reference-section">
