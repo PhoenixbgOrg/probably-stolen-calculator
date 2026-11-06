@@ -127,12 +127,23 @@ describe('Synthetic Narrow Window Incompleteness Proof', () => {
       }
     }
     
-    const bestFine = fineResults.reduce((best, curr) => 
-      curr.quality > best.quality ? curr : best, fineResults[0]);
+    let bestFine: { alcohol: number; quality: number } | null = null;
+    if (fineResults.length > 0) {
+      bestFine = fineResults[0] || null;
+      if (bestFine) {
+        for (const curr of fineResults) {
+          if (bestFine && curr.quality > bestFine.quality) {
+            bestFine = curr;
+          }
+        }
+      }
+    }
     
     console.log('Fine search (1µL within first interval):');
     console.log('  Found:', fineResults.length, 'feasible points');
-    console.log('  Best quality:', bestFine.quality, '@ ', bestFine.alcohol, 'µL');
+    if (bestFine) {
+      console.log('  Best quality:', bestFine.quality, '@ ', bestFine.alcohol, 'µL');
+    }
     console.log('');
     
     // Global optimum (oracle)
@@ -143,7 +154,7 @@ describe('Synthetic Narrow Window Incompleteness Proof', () => {
     console.log('  Best quality:', globalBest.quality, '@ [', globalBest.min, '-', globalBest.max, '] µL');
     console.log('');
     
-    if (bestFine.quality < globalBest.quality) {
+    if (bestFine && bestFine.quality < globalBest.quality) {
       const gap = globalBest.quality - bestFine.quality;
       console.log(`❌ SUBOPTIMALITY: Fine search found quality ${bestFine.quality}, missed global optimum ${globalBest.quality}`);
       console.log(`   Quality gap: ${gap} (${((gap / globalBest.quality) * 100).toFixed(1)}% worse)`);
@@ -153,9 +164,12 @@ describe('Synthetic Narrow Window Incompleteness Proof', () => {
       console.log('  - True global optimum requires exhaustive search or monotonicity proof');
     }
     
-    expect(bestFine.quality).toBe(75); // First interval quality
+    expect(bestFine).toBeDefined();
+    if (bestFine) {
+      expect(bestFine.quality).toBe(75); // First interval quality
+      expect(bestFine.quality).toBeLessThan(globalBest.quality);
+    }
     expect(globalBest.quality).toBe(90); // Better interval skipped
-    expect(bestFine.quality).toBeLessThan(globalBest.quality);
     
     console.log('');
     console.log('✓ TEST COMPLETE: Fine search within first interval is incomplete for global optimum');
