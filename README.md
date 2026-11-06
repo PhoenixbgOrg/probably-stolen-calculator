@@ -10,9 +10,12 @@ npm run dev        # http://localhost:5173/
 ```
 Other scripts: `npm run typecheck`, `npm test`, `npm run build` (outputs `dist/`), `npm run export-data` (regenerates `data/game-data.json`).
 
-## Deployment (GitHub Pages) — prepared, not deployed
-Repository: https://github.com/PhoenixbgOrg/probably-stolen-calculator (Pages URL would be https://phoenixbgorg.github.io/probably-stolen-calculator/). Nothing has been pushed or deployed; that needs the owner's approval. The app is a static site; all URLs are base-aware and navigation uses the URL hash
-(`#/` builder, `#/sources` Sources & Credits), so refresh and deep links work under any sub-path and **no 404.html fallback is needed**.
+## Deployment (GitHub Pages) — LIVE
+Repository: https://github.com/PhoenixbgOrg/probably-stolen-calculator  
+**Live site:** https://phoenixbgorg.github.io/probably-stolen-calculator/
+
+The app is deployed as a static site. All URLs are base-aware and navigation uses the URL hash
+(`#/` home, `#/character-builder` builder, `#/calculator/chemist` Dream Dust planner, `#/sources` Sources & Credits), so refresh and deep links work under any sub-path and **no 404.html fallback is needed**.
 
 - **Base path:** `VITE_BASE_PATH` (default `./`, i.e. relative, works from any folder). For a project site use
   `VITE_BASE_PATH=/<repo-name>/ npm run build` (or `npx vite build --base /<repo-name>/`). For a user site or custom domain use `/`.

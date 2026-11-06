@@ -639,24 +639,33 @@ function evaluateWithMinimumAlcohol(
   )!;
   if (!candidateMeets(best, input)) return best;
 
+  // Conservative linear search in 1000 µL increments rather than binary search.
+  // Binary search assumes monotonicity, which is not proven across the pipeline's
+  // rounding operations (extraction ties-to-even, filter steps, evaporator allocation).
+  // This linear search guarantees finding the minimum within the step resolution.
   let low = 0;
-  let high = maxAlcoholUL;
-  while (low < high) {
-    const middle = Math.floor((low + high) / 2);
+  const searchStepUL = 1_000;
+  for (let alcoholUL = searchStepUL; alcoholUL < maxAlcoholUL; alcoholUL += searchStepUL) {
     const candidate = evaluateCandidate(
       input,
       prepared,
       raw,
       rawGrams,
       groundUL,
-      middle,
-      costFor(middle),
+      alcoholUL,
+      costFor(alcoholUL),
     );
     if (candidate && candidateMeets(candidate, input)) {
       best = candidate;
-      high = middle;
-    } else {
-      low = middle + 1;
+      // Found a feasible candidate; try to refine within the last step
+      for (let refine = Math.max(low, alcoholUL - searchStepUL + 1); refine < alcoholUL; refine += 1) {
+        const refined = evaluateCandidate(input, prepared, raw, rawGrams, groundUL, refine, costFor(refine));
+        if (refined && candidateMeets(refined, input)) {
+          best = refined;
+          break;
+        }
+      }
+      return best;
     }
   }
   return best;
@@ -679,11 +688,20 @@ function betterFeasible(
 function betterPurity(
   candidate: ProductionCandidate,
   current: ProductionCandidate | null,
+  input: ProductionPlannerInput,
 ): boolean {
   if (!current) return true;
+  // Compare actual purity first
   if (candidate.finishing.meanPurity !== current.finishing.meanPurity) {
     return candidate.finishing.meanPurity > current.finishing.meanPurity;
   }
+  // For equal purity, prefer candidate that can produce more vials from dry mixture
+  const candidateMax = maxPossibleVials(candidate, input);
+  const currentMax = maxPossibleVials(current, input);
+  if (candidateMax !== currentMax) {
+    return candidateMax > currentMax;
+  }
+  // Tie-break on actual vials produced (though should be equal if dry volume same)
   return candidate.finishing.vials.length > current.finishing.vials.length;
 }
 
@@ -756,7 +774,7 @@ export function solveProductionPlan(input: ProductionPlannerInput): ProductionPl
     );
     configurations += 1;
     if (candidateMeets(candidate, input) && betterFeasible(candidate, feasible)) feasible = candidate;
-    if (betterPurity(candidate, bestPurity)) bestPurity = candidate;
+    if (betterPurity(candidate, bestPurity, input)) bestPurity = candidate;
     if (betterQuantity(candidate, maxQuantity, input)) maxQuantity = candidate;
   };
 
@@ -856,8 +874,9 @@ export function solveProductionPlan(input: ProductionPlannerInput): ProductionPl
     bestPurityCandidate: bestPurityResult,
     maxQuantityCandidate: maxQuantityResult,
     searchSummary:
-      `Evaluated ${configurations.toLocaleString()} material configurations and used integer-µL ` +
-      'binary search for the minimum feasible Alcohol per configuration. Objective: lowest user-quoted purchase cost, then least documented waste, then least Alcohol.',
+      `Evaluated ${configurations.toLocaleString()} material configurations and used conservative linear search ` +
+      '(1000 µL increments with single-µL refinement) for the minimum feasible Alcohol per configuration. ' +
+      'Objective: lowest user-quoted purchase cost, then least documented waste, then least Alcohol.',
     boundary,
   };
 }

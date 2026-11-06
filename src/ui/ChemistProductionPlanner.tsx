@@ -133,6 +133,8 @@ export function ChemistProductionPlanner() {
   const [submitted, setSubmitted] = useState<ProductionPlannerInput>(makeInput);
   const result = useMemo(() => solveProductionPlan(submitted), [submitted]);
   const shown = result.candidate ?? result.bestPurityCandidate;
+  const currentInput = makeInput();
+  const isStale = JSON.stringify(currentInput) !== JSON.stringify(submitted);
   const cartelRequirement = getCartelRequirement(cartelDay);
   const cartelStatus =
     cartelRequirement && shown
@@ -256,6 +258,11 @@ export function ChemistProductionPlanner() {
 
       <section className="output-section" aria-live="polite">
         <h3>Production result: {result.status}</h3>
+        {isStale && (
+          <div className="alert warning">
+            ⚠️ Inputs changed. Press <strong>Calculate production plan</strong> to update results.
+          </div>
+        )}
         {result.reasons.map((reason) => <div className="alert warning" key={reason}>{reason}</div>)}
         <p>{result.searchSummary}</p>
         {shown && (

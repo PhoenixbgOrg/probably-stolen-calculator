@@ -387,4 +387,53 @@ describe('verified Dream Dust pipeline', () => {
     expect(result.searchSummary).toContain('configurations');
     expect(result.boundary).toContain('not a global impossibility proof');
   });
+
+  test('planner tracks both bestPurity and maxQuantity candidates independently', () => {
+    // With limited material, bestPurity and maxQuantity may differ: higher purity with fewer vials
+    // vs lower purity with more vials. Both should be reported.
+    const result = solveProductionPlan({
+      targetPurity: 45,
+      targetVials: 15,
+      material: { state: 'raw', availableGrams: 45, blenderOwned: true, blenderModules: 4 },
+      alcoholAvailableUL: 300_000,
+      heatingPlateOwned: true,
+      heatingPlateModules: 2,
+      filterContainerOwned: true,
+      kottonDurability: 1_000,
+      waterFilterDurability: 400,
+      evaporatorOwned: true,
+      evaporatorPerformancePercent: 0,
+      evaporatorEfficiencyPercent: 0,
+      evaporatorQualityPercent: 0,
+      solventRecoveryModule: false,
+      distillateCapacityUL: 0,
+      availableEnergy: 12,
+      processingContainerCapacityUL: 500_000,
+      finisherOwned: true,
+      finisherModules: 4,
+      finisherCapacityVials: 24,
+      credits: 0,
+      allowPurchases: false,
+    });
+    
+    expect(result.status).toBe('no-solution-in-supported-search');
+    expect(result.bestPurityCandidate).not.toBeNull();
+    expect(result.maxQuantityCandidate).not.toBeNull();
+    
+    // Best purity should be higher purity, potentially fewer vials
+    expect(result.bestPurityCandidate!.finishing.meanPurity).toBeGreaterThan(87);
+    
+    // Max quantity should produce more vials, possibly at slightly lower purity
+    expect(result.maxQuantityCandidate!.finishing.vials.length).toBeGreaterThanOrEqual(
+      result.bestPurityCandidate!.finishing.vials.length,
+    );
+    
+    // Verify independent tracking: maxQuantity can have more vials even if purity is marginally lower
+    if (result.maxQuantityCandidate!.finishing.vials.length > result.bestPurityCandidate!.finishing.vials.length) {
+      // This is the expected case: trading purity for quantity
+      expect(result.maxQuantityCandidate!.finishing.meanPurity).toBeLessThanOrEqual(
+        result.bestPurityCandidate!.finishing.meanPurity + 0.1, // within margin
+      );
+    }
+  });
 });
