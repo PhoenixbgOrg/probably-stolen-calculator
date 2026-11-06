@@ -206,6 +206,36 @@ export function ChemistProductionPlanner() {
           <details open>
             <summary>Measured already-ground component inventory</summary>
             <p className="muted small">Enter actual component volumes. No Blender loss is applied a second time.</p>
+            <div className="input-group">
+              <label>Quick-fill from raw Dream Cap (applies Blender loss once)</label>
+              <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-end' }}>
+                <NumberField
+                  id="quick-raw-grams"
+                  label="Raw grams"
+                  value={rawGrams}
+                  onChange={setRawGrams}
+                  step={0.1}
+                />
+                <NumberField
+                  id="quick-blender-modules"
+                  label="Blender modules"
+                  value={blenderModules}
+                  onChange={(value) => setBlenderModules(Math.trunc(value))}
+                  max={4}
+                  step={1}
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const raw = dreamCapRawComponents(rawGrams);
+                    const blended = applyBlenderLoss(raw, Math.max(0, Math.trunc(blenderModules)));
+                    setGround(blended);
+                  }}
+                >
+                  Calculate ground from raw
+                </button>
+              </div>
+            </div>
             {COMPONENT_KEYS.map((key) => (
               <NumberField
                 key={key}

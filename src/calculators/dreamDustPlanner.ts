@@ -639,13 +639,10 @@ function evaluateWithMinimumAlcohol(
   )!;
   if (!candidateMeets(best, input)) return best;
 
-  // BOUNDED EXHAUSTIVE SEARCH with explicit incompleteness acknowledgment.
-  // Monotonicity is NOT proven across pipeline rounding (extraction roundToEven,
-  // filter durability steps, evaporator largest-remainder allocation).
-  // Strategy: Test every 100 µL increment up to reasonable bound (50,000 µL),
-  // then every 1 µL within any feasible interval found.
-  // LIMITATION: May miss narrow feasible intervals between coarse samples.
-  // This is a "no-solution-within-search" result, NOT a proof of infeasibility.
+  // BOUNDED INCOMPLETE SEARCH - monotonicity NOT proven.
+  // Strategy: Coarse 100µL scan up to 50,000µL, then 1µL refinement within first feasible.
+  // LIMITATION: Can miss narrow feasible intervals between coarse samples.
+  // "no-solution-within-search" ≠ proof of infeasibility; unsearched space remains.
   const coarseStepUL = 100;
   const coarseBoundUL = Math.min(maxAlcoholUL, 50_000);
   let firstFeasible: number | null = null;
@@ -879,10 +876,10 @@ export function solveProductionPlan(input: ProductionPlannerInput): ProductionPl
     bestPurityCandidate: bestPurityResult,
     maxQuantityCandidate: maxQuantityResult,
     searchSummary:
-      `Evaluated ${configurations.toLocaleString()} material configurations. Alcohol search uses bounded exhaustive ` +
-      'strategy (100 µL coarse scan up to 50 mL, then 1 µL fine scan within first feasible interval). ' +
-      'LIMITATION: May miss narrow feasible intervals between coarse samples; no-solution means not found in this search, not proven impossible. ' +
-      'Objective: lowest user-quoted purchase cost, then least documented waste, then least Alcohol.',
+      `Evaluated ${configurations.toLocaleString()} material configurations. Alcohol: bounded incomplete search ` +
+      '(100µL coarse to 50mL, 1µL fine within first feasible). ' +
+      'LIMITATION: Can skip narrow intervals; "no-solution" = not found in searched space, unsearched regions remain. ' +
+      'Objective: lowest purchase cost, then least waste, then least alcohol.',
     boundary,
   };
 }
