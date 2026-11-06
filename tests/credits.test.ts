@@ -29,7 +29,7 @@ describe('Sources & Credits page data', () => {
     expect(kindOf(REGISTRY.sources['nicokobo-starting-perks']!)).toBe('community');
   });
   it('every snapshot in docs/sources is mapped, and mapped ids exist', () => {
-    const files = readdirSync(new URL('../docs/sources/', import.meta.url)).sort();
+    const files = readdirSync('./docs/sources/').sort();
     expect(Object.keys(SNAPSHOTS).sort()).toEqual(files);
     for (const [f, id] of Object.entries(SNAPSHOTS)) {
       if (id === null) expect(CONSULTED_ONLY.some((c) => c.file === f), f).toBe(true);
@@ -37,7 +37,7 @@ describe('Sources & Credits page data', () => {
     }
   });
   it('every source id named in docs/RESEARCH.md is on the page', () => {
-    const doc = readFileSync(new URL('../docs/RESEARCH.md', import.meta.url), 'utf8');
+    const doc = readFileSync('./docs/RESEARCH.md', 'utf8');
     const known = new Set(Object.keys(REGISTRY.sources));
     const named = [...doc.matchAll(/\b([a-z]+(?:-[a-z0-9]+)+)\b/g)].map((m) => m[1]!).filter((x) => known.has(x));
     expect(named.length).toBeGreaterThan(0);

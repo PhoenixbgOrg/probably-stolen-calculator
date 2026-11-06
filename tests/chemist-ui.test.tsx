@@ -68,8 +68,12 @@ describe('ChemistProductionPlanner UI interactions', () => {
     const vialsInput = screen.getByLabelText(/Required Dream Dust vials/i);
     fireEvent.change(vialsInput, { target: { value: '0' } });
     
-    const calculateButton = screen.getByText(/Calculate production plan/i);
-    fireEvent.click(calculateButton);
+    const calculateButtons = screen.getAllByText(/Calculate production plan/i);
+    const mainCalculateButton = calculateButtons.find(btn => 
+      btn.tagName === 'BUTTON' && btn.getAttribute('type') === 'button'
+    );
+    expect(mainCalculateButton).toBeDefined();
+    fireEvent.click(mainCalculateButton!);
     
     // Should show some result (unsupported or validation message)
     await waitFor(() => {
