@@ -639,36 +639,41 @@ function evaluateWithMinimumAlcohol(
   )!;
   if (!candidateMeets(best, input)) return best;
 
-  // Conservative linear search in 1000 µL increments rather than binary search.
-  // Binary search assumes monotonicity, which is not proven across the pipeline's
-  // rounding operations (extraction ties-to-even, filter steps, evaporator allocation).
-  // This linear search guarantees finding the minimum within the step resolution.
-  let low = 0;
-  const searchStepUL = 1_000;
-  for (let alcoholUL = searchStepUL; alcoholUL < maxAlcoholUL; alcoholUL += searchStepUL) {
-    const candidate = evaluateCandidate(
-      input,
-      prepared,
-      raw,
-      rawGrams,
-      groundUL,
-      alcoholUL,
-      costFor(alcoholUL),
-    );
+  // BOUNDED EXHAUSTIVE SEARCH with explicit incompleteness acknowledgment.
+  // Monotonicity is NOT proven across pipeline rounding (extraction roundToEven,
+  // filter durability steps, evaporator largest-remainder allocation).
+  // Strategy: Test every 100 µL increment up to reasonable bound (50,000 µL),
+  // then every 1 µL within any feasible interval found.
+  // LIMITATION: May miss narrow feasible intervals between coarse samples.
+  // This is a "no-solution-within-search" result, NOT a proof of infeasibility.
+  const coarseStepUL = 100;
+  const coarseBoundUL = Math.min(maxAlcoholUL, 50_000);
+  let firstFeasible: number | null = null;
+  
+  // Coarse pass: find first feasible region
+  for (let alcoholUL = 0; alcoholUL <= coarseBoundUL; alcoholUL += coarseStepUL) {
+    const candidate = evaluateCandidate(input, prepared, raw, rawGrams, groundUL, alcoholUL, costFor(alcoholUL));
     if (candidate && candidateMeets(candidate, input)) {
-      best = candidate;
-      // Found a feasible candidate; try to refine within the last step
-      for (let refine = Math.max(low, alcoholUL - searchStepUL + 1); refine < alcoholUL; refine += 1) {
-        const refined = evaluateCandidate(input, prepared, raw, rawGrams, groundUL, refine, costFor(refine));
-        if (refined && candidateMeets(refined, input)) {
-          best = refined;
-          break;
-        }
-      }
-      return best;
+      firstFeasible = alcoholUL;
+      break;
     }
   }
-  return best;
+  
+  if (firstFeasible === null) {
+    return best; // No feasible candidate found in coarse search
+  }
+  
+  // Fine pass: exhaustively search backward from first feasible to find true minimum
+  const searchStart = Math.max(0, firstFeasible - coarseStepUL + 1);
+  for (let alcoholUL = searchStart; alcoholUL <= firstFeasible; alcoholUL += 1) {
+    const candidate = evaluateCandidate(input, prepared, raw, rawGrams, groundUL, alcoholUL, costFor(alcoholUL));
+    if (candidate && candidateMeets(candidate, input)) {
+      return candidate; // First feasible in ascending order is minimum
+    }
+  }
+  
+  // Shouldn't reach here if firstFeasible was valid, but return it as fallback
+  return evaluateCandidate(input, prepared, raw, rawGrams, groundUL, firstFeasible, costFor(firstFeasible))!;
 }
 
 function betterFeasible(
@@ -874,8 +879,9 @@ export function solveProductionPlan(input: ProductionPlannerInput): ProductionPl
     bestPurityCandidate: bestPurityResult,
     maxQuantityCandidate: maxQuantityResult,
     searchSummary:
-      `Evaluated ${configurations.toLocaleString()} material configurations and used conservative linear search ` +
-      '(1000 µL increments with single-µL refinement) for the minimum feasible Alcohol per configuration. ' +
+      `Evaluated ${configurations.toLocaleString()} material configurations. Alcohol search uses bounded exhaustive ` +
+      'strategy (100 µL coarse scan up to 50 mL, then 1 µL fine scan within first feasible interval). ' +
+      'LIMITATION: May miss narrow feasible intervals between coarse samples; no-solution means not found in this search, not proven impossible. ' +
       'Objective: lowest user-quoted purchase cost, then least documented waste, then least Alcohol.',
     boundary,
   };
