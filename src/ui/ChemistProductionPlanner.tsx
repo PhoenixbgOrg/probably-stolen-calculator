@@ -207,7 +207,7 @@ export function ChemistProductionPlanner() {
             <summary>Measured already-ground component inventory</summary>
             <p className="muted small">Enter actual component volumes. No Blender loss is applied a second time.</p>
             <div className="input-group">
-              <label>Quick-fill from raw Dream Cap (applies Blender loss once)</label>
+              <label>Quick-fill from raw Dream Cap (applies Blender loss once - only for known-provenance material)</label>
               <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-end' }}>
                 <NumberField
                   id="quick-raw-grams"
