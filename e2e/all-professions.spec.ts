@@ -1,6 +1,11 @@
 import { test, expect } from '@playwright/test';
 
+// CRITICAL: Must use actual deployed GitHub Pages URL, not local dev server
+const PUBLIC_URL = 'https://phoenixbgorg.github.io/probably-stolen-calculator';
+
 test.describe('All 8 Other Profession Calculators (Public Site)', () => {
+  // These tests validate the DEPLOYED production site, not local changes
+  test.use({ baseURL: PUBLIC_URL });
   
   test('Water Merchant - baseline and input change', async ({ page }) => {
     await page.goto('/#/calculators/water-merchant');
