@@ -300,7 +300,11 @@ export function ChemistProductionPlanner() {
             <div className={`alert ${result.status === 'feasible' ? 'success' : 'warning'}`}>
               {shown.finishing.vials.length} / {submitted.targetVials} requested vials at{' '}
               {shown.finishing.meanPurity.toFixed(2)}% mean purity
-              {result.status === 'feasible' ? ' — target met.' : ' — target not met in the supported search.'}
+              {result.status === 'feasible' 
+                ? ' — target met.' 
+                : result.status === 'search-incomplete-limit-reached'
+                ? ' — search stopped at time/configuration limit. Result may be suboptimal.'
+                : ' — target not met in the supported search.'}
             </div>
             <h4>Recommended production plan</h4>
             <ol>

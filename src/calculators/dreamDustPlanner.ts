@@ -443,7 +443,7 @@ export interface ProductionCandidate {
 }
 
 export interface ProductionPlan {
-  status: 'feasible' | 'no-solution-in-supported-search' | 'unsupported-input';
+  status: 'feasible' | 'no-solution-in-supported-search' | 'unsupported-input' | 'search-incomplete-limit-reached';
   reasons: string[];
   candidate: ProductionCandidate | null;
   bestPurityCandidate: ProductionCandidate | null;
@@ -719,6 +719,9 @@ function betterQuantity(
   return candidate.finishing.meanPurity > current.finishing.meanPurity;
 }
 
+const MAX_CONFIGURATIONS = 50_000;
+const MAX_RUNTIME_MS = 30_000; // 30 seconds
+
 export function solveProductionPlan(input: ProductionPlannerInput): ProductionPlan {
   const validation = validatePlannerInput(input);
   const boundary =
@@ -737,10 +740,12 @@ export function solveProductionPlan(input: ProductionPlannerInput): ProductionPl
     };
   }
 
+  const startTime = Date.now();
   let feasible: ProductionCandidate | null = null;
   let bestPurity: ProductionCandidate | null = null;
   let maxQuantity: ProductionCandidate | null = null;
   let configurations = 0;
+  let hitLimit = false;
   const credits = Math.max(0, input.credits);
   const containerCapacity = Math.max(0, Math.trunc(input.processingContainerCapacityUL));
 
@@ -753,6 +758,13 @@ export function solveProductionPlan(input: ProductionPlannerInput): ProductionPl
   ) => {
     const remainingCredits = credits - materialPurchaseCost;
     if (remainingCredits < -Number.EPSILON) return;
+    
+    // Check time and configuration limits to prevent UI freeze
+    if (configurations >= MAX_CONFIGURATIONS || (Date.now() - startTime) >= MAX_RUNTIME_MS) {
+      hitLimit = true;
+      return;
+    }
+    
     const alcoholLimitML = purchasedResourceLimit(
       Math.max(0, input.alcoholAvailableUL) / 1_000,
       remainingCredits,
@@ -869,9 +881,23 @@ export function solveProductionPlan(input: ProductionPlannerInput): ProductionPl
     }
   }
 
+  const status = hitLimit 
+    ? 'search-incomplete-limit-reached'
+    : feasibleResult 
+    ? 'feasible' 
+    : 'no-solution-in-supported-search';
+  
+  const finalReasons = hitLimit 
+    ? [
+        `Search stopped at ${configurations.toLocaleString()} configurations or ${MAX_RUNTIME_MS / 1000}s time limit.`,
+        'Solution may exist in unsearched space. Results shown are incomplete.',
+        ...reasons,
+      ]
+    : reasons;
+
   return {
-    status: feasibleResult ? 'feasible' : 'no-solution-in-supported-search',
-    reasons,
+    status,
+    reasons: finalReasons,
     candidate: feasibleResult,
     bestPurityCandidate: bestPurityResult,
     maxQuantityCandidate: maxQuantityResult,
