@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import {
   COMPONENT_KEYS,
   type ComponentKey,
@@ -13,8 +13,9 @@ import {
   SAFE_EXTRACTION_TEMPERATURE_C,
   SUPPORTED_GAME_VERSION,
   type ProductionPlannerInput,
-  solveProductionPlan,
+  type ProductionPlan,
 } from '../calculators/dreamDustPlanner';
+import { usePlannerWorker } from '../hooks/usePlannerWorker';
 import {
   evaluateCartelDelivery,
   getCartelRequirement,
@@ -130,11 +131,16 @@ export function ChemistProductionPlanner() {
     alcoholQuoteCreditsPerML: allowPurchases ? Math.max(0, alcoholQuote) : undefined,
   });
 
-  const [submitted, setSubmitted] = useState<ProductionPlannerInput>(makeInput);
-  const result = useMemo(() => solveProductionPlan(submitted), [submitted]);
-  const shown = result.candidate ?? result.bestPurityCandidate;
+  const [submitted, setSubmitted] = useState<ProductionPlannerInput | null>(null);
+  const [result, setResult] = useState<ProductionPlan | null>(null);
+  const [calculating, setCalculating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { solve, cancel } = usePlannerWorker();
+  const cancelRef = useState<(() => void) | null>(null)[0];
+  
+  const shown = result ? (result.candidate ?? result.bestPurityCandidate) : null;
   const currentInput = makeInput();
-  const isStale = JSON.stringify(currentInput) !== JSON.stringify(submitted);
+  const isStale = submitted ? JSON.stringify(currentInput) !== JSON.stringify(submitted) : false;
   const cartelRequirement = getCartelRequirement(cartelDay);
   const cartelStatus =
     cartelRequirement && shown
@@ -281,21 +287,62 @@ export function ChemistProductionPlanner() {
             <p className="muted small">These are user-provided quote costs, not wiki or guaranteed shop prices.</p>
           </>
         )}
-        <button className="primary-button" type="button" onClick={() => setSubmitted(makeInput())}>
-          Calculate production plan
+        <button 
+          className="primary-button" 
+          type="button" 
+          onClick={() => {
+            const input = makeInput();
+            setSubmitted(input);
+            setCalculating(true);
+            setError(null);
+            
+            const cancelFn = solve(input, (plan, err) => {
+              setCalculating(false);
+              if (err) {
+                setError(err);
+                setResult(null);
+              } else {
+                setResult(plan);
+                setError(null);
+              }
+            });
+            
+            if (cancelRef) {
+              (cancelRef as any).current = cancelFn;
+            }
+          }}
+          disabled={calculating}
+        >
+          {calculating ? 'Calculating...' : 'Calculate production plan'}
         </button>
+        {calculating && (
+          <button 
+            className="secondary-button" 
+            type="button" 
+            onClick={() => {
+              cancel();
+              setCalculating(false);
+              setError('Cancelled by user');
+            }}
+            style={{ marginLeft: '0.5rem' }}
+          >
+            Cancel
+          </button>
+        )}
       </section>
 
       <section className="output-section" aria-live="polite">
-        <h3>Production result: {result.status}</h3>
-        {isStale && (
+        {calculating && <div className="alert info">⏳ Calculating... This may take up to 30 seconds for extreme inputs.</div>}
+        {error && <div className="alert error">❌ Error: {error}</div>}
+        {result && <h3>Production result: {result.status}</h3>}
+        {result && isStale && (
           <div className="alert warning">
             ⚠️ Inputs changed. Press <strong>Calculate production plan</strong> to update results.
           </div>
         )}
-        {result.reasons.map((reason) => <div className="alert warning" key={reason}>{reason}</div>)}
-        <p>{result.searchSummary}</p>
-        {shown && (
+        {result && result.reasons.map((reason) => <div className="alert warning" key={reason}>{reason}</div>)}
+        {result && <p>{result.searchSummary}</p>}
+        {shown && result && submitted && (
           <>
             <div className={`alert ${result.status === 'feasible' ? 'success' : 'warning'}`}>
               {shown.finishing.vials.length} / {submitted.targetVials} requested vials at{' '}
@@ -394,7 +441,7 @@ export function ChemistProductionPlanner() {
             </details>
           </>
         )}
-        <p className="muted small">{result.boundary}</p>
+        {result && <p className="muted small">{result.boundary}</p>}
       </section>
 
       <section className="input-section">
