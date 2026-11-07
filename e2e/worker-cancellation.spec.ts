@@ -6,9 +6,12 @@ import { test, expect } from '@playwright/test';
  */
 
 test.describe('Web Worker Cancellation & Latest-Result-Only', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('./#/calculators/chemist', { waitUntil: 'load' });
+    await page.locator('summary').filter({ hasText: 'Compare to target' }).click();
+  });
+
   test('Worker actually used in browser (not sync fallback)', async ({ page }) => {
-    await page.goto('/#/calculators/chemist');
-    await page.waitForLoadState('networkidle');
     
     // Check Worker is available in browser
     const workerSupported = await page.evaluate(() => {
@@ -22,8 +25,8 @@ test.describe('Web Worker Cancellation & Latest-Result-Only', () => {
     await page.click('button:has-text("Calculate production plan")');
     
     // Should show calculating status immediately
-    const calculating = page.locator('text=/Calculating/i');
-    await expect(calculating).toBeVisible({ timeout: 1000 });
+    const calculating = page.getByTestId('planner-calculating');
+    await expect(calculating).toBeVisible({ timeout: 3000 });
     
     console.log('✓ Calculating status appeared (Worker started)');
     
@@ -34,45 +37,27 @@ test.describe('Web Worker Cancellation & Latest-Result-Only', () => {
   });
 
   test('Cancel button terminates calculation', async ({ page }) => {
-    await page.goto('/#/calculators/chemist');
-    await page.waitForLoadState('networkidle');
     
-    // Set large input to ensure slow calculation
+    await page.fill('input#container-capacity', '4000');
     await page.fill('input#raw-grams', '200');
-    await page.fill('input#planner-target-vials', '30');
     
-    // Start calculation
     await page.click('button:has-text("Calculate production plan")');
-    
-    // Wait for calculating status
-    await expect(page.locator('text=/Calculating/i')).toBeVisible({ timeout: 1000 });
-    
-    // Cancel button should appear
-    const cancelButton = page.locator('button:has-text("Cancel")');
-    await expect(cancelButton).toBeVisible({ timeout: 1000 });
-    
-    console.log('✓ Cancel button appeared');
-    
-    // Click Cancel
-    await cancelButton.click();
-    
-    // Should show cancellation message or error
-    const cancelled = page.locator('text=/Cancel/i');
-    await expect(cancelled).toBeVisible({ timeout: 2000 });
+    await expect(page.getByTestId('planner-calculating')).toBeVisible({ timeout: 3000 });
+    await page.getByTestId('planner-cancel').click();
+    await expect(page.getByText('Cancelled by user')).toBeVisible({ timeout: 2000 });
     
     console.log('✓ Cancellation registered');
   });
 
   test('Latest-result-only: new calculation cancels previous', async ({ page }) => {
-    await page.goto('/#/calculators/chemist');
-    await page.waitForLoadState('networkidle');
     
     // Set large input for slow calculation
+    await page.fill('input#container-capacity', '2000');
     await page.fill('input#raw-grams', '150');
     
     // Start first calculation
     await page.click('button:has-text("Calculate production plan")');
-    await expect(page.locator('text=/Calculating/i')).toBeVisible({ timeout: 1000 });
+    await expect(page.getByTestId('planner-calculating')).toBeVisible({ timeout: 3000 });
     
     console.log('✓ First calculation started');
     

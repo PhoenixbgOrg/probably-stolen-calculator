@@ -1,16 +1,14 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Worker Test - Simple (Against Built Preview)', () => {
-  test.use({ 
-    baseURL: 'http://127.0.0.1:4173'
-  });
 
   test('loads page and checks Worker availability', async ({ page }) => {
     // Skip networkidle, use load instead
-    await page.goto('/#/calculators/chemist', { 
+    await page.goto('./#/calculators/chemist', { 
       waitUntil: 'load',
       timeout: 10000 
     });
+    await page.locator('summary').filter({ hasText: 'Compare to target' }).click();
     
     // Wait for the calculate button to appear
     await page.waitForSelector('button:has-text("Calculate production plan")', { timeout: 5000 });
@@ -60,43 +58,24 @@ test.describe('Worker Test - Simple (Against Built Preview)', () => {
   });
 
   test('cancel button appears during calculation', async ({ page }) => {
-    await page.goto('/#/calculators/chemist', { 
+    await page.goto('./#/calculators/chemist', { 
       waitUntil: 'load',
       timeout: 10000 
     });
+    await page.locator('summary').filter({ hasText: 'Compare to target' }).click();
     
     await page.waitForSelector('button:has-text("Calculate production plan")', { timeout: 5000 });
     
     // Set large input to slow down
+    await page.fill('input#container-capacity', '4000');
     await page.fill('input#raw-grams', '200');
-    await page.fill('input#planner-target-vials', '30');
     
-    console.log('✓ Set large input (200g, 30 vials)');
+    console.log('✓ Set large input (200g, 15 vials)');
     
-    // Click Calculate
     await page.click('button:has-text("Calculate production plan")');
-    console.log('✓ Clicked Calculate');
-    
-    // Immediately check for Cancel button
-    const cancelVisible = await page.locator('button:has-text("Cancel")').isVisible({ timeout: 1000 }).catch(() => false);
-    
-    if (cancelVisible) {
-      console.log('✓ Cancel button appeared');
-      
-      // Try to click it
-      await page.click('button:has-text("Cancel")');
-      console.log('✓ Clicked Cancel');
-      
-      await page.waitForTimeout(500);
-      
-      // Check for error or cancellation message
-      const body = await page.textContent('body');
-      if (body?.match(/cancel/i)) {
-        console.log('✓ Cancellation message visible');
-      }
-    } else {
-      console.log('✗ Cancel button did NOT appear (completes too fast or using sync fallback)');
-    }
+    await expect(page.getByTestId('planner-calculating')).toBeVisible({ timeout: 3000 });
+    await page.getByTestId('planner-cancel').click();
+    await expect(page.getByText(/Cancelled by user/i)).toBeVisible({ timeout: 3000 });
   });
 
   test('check Worker file loads from network', async ({ page }) => {
@@ -110,10 +89,11 @@ test.describe('Worker Test - Simple (Against Built Preview)', () => {
       }
     });
     
-    await page.goto('/#/calculators/chemist', { 
+    await page.goto('./#/calculators/chemist', { 
       waitUntil: 'load',
       timeout: 10000 
     });
+    await page.locator('summary').filter({ hasText: 'Compare to target' }).click();
     
     await page.waitForSelector('button:has-text("Calculate production plan")', { timeout: 5000 });
     

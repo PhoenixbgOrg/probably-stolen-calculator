@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Worker Verification - Built Preview', () => {
-  test.use({ baseURL: 'http://127.0.0.1:4173' });
 
   test('verify Worker file loads and executes (not sync fallback)', async ({ page }) => {
     // Track all network requests
@@ -16,7 +15,8 @@ test.describe('Worker Verification - Built Preview', () => {
       consoleMessages.push(`[${msg.type()}] ${msg.text()}`);
     });
     
-    await page.goto('/#/calculators/chemist', { waitUntil: 'load', timeout: 10000 });
+    await page.goto('./#/calculators/chemist', { waitUntil: 'load', timeout: 10000 });
+    await page.locator('summary').filter({ hasText: 'Compare to target' }).click();
     await page.waitForSelector('button:has-text("Calculate production plan")', { timeout: 5000 });
     
     console.log('=== BEFORE CALCULATE ===');
@@ -91,7 +91,8 @@ test.describe('Worker Verification - Built Preview', () => {
   });
 
   test('verify Cancel button exists and latest-result-only works', async ({ page }) => {
-    await page.goto('/#/calculators/chemist', { waitUntil: 'load', timeout: 10000 });
+    await page.goto('./#/calculators/chemist', { waitUntil: 'load', timeout: 10000 });
+    await page.locator('summary').filter({ hasText: 'Compare to target' }).click();
     await page.waitForSelector('button:has-text("Calculate production plan")', { timeout: 5000 });
     
     // Test 1: Start first calculation
@@ -124,31 +125,13 @@ test.describe('Worker Verification - Built Preview', () => {
       }
     }
     
-    // Test 2: Cancel button (may not appear if too fast)
-    console.log('');
-    console.log('Testing Cancel button visibility...');
+    console.log('Testing Cancel button...');
+    await page.fill('input#container-capacity', '4000');
     await page.fill('input#raw-grams', '200');
-    await page.fill('input#planner-target-vials', '30');
-    
     await page.click('button:has-text("Calculate production plan")');
-    
-    // Check if Cancel button appeared
-    const cancelButton = await page.locator('button:has-text("Cancel")');
-    const cancelVisible = await cancelButton.isVisible({ timeout: 500 }).catch(() => false);
-    
-    if (cancelVisible) {
-      console.log('✓ Cancel button appeared');
-      await cancelButton.click();
-      console.log('✓ Cancel button clicked');
-      
-      await page.waitForTimeout(500);
-      const bodyAfter = await page.textContent('body');
-      if (bodyAfter?.match(/cancel/i)) {
-        console.log('✓ Cancellation message visible');
-      }
-    } else {
-      console.log('⚠ Cancel button did not appear (calculation completed too quickly)');
-      console.log('  This is acceptable if Worker completes calculation before UI update');
-    }
+    await expect(page.getByTestId('planner-calculating')).toBeVisible({ timeout: 3000 });
+    await page.getByTestId('planner-cancel').click();
+    await expect(page.getByText('Cancelled by user')).toBeVisible({ timeout: 3000 });
+    console.log('✓ Cancelled in-flight reverse search');
   });
 });

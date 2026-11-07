@@ -50,6 +50,7 @@ import { estimatedMushAndOther, PREVIOUS_BATCH_FRACTION_NOTE, PREVIOUS_BATCH_MUS
 import { SAFE_EXTRACTION_TEMPERATURE_C } from '../calculators/dreamDustPlanner';
 import { CITATIONS, UNKNOWN_LIMITS } from '../calculators/sourceCitations';
 import { iconManifestSummary } from '../data/iconManifest';
+import { PurposeIcon } from './PurposeIcon';
 import { loadChemistSession, saveChemistSession } from '../persistence/chemistSession';
 import { ChemistTargetCompare } from './ChemistTargetCompare';
 
@@ -101,6 +102,15 @@ function NumberField({
       />
       {help && <span className="help-text">{help}</span>}
     </div>
+  );
+}
+
+function NamedIcon({ id, label }: { id: string; label: string }) {
+  return (
+    <span className="named-icon">
+      <PurposeIcon id={id} size={32} showCaption />
+      <span>{label}</span>
+    </span>
   );
 }
 
@@ -189,11 +199,11 @@ function SnapshotTable({ snapshot }: { snapshot: MixtureSnapshot }) {
       </p>
       {COMPONENT_KEYS.filter((key) => snapshot.mixture[key] !== 0 || snapshot.fieldProvenance[key] === 'measured').map(
         (key) => (
-          <div className="output-row" key={key}>
+          <div className="output-row" key={key} data-testid={`snapshot-${key}`}>
             <span>
               {componentLabel(key)} <span className="muted small">{snapshot.fieldProvenance[key]}</span>
             </span>
-            <strong>{ml(snapshot.mixture[key])} mL</strong>
+            <strong data-testid={`snapshot-${key}-ul`}>{ml(snapshot.mixture[key])} mL</strong>
           </div>
         ),
       )}
@@ -400,6 +410,11 @@ export function ChemistProductionPlanner() {
       <div className="calculator-header">
         <h2>Dream Dust Production Planner</h2>
         <p className="subtitle">What do you have? Plan forward from ground mixture and alcohol — vial targets are optional.</p>
+        <div className="btn-row" aria-label="Chemist kit symbols">
+          {['dream-cap', 'blender', 'alcohol', 'heating-plate', 'acid', 'base', 'kotton-fabric', 'water-filter', 'evaporator', 'chem-finisher', 'dream-dust'].map((id) => (
+            <PurposeIcon key={id} id={id} size={32} showCaption />
+          ))}
+        </div>
       </div>
 
       {sessionNotice && <div className="alert warning">{sessionNotice}</div>}
@@ -435,7 +450,7 @@ export function ChemistProductionPlanner() {
 
       {state.currentStage === 'ground' && (
         <section className="input-section" data-testid="stage-ground">
-          <h3>Ground Dream Caps and solvent</h3>
+          <h3><NamedIcon id="dream-cap" label="Ground Dream Caps and solvent" /></h3>
           <StageStatus record={currentRecord} />
           <NumberField
             id="ground-total"
@@ -508,7 +523,7 @@ export function ChemistProductionPlanner() {
             </div>
           )}
 
-          <h4>Alcohol / solvent</h4>
+          <h4><NamedIcon id="alcohol" label="Alcohol / solvent" /></h4>
           <NumberField
             id="solvent-liquid"
             label="Alcohol-containing liquid (mL)"
@@ -598,11 +613,11 @@ export function ChemistProductionPlanner() {
               </div>
               <div className="output-row">
                 <span>Unused ground mixture</span>
-                <strong>{ml(forward.unusedGroundUL)} mL</strong>
+                <strong data-testid="unused-ground-ul">{ml(forward.unusedGroundUL)} mL</strong>
               </div>
               <div className="output-row">
                 <span>Initial vessel volume</span>
-                <strong>
+                <strong data-testid="initial-vessel-ul">
                   {ml(forward.initialVesselUL)} mL / {ml(state.vesselCapacityUL)} mL
                 </strong>
               </div>
@@ -622,7 +637,7 @@ export function ChemistProductionPlanner() {
 
       {state.currentStage === 'extraction' && (
         <section className="input-section" data-testid="stage-extraction">
-          <h3>Extraction</h3>
+          <h3><NamedIcon id="heating-plate" label="Extraction" /></h3>
           <StageStatus record={currentRecord} />
           <p>
             Hold the liquid in the sourced 40–49°C band. Recommended plate setting {SAFE_EXTRACTION_TEMPERATURE_C}°C with 2+
@@ -656,10 +671,10 @@ export function ChemistProductionPlanner() {
           />
           {stageButtons('extraction')}
           {currentRecord.prediction && (
-            <>
+            <div data-testid="predicted-extraction">
               <h4>Predicted extraction output</h4>
               <SnapshotTable snapshot={currentRecord.prediction} />
-            </>
+            </div>
           )}
           {currentRecord.reasons.map((reason) => (
             <div className="alert error" key={reason}>
@@ -685,7 +700,7 @@ export function ChemistProductionPlanner() {
 
       {state.currentStage === 'acidBase' && (
         <section className="input-section" data-testid="stage-acidBase">
-          <h3>Acid / Base (protein)</h3>
+          <h3><NamedIcon id="acid" label="Acid / Base (protein)" /></h3>
           <StageStatus record={currentRecord} />
           {!canEnterStage(state, 'acidBase') && <div className="alert error">{inputMixtureFor(state, 'acidBase').note}</div>}
           {inputMixtureFor(state, 'acidBase').snapshot && (
@@ -704,22 +719,22 @@ export function ChemistProductionPlanner() {
           <p className="muted small">
             Inventory is the measured bottle. Dose is a homogeneous slice of every component. Acid and Base are separate pours. Neutralization (branch 18) runs only when you click Run chemical updates while both are already in the vessel.
           </p>
-          <h4>Acidic Solution stock (measured)</h4>
+          <h4><NamedIcon id="acid" label="Acidic Solution stock (measured)" /></h4>
           <MixtureFields
             idPrefix="acid-reag"
             mixture={state.acidReagent}
             onChange={(acidReagent) => update((current) => setAcidStock(current, acidReagent))}
           />
-          <div className="output-row"><span>Acid remaining</span><strong>{ml(totalUL(state.acidRemaining))} mL</strong></div>
+          <div className="output-row"><span>Acid remaining</span><strong data-testid="acid-remaining-value">{ml(totalUL(state.acidRemaining))} mL</strong></div>
           <NumberField id="acid-dose" label="Acid dose to pour (mL)" value={state.acidDoseUL / 1_000} onChange={(value) => patch('acidBase', { acidDoseUL: toUL(value) })} />
           <button type="button" data-testid="add-acid-dose" onClick={() => update(addAcidDose)}>Add Acid dose</button>
-          <h4>Basic Solution stock (measured)</h4>
+          <h4><NamedIcon id="base" label="Basic Solution stock (measured)" /></h4>
           <MixtureFields
             idPrefix="base-reag"
             mixture={state.baseReagent}
             onChange={(baseReagent) => update((current) => setBaseStock(current, baseReagent))}
           />
-          <div className="output-row"><span>Base remaining</span><strong>{ml(totalUL(state.baseRemaining))} mL</strong></div>
+          <div className="output-row"><span>Base remaining</span><strong data-testid="base-remaining-value">{ml(totalUL(state.baseRemaining))} mL</strong></div>
           <NumberField id="base-dose" label="Base dose to pour (mL)" value={state.baseDoseUL / 1_000} onChange={(value) => patch('acidBase', { baseDoseUL: toUL(value) })} />
           <button type="button" data-testid="add-base-dose" onClick={() => update(addBaseDose)}>Add Base dose</button>
           <NumberField id="chem-updates" label="Chemical updates to run" value={state.chemistryUpdateBudget} onChange={(value) => patch('acidBase', { chemistryUpdateBudget: Math.max(1, Math.trunc(value)) })} step={1} />
@@ -757,7 +772,7 @@ export function ChemistProductionPlanner() {
 
       {state.currentStage === 'filterEvap' && (
         <section className="input-section" data-testid="stage-filterEvap">
-          <h3>Filtration / Evaporation</h3>
+          <h3><NamedIcon id="water-filter" label="Filtration" /><NamedIcon id="evaporator" label="Evaporation" /></h3>
           <StageStatus record={currentRecord} />
           {!canEnterStage(state, 'filterEvap') && (
             <div className="alert error">{inputMixtureFor(state, 'filterEvap').note}</div>
@@ -810,12 +825,15 @@ export function ChemistProductionPlanner() {
           <h4>2. Evaporation nights (from remaining volatiles)</h4>
           {state.evapNights.map((night) => (
             <div className="output-section" key={night.night}>
-              <div className="output-row"><span>Night {night.night} {night.confirmed ? 'confirmed' : ''} {night.stale ? 'stale' : ''}</span><strong>{ml(night.removed.water + night.removed.alcohol + night.removed.lipobondAgent)} mL removed / {ml(night.remainingVolatilesUL)} left / {night.energyUsed} kJ / {ml(totalUL(night.recovered))} recovered</strong></div>
+              <div className="output-row" data-testid={`confirmed-night-${night.night}`}>
+                <span>Night {night.night} {night.confirmed ? 'confirmed' : ''} {night.stale ? 'stale' : ''}</span>
+                <strong>{ml(night.removed.water + night.removed.alcohol + night.removed.lipobondAgent)} mL removed / {ml(night.remainingVolatilesUL)} left / {night.energyUsed} kJ / {ml(totalUL(night.recovered))} recovered / receiver {ml(night.remainingReceiverUL)} mL</strong>
+              </div>
             </div>
           ))}
           {state.pendingNight && (
-            <div className="alert info">
-              Night {state.pendingNight.night}: removed {ml(totalUL(state.pendingNight.removed))} mL, left {ml(state.pendingNight.remainingVolatilesUL)} mL volatiles, energy {state.pendingNight.energyUsed} kJ, recovered {ml(totalUL(state.pendingNight.recovered))} mL, remaining energy {state.pendingNight.remainingEnergy} kJ.
+            <div className="alert info" data-testid="pending-night">
+              Night {state.pendingNight.night}: removed {ml(totalUL(state.pendingNight.removed))} mL, left {ml(state.pendingNight.remainingVolatilesUL)} mL volatiles, energy {state.pendingNight.energyUsed} kJ, recovered {ml(totalUL(state.pendingNight.recovered))} mL, remaining energy {state.pendingNight.remainingEnergy} kJ, remaining receiver {ml(state.pendingNight.remainingReceiverUL)} mL.
               {state.pendingNight.reasons.map((reason) => (
                 <div key={reason}>{reason}</div>
               ))}
@@ -836,7 +854,9 @@ export function ChemistProductionPlanner() {
             </button>
           </div>
           {lastConfirmedNight(state) && (
-            <p className="muted small">Last confirmed night {lastConfirmedNight(state)!.night}. Next night starts from that remaining mixture, not a second filter pass.</p>
+            <p className="muted small" data-testid="no-refilter">
+              Last confirmed night {lastConfirmedNight(state)!.night}. Next night starts from that remaining mixture, not a second filter pass. Filtration was not reapplied.
+            </p>
           )}
           {currentRecord.warnings.map((warning) => (
             <div className="alert warning" key={warning}>
@@ -849,7 +869,7 @@ export function ChemistProductionPlanner() {
 
       {state.currentStage === 'final' && (
         <section className="output-section" data-testid="stage-final">
-          <h3>Final Dust</h3>
+          <h3><NamedIcon id="chem-finisher" label="Final Dust" /></h3>
           <StageStatus record={currentRecord} />
           {!canEnterStage(state, 'final') && <div className="alert error">{inputMixtureFor(state, 'final').note}</div>}
           {inputMixtureFor(state, 'final').snapshot && (
@@ -887,8 +907,8 @@ export function ChemistProductionPlanner() {
       )}
 
       <p className="muted small">
-        Icons: {icons.professionsOriginal}/9 professions and {icons.perksOriginal}/48 perks use original in-repo pixel silhouettes.
-        {icons.machinesMissing} machine and {icons.chemicalsMissing} chemical icons are missing; stages use text labels only.
+        Icons: {icons.professionsOriginal}/9 professions, {icons.perksOriginal}/48 perks, {icons.machinesOriginal} machines and {icons.chemicalsOriginal} chemicals use original purpose-based SVG tiles.
+        All {icons.appearanceUnverified} tiles are labeled not game sprites; appearance vs in-game art is unverified.
         Nicokobo wiki text is CC BY-SA 4.0; game icons/screenshots are not licensed by wiki access.
       </p>
 

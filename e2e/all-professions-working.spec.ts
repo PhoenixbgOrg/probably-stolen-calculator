@@ -1,201 +1,81 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
-const PUBLIC_URL = 'https://phoenixbgorg.github.io/probably-stolen-calculator';
+async function openCalculator(page: Page, id: string, heading: string) {
+  await page.goto(`./#/calculators/${id}`, { waitUntil: 'load' });
+  await expect(page.locator('h2.panel-title')).toContainText(heading);
+}
 
-test.describe('All 8 Professions - Working Calculators Validated', () => {
-  test.use({ baseURL: PUBLIC_URL });
+async function outputNumber(page: Page, label: string) {
+  const text = await page.locator('.output-row', { hasText: label }).locator('strong').innerText();
+  const match = text.replace(/,/g, '').match(/-?\d+(\.\d+)?/);
+  return match ? Number(match[0]) : NaN;
+}
 
-  test('Water Merchant - reactive calculator with numeric changes', async ({ page }) => {
-    await page.goto('/#/calculators/water-merchant');
-    await page.waitForLoadState('networkidle');
-    
-    await expect(page.locator('h2.panel-title')).toContainText('Water Merchant');
-    
-    // Get baseline output
-    const getRemovalBudget = async () => {
-      const text = await page.textContent('text=/Removal budget/');
-      const match = text?.match(/([\d.]+)\s*mL/);
-      return match ? parseFloat(match[1]) : 0;
-    };
-    
-    const baseline = await getRemovalBudget();
-    console.log('Water Merchant baseline removal budget:', baseline, 'mL');
-    
-    // Change dirtiness multiplier (default 2) to 4
-    await page.fill('input#water-dirtiness', '4');
-    await page.waitForTimeout(500);
-    
-    const changed = await getRemovalBudget();
-    console.log('Water Merchant changed removal budget:', changed, 'mL');
-    
-    expect(changed).not.toBe(baseline);
-    console.log('✓ Water Merchant calculator is reactive');
+test.describe('Profession calculators — numeric reactivity', () => {
+  test('Water Merchant removal budget changes with dirtiness', async ({ page }) => {
+    await openCalculator(page, 'water-merchant', 'Water Merchant');
+    const before = await outputNumber(page, 'Removal budget');
+    await page.locator('#water-dirtiness').fill('4');
+    const after = await outputNumber(page, 'Removal budget');
+    expect(before).toBeGreaterThan(0);
+    expect(after).not.toBe(before);
   });
 
-  test('Hydroponic Farmer - reactive calculator', async ({ page }) => {
-    await page.goto('/#/calculators/hydroponic-farmer');
-    await page.waitForLoadState('networkidle');
-    
-    const getHarvest = async () => {
-      const text = await page.textContent('text=/Expected harvest count/');
-      const match = text?.match(/(\d+)/);
-      return match ? parseInt(match[1]) : 0;
-    };
-    
-    const baseline = await getHarvest();
-    console.log('Hydroponic baseline harvest:', baseline);
-    
-    // Change quality bonus
-    await page.fill('input#hydro-quality', '100');
-    await page.waitForTimeout(500);
-    
-    const changed = await getHarvest();
-    console.log('Hydroponic changed harvest:', changed);
-    
-    expect(changed).toBeGreaterThan(baseline);
-    console.log('✓ Hydroponic Farmer calculator is reactive');
+  test('Hydroponic Farmer harvest count rises with quality', async ({ page }) => {
+    await openCalculator(page, 'hydroponic-farmer', 'Hydroponic Farmer');
+    const before = await outputNumber(page, 'Expected harvest count');
+    await page.locator('#hydro-quality').fill('100');
+    const after = await outputNumber(page, 'Expected harvest count');
+    expect(after).toBeGreaterThan(before);
   });
 
-  test('Aquafarmer - reactive calculator with numeric changes', async ({ page }) => {
-    await page.goto('/#/calculators/aquafarmer');
-    await page.waitForLoadState('networkidle');
-    
-    const getPotentialCalories = async () => {
-      const text = await page.textContent('text=/Potential meat calories/');
-      const match = text?.match(/(\d+)/);
-      return match ? parseInt(match[1]) : 0;
-    };
-    
-    const baseline = await getPotentialCalories();
-    console.log('Aquafarmer baseline calories:', baseline);
-    
-    // Change absorbed calories (default 5000) to 10000
-    await page.fill('input#absorbed-calories', '10000');
-    await page.waitForTimeout(500);
-    
-    const changed = await getPotentialCalories();
-    console.log('Aquafarmer changed calories:', changed);
-    
-    expect(changed).not.toBe(baseline);
-    expect(changed).toBeGreaterThan(baseline);
-    console.log('✓ Aquafarmer calculator is reactive');
+  test('Aquafarmer calories scale with absorbed calories', async ({ page }) => {
+    await openCalculator(page, 'aquafarmer', 'Aquafarmer');
+    const before = await outputNumber(page, 'Potential meat calories');
+    await page.locator('#absorbed-calories').fill('10000');
+    const after = await outputNumber(page, 'Potential meat calories');
+    expect(after).toBeGreaterThan(before);
   });
 
-  test('Rat Wrangler - reactive calculator with numeric changes', async ({ page }) => {
-    await page.goto('/#/calculators/rat-wrangler');
-    await page.waitForLoadState('networkidle');
-    
-    const getBaseValue = async () => {
-      const text = await page.textContent('text=/Static base-value total/');
-      const match = text?.match(/(\d+)/);
-      return match ? parseInt(match[1]) : 0;
-    };
-    
-    const baseline = await getBaseValue();
-    console.log('Rat baseline value:', baseline, 'Credits');
-    
-    // Change weight (default 400) to 600
-    await page.fill('input#rat-weight', '600');
-    await page.waitForTimeout(500);
-    
-    const changed = await getBaseValue();
-    console.log('Rat changed value:', changed, 'Credits');
-    
-    expect(changed).not.toBe(baseline);
-    expect(changed).toBeGreaterThan(baseline);
-    console.log('✓ Rat Wrangler calculator is reactive');
+  test('Rat Wrangler base value scales with weight', async ({ page }) => {
+    await openCalculator(page, 'rat-wrangler', 'Rat Wrangler');
+    const before = await outputNumber(page, 'Static base-value total');
+    await page.locator('#rat-weight').fill('600');
+    const after = await outputNumber(page, 'Static base-value total');
+    expect(after).toBeGreaterThan(before);
   });
 
-  test('Gunsmith - reactive calculator with numeric changes', async ({ page }) => {
-    await page.goto('/#/calculators/gunsmith');
-    await page.waitForLoadState('networkidle');
-    
-    const getBonus = async () => {
-      const text = await page.textContent('text=/Additive bonus/');
-      const match = text?.match(/(\d+)/);
-      return match ? parseInt(match[1]) : 0;
-    };
-    
-    const baseline = await getBonus();
-    console.log('Gunsmith baseline bonus:', baseline, 'Credits');
-    
-    // Change firepower (default 18) to 30
-    await page.fill('input#gun-firepower', '30');
-    await page.waitForTimeout(500);
-    
-    const changed = await getBonus();
-    console.log('Gunsmith changed bonus:', changed, 'Credits');
-    
-    expect(changed).not.toBe(baseline);
-    console.log('✓ Gunsmith calculator is reactive');
+  test('Gunsmith additive bonus changes with firepower', async ({ page }) => {
+    await openCalculator(page, 'gunsmith', 'Gunsmith');
+    await page.locator('#gun-order').selectOption('firepower');
+    const before = await outputNumber(page, 'Additive bonus');
+    await page.locator('#gun-firepower').fill('25');
+    const after = await outputNumber(page, 'Additive bonus');
+    expect(before).toBeGreaterThan(0);
+    expect(after).toBeGreaterThan(before);
   });
 
-  test('Fence - reactive calculator', async ({ page }) => {
-    await page.goto('/#/calculators/fence');
-    await page.waitForLoadState('networkidle');
-    
-    const getCash = async () => {
-      const text = await page.textContent('text=/Cash after cycles/');
-      const match = text?.match(/(-?\d+)/);
-      return match ? parseInt(match[1]) : 0;
-    };
-    
-    const baseline = await getCash();
-    console.log('Fence baseline cash:', baseline);
-    
-    await page.fill('input#fence-cash', '500');
-    await page.waitForTimeout(500);
-    
-    const changed = await getCash();
-    console.log('Fence changed cash:', changed);
-    
-    expect(changed).toBeGreaterThan(baseline);
-    console.log('✓ Fence calculator is reactive');
+  test('Fence cash after cycles tracks starting cash', async ({ page }) => {
+    await openCalculator(page, 'fence', 'Fence');
+    const before = await outputNumber(page, 'Cash after cycles');
+    await page.locator('#fence-cash').fill('500');
+    const after = await outputNumber(page, 'Cash after cycles');
+    expect(after).toBeGreaterThan(before);
   });
 
-  test('Apprentice - reactive calculator', async ({ page }) => {
-    await page.goto('/#/calculators/apprentice');
-    await page.waitForLoadState('networkidle');
-    
-    const getCash = async () => {
-      const text = await page.textContent('text=/Cash after cycles/');
-      const match = text?.match(/(-?\d+)/);
-      return match ? parseInt(match[1]) : 0;
-    };
-    
-    const baseline = await getCash();
-    console.log('Apprentice baseline cash:', baseline);
-    
-    await page.fill('input#apprentice-cash', '600');
-    await page.waitForTimeout(500);
-    
-    const changed = await getCash();
-    console.log('Apprentice changed cash:', changed);
-    
-    expect(changed).toBeGreaterThan(baseline);
-    console.log('✓ Apprentice calculator is reactive');
+  test('Apprentice cash after cycles tracks starting cash', async ({ page }) => {
+    await openCalculator(page, 'apprentice', 'Apprentice');
+    const before = await outputNumber(page, 'Cash after cycles');
+    await page.locator('#apprentice-cash').fill('600');
+    const after = await outputNumber(page, 'Cash after cycles');
+    expect(after).toBeGreaterThan(before);
   });
 
-  test('Rock Bottom - reactive calculator', async ({ page }) => {
-    await page.goto('/#/calculators/rock-bottom');
-    await page.waitForLoadState('networkidle');
-    
-    const getCash = async () => {
-      const text = await page.textContent('text=/Cash after cycles/');
-      const match = text?.match(/(-?\d+)/);
-      return match ? parseInt(match[1]) : 0;
-    };
-    
-    const baseline = await getCash();
-    console.log('Rock Bottom baseline cash:', baseline);
-    
-    await page.fill('input#rock-bottom-cash', '100');
-    await page.waitForTimeout(500);
-    
-    const changed = await getCash();
-    console.log('Rock Bottom changed cash:', changed);
-    
-    expect(changed).toBeGreaterThan(baseline);
-    console.log('✓ Rock Bottom calculator is reactive');
+  test('Rock Bottom cash after cycles tracks starting cash', async ({ page }) => {
+    await openCalculator(page, 'rock-bottom', 'Rock Bottom');
+    const before = await outputNumber(page, 'Cash after cycles');
+    await page.locator('#rock-bottom-cash').fill('100');
+    const after = await outputNumber(page, 'Cash after cycles');
+    expect(after).toBeGreaterThan(before);
   });
 });

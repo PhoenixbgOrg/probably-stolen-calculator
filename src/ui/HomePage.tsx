@@ -33,7 +33,7 @@ export function HomePage() {
             className="profession-card"
             aria-label={`${prof.name} calculator${prof.tag ? ` (${prof.tag})` : ''}`}
           >
-            <ImprovedPixelIcon id={prof.id} tone="spec" size={64} showTooltip={false} />
+            <ImprovedPixelIcon id={prof.id} tone="spec" size={64} showTooltip={false} showCaption />
             <div className="profession-card-text">
               <div className="profession-name">{prof.name}</div>
               {prof.tag && <div className="profession-tag">{prof.tag}</div>}

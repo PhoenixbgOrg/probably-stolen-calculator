@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   COMPONENT_KEYS,
   type ComponentKey,
@@ -136,7 +136,7 @@ export function ChemistTargetCompare() {
   const [calculating, setCalculating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { solve, cancel } = usePlannerWorker();
-  const cancelRef = useState<(() => void) | null>(null)[0];
+  const requestSeq = useRef(0);
   
   const shown = result ? (result.candidate ?? result.bestPurityCandidate) : null;
   const currentInput = makeInput();
@@ -287,16 +287,17 @@ export function ChemistTargetCompare() {
             <p className="muted small">These are user-provided quote costs, not wiki or guaranteed shop prices.</p>
           </>
         )}
-        <button 
-          className="primary-button" 
-          type="button" 
+        <button
+          className="primary-button"
+          type="button"
           onClick={() => {
+            const seq = ++requestSeq.current;
             const input = makeInput();
             setSubmitted(input);
             setCalculating(true);
             setError(null);
-            
-            const cancelFn = solve(input, (plan, err) => {
+            solve(input, (plan, err) => {
+              if (seq !== requestSeq.current) return;
               setCalculating(false);
               if (err) {
                 setError(err);
@@ -306,29 +307,31 @@ export function ChemistTargetCompare() {
                 setError(null);
               }
             });
-            
-            if (cancelRef) {
-              (cancelRef as any).current = cancelFn;
-            }
           }}
-          disabled={calculating}
         >
-          {calculating ? 'Calculating...' : 'Calculate production plan'}
+          Calculate production plan
         </button>
         {calculating && (
-          <button 
-            className="secondary-button" 
-            type="button" 
-            onClick={() => {
-              cancel();
-              setCalculating(false);
-              setError('Cancelled by user');
-            }}
-            style={{ marginLeft: '0.5rem' }}
-          >
-            Cancel
-          </button>
+          <span data-testid="planner-calculating" className="muted small">
+            Calculating...
+          </span>
         )}
+        <button
+          className="secondary-button"
+          type="button"
+          data-testid="planner-cancel"
+          disabled={!calculating}
+          onClick={() => {
+            if (!calculating) return;
+            requestSeq.current += 1;
+            cancel();
+            setCalculating(false);
+            setError('Cancelled by user');
+          }}
+          style={{ marginLeft: '0.5rem' }}
+        >
+          Cancel
+        </button>
       </section>
 
       <section className="output-section" aria-live="polite">

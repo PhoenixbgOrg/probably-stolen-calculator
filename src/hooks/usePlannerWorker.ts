@@ -1,5 +1,5 @@
 import { useRef, useCallback, useEffect } from 'react';
-import type { ProductionPlannerInput, ProductionPlan } from '../calculators/dreamDustPlanner';
+import { solveProductionPlan, type ProductionPlannerInput, type ProductionPlan } from '../calculators/dreamDustPlanner';
 
 interface WorkerRequest {
   id: string;
@@ -27,16 +27,16 @@ export function usePlannerWorker() {
 
       workerRef.current.onmessage = (event: MessageEvent<WorkerResponse>) => {
         const { id, result, error } = event.data;
+        if (pendingRequestRef.current !== id) {
+          callbacksRef.current.delete(id);
+          return;
+        }
         const callback = callbacksRef.current.get(id);
-        
         if (callback) {
           callback(result, error);
           callbacksRef.current.delete(id);
         }
-        
-        if (pendingRequestRef.current === id) {
-          pendingRequestRef.current = null;
-        }
+        pendingRequestRef.current = null;
       };
 
       workerRef.current.onerror = (error) => {
@@ -73,7 +73,6 @@ export function usePlannerWorker() {
         // Fallback to synchronous execution if worker unavailable
         console.warn('Worker not available, falling back to synchronous execution');
         try {
-          const { solveProductionPlan } = require('../calculators/dreamDustPlanner');
           const result = solveProductionPlan(input);
           setTimeout(() => onResult(result, null), 0);
         } catch (error) {
@@ -85,14 +84,11 @@ export function usePlannerWorker() {
 
       const requestId = `${Date.now()}-${Math.random()}`;
       
-      // Cancel any pending request (latest-result-only)
+      // Latest-only: drop the superseded callback without treating it as a user-facing error.
       if (pendingRequestRef.current) {
         const oldId = pendingRequestRef.current;
-        const oldCallback = callbacksRef.current.get(oldId);
-        if (oldCallback) {
-          oldCallback(null, 'Cancelled by newer request');
-          callbacksRef.current.delete(oldId);
-        }
+        callbacksRef.current.delete(oldId);
+        workerRef.current.postMessage({ type: 'cancel' });
       }
       
       pendingRequestRef.current = requestId;
@@ -109,11 +105,9 @@ export function usePlannerWorker() {
       return () => {
         if (pendingRequestRef.current === requestId) {
           pendingRequestRef.current = null;
-          const callback = callbacksRef.current.get(requestId);
-          if (callback) {
-            callback(null, 'Cancelled by user');
-            callbacksRef.current.delete(requestId);
-          }
+          callbacksRef.current.delete(requestId);
+          workerRef.current?.postMessage({ type: 'cancel' });
+          onResult(null, 'Cancelled by user');
         }
       };
     },
@@ -129,6 +123,7 @@ export function usePlannerWorker() {
         callbacksRef.current.delete(id);
       }
       pendingRequestRef.current = null;
+      workerRef.current?.postMessage({ type: 'cancel' });
     }
   }, []);
 

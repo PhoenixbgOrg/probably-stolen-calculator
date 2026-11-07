@@ -52,7 +52,11 @@ main, .layout > * { min-width:0; }
 .reserved-slot { min-height:250px; margin-top:1rem; }
 
 /* Pixel icons */
-.picon { image-rendering:pixelated; shape-rendering:crispEdges; display:block; }
+.picon { image-rendering:pixelated; image-rendering:crisp-edges; shape-rendering:crispEdges; display:block; }
+.purpose-icon { display:inline-flex; flex-direction:column; align-items:center; gap:.15rem; }
+.icon-not-game { font-size:.62rem; line-height:1.1; color:var(--muted); text-align:center; max-width:7rem; }
+.named-icon { display:inline-flex; align-items:center; gap:.4rem; }
+.named-icon .icon-not-game { max-width:none; }
 .icon-btn { position:relative; display:inline-flex; flex-direction:column; align-items:center; justify-content:center; gap:.2rem; padding:.35rem; min-width:48px; min-height:48px; background:var(--card); }
 .icon-btn.selected, .icon-btn[aria-checked="true"] { box-shadow:0 0 0 var(--step) var(--accent), 0 0 0 calc(var(--step)*2) #1d1826, 0 0 0 calc(var(--step)*3) var(--line); background:#344a47; }
 .icon-btn.disabled { opacity:.45; filter:grayscale(1); }

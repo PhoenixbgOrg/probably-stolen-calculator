@@ -774,14 +774,40 @@ function betterQuantity(
 const MAX_CONFIGURATIONS = 50_000;
 const MAX_RUNTIME_MS = 30_000; // 30 seconds
 
-export function solveProductionPlan(input: ProductionPlannerInput): ProductionPlan {
+export type PlannerSearchOptions = {
+  shouldAbort?: () => boolean;
+  /** Cooperative pause every N configurations so a Worker can see a newer request. 0 = never. */
+  yieldEvery?: number;
+};
+
+const yieldTick = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
+
+export function solveProductionPlan(
+  input: ProductionPlannerInput,
+  options?: PlannerSearchOptions,
+): ProductionPlan {
+  return runPlannerSearch(input, options, false) as ProductionPlan;
+}
+
+export function solveProductionPlanAsync(
+  input: ProductionPlannerInput,
+  options?: PlannerSearchOptions,
+): Promise<ProductionPlan> {
+  return runPlannerSearch(input, { yieldEvery: 8, ...options }, true) as Promise<ProductionPlan>;
+}
+
+function runPlannerSearch(
+  input: ProductionPlannerInput,
+  options: PlannerSearchOptions | undefined,
+  cooperative: boolean,
+): ProductionPlan | Promise<ProductionPlan> {
   const validation = validatePlannerInput(input);
   const boundary =
     `Exact supported subset for ${SUPPORTED_GAME_VERSION}: raw composition, Blender, safe 44°C extraction, ` +
     'ordinary/Kotton filtering, Evaporator, and Chem Finisher. Search uses 0.1 g raw or 0.100 mL ground increments; ' +
     'a miss means no solution within those owned/purchasable resources and that resolution, not a global impossibility proof.';
   if (validation.length) {
-    return {
+    const invalid: ProductionPlan = {
       status: 'unsupported-input',
       reasons: validation,
       candidate: null,
@@ -790,6 +816,7 @@ export function solveProductionPlan(input: ProductionPlannerInput): ProductionPl
       searchSummary: 'Search did not run because required supported equipment or valid inputs are missing.',
       boundary,
     };
+    return cooperative ? Promise.resolve(invalid) : invalid;
   }
 
   const startTime = Date.now();
@@ -812,7 +839,7 @@ export function solveProductionPlan(input: ProductionPlannerInput): ProductionPl
     if (remainingCredits < -Number.EPSILON) return;
     
     // Check time and configuration limits to prevent UI freeze
-    if (configurations >= MAX_CONFIGURATIONS || (Date.now() - startTime) >= MAX_RUNTIME_MS) {
+    if (options?.shouldAbort?.() || configurations >= MAX_CONFIGURATIONS || (Date.now() - startTime) >= MAX_RUNTIME_MS) {
       hitLimit = true;
       return;
     }
@@ -844,44 +871,65 @@ export function solveProductionPlan(input: ProductionPlannerInput): ProductionPl
     if (betterQuantity(candidate, maxQuantity, input)) maxQuantity = candidate;
   };
 
-  if (input.material.state === 'raw') {
-    const ownedGrams = Math.max(0, input.material.availableGrams);
-    const quote = input.mushroomQuoteCreditsPerGram;
-    const purchaseLimit = purchasedResourceLimit(
-      ownedGrams,
-      credits,
-      quote,
-      input.allowPurchases,
-    );
-    const capacityBoundGrams =
-      containerCapacity / (totalUL(dreamCapRawComponents(1)) || 1);
-    const maxGrams = Math.min(purchaseLimit, capacityBoundGrams);
-    const steps = Math.floor((maxGrams + 1e-9) / SEARCH_GRAM_STEP);
-    for (let step = 1; step <= steps; step += 1) {
-      const grams = Number((step * SEARCH_GRAM_STEP).toFixed(1));
-      const materialCost =
-        Math.max(0, grams - ownedGrams) *
-        (input.allowPurchases && quote !== undefined ? quote : 0);
-      const raw = dreamCapRawComponents(grams);
-      const prepared = applyBlenderLoss(raw, input.material.blenderModules);
-      consider(prepared, raw, grams, 0, materialCost);
-    }
-  } else {
-    const availableUL = totalUL(input.material.available);
-    for (
-      let requestedUL = SEARCH_GROUND_STEP_UL;
-      requestedUL <= availableUL;
-      requestedUL += SEARCH_GROUND_STEP_UL
-    ) {
-      const prepared = takeProportionalMixture(input.material.available, requestedUL);
-      consider(prepared, prepared, 0, requestedUL, 0);
-    }
-    if (availableUL > 0 && availableUL % SEARCH_GROUND_STEP_UL !== 0) {
-      const prepared = { ...input.material.available };
-      consider(prepared, prepared, 0, availableUL, 0);
+  function* stepJobs(): Generator<() => void> {
+    if (input.material.state === 'raw') {
+      const ownedGrams = Math.max(0, input.material.availableGrams);
+      const quote = input.mushroomQuoteCreditsPerGram;
+      const purchaseLimit = purchasedResourceLimit(
+        ownedGrams,
+        credits,
+        quote,
+        input.allowPurchases,
+      );
+      const capacityBoundGrams =
+        containerCapacity / (totalUL(dreamCapRawComponents(1)) || 1);
+      const maxGrams = Math.min(purchaseLimit, capacityBoundGrams);
+      const steps = Math.floor((maxGrams + 1e-9) / SEARCH_GRAM_STEP);
+      for (let step = 1; step <= steps; step += 1) {
+        const grams = Number((step * SEARCH_GRAM_STEP).toFixed(1));
+        const materialCost =
+          Math.max(0, grams - ownedGrams) *
+          (input.allowPurchases && quote !== undefined ? quote : 0);
+        const blenderModules = input.material.blenderModules;
+        yield () => {
+          const raw = dreamCapRawComponents(grams);
+          const prepared = applyBlenderLoss(raw, blenderModules);
+          consider(prepared, raw, grams, 0, materialCost);
+        };
+      }
+    } else {
+      const available = input.material.available;
+      const availableUL = totalUL(available);
+      for (
+        let requestedUL = SEARCH_GROUND_STEP_UL;
+        requestedUL <= availableUL;
+        requestedUL += SEARCH_GROUND_STEP_UL
+      ) {
+        const sliceUL = requestedUL;
+        yield () => {
+          const prepared = takeProportionalMixture(available, sliceUL);
+          consider(prepared, prepared, 0, sliceUL, 0);
+        };
+      }
+      if (availableUL > 0 && availableUL % SEARCH_GROUND_STEP_UL !== 0) {
+        yield () => {
+          const prepared = { ...available };
+          consider(prepared, prepared, 0, availableUL, 0);
+        };
+      }
     }
   }
 
+  const runJob = (job: () => void): boolean => {
+    if (options?.shouldAbort?.()) {
+      hitLimit = true;
+      return false;
+    }
+    job();
+    return !hitLimit;
+  };
+
+  const finalize = (): ProductionPlan => {
   // Assignments occur inside the local consider callback; preserve their runtime types for narrowing.
   const feasibleResult = feasible as ProductionCandidate | null;
   const bestPurityResult = bestPurity as ProductionCandidate | null;
@@ -933,6 +981,7 @@ export function solveProductionPlan(input: ProductionPlannerInput): ProductionPl
     }
   }
 
+  const aborted = Boolean(options?.shouldAbort?.());
   const status = hitLimit 
     ? 'search-incomplete-limit-reached'
     : feasibleResult 
@@ -941,7 +990,9 @@ export function solveProductionPlan(input: ProductionPlannerInput): ProductionPl
   
   const finalReasons = hitLimit 
     ? [
-        `Search stopped at ${configurations.toLocaleString()} configurations or ${MAX_RUNTIME_MS / 1000}s time limit.`,
+        aborted
+          ? `Search cancelled after ${configurations.toLocaleString()} configurations because a newer request was started.`
+          : `Search stopped at ${configurations.toLocaleString()} configurations or ${MAX_RUNTIME_MS / 1000}s time limit.`,
         'Solution may exist in unsearched space. Results shown are incomplete.',
         ...reasons,
       ]
@@ -960,4 +1011,23 @@ export function solveProductionPlan(input: ProductionPlannerInput): ProductionPl
       'Objective: lowest purchase cost, then least waste, then least alcohol.',
     boundary,
   };
+  };
+
+  if (!cooperative) {
+    for (const job of stepJobs()) {
+      if (!runJob(job)) break;
+    }
+    return finalize();
+  }
+
+  const yieldEvery = Math.max(1, options?.yieldEvery ?? 8);
+  return (async () => {
+    let n = 0;
+    for (const job of stepJobs()) {
+      if (!runJob(job)) break;
+      n += 1;
+      if (n % yieldEvery === 0) await yieldTick();
+    }
+    return finalize();
+  })();
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" shape-rendering="crispEdges" role="img" aria-labelledby="t">
+  <title id="t">Evaporator — calculator symbol, not a game sprite</title>
+  <rect width="32" height="32" fill="#1d1826"/>
+  <rect x="1" y="1" width="30" height="30" fill="none" stroke="#7ec8e3" stroke-width="2"/>
+  <rect x="8" y="6" width="16" height="8" fill="#7ec8e3"/><rect x="10" y="14" width="12" height="12" fill="#6cb4d4"/><rect x="14" y="4" width="4" height="4" fill="#9fd3c4"/>
+</svg>
