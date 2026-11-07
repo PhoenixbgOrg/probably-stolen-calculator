@@ -6,7 +6,8 @@ Tiles in `public/icons/` are **original purpose-based SVG symbols** drawn in thi
 
 - Each profession, perk, and chemist-kit name has a documented **name reference URL** (wiki or walkthrough page).
 - Each tile is a calculator symbol whose geometry follows the documented **purpose** of that name.
-- Every rendered tile is labeled **Not a game sprite**.
+- Every rendered tile is labeled **Not a game sprite**. Chemist kit tiles also show the **item name** in visible text, tooltip, and accessible name.
+- Chemist machines use purpose-based geometry (blender pitcher/blades, heating plate, fabric weave, stacked filter, evaporator chimney, finisher tray). They are not a shared vial motif.
 
 ## What is not claimed
 

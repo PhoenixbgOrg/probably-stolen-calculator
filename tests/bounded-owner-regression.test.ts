@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
 import {
   evaporateOneNight,
@@ -140,10 +142,17 @@ describe('bounded reverse search (replaces unbounded 154 mL diagnostics)', () =>
     expect(evaluated).toBeLessThan(1_541);
   });
 
-  test('owner observation 55.37% is recorded, not used as a sourced expected purity', () => {
-    const observedPublic = { vials: 20, meanPurity: 55.37, evidence: 'OBSERVED_OWNER' as const };
-    expect(observedPublic.evidence).toBe('OBSERVED_OWNER');
-    expect(observedPublic.meanPurity).not.toBe(97.1);
-    expect(observedPublic.meanPurity).not.toBe(97.95);
+  test('owner observation 55.37% is not a sourced formula constant', () => {
+    const files = [
+      'dreamDustPlanner.ts',
+      'dreamDustVerified.ts',
+      'dreamDustForward.ts',
+      'dreamDustReactions.ts',
+      'chemistWizard.ts',
+    ];
+    for (const file of files) {
+      const src = readFileSync(join(process.cwd(), 'src/calculators', file), 'utf8');
+      expect(src, file).not.toMatch(/55\.37/);
+    }
   });
 });

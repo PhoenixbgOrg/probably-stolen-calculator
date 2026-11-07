@@ -65,9 +65,32 @@ describe('ChemistProductionPlanner UI interactions', () => {
     render(<ChemistProductionPlanner />);
     fireEvent.click(screen.getByText(/Example 750 \+ 476/i));
     fireEvent.click(screen.getByRole('button', { name: /Calculate from my materials/i }));
-    expect(screen.getByText(/Available actual Dream Cap Mush/i)).toBeDefined();
-    expect(screen.getByText(/222\.\d+ mL/)).toBeDefined();
-    expect(screen.queryByText(/guaranteed 38-vial/i)).toBeDefined();
+    expect(parseFloat(screen.getByTestId('available-mush-ul').textContent ?? '')).toBeCloseTo(320.348, 3);
+    expect(parseFloat(screen.getByTestId('recommended-ground-ul').textContent ?? '')).toBeCloseTo(222.9, 0);
+    expect(parseFloat(screen.getByTestId('unused-ground-ul').textContent ?? '')).toBeCloseTo(253.1, 0);
+    expect(screen.getByText(/not a guaranteed 38-vial yield/i)).toBeDefined();
+  });
+
+  test('164+552 example predicts extract near 55.18 mL and clears mush', () => {
+    render(<ChemistProductionPlanner />);
+    fireEvent.click(screen.getByText(/Example 164 \+ 552/i));
+    fireEvent.click(screen.getByRole('button', { name: /Calculate from my materials/i }));
+    fireEvent.click(screen.getByTestId('continue-prediction-ground'));
+    fireEvent.click(screen.getByTestId('calculate-extraction'));
+    expect(
+      parseFloat(screen.getByTestId('predicted-extraction').querySelector('[data-testid="snapshot-dreamCapExtract-ul"]')?.textContent ?? ''),
+    ).toBeCloseTo(55.18, 1);
+    const leftover = screen.getByTestId('predicted-extraction').querySelector('[data-testid="snapshot-dreamCapMush-ul"]');
+    if (leftover) expect(leftover.textContent).toBe('0.000 mL');
+  });
+
+  test('kit strip shows readable item names next to purpose tiles', () => {
+    render(<ChemistProductionPlanner />);
+    expect(screen.getByTestId('kit-name-evaporator')).toHaveTextContent('Evaporator');
+    expect(screen.getByTestId('kit-name-blender')).toHaveTextContent('Blender');
+    expect(screen.getByTestId('kit-name-heating-plate')).toHaveTextContent('Heating Plate');
+    expect(screen.getByTestId('kit-name-chem-finisher')).toHaveTextContent('Chem Finisher');
+    expect(screen.getByTestId('kit-evaporator')).toHaveAccessibleName(/Evaporator/i);
   });
 
   test('cannot skip to later stages before Calculate+Continue', () => {

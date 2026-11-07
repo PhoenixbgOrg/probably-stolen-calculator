@@ -26,6 +26,7 @@ describe('icon mapping 9 professions / 48 perks / chemist kit', () => {
 
   test('every manifest row has an on-disk SVG, a name URL, and honest unlicensed artwork status', () => {
     const hashes = new Set<string>();
+    const drawings = new Set<string>();
     for (const entry of ICON_MANIFEST) {
       const path = join(process.cwd(), 'public', entry.assetPath);
       expect(existsSync(path), entry.assetPath).toBe(true);
@@ -34,6 +35,9 @@ describe('icon mapping 9 professions / 48 perks / chemist kit', () => {
       expect(svg).toContain('shape-rendering="crispEdges"');
       expect(hashes.has(svg), `${entry.id} duplicated another tile`).toBe(false);
       hashes.add(svg);
+      const drawing = svg.replace(/<title[\s\S]*?<\/title>/, '');
+      expect(drawings.has(drawing), `${entry.id} geometry matches another tile`).toBe(false);
+      drawings.add(drawing);
       expect(entry.nameReferenceUrl.startsWith('https://')).toBe(true);
       expect(entry.individualArtworkUrl).toBeNull();
       expect(entry.artworkPermission).toBe('none-found');
@@ -41,5 +45,25 @@ describe('icon mapping 9 professions / 48 perks / chemist kit', () => {
       expect(entry.caption).toMatch(/not a game sprite/i);
     }
     expect(readdirSync(iconDir).filter((name) => name.endsWith('.svg')).length).toBe(ICON_MANIFEST.length);
+  });
+
+  test('chemist kit ids keep documented item names', () => {
+    const kit: Array<[string, string]> = [
+      ['dream-cap', 'Dream Cap'],
+      ['blender', 'Blender'],
+      ['alcohol', 'Alcohol'],
+      ['heating-plate', 'Heating Plate'],
+      ['acid', 'Acid'],
+      ['base', 'Base'],
+      ['kotton-fabric', 'Kotton Fabric'],
+      ['water-filter', 'Water Filter'],
+      ['evaporator', 'Evaporator'],
+      ['chem-finisher', 'Chem Finisher'],
+      ['dream-dust', 'Dream Dust'],
+    ];
+    for (const [id, name] of kit) {
+      expect(getIconEntry(id)?.name, id).toBe(name);
+      expect(getIconEntry(id)?.accessibleLabel).toContain(name);
+    }
   });
 });

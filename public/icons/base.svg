@@ -3,5 +3,5 @@
   <title id="t">Base — calculator symbol, not a game sprite</title>
   <rect width="32" height="32" fill="#1d1826"/>
   <rect x="1" y="1" width="30" height="30" fill="none" stroke="#8fd16a" stroke-width="2"/>
-  <rect x="10" y="6" width="12" height="20" fill="#8fd16a"/><rect x="14" y="4" width="4" height="4" fill="#7ec8e3"/><rect x="12" y="14" width="8" height="8" fill="#9fd3c4"/>
+  <rect x="8" y="10" width="16" height="16" fill="#8fd16a"/><rect x="8" y="8" width="2" height="18" fill="#7ec8e3"/><rect x="22" y="8" width="2" height="18" fill="#7ec8e3"/><rect x="10" y="14" width="12" height="4" fill="#9fd3c4"/>
 </svg>

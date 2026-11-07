@@ -173,6 +173,11 @@ test.describe('viewport screenshots of built preview', () => {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
       await page.goto('./#/calculators/chemist', { waitUntil: 'load' });
       await expect(page.getByTestId('icon-evaporator')).toBeVisible();
+      await expect(page.getByTestId('kit-name-evaporator')).toHaveText('Evaporator');
+      await expect(page.getByTestId('kit-name-blender')).toHaveText('Blender');
+      await expect(page.getByTestId('kit-name-heating-plate')).toHaveText('Heating Plate');
+      await expect(page.getByTestId('kit-name-water-filter')).toHaveText('Water Filter');
+      await expect(page.getByTestId('kit-name-chem-finisher')).toHaveText('Chem Finisher');
       await expect(page.getByTestId('icon-caption-evaporator')).toHaveText('Not a game sprite');
       await page.screenshot({ path: `test-results/chemist-${viewport.name}.png`, fullPage: true });
     });

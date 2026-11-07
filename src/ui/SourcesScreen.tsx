@@ -48,7 +48,7 @@ export function SourcesScreen({ reg }: { reg: GameDataRegistry }) {
       <h3 className="section-h">Credits</h3>
       <ul className="pix-list">
         <li>Font: <strong>Pixelify Sans</strong> © 2021 The Pixelify Sans Project Authors (<a href="https://github.com/eifetx/Pixelify-Sans" target="_blank" rel="noopener noreferrer">github.com/eifetx/Pixelify-Sans</a>), licensed under the SIL Open Font License 1.1 (bundled; <a href={publicUrl('fonts/OFL.txt')} target="_blank" rel="noopener noreferrer">license text</a>).</li>
-        <li>Pixel icons and favicon: original, generated for this project.</li>
+        <li>Pixel icons and favicon: original purpose-based 32×32 SVG tiles generated in this repo (<code>scripts/generate-purpose-icons.mjs</code>). They are calculator symbols, not game sprites. No licensed authentic game artwork was found.</li>
         <li>Thanks to the community wiki and guide authors listed above.</li>
       </ul>
       <div className="nav-row"><a className="pix-btn link-btn" href="#/">◀ Back to the Character Builder</a></div>

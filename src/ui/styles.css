@@ -9,7 +9,7 @@
 /* clip (not hidden) so position:sticky keeps working; hidden is the fallback for old browsers */
 html, body { overflow-x:hidden; overflow-x:clip; }
 body { margin:0; background:var(--bg); color:var(--text); font:15px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
-h1, h2, h3, h4, legend, .panel-title, .lbl, .icon-label, .pix-btn, .steps button, .meter-box, .section-h, summary, .tag, .cat-chip, .cost-chip, .sel-chip { font-family:var(--pixel); letter-spacing:.02em; }
+h1, h2, h3, h4, legend, .panel-title, .lbl, .icon-label, .kit-item-name, .pix-btn, .steps button, .meter-box, .section-h, summary, .tag, .cat-chip, .cost-chip, .sel-chip { font-family:var(--pixel); letter-spacing:.02em; }
 a { color:var(--accent); }
 button, select, input { font:inherit; color:inherit; }
 :focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
@@ -57,6 +57,10 @@ main, .layout > * { min-width:0; }
 .icon-not-game { font-size:.62rem; line-height:1.1; color:var(--muted); text-align:center; max-width:7rem; }
 .named-icon { display:inline-flex; align-items:center; gap:.4rem; }
 .named-icon .icon-not-game { max-width:none; }
+.chemist-kit { display:flex; flex-wrap:wrap; gap:.45rem .55rem; margin:.35rem 0 .7rem; }
+.kit-item { display:inline-flex; flex-direction:column; align-items:center; gap:.12rem; min-width:4.8rem; max-width:6.6rem; }
+.kit-item-name { font-size:.78rem; line-height:1.15; text-align:center; overflow-wrap:anywhere; color:var(--text); font-weight:700; }
+.kit-item .icon-not-game { font-size:.58rem; max-width:6.6rem; }
 .icon-btn { position:relative; display:inline-flex; flex-direction:column; align-items:center; justify-content:center; gap:.2rem; padding:.35rem; min-width:48px; min-height:48px; background:var(--card); }
 .icon-btn.selected, .icon-btn[aria-checked="true"] { box-shadow:0 0 0 var(--step) var(--accent), 0 0 0 calc(var(--step)*2) #1d1826, 0 0 0 calc(var(--step)*3) var(--line); background:#344a47; }
 .icon-btn.disabled { opacity:.45; filter:grayscale(1); }

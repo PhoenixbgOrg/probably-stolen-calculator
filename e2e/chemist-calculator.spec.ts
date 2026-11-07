@@ -14,9 +14,23 @@ test.describe('Chemist Dream Dust Calculator', () => {
     await page.goto('./#/calculators/chemist', { waitUntil: 'load' });
     await page.locator('button:has-text("Example 750 + 476")').click();
     await page.locator('button:has-text("Calculate from my materials")').click();
-    await expect(page.locator('text=/Available actual Dream Cap Mush/i')).toBeVisible();
-    await expect(page.locator('text=/222\\.\\d+ mL/')).toBeVisible();
+    expect(parseFloat(await page.getByTestId('available-mush-ul').innerText())).toBeCloseTo(320.348, 3);
+    expect(parseFloat(await page.getByTestId('recommended-ground-ul').innerText())).toBeCloseTo(222.9, 0);
+    expect(parseFloat(await page.getByTestId('unused-ground-ul').innerText())).toBeCloseTo(253.1, 0);
     await expect(page.locator('text=/not a guaranteed 38-vial yield/i')).toBeVisible();
+
+    await page.goto('./#/calculators/chemist', { waitUntil: 'load' });
+    await page.locator('button:has-text("Example 164 + 552")').click();
+    await page.locator('button:has-text("Calculate from my materials")').click();
+    await page.getByTestId('continue-prediction-ground').click();
+    await page.getByTestId('calculate-extraction').click();
+    expect(
+      parseFloat(await page.getByTestId('predicted-extraction').getByTestId('snapshot-dreamCapExtract-ul').innerText()),
+    ).toBeCloseTo(55.18, 1);
+    const leftoverMush = page.getByTestId('predicted-extraction').getByTestId('snapshot-dreamCapMush-ul');
+    if (await leftoverMush.count()) {
+      await expect(leftoverMush).toHaveText('0.000 mL');
+    }
   });
 
   test('Calculate+Continue is required; later stages stay locked', async ({ page }) => {

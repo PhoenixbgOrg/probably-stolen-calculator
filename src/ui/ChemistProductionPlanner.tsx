@@ -49,7 +49,7 @@ import {
 import { estimatedMushAndOther, PREVIOUS_BATCH_FRACTION_NOTE, PREVIOUS_BATCH_MUSH_FRACTION } from '../calculators/dreamDustEstimates';
 import { SAFE_EXTRACTION_TEMPERATURE_C } from '../calculators/dreamDustPlanner';
 import { CITATIONS, UNKNOWN_LIMITS } from '../calculators/sourceCitations';
-import { iconManifestSummary } from '../data/iconManifest';
+import { getIconEntry, iconManifestSummary } from '../data/iconManifest';
 import { PurposeIcon } from './PurposeIcon';
 import { loadChemistSession, saveChemistSession } from '../persistence/chemistSession';
 import { ChemistTargetCompare } from './ChemistTargetCompare';
@@ -410,10 +410,28 @@ export function ChemistProductionPlanner() {
       <div className="calculator-header">
         <h2>Dream Dust Production Planner</h2>
         <p className="subtitle">What do you have? Plan forward from ground mixture and alcohol — vial targets are optional.</p>
-        <div className="btn-row" aria-label="Chemist kit symbols">
-          {['dream-cap', 'blender', 'alcohol', 'heating-plate', 'acid', 'base', 'kotton-fabric', 'water-filter', 'evaporator', 'chem-finisher', 'dream-dust'].map((id) => (
-            <PurposeIcon key={id} id={id} size={32} showCaption />
-          ))}
+        <div className="chemist-kit" role="list" aria-label="Chemist kit symbols">
+          {['dream-cap', 'blender', 'alcohol', 'heating-plate', 'acid', 'base', 'kotton-fabric', 'water-filter', 'evaporator', 'chem-finisher', 'dream-dust'].map((id) => {
+            const entry = getIconEntry(id);
+            const name = entry?.name ?? id;
+            return (
+              <span
+                className="kit-item"
+                role="listitem"
+                key={id}
+                data-testid={`kit-${id}`}
+                aria-label={`${name}. Calculator symbol, not a game sprite`}
+              >
+                <PurposeIcon id={id} size={32} showTooltip />
+                <span className="kit-item-name" data-testid={`kit-name-${id}`}>
+                  {name}
+                </span>
+                <span className="icon-not-game" data-testid={`icon-caption-${id}`}>
+                  Not a game sprite
+                </span>
+              </span>
+            );
+          })}
         </div>
       </div>
 
@@ -593,23 +611,25 @@ export function ChemistProductionPlanner() {
             <>
               <div className="output-row">
                 <span>Available actual Dream Cap Mush</span>
-                <strong>{ml(forward.availableMushUL)} mL</strong>
+                <strong data-testid="available-mush-ul">{ml(forward.availableMushUL)} mL</strong>
               </div>
               <div className="output-row">
                 <span>Alcohol component</span>
-                <strong>{ml(forward.alcoholComponentUL)} mL</strong>
+                <strong data-testid="alcohol-component-ul">{ml(forward.alcoholComponentUL)} mL</strong>
               </div>
               <div className="output-row">
                 <span>Alcohol / Mush ratio</span>
-                <strong>{forward.alcoholToMushRatio === null ? 'n/a' : forward.alcoholToMushRatio.toFixed(2)}</strong>
+                <strong data-testid="alcohol-mush-ratio">
+                  {forward.alcoholToMushRatio === null ? 'n/a' : forward.alcoholToMushRatio.toFixed(2)}
+                </strong>
               </div>
               <div className="output-row">
                 <span>Recommended ground mix to use</span>
-                <strong>{ml(forward.recommendedGroundUL)} mL</strong>
+                <strong data-testid="recommended-ground-ul">{ml(forward.recommendedGroundUL)} mL</strong>
               </div>
               <div className="output-row">
                 <span>Actual Mush in that mix</span>
-                <strong>{ml(forward.recommendedMushUL)} mL</strong>
+                <strong data-testid="recommended-mush-ul">{ml(forward.recommendedMushUL)} mL</strong>
               </div>
               <div className="output-row">
                 <span>Unused ground mixture</span>
