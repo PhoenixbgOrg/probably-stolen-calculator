@@ -2,32 +2,22 @@ import { getFinisherContamination } from './dreamDust';
 import {
   COMPONENT_KEYS,
   DREAM_DUST_SAMPLE_UL,
+  VOLATILE_KEYS,
   type ComponentKey,
   type ComponentMixture,
   applyBlenderLoss,
   dreamCapRawComponents,
+  emptyMixture,
   roundToEven,
   simulateExtractionFromMixture,
   totalUL,
+  volatileUL,
 } from './dreamDustVerified';
 
 export const SUPPORTED_GAME_VERSION = '0.46D / Steam Build 26337366';
 export const SAFE_EXTRACTION_TEMPERATURE_C = 44;
 export const SEARCH_GRAM_STEP = 0.1;
 export const SEARCH_GROUND_STEP_UL = 100;
-
-const emptyMixture = (): ComponentMixture => ({
-  dreamCapMush: 0,
-  dreamCapExtract: 0,
-  plantMatter: 0,
-  water: 0,
-  protein: 0,
-  mineral: 0,
-  microbes: 0,
-  physicalContaminant: 0,
-  alcohol: 0,
-  insolubleDebris: 0,
-});
 
 const addMixture = (a: ComponentMixture, b: ComponentMixture): ComponentMixture =>
   Object.fromEntries(COMPONENT_KEYS.map((key) => [key, a[key] + b[key]])) as unknown as ComponentMixture;
@@ -84,6 +74,7 @@ export function takeProportionalMixture(
 const FILTER_RULES: Partial<
   Record<ComponentKey, { particleSize: number; stepUL: number; durability: number; floorRatio: number }>
 > = {
+  organicWaste: { particleSize: 40, stepUL: 1_000, durability: 1, floorRatio: 0.0016 },
   physicalContaminant: { particleSize: 100, stepUL: 1_500, durability: 2, floorRatio: 0.0016 },
   mineral: { particleSize: 30, stepUL: 2_000, durability: 1, floorRatio: 0.0016 },
   dreamCapMush: { particleSize: 200, stepUL: 1_000, durability: 2, floorRatio: 0 },
@@ -91,8 +82,9 @@ const FILTER_RULES: Partial<
   insolubleDebris: { particleSize: 200, stepUL: 1_000, durability: 2, floorRatio: 0 },
 };
 
-// The source states components are processed in liquid-table order.
+// Wiki water-filter liquid-table order for the components this mixture tracks.
 const FILTER_COMPONENT_ORDER: ComponentKey[] = [
+  'organicWaste',
   'physicalContaminant',
   'mineral',
   'dreamCapMush',
@@ -196,6 +188,10 @@ export interface EvaporationCycle {
   recovered: ComponentMixture;
   lost: ComponentMixture;
   output: ComponentMixture;
+  energyUsed: number;
+  remainingEnergy: number;
+  remainingReceiverUL: number;
+  remainingVolatilesUL: number;
 }
 
 export interface EvaporationResult {
@@ -209,46 +205,115 @@ export interface EvaporationResult {
   recovered: ComponentMixture;
   lost: ComponentMixture;
   remainingDistillateCapacityUL: number;
+  remainingEnergy: number;
 }
 
-const evaporativeUL = (mixture: ComponentMixture): number => mixture.water + mixture.alcohol;
+export function evaporatorEnergyPerNight(efficiencyPercent: number): number {
+  return Math.max(1, 6 - Math.trunc((6 * efficiencyPercent) / 100));
+}
+
+export function evaporatorAllowanceUL(performancePercent: number): number {
+  return roundToEven(300_000 * Math.max(0, 1 + performancePercent / 100));
+}
+
+export function evaporateOneNight(
+  input: ComponentMixture,
+  config: EvaporatorConfig,
+): EvaporationCycle & { success: boolean; reason?: string; energyPerCycle: number; alreadyDry: boolean } {
+  const allowanceUL = evaporatorAllowanceUL(config.performancePercent);
+  const energyPerCycle = evaporatorEnergyPerNight(config.efficiencyPercent);
+  const remainingVolatiles = volatileUL(input);
+  const remainingEnergy = Math.max(0, Math.trunc(config.availableEnergy));
+  const remainingReceiverUL = Math.max(0, Math.trunc(config.distillateCapacityUL));
+  const blank: EvaporationCycle & { success: boolean; reason?: string; energyPerCycle: number; alreadyDry: boolean } = {
+    cycle: 1,
+    allowanceUL,
+    removed: emptyMixture(),
+    recovered: emptyMixture(),
+    lost: emptyMixture(),
+    output: { ...input },
+    energyUsed: 0,
+    remainingEnergy,
+    remainingReceiverUL,
+    remainingVolatilesUL: remainingVolatiles,
+    success: true,
+    energyPerCycle,
+    alreadyDry: remainingVolatiles <= 100,
+  };
+  if (remainingVolatiles <= 100) {
+    return { ...blank, alreadyDry: true };
+  }
+  if (remainingEnergy < energyPerCycle) {
+    return {
+      ...blank,
+      success: false,
+      reason: `Insufficient energy: ${remainingVolatiles} µL evaporatives remain; ${energyPerCycle} kJ required`,
+    };
+  }
+  if (allowanceUL <= 0) {
+    return {
+      ...blank,
+      success: false,
+      energyUsed: energyPerCycle,
+      remainingEnergy: remainingEnergy - energyPerCycle,
+      reason: 'Evaporator drew power, but performance at or below −100% gives zero removal allowance',
+    };
+  }
+
+  const actualRemoval = Math.min(allowanceUL, remainingVolatiles);
+  const allocated = allocateWholeUL(
+    VOLATILE_KEYS.map((key, registryOrder) => ({
+      key,
+      amount: input[key],
+      registryOrder,
+    })),
+    actualRemoval,
+  );
+  const removed = emptyMixture();
+  for (const key of VOLATILE_KEYS) removed[key] = allocated[key] ?? 0;
+  const recovered = emptyMixture();
+  let receiverCapacity = remainingReceiverUL;
+  const quality = Math.min(100, Math.max(0, config.qualityPercent));
+  for (const key of VOLATILE_KEYS) {
+    if (config.solventRecoveryModule && key !== 'alcohol') continue;
+    const potential = roundToEven((removed[key] * quality) / 100);
+    const amount = Math.min(potential, receiverCapacity);
+    recovered[key] = amount;
+    receiverCapacity -= amount;
+  }
+  const lost = subtractMixture(removed, recovered);
+  const output = subtractMixture(input, removed);
+  return {
+    cycle: 1,
+    allowanceUL,
+    removed,
+    recovered,
+    lost,
+    output,
+    energyUsed: energyPerCycle,
+    remainingEnergy: remainingEnergy - energyPerCycle,
+    remainingReceiverUL: receiverCapacity,
+    remainingVolatilesUL: volatileUL(output),
+    success: true,
+    energyPerCycle,
+    alreadyDry: volatileUL(output) <= 100,
+  };
+}
 
 export function evaporateToDryness(
   input: ComponentMixture,
   config: EvaporatorConfig,
 ): EvaporationResult {
-  const allowanceUL = roundToEven(300_000 * Math.max(0, 1 + config.performancePercent / 100));
-  const energyPerCycle = Math.max(
-    1,
-    6 - Math.trunc((6 * config.efficiencyPercent) / 100),
-  );
   let state = { ...input };
   let availableEnergy = Math.max(0, Math.trunc(config.availableEnergy));
   let receiverCapacity = Math.max(0, Math.trunc(config.distillateCapacityUL));
+  const energyPerCycle = evaporatorEnergyPerNight(config.efficiencyPercent);
   const cycles: EvaporationCycle[] = [];
   let allRemoved = emptyMixture();
   let allRecovered = emptyMixture();
   let allLost = emptyMixture();
 
-  if (allowanceUL <= 0 && evaporativeUL(state) > 100) {
-    const canDrawPower = availableEnergy >= energyPerCycle;
-    return {
-      success: false,
-      reason: canDrawPower
-        ? 'Evaporator drew power, but performance at or below −100% gives zero removal allowance'
-        : `Insufficient energy for the zero-allowance Evaporator check; ${energyPerCycle} required`,
-      output: state,
-      cycles,
-      energyPerCycle,
-      energyUsed: canDrawPower ? energyPerCycle : 0,
-      removed: allRemoved,
-      recovered: allRecovered,
-      lost: allLost,
-      remainingDistillateCapacityUL: receiverCapacity,
-    };
-  }
-
-  for (let cycle = 1; evaporativeUL(state) > 100; cycle += 1) {
+  for (let cycle = 1; volatileUL(state) > 100; cycle += 1) {
     if (cycle > 10_000) {
       return {
         success: false,
@@ -256,56 +321,41 @@ export function evaporateToDryness(
         output: state,
         cycles,
         energyPerCycle,
-        energyUsed: cycles.length * energyPerCycle,
+        energyUsed: cycles.reduce((sum, row) => sum + row.energyUsed, 0),
         removed: allRemoved,
         recovered: allRecovered,
         lost: allLost,
         remainingDistillateCapacityUL: receiverCapacity,
+        remainingEnergy: availableEnergy,
       };
     }
-    if (availableEnergy < energyPerCycle) {
+    const night = evaporateOneNight(state, {
+      ...config,
+      availableEnergy,
+      distillateCapacityUL: receiverCapacity,
+    });
+    if (!night.success) {
       return {
         success: false,
-        reason: `Insufficient energy: ${evaporativeUL(state)} µL evaporatives remain`,
+        reason: night.reason,
         output: state,
         cycles,
         energyPerCycle,
-        energyUsed: cycles.length * energyPerCycle,
+        energyUsed: cycles.reduce((sum, row) => sum + row.energyUsed, 0) + night.energyUsed,
         removed: allRemoved,
         recovered: allRecovered,
         lost: allLost,
-        remainingDistillateCapacityUL: receiverCapacity,
+        remainingDistillateCapacityUL: night.remainingReceiverUL,
+        remainingEnergy: night.remainingEnergy,
       };
     }
-    const available = evaporativeUL(state);
-    const actualRemoval = Math.min(allowanceUL, available);
-    // Evaporative registry order in this supported mixture is Water, then Alcohol.
-    const waterRemoval = Math.floor((actualRemoval * state.water) / available);
-    const alcoholRemoval = actualRemoval - waterRemoval;
-    const removed = { ...emptyMixture(), water: waterRemoval, alcohol: alcoholRemoval };
-    const recovered = emptyMixture();
-    const quality = Math.min(100, Math.max(0, config.qualityPercent));
-    for (const key of ['water', 'alcohol'] as const) {
-      if (config.solventRecoveryModule && key !== 'alcohol') continue;
-      const potential = roundToEven((removed[key] * quality) / 100);
-      const amount = Math.min(potential, receiverCapacity);
-      recovered[key] = amount;
-      receiverCapacity -= amount;
-    }
-    const lost = subtractMixture(removed, recovered);
-    state = subtractMixture(state, removed);
-    allRemoved = addMixture(allRemoved, removed);
-    allRecovered = addMixture(allRecovered, recovered);
-    allLost = addMixture(allLost, lost);
-    availableEnergy -= energyPerCycle;
-    cycles.push({
-      cycle,
-      allowanceUL,
-      removed,
-      recovered,
-      lost,
-      output: { ...state },
-    });
+    state = night.output;
+    availableEnergy = night.remainingEnergy;
+    receiverCapacity = night.remainingReceiverUL;
+    allRemoved = addMixture(allRemoved, night.removed);
+    allRecovered = addMixture(allRecovered, night.recovered);
+    allLost = addMixture(allLost, night.lost);
+    cycles.push({ ...night, cycle });
   }
 
   return {
@@ -313,11 +363,12 @@ export function evaporateToDryness(
     output: state,
     cycles,
     energyPerCycle,
-    energyUsed: cycles.length * energyPerCycle,
+    energyUsed: cycles.reduce((sum, row) => sum + row.energyUsed, 0),
     removed: allRemoved,
     recovered: allRecovered,
     lost: allLost,
     remainingDistillateCapacityUL: receiverCapacity,
+    remainingEnergy: availableEnergy,
   };
 }
 
@@ -345,10 +396,10 @@ export function finishComponentMixture(
   let remaining = { ...input };
   const vials: ComponentVial[] = [];
   let allReplaced = emptyMixture();
-  if (evaporativeUL(input) > 100) {
+  if (volatileUL(input) > 100) {
     return {
       success: false,
-      reason: `Finisher dryness requires ≤100 µL evaporatives; ${evaporativeUL(input)} µL remain`,
+      reason: `Finisher dryness requires ≤100 µL evaporatives; ${volatileUL(input)} µL remain`,
       vials,
       meanPurity: 0,
       remaining,
@@ -443,7 +494,7 @@ export interface ProductionCandidate {
 }
 
 export interface ProductionPlan {
-  status: 'feasible' | 'no-solution-in-supported-search' | 'unsupported-input';
+  status: 'feasible' | 'no-solution-in-supported-search' | 'unsupported-input' | 'search-incomplete-limit-reached';
   reasons: string[];
   candidate: ProductionCandidate | null;
   bestPurityCandidate: ProductionCandidate | null;
@@ -573,6 +624,7 @@ function evaluateCandidate(
         recovered: emptyMixture(),
         lost: emptyMixture(),
         remainingDistillateCapacityUL: input.distillateCapacityUL,
+        remainingEnergy: input.availableEnergy,
       };
   const finishing = finishComponentMixture(
     evaporation.output,
@@ -639,27 +691,38 @@ function evaluateWithMinimumAlcohol(
   )!;
   if (!candidateMeets(best, input)) return best;
 
-  let low = 0;
-  let high = maxAlcoholUL;
-  while (low < high) {
-    const middle = Math.floor((low + high) / 2);
-    const candidate = evaluateCandidate(
-      input,
-      prepared,
-      raw,
-      rawGrams,
-      groundUL,
-      middle,
-      costFor(middle),
-    );
+  // BOUNDED INCOMPLETE SEARCH - monotonicity NOT proven.
+  // Strategy: Coarse 100µL scan up to 50,000µL, then 1µL refinement within first feasible.
+  // LIMITATION: Can miss narrow feasible intervals between coarse samples.
+  // "no-solution-within-search" ≠ proof of infeasibility; unsearched space remains.
+  const coarseStepUL = 100;
+  const coarseBoundUL = Math.min(maxAlcoholUL, 50_000);
+  let firstFeasible: number | null = null;
+  
+  // Coarse pass: find first feasible region
+  for (let alcoholUL = 0; alcoholUL <= coarseBoundUL; alcoholUL += coarseStepUL) {
+    const candidate = evaluateCandidate(input, prepared, raw, rawGrams, groundUL, alcoholUL, costFor(alcoholUL));
     if (candidate && candidateMeets(candidate, input)) {
-      best = candidate;
-      high = middle;
-    } else {
-      low = middle + 1;
+      firstFeasible = alcoholUL;
+      break;
     }
   }
-  return best;
+  
+  if (firstFeasible === null) {
+    return best; // No feasible candidate found in coarse search
+  }
+  
+  // Fine pass: exhaustively search backward from first feasible to find true minimum
+  const searchStart = Math.max(0, firstFeasible - coarseStepUL + 1);
+  for (let alcoholUL = searchStart; alcoholUL <= firstFeasible; alcoholUL += 1) {
+    const candidate = evaluateCandidate(input, prepared, raw, rawGrams, groundUL, alcoholUL, costFor(alcoholUL));
+    if (candidate && candidateMeets(candidate, input)) {
+      return candidate; // First feasible in ascending order is minimum
+    }
+  }
+  
+  // Shouldn't reach here if firstFeasible was valid, but return it as fallback
+  return evaluateCandidate(input, prepared, raw, rawGrams, groundUL, firstFeasible, costFor(firstFeasible))!;
 }
 
 function betterFeasible(
@@ -679,11 +742,20 @@ function betterFeasible(
 function betterPurity(
   candidate: ProductionCandidate,
   current: ProductionCandidate | null,
+  input: ProductionPlannerInput,
 ): boolean {
   if (!current) return true;
+  // Compare actual purity first
   if (candidate.finishing.meanPurity !== current.finishing.meanPurity) {
     return candidate.finishing.meanPurity > current.finishing.meanPurity;
   }
+  // For equal purity, prefer candidate that can produce more vials from dry mixture
+  const candidateMax = maxPossibleVials(candidate, input);
+  const currentMax = maxPossibleVials(current, input);
+  if (candidateMax !== currentMax) {
+    return candidateMax > currentMax;
+  }
+  // Tie-break on actual vials produced (though should be equal if dry volume same)
   return candidate.finishing.vials.length > current.finishing.vials.length;
 }
 
@@ -699,14 +771,43 @@ function betterQuantity(
   return candidate.finishing.meanPurity > current.finishing.meanPurity;
 }
 
-export function solveProductionPlan(input: ProductionPlannerInput): ProductionPlan {
+const MAX_CONFIGURATIONS = 50_000;
+const MAX_RUNTIME_MS = 30_000; // 30 seconds
+
+export type PlannerSearchOptions = {
+  shouldAbort?: () => boolean;
+  /** Cooperative pause every N configurations so a Worker can see a newer request. 0 = never. */
+  yieldEvery?: number;
+};
+
+const yieldTick = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
+
+export function solveProductionPlan(
+  input: ProductionPlannerInput,
+  options?: PlannerSearchOptions,
+): ProductionPlan {
+  return runPlannerSearch(input, options, false) as ProductionPlan;
+}
+
+export function solveProductionPlanAsync(
+  input: ProductionPlannerInput,
+  options?: PlannerSearchOptions,
+): Promise<ProductionPlan> {
+  return runPlannerSearch(input, { yieldEvery: 8, ...options }, true) as Promise<ProductionPlan>;
+}
+
+function runPlannerSearch(
+  input: ProductionPlannerInput,
+  options: PlannerSearchOptions | undefined,
+  cooperative: boolean,
+): ProductionPlan | Promise<ProductionPlan> {
   const validation = validatePlannerInput(input);
   const boundary =
     `Exact supported subset for ${SUPPORTED_GAME_VERSION}: raw composition, Blender, safe 44°C extraction, ` +
     'ordinary/Kotton filtering, Evaporator, and Chem Finisher. Search uses 0.1 g raw or 0.100 mL ground increments; ' +
     'a miss means no solution within those owned/purchasable resources and that resolution, not a global impossibility proof.';
   if (validation.length) {
-    return {
+    const invalid: ProductionPlan = {
       status: 'unsupported-input',
       reasons: validation,
       candidate: null,
@@ -715,12 +816,15 @@ export function solveProductionPlan(input: ProductionPlannerInput): ProductionPl
       searchSummary: 'Search did not run because required supported equipment or valid inputs are missing.',
       boundary,
     };
+    return cooperative ? Promise.resolve(invalid) : invalid;
   }
 
+  const startTime = Date.now();
   let feasible: ProductionCandidate | null = null;
   let bestPurity: ProductionCandidate | null = null;
   let maxQuantity: ProductionCandidate | null = null;
   let configurations = 0;
+  let hitLimit = false;
   const credits = Math.max(0, input.credits);
   const containerCapacity = Math.max(0, Math.trunc(input.processingContainerCapacityUL));
 
@@ -733,6 +837,13 @@ export function solveProductionPlan(input: ProductionPlannerInput): ProductionPl
   ) => {
     const remainingCredits = credits - materialPurchaseCost;
     if (remainingCredits < -Number.EPSILON) return;
+    
+    // Check time and configuration limits to prevent UI freeze
+    if (options?.shouldAbort?.() || configurations >= MAX_CONFIGURATIONS || (Date.now() - startTime) >= MAX_RUNTIME_MS) {
+      hitLimit = true;
+      return;
+    }
+    
     const alcoholLimitML = purchasedResourceLimit(
       Math.max(0, input.alcoholAvailableUL) / 1_000,
       remainingCredits,
@@ -756,48 +867,69 @@ export function solveProductionPlan(input: ProductionPlannerInput): ProductionPl
     );
     configurations += 1;
     if (candidateMeets(candidate, input) && betterFeasible(candidate, feasible)) feasible = candidate;
-    if (betterPurity(candidate, bestPurity)) bestPurity = candidate;
+    if (betterPurity(candidate, bestPurity, input)) bestPurity = candidate;
     if (betterQuantity(candidate, maxQuantity, input)) maxQuantity = candidate;
   };
 
-  if (input.material.state === 'raw') {
-    const ownedGrams = Math.max(0, input.material.availableGrams);
-    const quote = input.mushroomQuoteCreditsPerGram;
-    const purchaseLimit = purchasedResourceLimit(
-      ownedGrams,
-      credits,
-      quote,
-      input.allowPurchases,
-    );
-    const capacityBoundGrams =
-      containerCapacity / (totalUL(dreamCapRawComponents(1)) || 1);
-    const maxGrams = Math.min(purchaseLimit, capacityBoundGrams);
-    const steps = Math.floor((maxGrams + 1e-9) / SEARCH_GRAM_STEP);
-    for (let step = 1; step <= steps; step += 1) {
-      const grams = Number((step * SEARCH_GRAM_STEP).toFixed(1));
-      const materialCost =
-        Math.max(0, grams - ownedGrams) *
-        (input.allowPurchases && quote !== undefined ? quote : 0);
-      const raw = dreamCapRawComponents(grams);
-      const prepared = applyBlenderLoss(raw, input.material.blenderModules);
-      consider(prepared, raw, grams, 0, materialCost);
-    }
-  } else {
-    const availableUL = totalUL(input.material.available);
-    for (
-      let requestedUL = SEARCH_GROUND_STEP_UL;
-      requestedUL <= availableUL;
-      requestedUL += SEARCH_GROUND_STEP_UL
-    ) {
-      const prepared = takeProportionalMixture(input.material.available, requestedUL);
-      consider(prepared, prepared, 0, requestedUL, 0);
-    }
-    if (availableUL > 0 && availableUL % SEARCH_GROUND_STEP_UL !== 0) {
-      const prepared = { ...input.material.available };
-      consider(prepared, prepared, 0, availableUL, 0);
+  function* stepJobs(): Generator<() => void> {
+    if (input.material.state === 'raw') {
+      const ownedGrams = Math.max(0, input.material.availableGrams);
+      const quote = input.mushroomQuoteCreditsPerGram;
+      const purchaseLimit = purchasedResourceLimit(
+        ownedGrams,
+        credits,
+        quote,
+        input.allowPurchases,
+      );
+      const capacityBoundGrams =
+        containerCapacity / (totalUL(dreamCapRawComponents(1)) || 1);
+      const maxGrams = Math.min(purchaseLimit, capacityBoundGrams);
+      const steps = Math.floor((maxGrams + 1e-9) / SEARCH_GRAM_STEP);
+      for (let step = 1; step <= steps; step += 1) {
+        const grams = Number((step * SEARCH_GRAM_STEP).toFixed(1));
+        const materialCost =
+          Math.max(0, grams - ownedGrams) *
+          (input.allowPurchases && quote !== undefined ? quote : 0);
+        const blenderModules = input.material.blenderModules;
+        yield () => {
+          const raw = dreamCapRawComponents(grams);
+          const prepared = applyBlenderLoss(raw, blenderModules);
+          consider(prepared, raw, grams, 0, materialCost);
+        };
+      }
+    } else {
+      const available = input.material.available;
+      const availableUL = totalUL(available);
+      for (
+        let requestedUL = SEARCH_GROUND_STEP_UL;
+        requestedUL <= availableUL;
+        requestedUL += SEARCH_GROUND_STEP_UL
+      ) {
+        const sliceUL = requestedUL;
+        yield () => {
+          const prepared = takeProportionalMixture(available, sliceUL);
+          consider(prepared, prepared, 0, sliceUL, 0);
+        };
+      }
+      if (availableUL > 0 && availableUL % SEARCH_GROUND_STEP_UL !== 0) {
+        yield () => {
+          const prepared = { ...available };
+          consider(prepared, prepared, 0, availableUL, 0);
+        };
+      }
     }
   }
 
+  const runJob = (job: () => void): boolean => {
+    if (options?.shouldAbort?.()) {
+      hitLimit = true;
+      return false;
+    }
+    job();
+    return !hitLimit;
+  };
+
+  const finalize = (): ProductionPlan => {
   // Assignments occur inside the local consider callback; preserve their runtime types for narrowing.
   const feasibleResult = feasible as ProductionCandidate | null;
   const bestPurityResult = bestPurity as ProductionCandidate | null;
@@ -849,15 +981,53 @@ export function solveProductionPlan(input: ProductionPlannerInput): ProductionPl
     }
   }
 
+  const aborted = Boolean(options?.shouldAbort?.());
+  const status = hitLimit 
+    ? 'search-incomplete-limit-reached'
+    : feasibleResult 
+    ? 'feasible' 
+    : 'no-solution-in-supported-search';
+  
+  const finalReasons = hitLimit 
+    ? [
+        aborted
+          ? `Search cancelled after ${configurations.toLocaleString()} configurations because a newer request was started.`
+          : `Search stopped at ${configurations.toLocaleString()} configurations or ${MAX_RUNTIME_MS / 1000}s time limit.`,
+        'Solution may exist in unsearched space. Results shown are incomplete.',
+        ...reasons,
+      ]
+    : reasons;
+
   return {
-    status: feasibleResult ? 'feasible' : 'no-solution-in-supported-search',
-    reasons,
+    status,
+    reasons: finalReasons,
     candidate: feasibleResult,
     bestPurityCandidate: bestPurityResult,
     maxQuantityCandidate: maxQuantityResult,
     searchSummary:
-      `Evaluated ${configurations.toLocaleString()} material configurations and used integer-µL ` +
-      'binary search for the minimum feasible Alcohol per configuration. Objective: lowest user-quoted purchase cost, then least documented waste, then least Alcohol.',
+      `Evaluated ${configurations.toLocaleString()} material configurations. Alcohol: bounded incomplete search ` +
+      '(100µL coarse to 50mL, 1µL fine within first feasible). ' +
+      'LIMITATION: Can skip narrow intervals; "no-solution" = not found in searched space, unsearched regions remain. ' +
+      'Objective: lowest purchase cost, then least waste, then least alcohol.',
     boundary,
   };
+  };
+
+  if (!cooperative) {
+    for (const job of stepJobs()) {
+      if (!runJob(job)) break;
+    }
+    return finalize();
+  }
+
+  const yieldEvery = Math.max(1, options?.yieldEvery ?? 8);
+  return (async () => {
+    let n = 0;
+    for (const job of stepJobs()) {
+      if (!runJob(job)) break;
+      n += 1;
+      if (n % yieldEvery === 0) await yieldTick();
+    }
+    return finalize();
+  })();
 }

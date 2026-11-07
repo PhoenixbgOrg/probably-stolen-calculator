@@ -69,6 +69,7 @@ export function SpecializationScreen({ reg, build, dispatch, onNext }: { reg: Ga
     <section className="panel" aria-labelledby="spec-h">
       <h2 id="spec-h" className="panel-title">Specialization</h2>
       <p className="intro">Choose your starting specialization. Values are community-reported for game {reg.gameVersion}; badges show how well each is verified.</p>
+      <p className="muted small">Profession tiles are original calculator symbols, not game sprites. Appearance vs in-game art is unverified.</p>
       <div className="spec-picker">
         <button type="button" className="pix-btn arrow" onClick={() => step(-1)} aria-label="Previous specialization">◀</button>
         <div className="spec-icons" role="radiogroup" aria-label="Specialization" ref={groupRef}>

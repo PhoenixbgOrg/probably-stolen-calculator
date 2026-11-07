@@ -14,7 +14,20 @@ export const COMPONENT_KEYS = [
   'physicalContaminant',
   'alcohol',
   'insolubleDebris',
+  'acid',
+  'base',
+  'chemicalContaminant',
+  'heavyMetal',
+  'organicWaste',
+  'stabilizingAgent',
+  'fatOil',
+  'lipobondAgent',
+  'chlorine',
+  'other',
 ] as const;
+
+/** Wiki evaporatives for Dream Dust path: Water, Alcohol, Lipobond Agent (bp 55°C). */
+export const VOLATILE_KEYS = ['water', 'alcohol', 'lipobondAgent'] as const;
 
 export type ComponentKey = (typeof COMPONENT_KEYS)[number];
 export type ComponentMixture = Record<ComponentKey, number>;
@@ -111,7 +124,7 @@ export interface MeasuredReverseResult {
   boundary: string;
 }
 
-const emptyMixture = (): ComponentMixture => ({
+export const emptyMixture = (): ComponentMixture => ({
   dreamCapMush: 0,
   dreamCapExtract: 0,
   plantMatter: 0,
@@ -122,10 +135,33 @@ const emptyMixture = (): ComponentMixture => ({
   physicalContaminant: 0,
   alcohol: 0,
   insolubleDebris: 0,
+  acid: 0,
+  base: 0,
+  chemicalContaminant: 0,
+  heavyMetal: 0,
+  organicWaste: 0,
+  stabilizingAgent: 0,
+  fatOil: 0,
+  lipobondAgent: 0,
+  chlorine: 0,
+  other: 0,
 });
+
+export function mixtureFromPartial(partial: Partial<ComponentMixture>): ComponentMixture {
+  return { ...emptyMixture(), ...partial };
+}
+
+export function volatileUL(mixture: ComponentMixture): number {
+  return VOLATILE_KEYS.reduce((sum, key) => sum + mixture[key], 0);
+}
 
 export function totalUL(mixture: ComponentMixture): number {
   return COMPONENT_KEYS.reduce((sum, key) => sum + mixture[key], 0);
+}
+
+/** Warn when entered total and component sum disagree. Never silently redistribute. */
+export function volumeSumDriftUL(declaredTotalUL: number, mixture: ComponentMixture): number {
+  return declaredTotalUL - totalUL(mixture);
 }
 
 function assertWholeNonNegative(value: number, name: string): void {
@@ -245,8 +281,10 @@ function runTick(input: ComponentMixture, temperatureC: number, tick: number): E
   // Branch 22: boiling, performed last. Vapor is not recovered.
   const evaporatedAlcoholUL = boilingLoss(state.alcohol, temperatureC, 78.37);
   const evaporatedWaterUL = boilingLoss(state.water, temperatureC, 100);
+  const evaporatedLipobondUL = boilingLoss(state.lipobondAgent, temperatureC, 55);
   state.alcohol -= evaporatedAlcoholUL;
   state.water -= evaporatedWaterUL;
+  state.lipobondAgent -= evaporatedLipobondUL;
 
   return {
     tick,

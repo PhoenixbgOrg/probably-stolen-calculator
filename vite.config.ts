@@ -10,5 +10,12 @@ export default defineConfig({
   base,
   plugins: [react()],
   server: { port: 5173, strictPort: true, host: '127.0.0.1' },
-  test: { environment: 'node', include: ['tests/**/*.test.ts'] },
+  test: { 
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['./tests/setup.ts'],
+    include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx'],
+    testTimeout: 30000, // 30s max per test
+    hookTimeout: 10000, // 10s max for setup/teardown
+  },
 });

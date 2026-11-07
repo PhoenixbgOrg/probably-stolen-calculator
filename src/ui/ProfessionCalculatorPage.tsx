@@ -37,7 +37,7 @@ const NumberField = ({
 
 const Header = ({ profession }: { profession: ProfessionDef }) => (
   <div className="coming-soon-header">
-    <ImprovedPixelIcon id={profession.id} tone="spec" size={80} showTooltip={false} />
+    <ImprovedPixelIcon id={profession.id} tone="spec" size={80} showTooltip={false} showCaption />
     <div>
       <h2 className="panel-title" style={{ margin: 0 }}>{profession.name} Calculator</h2>
       {profession.tag && <div className="tag">{profession.tag}</div>}

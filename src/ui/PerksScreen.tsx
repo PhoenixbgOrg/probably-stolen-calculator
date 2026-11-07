@@ -128,6 +128,7 @@ export function PerksScreen({ reg, state, dispatch, onBack, onNext, continueBloc
           {unknownSelected.map((id) => <button key={id} type="button" className="pix-btn" onClick={() => dispatch({ type: 'removePerk', perkId: id })}>Remove unknown perk "{id}"</button>)}
         </div>
       )}
+      <p className="muted small">Perk tiles are original calculator symbols, not game sprites. Appearance vs in-game art is unverified.</p>
       <h3 className="section-h">Available Perks</h3>
       <div className="legend small" aria-hidden="true">
         <span><CategoryMarker category="positive" /> positive</span><span><CategoryMarker category="neutral" /> neutral</span><span><CategoryMarker category="negative" /> negative</span>
