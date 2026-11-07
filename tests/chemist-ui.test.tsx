@@ -68,7 +68,26 @@ describe('ChemistProductionPlanner UI interactions', () => {
     expect(parseFloat(screen.getByTestId('available-mush-ul').textContent ?? '')).toBeCloseTo(320.348, 3);
     expect(parseFloat(screen.getByTestId('recommended-ground-ul').textContent ?? '')).toBeCloseTo(222.9, 0);
     expect(parseFloat(screen.getByTestId('unused-ground-ul').textContent ?? '')).toBeCloseTo(253.1, 0);
+    expect(parseFloat(screen.getByTestId('recommended-mush-ul').textContent ?? '')).toBeCloseTo(150, 0);
+    expect(screen.getByText('Available Alcohol / all available Mush')).toBeDefined();
+    expect(parseFloat(screen.getByTestId('alcohol-mush-ratio').textContent ?? '')).toBeCloseTo(2.34, 2);
+    expect(screen.getByText('Selected batch Alcohol / Mush ratio')).toBeDefined();
+    expect(parseFloat(screen.getByTestId('selected-batch-alcohol-mush-ratio').textContent ?? '')).toBeCloseTo(5.0, 2);
+    expect(screen.queryByText(/^Alcohol \/ Mush ratio$/)).toBeNull();
     expect(screen.getByText(/not a guaranteed 38-vial yield/i)).toBeDefined();
+  });
+
+  test('mixed 200 mL alcohol shows selected-batch 5.00, not inventory 1.81', () => {
+    render(<ChemistProductionPlanner />);
+    fireEvent.click(screen.getByText(/Example 164 \+ 552/i));
+    fireEvent.click(screen.getByLabelText(/Mixed \/ Measured/i));
+    fireEvent.change(screen.getByLabelText(/Alcohol-containing liquid \(mL\)/i), { target: { value: '200' } });
+    fireEvent.change(screen.getByLabelText(/^Alcohol component \(mL\)$/i), { target: { value: '200' } });
+    fireEvent.change(screen.getByLabelText(/Water component \(mL\)/i), { target: { value: '0' } });
+    fireEvent.click(screen.getByRole('button', { name: /Calculate from my materials/i }));
+    expect(parseFloat(screen.getByTestId('recommended-mush-ul').textContent ?? '')).toBeCloseTo(40.005, 3);
+    expect(parseFloat(screen.getByTestId('alcohol-mush-ratio').textContent ?? '')).toBeCloseTo(1.81, 2);
+    expect(parseFloat(screen.getByTestId('selected-batch-alcohol-mush-ratio').textContent ?? '')).toBeCloseTo(5.0, 2);
   });
 
   test('164+552 example predicts extract near 55.18 mL and clears mush', () => {

@@ -34,13 +34,22 @@ export interface ForwardMaterialsInput {
   vesselCapacityUL: number;
 }
 
+/** Alcohol component ÷ Mush. Null when Mush is 0 (no ratio). */
+export function alcoholToMushRatio(alcoholUL: number, mushUL: number): number | null {
+  if (mushUL <= 0) return null;
+  return alcoholUL / mushUL;
+}
+
 export interface ForwardMaterialsResult {
   status: 'ok' | 'invalid';
   reasons: string[];
   warnings: string[];
   availableMushUL: number;
   alcoholComponentUL: number;
+  /** Inventory: available Alcohol component / all available Mush. */
   alcoholToMushRatio: number | null;
+  /** Selected vessel batch: poured Alcohol component / Mush actually in that mix. */
+  selectedBatchAlcoholToMushRatio: number | null;
   atYieldCap: boolean;
   recommendedMushUL: number;
   recommendedGroundUL: number;
@@ -64,6 +73,7 @@ function invalid(reasons: string[], warnings: string[] = []): ForwardMaterialsRe
     availableMushUL: 0,
     alcoholComponentUL: 0,
     alcoholToMushRatio: null,
+    selectedBatchAlcoholToMushRatio: null,
     atYieldCap: false,
     recommendedMushUL: 0,
     recommendedGroundUL: 0,
@@ -151,8 +161,7 @@ export function recommendFromMaterials(input: ForwardMaterialsInput): ForwardMat
     warnings.push('Wiki branch 4 requires Alcohol > 0. No extraction is predicted with 0 Alcohol component.');
   }
 
-  const ratio =
-    availableMushUL > 0 ? alcoholComponentUL / availableMushUL : null;
+  const inventoryRatio = alcoholToMushRatio(alcoholComponentUL, availableMushUL);
   const mushForCap =
     alcoholComponentUL > 0 ? Math.floor(alcoholComponentUL / YIELD_CAP_ALCOHOL_PER_MUSH) : 0;
   const recommendedMushUL = Math.min(availableMushUL, mushForCap);
@@ -213,7 +222,11 @@ export function recommendFromMaterials(input: ForwardMaterialsInput): ForwardMat
     warnings,
     availableMushUL,
     alcoholComponentUL,
-    alcoholToMushRatio: ratio,
+    alcoholToMushRatio: inventoryRatio,
+    selectedBatchAlcoholToMushRatio: alcoholToMushRatio(
+      alcoholComponentUL,
+      recommendedGround.dreamCapMush,
+    ),
     atYieldCap,
     recommendedMushUL: recommendedGround.dreamCapMush,
     recommendedGroundUL: totalUL(recommendedGround),

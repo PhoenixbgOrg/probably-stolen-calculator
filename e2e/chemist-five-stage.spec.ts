@@ -16,8 +16,10 @@ test.describe('Chemist five-stage wizard on built Pages base path', () => {
     await measuredTenAndFourHundred(page);
     await expect(page.getByRole('button', { name: /^Final Dust/ })).toBeDisabled();
     await page.getByTestId('calculate-ground').click();
-    await expect(page.getByText('Alcohol / Mush ratio')).toBeVisible();
-    await expect(page.locator('.output-row', { hasText: 'Alcohol / Mush ratio' })).toContainText('40.00');
+    await expect(page.getByText('Available Alcohol / all available Mush')).toBeVisible();
+    await expect(page.getByText('Selected batch Alcohol / Mush ratio')).toBeVisible();
+    await expect(page.getByTestId('alcohol-mush-ratio')).toHaveText('40.00');
+    await expect(page.getByTestId('selected-batch-alcohol-mush-ratio')).toHaveText('40.00');
     await expect(page.getByTestId('unused-ground-ul')).toHaveText('0.000 mL');
     await expect(page.getByTestId('initial-vessel-ul')).toContainText('410.000 mL / 2000.000 mL');
     await page.getByTestId('continue-prediction-ground').click();
@@ -91,7 +93,8 @@ test.describe('Chemist five-stage wizard on built Pages base path', () => {
     await fillId(page, 'solvent-water', '30');
     await page.getByTestId('calculate-ground').click();
     await expect(page.locator('.output-row', { hasText: 'Alcohol component' })).toContainText('70.000 mL');
-    await expect(page.locator('.output-row', { hasText: 'Alcohol / Mush ratio' })).toContainText('7.00');
+    await expect(page.getByTestId('alcohol-mush-ratio')).toHaveText('7.00');
+    await expect(page.getByTestId('selected-batch-alcohol-mush-ratio')).toHaveText('7.00');
   });
 
   test('Back edit marks extraction stale; one field does not verify leftovers', async ({ page }) => {
@@ -179,6 +182,16 @@ test.describe('viewport screenshots of built preview', () => {
       await expect(page.getByTestId('kit-name-water-filter')).toHaveText('Water Filter');
       await expect(page.getByTestId('kit-name-chem-finisher')).toHaveText('Chem Finisher');
       await expect(page.getByTestId('icon-caption-evaporator')).toHaveText('Not a game sprite');
+      await expect(page.locator('h1 .site-title')).toHaveText('Probably Stolen Calculator');
+      const titleOverflow = await page.evaluate(() => {
+        const heading = document.querySelector('h1');
+        if (!(heading instanceof HTMLElement)) return { missing: true, right: 0, vw: 0 };
+        const box = heading.getBoundingClientRect();
+        return { missing: false, right: box.right, vw: window.innerWidth, text: heading.innerText };
+      });
+      expect(titleOverflow.missing).toBe(false);
+      expect(titleOverflow.text).toContain('Probably Stolen Calculator');
+      expect(titleOverflow.right).toBeLessThanOrEqual(titleOverflow.vw + 1);
       await page.screenshot({ path: `test-results/chemist-${viewport.name}.png`, fullPage: true });
     });
   }
