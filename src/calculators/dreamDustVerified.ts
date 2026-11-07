@@ -14,7 +14,15 @@ export const COMPONENT_KEYS = [
   'physicalContaminant',
   'alcohol',
   'insolubleDebris',
+  'acid',
+  'base',
+  'chemicalContaminant',
+  'heavyMetal',
+  'other',
 ] as const;
+
+/** Wiki boiling/evaporator volatiles for this supported subset. Acid/Base/Other are not treated as evaporative. */
+export const VOLATILE_KEYS = ['water', 'alcohol'] as const;
 
 export type ComponentKey = (typeof COMPONENT_KEYS)[number];
 export type ComponentMixture = Record<ComponentKey, number>;
@@ -111,7 +119,7 @@ export interface MeasuredReverseResult {
   boundary: string;
 }
 
-const emptyMixture = (): ComponentMixture => ({
+export const emptyMixture = (): ComponentMixture => ({
   dreamCapMush: 0,
   dreamCapExtract: 0,
   plantMatter: 0,
@@ -122,10 +130,28 @@ const emptyMixture = (): ComponentMixture => ({
   physicalContaminant: 0,
   alcohol: 0,
   insolubleDebris: 0,
+  acid: 0,
+  base: 0,
+  chemicalContaminant: 0,
+  heavyMetal: 0,
+  other: 0,
 });
+
+export function mixtureFromPartial(partial: Partial<ComponentMixture>): ComponentMixture {
+  return { ...emptyMixture(), ...partial };
+}
+
+export function volatileUL(mixture: ComponentMixture): number {
+  return VOLATILE_KEYS.reduce((sum, key) => sum + mixture[key], 0);
+}
 
 export function totalUL(mixture: ComponentMixture): number {
   return COMPONENT_KEYS.reduce((sum, key) => sum + mixture[key], 0);
+}
+
+/** Warn when entered total and component sum disagree. Never silently redistribute. */
+export function volumeSumDriftUL(declaredTotalUL: number, mixture: ComponentMixture): number {
+  return declaredTotalUL - totalUL(mixture);
 }
 
 function assertWholeNonNegative(value: number, name: string): void {

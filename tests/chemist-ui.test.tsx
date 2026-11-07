@@ -56,9 +56,18 @@ describe('ChemistProductionPlanner UI interactions', () => {
     fireEvent.click(quickFillButton);
     
     // Check that Dream Cap Mush field is populated (should be ~27,333µL = 27.333mL for 32.5g with 4 modules)
-    const mushInput = screen.getByLabelText(/Dream Cap Mush/i);
+    const mushInput = screen.getByLabelText(/^Dream Cap Mush \(mL\)$/i);
     const mushValue = (mushInput as HTMLInputElement).value;
     expect(parseFloat(mushValue)).toBeCloseTo(27.333, 2);
+  });
+
+  test('materials-first entry calculates 750+476 without requiring target vials', () => {
+    render(<ChemistProductionPlanner />);
+    fireEvent.click(screen.getByText(/Example 750 \+ 476/i));
+    fireEvent.click(screen.getByRole('button', { name: /Calculate from my materials/i }));
+    expect(screen.getByText(/Available actual Dream Cap Mush/i)).toBeDefined();
+    expect(screen.getByText(/222\.\d+ mL/)).toBeDefined();
+    expect(screen.queryByText(/guaranteed 38-vial/i)).toBeDefined();
   });
 
   test('Input validation shows unsupported status for invalid config', async () => {

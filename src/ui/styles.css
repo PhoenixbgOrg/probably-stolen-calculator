@@ -277,7 +277,9 @@ a.link-btn:hover { box-shadow:0 0 0 var(--step) var(--line); }
 .info-badge { display:inline-block; background:var(--card); box-shadow:0 0 0 var(--step) var(--line-dim); padding:.3rem .6rem; margin-top:.5rem; font-size:.85rem; }
 
 .alert { padding:.6rem; margin:.5rem 0; box-shadow:0 0 0 var(--step) var(--line-dim); }
+.alert.info { background:#1f2a3d; color:#99ccff; }
 .alert.warning { background:#3d2a1f; color:#ffcc99; }
+.wizard-steps { margin: 0.4rem 0 1rem; }
 .alert.error { background:#3d1f1f; color:#ff9999; }
 .alert.success { background:#1f3d2a; color:#99ff99; }
 

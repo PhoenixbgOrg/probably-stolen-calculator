@@ -5,6 +5,7 @@ import {
   dreamCapMushDegradationFactor,
   dreamCapRawComponents,
   finishMeasuredComposition,
+  mixtureFromPartial,
   simulateExtraction,
   solveMeasuredTarget,
   totalUL,
@@ -199,18 +200,13 @@ describe('verified Dream Dust pipeline', () => {
   });
 
   test('filter steps spend durability in component order and preserve small active/protein components', () => {
-    const mixture = {
-      dreamCapMush: 0,
+    const mixture = mixtureFromPartial({
       dreamCapExtract: 10_000,
       plantMatter: 2_500,
-      water: 0,
       protein: 1_000,
       mineral: 500,
-      microbes: 0,
       physicalContaminant: 2_000,
-      alcohol: 0,
-      insolubleDebris: 0,
-    };
+    });
     const kotton = applyFilter(mixture, 'Kotton Fabric', 150, 4);
     expect(kotton.output.plantMatter).toBe(500);
     expect(kotton.output.dreamCapExtract).toBe(10_000);
@@ -228,18 +224,12 @@ describe('verified Dream Dust pipeline', () => {
   });
 
   test('Evaporator proportionally removes Water and Alcohol and recovers with quality', () => {
-    const mixture = {
-      dreamCapMush: 0,
+    const mixture = mixtureFromPartial({
       dreamCapExtract: 8_000,
-      plantMatter: 0,
       water: 40_000,
       protein: 2_000,
-      mineral: 0,
-      microbes: 0,
-      physicalContaminant: 0,
       alcohol: 60_000,
-      insolubleDebris: 0,
-    };
+    });
     const result = evaporateToDryness(mixture, {
       performancePercent: 0,
       efficiencyPercent: 0,
@@ -262,18 +252,10 @@ describe('verified Dream Dust pipeline', () => {
 
   test('component Finisher replacement conserves 2,000 µL and accounts every component', () => {
     const result = finishComponentMixture(
-      {
-        dreamCapMush: 0,
+      mixtureFromPartial({
         dreamCapExtract: 1_000,
-        plantMatter: 0,
-        water: 0,
         protein: 1_000,
-        mineral: 0,
-        microbes: 0,
-        physicalContaminant: 0,
-        alcohol: 0,
-        insolubleDebris: 0,
-      },
+      }),
       2,
       1,
     );

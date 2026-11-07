@@ -2,9 +2,8 @@ import { describe, test, expect } from 'vitest';
 import {
   solveProductionPlan,
   type ProductionPlannerInput,
-  type ComponentMixture,
 } from '../src/calculators/dreamDustPlanner';
-import { totalUL } from '../src/calculators/dreamDustVerified';
+import { type ComponentMixture, totalUL } from '../src/calculators/dreamDustVerified';
 
 /**
  * Owner exact reproduction case from live PUBLIC Chemist calculator.
@@ -99,6 +98,11 @@ describe('Owner reproduction: 154.12mL ground mixture, 40%/20 vials target', () 
     physicalContaminant: 9_440, // 9.44 mL
     alcohol: 0,
     insolubleDebris: 0,
+    acid: 0,
+    base: 0,
+    chemicalContaminant: 0,
+    heavyMetal: 0,
+    other: 0,
   };
 
   const baseInput: ProductionPlannerInput = {
@@ -136,7 +140,7 @@ describe('Owner reproduction: 154.12mL ground mixture, 40%/20 vials target', () 
     console.log('');
     console.log('Ground mixture components (µL):');
     for (const [key, value] of Object.entries(groundMixture)) {
-      if (value > 0) {
+      if (typeof value === 'number' && value > 0) {
         console.log(`  ${key}: ${value} µL (${(value / 1000).toFixed(3)} mL)`);
       }
     }
@@ -221,6 +225,11 @@ describe('Owner reproduction: 154.12mL ground mixture, 40%/20 vials target', () 
               physicalContaminant: Math.round((groundMixture.physicalContaminant * testUL) / totalGroundUL),
               alcohol: 0,
               insolubleDebris: 0,
+    acid: 0,
+    base: 0,
+    chemicalContaminant: 0,
+    heavyMetal: 0,
+    other: 0,
             },
           },
         };
@@ -270,6 +279,11 @@ describe('Owner reproduction: 154.12mL ground mixture, 40%/20 vials target', () 
       physicalContaminant: Math.round((groundMixture.physicalContaminant * scaledUL) / totalUL_original),
       alcohol: 0,
       insolubleDebris: 0,
+    acid: 0,
+    base: 0,
+    chemicalContaminant: 0,
+    heavyMetal: 0,
+    other: 0,
     };
 
     // Check that ratios are preserved (within rounding tolerance)

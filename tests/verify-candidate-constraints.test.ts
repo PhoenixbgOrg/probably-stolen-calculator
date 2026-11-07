@@ -3,9 +3,8 @@ import {
   solveProductionPlan,
   type ProductionPlannerInput,
   type ProductionCandidate,
-  type ComponentMixture,
 } from '../src/calculators/dreamDustPlanner';
-import { totalUL } from '../src/calculators/dreamDustVerified';
+import { type ComponentMixture, totalUL } from '../src/calculators/dreamDustVerified';
 
 /**
  * Verify that candidates actually meet all constraints and targets.
@@ -24,6 +23,11 @@ describe('Candidate constraint verification', () => {
     physicalContaminant: 9_440,
     alcohol: 0,
     insolubleDebris: 0,
+    acid: 0,
+    base: 0,
+    chemicalContaminant: 0,
+    heavyMetal: 0,
+    other: 0,
   };
 
   const baseInput: ProductionPlannerInput = {
@@ -206,6 +210,11 @@ describe('Candidate constraint verification', () => {
         physicalContaminant: Math.round((groundMixture.physicalContaminant * groundUL) / totalUL(groundMixture)),
         alcohol: 0,
         insolubleDebris: 0,
+    acid: 0,
+    base: 0,
+    chemicalContaminant: 0,
+    heavyMetal: 0,
+    other: 0,
       };
       
       const result = solveProductionPlan({

@@ -2,9 +2,8 @@ import { describe, test, expect } from 'vitest';
 import {
   solveProductionPlan,
   type ProductionPlannerInput,
-  type ComponentMixture,
 } from '../src/calculators/dreamDustPlanner';
-import { totalUL } from '../src/calculators/dreamDustVerified';
+import { type ComponentMixture, totalUL } from '../src/calculators/dreamDustVerified';
 
 /**
  * EXACT PUBLIC BROWSER REPRODUCTION
@@ -29,6 +28,11 @@ describe('Public browser exact match verification', () => {
     physicalContaminant: 9_440,
     alcohol: 0,
     insolubleDebris: 0,
+    acid: 0,
+    base: 0,
+    chemicalContaminant: 0,
+    heavyMetal: 0,
+    other: 0,
   };
 
   const publicBrowserInput: ProductionPlannerInput = {
@@ -141,6 +145,11 @@ describe('Public browser exact match verification', () => {
         physicalContaminant: Math.round((groundMixture.physicalContaminant * forcedGroundUL) / totalUL(groundMixture)),
         alcohol: 0,
         insolubleDebris: 0,
+    acid: 0,
+    base: 0,
+    chemicalContaminant: 0,
+    heavyMetal: 0,
+    other: 0,
       };
       
       const forcedResult = solveProductionPlan({
@@ -187,6 +196,11 @@ describe('Public browser exact match verification', () => {
       physicalContaminant: Math.round((groundMixture.physicalContaminant * halfUL) / totalUL(groundMixture)),
       alcohol: 0,
       insolubleDebris: 0,
+    acid: 0,
+    base: 0,
+    chemicalContaminant: 0,
+    heavyMetal: 0,
+    other: 0,
     };
 
     const result = solveProductionPlan({

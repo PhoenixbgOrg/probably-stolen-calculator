@@ -27,6 +27,11 @@ const emptyMixture = (): ComponentMixture => ({
   physicalContaminant: 0,
   alcohol: 0,
   insolubleDebris: 0,
+  acid: 0,
+  base: 0,
+  chemicalContaminant: 0,
+  heavyMetal: 0,
+  other: 0,
 });
 
 const addMixture = (a: ComponentMixture, b: ComponentMixture): ComponentMixture =>

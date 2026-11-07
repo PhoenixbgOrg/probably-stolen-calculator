@@ -2,9 +2,8 @@ import { describe, test, expect } from 'vitest';
 import {
   solveProductionPlan,
   type ProductionPlannerInput,
-  type ComponentMixture,
 } from '../src/calculators/dreamDustPlanner';
-import { totalUL } from '../src/calculators/dreamDustVerified';
+import { type ComponentMixture, totalUL } from '../src/calculators/dreamDustVerified';
 
 /**
  * Quick baseline check to understand current solver behavior
@@ -22,6 +21,11 @@ describe('Quick baseline diagnostic', () => {
     physicalContaminant: 9_440,
     alcohol: 0,
     insolubleDebris: 0,
+    acid: 0,
+    base: 0,
+    chemicalContaminant: 0,
+    heavyMetal: 0,
+    other: 0,
   };
 
   const baseInput: ProductionPlannerInput = {
