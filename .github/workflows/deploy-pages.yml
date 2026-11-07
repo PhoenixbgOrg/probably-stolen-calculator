@@ -22,9 +22,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          # jsdom 31 pulls undici 8, which binds zlib.zstd (Node 22+). Node 20
-          # fails at `npm test` with TypeError bind on decompress.js before Pages upload.
-          node-version: 22
+          # Pin the exact setup-node 22.x that GHA used on c617e01 (v22.23.4 / npm 10.9.9).
+          node-version: '22.23.4'
           cache: npm
       - run: npm ci
       - run: npm run typecheck
