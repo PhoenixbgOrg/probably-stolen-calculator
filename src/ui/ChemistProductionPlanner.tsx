@@ -11,15 +11,29 @@ import {
   STAGE_LABELS,
   WIZARD_STAGES,
   type ChemistWizardState,
+  type DraftReading,
+  type MixtureSnapshot,
+  type StageRecord,
   type WizardStageId,
-  applyGroundChange,
+  applyStageInput,
+  calculateStage,
+  canAcceptPrediction,
+  canCalculateStage,
+  canConfirmReadings,
   canEnterStage,
+  confirmStage,
   defaultWizardState,
+  draftMeasuredKeys,
+  goToStage,
+  inputMixtureFor,
   predictAcidBase,
   predictFilterEvap,
   predictFinish,
-  readingFromMixture,
+  previousStage,
   runForward,
+  setDraftField,
+  snapshotEvidence,
+  syncStale,
 } from '../calculators/chemistWizard';
 import { estimatedMushAndOther, PREVIOUS_BATCH_FRACTION_NOTE, PREVIOUS_BATCH_MUSH_FRACTION } from '../calculators/dreamDustEstimates';
 import { SAFE_EXTRACTION_TEMPERATURE_C } from '../calculators/dreamDustPlanner';
@@ -42,6 +56,8 @@ function NumberField({
   max,
   step = 0.001,
   help,
+  emptyable = false,
+  onClear,
 }: {
   id: string;
   label: string;
@@ -51,6 +67,8 @@ function NumberField({
   max?: number;
   step?: number;
   help?: string;
+  emptyable?: boolean;
+  onClear?: () => void;
 }) {
   return (
     <div className="input-group">
@@ -61,8 +79,14 @@ function NumberField({
         min={min}
         max={max}
         step={step}
-        value={value}
-        onChange={(event) => onChange(Number(event.target.value))}
+        value={emptyable && Number.isNaN(value) ? '' : value}
+        onChange={(event) => {
+          if (emptyable && event.target.value === '') {
+            onClear?.();
+            return;
+          }
+          onChange(Number(event.target.value));
+        }}
       />
       {help && <span className="help-text">{help}</span>}
     </div>
@@ -116,23 +140,103 @@ function MixtureFields({
   );
 }
 
+function DraftMixtureFields({
+  idPrefix,
+  draft,
+  onChange,
+}: {
+  idPrefix: string;
+  draft: DraftReading;
+  onChange: (key: ComponentKey, ul: number | null) => void;
+}) {
+  return (
+    <>
+      {COMPONENT_KEYS.map((key) => {
+        const entered = draft.values[key] !== undefined;
+        return (
+          <NumberField
+            key={key}
+            id={`${idPrefix}-${key}`}
+            label={`${componentLabel(key)} (mL)`}
+            value={entered ? draft.values[key]! / 1_000 : Number.NaN}
+            emptyable
+            onClear={() => onChange(key, null)}
+            onChange={(value) => onChange(key, toUL(value))}
+            help={entered ? 'Measured' : 'Blank = not measured (will not be labeled verified)'}
+          />
+        );
+      })}
+    </>
+  );
+}
+
+function SnapshotTable({ snapshot }: { snapshot: MixtureSnapshot }) {
+  return (
+    <div className="output-section">
+      <p>
+        <EvidenceBadge status={snapshotEvidence(snapshot)} /> {snapshot.kind} — {snapshot.note}
+      </p>
+      {COMPONENT_KEYS.filter((key) => snapshot.mixture[key] !== 0 || snapshot.fieldProvenance[key] === 'measured').map(
+        (key) => (
+          <div className="output-row" key={key}>
+            <span>
+              {componentLabel(key)} <span className="muted small">{snapshot.fieldProvenance[key]}</span>
+            </span>
+            <strong>{ml(snapshot.mixture[key])} mL</strong>
+          </div>
+        ),
+      )}
+    </div>
+  );
+}
+
+function StageStatus({ record }: { record: StageRecord }) {
+  if (record.stale) {
+    return (
+      <div className="alert warning" role="status">
+        Stale: {record.staleReason ?? 'Inputs changed.'} Previous confirmation is kept in history. Draft measurements were not deleted. Calculate this stage again.
+      </div>
+    );
+  }
+  if (record.confirmed && record.accepted) {
+    return (
+      <div className="alert success" role="status">
+        Confirmed ({record.accepted.kind}). Later stages use this output, not a skipped guess.
+      </div>
+    );
+  }
+  if (record.calculated && record.prediction) {
+    return (
+      <div className="alert info" role="status">
+        Calculated. Confirm a choice before later stages can run.
+      </div>
+    );
+  }
+  return (
+    <div className="alert info" role="status">
+      Calculate this stage, then Continue. Visiting a later tab does not perform the operation.
+    </div>
+  );
+}
+
 export function ChemistProductionPlanner() {
   const [state, setState] = useState<ChemistWizardState>(defaultWizardState);
   const [sessionNotice, setSessionNotice] = useState<string | null>(null);
-  const [showForward, setShowForward] = useState(false);
   const icons = iconManifestSummary();
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const loaded = loadChemistSession(window.localStorage);
-    setState(loaded.state);
+    setState(syncStale(loaded.state));
     setSessionNotice(loaded.notice);
-    if (loaded.state.savedAt) setShowForward(true);
   }, []);
 
-  const patchGround = (patch: Partial<ChemistWizardState>) => {
-    setShowForward(false);
-    setState((current) => applyGroundChange(current, patch));
+  const update = (fn: (current: ChemistWizardState) => ChemistWizardState) => {
+    setState((current) => syncStale(fn(current)));
+  };
+
+  const patch = (stage: WizardStageId, fields: Partial<ChemistWizardState>) => {
+    update((current) => applyStageInput(current, stage, fields));
   };
 
   const forward = useMemo(() => runForward(state), [state]);
@@ -140,11 +244,7 @@ export function ChemistProductionPlanner() {
   const filterEvap = useMemo(() => predictFilterEvap(state), [state]);
   const finish = useMemo(() => predictFinish(state), [state]);
   const drift = volumeSumDriftUL(state.groundTotalUL, state.ground);
-
-  const go = (stage: WizardStageId) => {
-    if (!canEnterStage(state, stage) && stage !== 'ground') return;
-    setState((current) => ({ ...current, currentStage: stage }));
-  };
+  const currentRecord = state.stages[state.currentStage];
 
   const save = () => {
     if (typeof window === 'undefined') return;
@@ -160,7 +260,7 @@ export function ChemistProductionPlanner() {
     ground.microbes = 10_540;
     ground.physicalContaminant = 9_170;
     ground.mineral = 2_290;
-    patchGround({
+    patch('ground', {
       compositionMode: 'measured',
       compositionNote: 'Owner-measured 164 mL-class batch. Spectrometer row sum 163.980 mL vs declared 164 mL.',
       groundTotalUL: 164_000,
@@ -172,11 +272,10 @@ export function ChemistProductionPlanner() {
       solventOtherUL: 0,
       vesselCapacityUL: 2_000_000,
     });
-    setShowForward(true);
   };
 
   const fill750 = () => {
-    patchGround({
+    patch('ground', {
       compositionMode: 'estimated',
       compositionNote: PREVIOUS_BATCH_FRACTION_NOTE,
       groundTotalUL: 476_000,
@@ -188,18 +287,94 @@ export function ChemistProductionPlanner() {
       solventOtherUL: 0,
       vesselCapacityUL: 2_000_000,
     });
-    setShowForward(true);
   };
 
   const setPureLiquid = (mlValue: number) => {
     const liquidUL = toUL(mlValue);
-    patchGround({
+    patch('ground', {
       solventMode: 'pure',
       solventLiquidUL: liquidUL,
       solventAlcoholUL: liquidUL,
       solventWaterUL: 0,
       solventOtherUL: 0,
     });
+  };
+
+  const changeDraft = (stage: WizardStageId, key: ComponentKey, ul: number | null) => {
+    update((current) => {
+      if (ul === null) {
+        const values = { ...current.stages[stage].draft.values };
+        delete values[key];
+        return {
+          ...current,
+          stages: {
+            ...current.stages,
+            [stage]: { ...current.stages[stage], draft: { values } },
+          },
+        };
+      }
+      return setDraftField(current, stage, key, ul);
+    });
+  };
+
+  const stageButtons = (stage: WizardStageId) => {
+    const prev = previousStage(stage);
+    return (
+      <div className="btn-row">
+        {prev && (
+          <button type="button" onClick={() => update((current) => goToStage(current, prev))}>
+            Back
+          </button>
+        )}
+        <button type="button" onClick={save}>
+          Save progress
+        </button>
+        <button
+          className="primary"
+          type="button"
+          data-testid={`calculate-${stage}`}
+          disabled={!canCalculateStage(state, stage)}
+          onClick={() => update((current) => calculateStage(current, stage))}
+        >
+          {stage === 'ground' ? 'Calculate from my materials' : `Calculate ${STAGE_LABELS[stage]}`}
+        </button>
+        <button
+          className="primary"
+          type="button"
+          data-testid={`continue-prediction-${stage}`}
+          disabled={!canAcceptPrediction(state, stage)}
+          onClick={() => update((current) => confirmStage(current, stage, 'accept-prediction'))}
+        >
+          Continue with model prediction
+        </button>
+        <button
+          type="button"
+          data-testid={`continue-readings-${stage}`}
+          disabled={!canConfirmReadings(state, stage)}
+          onClick={() => update((current) => confirmStage(current, stage, 'confirm-readings'))}
+        >
+          Continue with my readings
+        </button>
+      </div>
+    );
+  };
+
+  const readingEditor = (stage: WizardStageId) => {
+    const record = state.stages[stage];
+    return (
+      <details open={draftMeasuredKeys(record.draft).length > 0}>
+        <summary>Spectrometer draft (optional, field-by-field)</summary>
+        <p className="muted small">
+          Blank fields stay unmeasured. Changing one field does not verify the rest. Continue with my readings overlays measured fields onto the prediction and leaves the rest labeled predicted.
+        </p>
+        <DraftMixtureFields
+          idPrefix={`${stage}-read`}
+          draft={record.draft}
+          onChange={(key, ul) => changeDraft(stage, key, ul)}
+        />
+        <p className="muted small">Measured now: {draftMeasuredKeys(record.draft).join(', ') || 'none'}.</p>
+      </details>
+    );
   };
 
   return (
@@ -212,27 +387,43 @@ export function ChemistProductionPlanner() {
       {sessionNotice && <div className="alert warning">{sessionNotice}</div>}
 
       <ol className="steps wizard-steps" aria-label="Production stages">
-        {WIZARD_STAGES.map((stage) => (
-          <li key={stage}>
-            <button
-              type="button"
-              className={state.currentStage === stage ? 'active' : ''}
-              onClick={() => go(stage)}
-            >
-              {STAGE_LABELS[stage]}
-            </button>
-          </li>
-        ))}
+        {WIZARD_STAGES.map((stage) => {
+          const record = state.stages[stage];
+          const allowed = canEnterStage(state, stage) || stage === state.currentStage || WIZARD_STAGES.indexOf(stage) <= WIZARD_STAGES.indexOf(state.currentStage);
+          const className = [
+            state.currentStage === stage ? 'active' : '',
+            record.stale ? 'step-stale' : '',
+            record.confirmed && !record.stale ? 'step-confirmed' : '',
+            !allowed ? 'step-locked' : '',
+          ]
+            .filter(Boolean)
+            .join(' ');
+          return (
+            <li key={stage}>
+              <button
+                type="button"
+                className={className}
+                disabled={!allowed}
+                aria-current={state.currentStage === stage ? 'step' : undefined}
+                onClick={() => update((current) => goToStage(current, stage))}
+              >
+                {STAGE_LABELS[stage]}
+                {record.stale ? ' (stale)' : record.confirmed ? ' (confirmed)' : record.calculated ? ' (calculated)' : ''}
+              </button>
+            </li>
+          );
+        })}
       </ol>
 
       {state.currentStage === 'ground' && (
-        <section className="input-section">
+        <section className="input-section" data-testid="stage-ground">
           <h3>Ground Dream Caps and solvent</h3>
+          <StageStatus record={currentRecord} />
           <NumberField
             id="ground-total"
             label="Ground mixture (mL)"
             value={state.groundTotalUL / 1_000}
-            onChange={(value) => patchGround({ groundTotalUL: toUL(value) })}
+            onChange={(value) => patch('ground', { groundTotalUL: toUL(value) })}
             help="Total volume of the already-ground pile. This is not automatically pure Dream Cap Mush."
           />
           <div className="input-group">
@@ -242,7 +433,7 @@ export function ChemistProductionPlanner() {
                 type="radio"
                 name="composition-mode"
                 checked={state.compositionMode === 'measured'}
-                onChange={() => patchGround({ compositionMode: 'measured', compositionNote: '' })}
+                onChange={() => patch('ground', { compositionMode: 'measured', compositionNote: '' })}
               />{' '}
               Measured
             </label>
@@ -252,7 +443,7 @@ export function ChemistProductionPlanner() {
                 name="composition-mode"
                 checked={state.compositionMode === 'estimated'}
                 onChange={() =>
-                  patchGround({
+                  patch('ground', {
                     compositionMode: 'estimated',
                     compositionNote: PREVIOUS_BATCH_FRACTION_NOTE,
                   })
@@ -268,13 +459,13 @@ export function ChemistProductionPlanner() {
             id="ground-mush"
             label="Dream Cap Mush in mixture (mL)"
             value={state.ground.dreamCapMush / 1_000}
-            onChange={(value) => patchGround({ ground: { ...state.ground, dreamCapMush: toUL(value) } })}
+            onChange={(value) => patch('ground', { ground: { ...state.ground, dreamCapMush: toUL(value) } })}
           />
           {state.compositionMode === 'estimated' && (
             <button
               type="button"
               onClick={() =>
-                patchGround({
+                patch('ground', {
                   ground: estimatedMushAndOther(state.groundTotalUL, PREVIOUS_BATCH_MUSH_FRACTION),
                   compositionNote: PREVIOUS_BATCH_FRACTION_NOTE,
                 })
@@ -289,7 +480,7 @@ export function ChemistProductionPlanner() {
             <MixtureFields
               idPrefix="ground-extra"
               mixture={state.ground}
-              onChange={(ground) => patchGround({ ground })}
+              onChange={(ground) => patch('ground', { ground })}
               highlight={COMPONENT_KEYS.filter((key) => key !== 'dreamCapMush')}
             />
           </details>
@@ -305,7 +496,7 @@ export function ChemistProductionPlanner() {
             label="Alcohol-containing liquid (mL)"
             value={state.solventLiquidUL / 1_000}
             onChange={(value) =>
-              state.solventMode === 'pure' ? setPureLiquid(value) : patchGround({ solventLiquidUL: toUL(value) })
+              state.solventMode === 'pure' ? setPureLiquid(value) : patch('ground', { solventLiquidUL: toUL(value) })
             }
           />
           <div className="input-group">
@@ -324,185 +515,304 @@ export function ChemistProductionPlanner() {
                 type="radio"
                 name="solvent-mode"
                 checked={state.solventMode === 'mixed'}
-                onChange={() => patchGround({ solventMode: 'mixed' })}
+                onChange={() => patch('ground', { solventMode: 'mixed' })}
               />{' '}
               Mixed / Measured
             </label>
           </div>
           {state.solventMode === 'mixed' && (
             <>
-              <NumberField id="solvent-alcohol" label="Alcohol component (mL)" value={state.solventAlcoholUL / 1_000} onChange={(value) => patchGround({ solventAlcoholUL: toUL(value) })} />
-              <NumberField id="solvent-water" label="Water component (mL)" value={state.solventWaterUL / 1_000} onChange={(value) => patchGround({ solventWaterUL: toUL(value) })} />
-              <NumberField id="solvent-other" label="Other solvent components (mL)" value={state.solventOtherUL / 1_000} onChange={(value) => patchGround({ solventOtherUL: toUL(value) })} />
+              <NumberField id="solvent-alcohol" label="Alcohol component (mL)" value={state.solventAlcoholUL / 1_000} onChange={(value) => patch('ground', { solventAlcoholUL: toUL(value) })} />
+              <NumberField id="solvent-water" label="Water component (mL)" value={state.solventWaterUL / 1_000} onChange={(value) => patch('ground', { solventWaterUL: toUL(value) })} />
+              <NumberField id="solvent-other" label="Other solvent components (mL)" value={state.solventOtherUL / 1_000} onChange={(value) => patch('ground', { solventOtherUL: toUL(value) })} />
             </>
           )}
-          <NumberField id="vessel-capacity" label="Vessel capacity (mL)" value={state.vesselCapacityUL / 1_000} onChange={(value) => patchGround({ vesselCapacityUL: toUL(value) })} />
+          <NumberField id="vessel-capacity" label="Vessel capacity (mL)" value={state.vesselCapacityUL / 1_000} onChange={(value) => patch('ground', { vesselCapacityUL: toUL(value) })} />
 
           <div className="btn-row">
-            <button className="primary" type="button" onClick={() => setShowForward(true)}>
-              Calculate from my materials
+            <button type="button" onClick={fill750}>
+              Example 750 + 476
             </button>
-            <button type="button" onClick={save}>Save progress</button>
-            <button type="button" onClick={fill750}>Example 750 + 476</button>
-            <button type="button" onClick={fill164}>Example 164 + 552</button>
+            <button type="button" onClick={fill164}>
+              Example 164 + 552
+            </button>
           </div>
+          {stageButtons('ground')}
         </section>
       )}
 
-      {showForward && state.currentStage === 'ground' && (
+      {state.currentStage === 'ground' && currentRecord.calculated && currentRecord.prediction && (
         <section className="output-section">
-          <h3>From your materials <EvidenceBadge status={forward.evidence} /></h3>
+          <h3>
+            From your materials <EvidenceBadge status={forward.evidence} />
+          </h3>
           {forward.reasons.map((reason) => (
-            <div className="alert error" key={reason}>{reason}</div>
+            <div className="alert error" key={reason}>
+              {reason}
+            </div>
           ))}
           {forward.warnings.map((warning) => (
-            <div className="alert warning" key={warning}>{warning}</div>
+            <div className="alert warning" key={warning}>
+              {warning}
+            </div>
           ))}
           {forward.status === 'ok' && (
             <>
-              <div className="output-row"><span>Available actual Dream Cap Mush</span><strong>{ml(forward.availableMushUL)} mL</strong></div>
-              <div className="output-row"><span>Alcohol component</span><strong>{ml(forward.alcoholComponentUL)} mL</strong></div>
-              <div className="output-row"><span>Alcohol / Mush ratio</span><strong>{forward.alcoholToMushRatio === null ? 'n/a' : forward.alcoholToMushRatio.toFixed(2)}</strong></div>
-              <div className="output-row"><span>Recommended ground mix to use</span><strong>{ml(forward.recommendedGroundUL)} mL</strong></div>
-              <div className="output-row"><span>Actual Mush in that mix</span><strong>{ml(forward.recommendedMushUL)} mL</strong></div>
-              <div className="output-row"><span>Unused ground mixture</span><strong>{ml(forward.unusedGroundUL)} mL</strong></div>
-              <div className="output-row"><span>Initial vessel volume</span><strong>{ml(forward.initialVesselUL)} mL / {ml(state.vesselCapacityUL)} mL</strong></div>
-              <div className="output-row"><span>Theoretical extract ceiling (50% of selected Mush)</span><strong>{ml(forward.theoreticalExtractCeilingUL)} mL</strong></div>
-              {forward.predictedExtraction && (
-                <div className="output-row">
-                  <span>Model extract at {SAFE_EXTRACTION_TEMPERATURE_C}°C until Mush=0</span>
-                  <strong>{ml(forward.predictedExtraction.final.dreamCapExtract)} mL</strong>
-                </div>
-              )}
+              <div className="output-row">
+                <span>Available actual Dream Cap Mush</span>
+                <strong>{ml(forward.availableMushUL)} mL</strong>
+              </div>
+              <div className="output-row">
+                <span>Alcohol component</span>
+                <strong>{ml(forward.alcoholComponentUL)} mL</strong>
+              </div>
+              <div className="output-row">
+                <span>Alcohol / Mush ratio</span>
+                <strong>{forward.alcoholToMushRatio === null ? 'n/a' : forward.alcoholToMushRatio.toFixed(2)}</strong>
+              </div>
+              <div className="output-row">
+                <span>Recommended ground mix to use</span>
+                <strong>{ml(forward.recommendedGroundUL)} mL</strong>
+              </div>
+              <div className="output-row">
+                <span>Actual Mush in that mix</span>
+                <strong>{ml(forward.recommendedMushUL)} mL</strong>
+              </div>
+              <div className="output-row">
+                <span>Unused ground mixture</span>
+                <strong>{ml(forward.unusedGroundUL)} mL</strong>
+              </div>
+              <div className="output-row">
+                <span>Initial vessel volume</span>
+                <strong>
+                  {ml(forward.initialVesselUL)} mL / {ml(state.vesselCapacityUL)} mL
+                </strong>
+              </div>
+              <div className="output-row">
+                <span>Theoretical extract ceiling (50% of selected Mush)</span>
+                <strong>{ml(forward.theoreticalExtractCeilingUL)} mL</strong>
+              </div>
               <p className="muted small">{forward.boundary}</p>
-              <p className="muted small">Exact vial count and grade depend on protein treatment, filters, evaporation, finisher modules and final spectrometer readings. This is not a guaranteed 38-vial yield.</p>
-              <button className="primary" type="button" onClick={() => go('extraction')}>Continue to extraction</button>
+              <p className="muted small">Exact vial count and grade depend on later confirmed stages. This is not a guaranteed 38-vial yield.</p>
+              <h4>Confirmed-output candidate (vessel after pour)</h4>
+              <SnapshotTable snapshot={currentRecord.prediction} />
+              {readingEditor('ground')}
             </>
           )}
         </section>
       )}
 
       {state.currentStage === 'extraction' && (
-        <section className="input-section">
+        <section className="input-section" data-testid="stage-extraction">
           <h3>Extraction</h3>
-          <p>Hold the liquid in the sourced 40–49°C band. Recommended plate setting {SAFE_EXTRACTION_TEMPERATURE_C}°C with 2+ modules. Watch the real temperature, not only the knob. Stop when Dream Cap Mush reads 0.</p>
-          <NumberField id="heat-modules" label="Heating Plate modules" value={state.heatingPlateModules} onChange={(value) => setState({ ...state, heatingPlateModules: Math.trunc(value) })} max={4} step={1} />
-          <NumberField id="observed-temp" label="Observed liquid temperature (°C), optional" value={state.observedTemperatureC ?? 0} onChange={(value) => setState({ ...state, observedTemperatureC: value })} />
-          {forward.predictedExtraction && (
-            <div className="alert info">
-              Model prediction (not a guarantee): {ml(forward.predictedExtraction.final.dreamCapExtract)} mL extract after {forward.predictedExtraction.ticks.length} updates.
-            </div>
+          <StageStatus record={currentRecord} />
+          <p>
+            Hold the liquid in the sourced 40–49°C band. Recommended plate setting {SAFE_EXTRACTION_TEMPERATURE_C}°C with 2+
+            modules. Observed temperature drives the prediction; modules are not decorative.
+          </p>
+          {!canEnterStage(state, 'extraction') && (
+            <div className="alert error">{inputMixtureFor(state, 'extraction').note}</div>
           )}
-          <details open>
-            <summary>What did the Spectrometer show after extraction?</summary>
-            <MixtureFields
-              idPrefix="extract-read"
-              mixture={state.afterExtraction?.mixture ?? forward.predictedExtraction?.final ?? emptyMixture()}
-              onChange={(mixture) => setState({ ...state, afterExtraction: readingFromMixture(mixture, 'Post-extraction spectrometer reading') })}
-            />
-          </details>
-          <div className="btn-row">
-            <button type="button" onClick={() => go('ground')}>Back</button>
-            <button type="button" onClick={save}>Save progress</button>
-            <button className="primary" type="button" onClick={() => go('acidBase')}>Continue</button>
-          </div>
+          {inputMixtureFor(state, 'extraction').snapshot && (
+            <>
+              <h4>Input from confirmed Ground Mixture</h4>
+              <SnapshotTable snapshot={inputMixtureFor(state, 'extraction').snapshot!} />
+            </>
+          )}
+          <NumberField
+            id="heat-modules"
+            label="Heating Plate modules"
+            value={state.heatingPlateModules}
+            onChange={(value) => patch('extraction', { heatingPlateModules: Math.trunc(value) })}
+            max={4}
+            step={1}
+          />
+          <NumberField
+            id="observed-temp"
+            label="Observed liquid temperature (°C)"
+            value={state.observedTemperatureC ?? Number.NaN}
+            emptyable
+            onClear={() => patch('extraction', { observedTemperatureC: null })}
+            onChange={(value) => patch('extraction', { observedTemperatureC: value })}
+            help="Required if you have fewer than 2 modules. Blank uses 44°C only when 2+ modules are set."
+          />
+          {stageButtons('extraction')}
+          {currentRecord.prediction && (
+            <>
+              <h4>Predicted extraction output</h4>
+              <SnapshotTable snapshot={currentRecord.prediction} />
+            </>
+          )}
+          {currentRecord.reasons.map((reason) => (
+            <div className="alert error" key={reason}>
+              {reason}
+            </div>
+          ))}
+          {currentRecord.warnings.map((warning) => (
+            <div className="alert warning" key={warning}>
+              {warning}
+            </div>
+          ))}
+          {readingEditor('extraction')}
+          {currentRecord.history.length > 0 && (
+            <details>
+              <summary>Previous extraction snapshots ({currentRecord.history.length})</summary>
+              {currentRecord.history.map((row, index) => (
+                <SnapshotTable key={`${row.capturedAt}-${index}`} snapshot={row} />
+              ))}
+            </details>
+          )}
         </section>
       )}
 
       {state.currentStage === 'acidBase' && (
-        <section className="input-section">
+        <section className="input-section" data-testid="stage-acidBase">
           <h3>Acid / Base (protein)</h3>
-          <p>Wiki branch 16 is stepwise and uses Acid/Base imbalance. It is not “add Acid equal to Protein”. Branch 18 then neutralizes Acid and Base together. Measure reagents; bottle labels are not proof.</p>
-          {acidBase.before.mixture.protein > 0 ? (
+          <StageStatus record={currentRecord} />
+          {!canEnterStage(state, 'acidBase') && <div className="alert error">{inputMixtureFor(state, 'acidBase').note}</div>}
+          {inputMixtureFor(state, 'acidBase').snapshot && (
+            <>
+              <h4>Input from confirmed Extraction</h4>
+              <SnapshotTable snapshot={inputMixtureFor(state, 'acidBase').snapshot!} />
+            </>
+          )}
+          {acidBase.blocked ? (
+            <div className="alert warning">No confirmed extraction output yet. Calculate+Continue extraction first.</div>
+          ) : acidBase.before.mixture.protein > 0 ? (
             <div className="alert warning">Protein {ml(acidBase.before.mixture.protein)} mL is a purity risk until precipitated and filtered.</div>
           ) : (
-            <div className="alert success">No Protein in the current snapshot. Acid/Base is optional.</div>
+            <div className="alert success">No Protein in the confirmed extraction output. Acid/Base is still a real stage — Calculate even if you add nothing.</div>
           )}
+          <p className="muted small">
+            Inventory fields below still pour the whole measured bottle (dose-vs-inventory split is the next checkpoint). Changing them invalidates this stage and later ones without deleting drafts.
+          </p>
           <h4>Acidic Solution inventory (measured)</h4>
-          <MixtureFields idPrefix="acid-reag" mixture={state.acidReagent} onChange={(acidReagent) => setState({ ...state, acidReagent })} highlight={['acid', 'water', 'chemicalContaminant', 'heavyMetal', 'other']} />
+          <MixtureFields
+            idPrefix="acid-reag"
+            mixture={state.acidReagent}
+            onChange={(acidReagent) => patch('acidBase', { acidReagent })}
+            highlight={['acid', 'water', 'chemicalContaminant', 'heavyMetal', 'other']}
+          />
           <h4>Basic Solution inventory (measured)</h4>
-          <MixtureFields idPrefix="base-reag" mixture={state.baseReagent} onChange={(baseReagent) => setState({ ...state, baseReagent })} highlight={['base', 'water', 'chemicalContaminant', 'heavyMetal', 'other']} />
-          <div className="output-row"><span>Predicted Protein after sourced ticks</span><strong>{ml(acidBase.treatment.final.protein)} mL</strong></div>
-          <div className="output-row"><span>Predicted Insoluble Debris</span><strong>{ml(acidBase.treatment.final.insolubleDebris)} mL</strong></div>
-          {acidBase.treatment.unmodeledWarnings.map((warning) => (
-            <div className="alert warning" key={warning}>{warning}</div>
+          <MixtureFields
+            idPrefix="base-reag"
+            mixture={state.baseReagent}
+            onChange={(baseReagent) => patch('acidBase', { baseReagent })}
+            highlight={['base', 'water', 'chemicalContaminant', 'heavyMetal', 'other']}
+          />
+          {stageButtons('acidBase')}
+          {currentRecord.prediction && (
+            <>
+              <h4>Predicted Acid/Base output (feeds Filtration only after Continue)</h4>
+              <SnapshotTable snapshot={currentRecord.prediction} />
+            </>
+          )}
+          {currentRecord.warnings.map((warning) => (
+            <div className="alert warning" key={warning}>
+              {warning}
+            </div>
           ))}
-          <p className="muted small">{acidBase.treatment.sourceBoundary}</p>
-          <details open>
-            <summary>Spectrometer after Acid/Base</summary>
-            <MixtureFields
-              idPrefix="ab-read"
-              mixture={state.afterAcidBase?.mixture ?? acidBase.treatment.final}
-              onChange={(mixture) => setState({ ...state, afterAcidBase: readingFromMixture(mixture, 'Post-acid/base spectrometer reading') })}
-            />
-          </details>
-          <div className="btn-row">
-            <button type="button" onClick={() => go('extraction')}>Back</button>
-            <button type="button" onClick={save}>Save progress</button>
-            <button className="primary" type="button" onClick={() => go('filterEvap')}>Continue</button>
-          </div>
+          {readingEditor('acidBase')}
         </section>
       )}
 
       {state.currentStage === 'filterEvap' && (
-        <section className="input-section">
+        <section className="input-section" data-testid="stage-filterEvap">
           <h3>Filtration / Evaporation</h3>
-          <p>Typical successful order for plant matter and debris: Kotton Fabric, then Water Filter. Heavy Metal and Chemical Contaminant pass these filters. Evaporator nights depend on Performance, energy, receiver and Quality.</p>
-          <NumberField id="kotton" label="Kotton Fabric durability" value={state.kottonDurability} onChange={(value) => setState({ ...state, kottonDurability: Math.max(0, Math.trunc(value)) })} step={1} />
-          <NumberField id="water-filter" label="Water Filter durability" value={state.waterFilterDurability} onChange={(value) => setState({ ...state, waterFilterDurability: Math.max(0, Math.trunc(value)) })} step={1} />
-          <NumberField id="evap-energy" label="Energy available (kJ)" value={state.evaporator.availableEnergy} onChange={(value) => setState({ ...state, evaporator: { ...state.evaporator, availableEnergy: Math.max(0, Math.trunc(value)) } })} step={1} />
-          <NumberField id="evap-quality" label="Evaporator Quality (%)" value={state.evaporator.qualityPercent} onChange={(value) => setState({ ...state, evaporator: { ...state.evaporator, qualityPercent: value } })} min={-500} step={1} />
-          <NumberField id="receiver" label="Distillate receiver capacity (mL)" value={state.evaporator.distillateCapacityUL / 1_000} onChange={(value) => setState({ ...state, evaporator: { ...state.evaporator, distillateCapacityUL: toUL(value) } })} />
+          <StageStatus record={currentRecord} />
+          {!canEnterStage(state, 'filterEvap') && (
+            <div className="alert error">{inputMixtureFor(state, 'filterEvap').note}</div>
+          )}
+          {inputMixtureFor(state, 'filterEvap').snapshot && (
+            <>
+              <h4>Input from confirmed Acid / Base</h4>
+              <SnapshotTable snapshot={inputMixtureFor(state, 'filterEvap').snapshot!} />
+            </>
+          )}
+          <p className="muted small">
+            This stage uses the confirmed Acid/Base output, not a skipped extraction fallback. Per-night rebase is the next checkpoint; Performance/Efficiency still belong on the evaporator config.
+          </p>
+          <NumberField id="kotton" label="Kotton Fabric durability" value={state.kottonDurability} onChange={(value) => patch('filterEvap', { kottonDurability: Math.max(0, Math.trunc(value)) })} step={1} />
+          <NumberField id="water-filter" label="Water Filter durability" value={state.waterFilterDurability} onChange={(value) => patch('filterEvap', { waterFilterDurability: Math.max(0, Math.trunc(value)) })} step={1} />
+          <NumberField id="evap-energy" label="Energy available (kJ)" value={state.evaporator.availableEnergy} onChange={(value) => patch('filterEvap', { evaporator: { ...state.evaporator, availableEnergy: Math.max(0, Math.trunc(value)) } })} step={1} />
+          <NumberField id="evap-performance" label="Evaporator Performance (%)" value={state.evaporator.performancePercent} onChange={(value) => patch('filterEvap', { evaporator: { ...state.evaporator, performancePercent: value } })} min={-500} step={1} />
+          <NumberField id="evap-efficiency" label="Evaporator Efficiency (%)" value={state.evaporator.efficiencyPercent} onChange={(value) => patch('filterEvap', { evaporator: { ...state.evaporator, efficiencyPercent: value } })} min={-500} step={1} />
+          <NumberField id="evap-quality" label="Evaporator Quality (%)" value={state.evaporator.qualityPercent} onChange={(value) => patch('filterEvap', { evaporator: { ...state.evaporator, qualityPercent: value } })} min={-500} step={1} />
+          <NumberField id="receiver" label="Distillate receiver capacity (mL)" value={state.evaporator.distillateCapacityUL / 1_000} onChange={(value) => patch('filterEvap', { evaporator: { ...state.evaporator, distillateCapacityUL: toUL(value) } })} />
           <label>
             <input
               type="checkbox"
               checked={state.evaporator.solventRecoveryModule}
-              onChange={(event) => setState({ ...state, evaporator: { ...state.evaporator, solventRecoveryModule: event.target.checked } })}
+              onChange={(event) => patch('filterEvap', { evaporator: { ...state.evaporator, solventRecoveryModule: event.target.checked } })}
             />{' '}
             Solvent Recovery Module (Alcohol only)
           </label>
-          <div className="output-row"><span>Predicted filter removal</span><strong>{ml(totalUL(filterEvap.filtration.removed))} mL</strong></div>
-          <div className="output-row"><span>Predicted overnight cycles</span><strong>{filterEvap.evaporation.cycles.length} ({filterEvap.evaporation.energyUsed} kJ)</strong></div>
-          <div className="output-row"><span>Remaining volatiles (Water+Alcohol)</span><strong>{ml(filterEvap.remainingVolatilesUL)} mL {filterEvap.dryEnough ? '≤0.100 mL dry' : '>0.100 mL — Finisher blocked'}</strong></div>
-          <details open>
-            <summary>Spectrometer after filter / evap</summary>
-            <MixtureFields
-              idPrefix="fe-read"
-              mixture={state.afterFilterEvap?.mixture ?? filterEvap.evaporation.output}
-              onChange={(mixture) => setState({ ...state, afterFilterEvap: readingFromMixture(mixture, 'Post-filter/evap spectrometer reading') })}
-            />
-          </details>
-          <div className="btn-row">
-            <button type="button" onClick={() => go('acidBase')}>Back</button>
-            <button type="button" onClick={save}>Save progress</button>
-            <button className="primary" type="button" onClick={() => go('final')}>Continue</button>
-          </div>
+          {!filterEvap.blocked && (
+            <>
+              <div className="output-row">
+                <span>Live filter removal from confirmed Acid/Base output</span>
+                <strong>{ml(totalUL(filterEvap.filtration.removed))} mL</strong>
+              </div>
+              <div className="output-row">
+                <span>Live overnight cycles</span>
+                <strong>
+                  {filterEvap.evaporation.cycles.length} ({filterEvap.evaporation.energyUsed} kJ)
+                </strong>
+              </div>
+            </>
+          )}
+          {stageButtons('filterEvap')}
+          {currentRecord.prediction && (
+            <>
+              <h4>Predicted dry mixture (feeds Final only after Continue)</h4>
+              <SnapshotTable snapshot={currentRecord.prediction} />
+            </>
+          )}
+          {currentRecord.warnings.map((warning) => (
+            <div className="alert warning" key={warning}>
+              {warning}
+            </div>
+          ))}
+          {readingEditor('filterEvap')}
         </section>
       )}
 
       {state.currentStage === 'final' && (
-        <section className="output-section">
+        <section className="output-section" data-testid="stage-final">
           <h3>Final Dust</h3>
+          <StageStatus record={currentRecord} />
+          {!canEnterStage(state, 'final') && <div className="alert error">{inputMixtureFor(state, 'final').note}</div>}
+          {inputMixtureFor(state, 'final').snapshot && (
+            <>
+              <h4>Input from confirmed Filtration / Evaporation</h4>
+              <SnapshotTable snapshot={inputMixtureFor(state, 'final').snapshot!} />
+            </>
+          )}
           <EvidenceBadge status={finish.before.evidence} />
-          <NumberField id="finisher-modules-wizard" label="Chem Finisher modules (0–4)" value={state.finisherModules} onChange={(value) => setState({ ...state, finisherModules: Math.max(0, Math.trunc(value)) })} max={4} step={1} />
-          <NumberField id="finisher-cap-wizard" label="Safe output capacity (vials)" value={state.finisherCapacityVials} onChange={(value) => setState({ ...state, finisherCapacityVials: Math.max(0, Math.trunc(value)) })} step={1} />
-          {!finish.dryEnough && (
+          <NumberField id="finisher-modules-wizard" label="Chem Finisher modules (0–4)" value={state.finisherModules} onChange={(value) => patch('final', { finisherModules: Math.max(0, Math.trunc(value)) })} max={4} step={1} />
+          <NumberField id="finisher-cap-wizard" label="Safe output capacity (vials)" value={state.finisherCapacityVials} onChange={(value) => patch('final', { finisherCapacityVials: Math.max(0, Math.trunc(value)) })} step={1} />
+          {finish.blocked && <div className="alert error">{finish.before.note}</div>}
+          {!finish.blocked && !finish.dryEnough && (
             <div className="alert error">Finisher dryness requires ≤100 µL total volatiles; {finish.remainingVolatilesUL} µL remain.</div>
           )}
           {finish.finishing && (
             <>
-              <div className="output-row"><span>Possible 2.000 mL vials from current volume</span><strong>{finish.possibleVials}</strong></div>
-              <div className="output-row"><span>Predicted mean purity</span><strong>{finish.finishing.meanPurity.toFixed(2)}%</strong></div>
+              <div className="output-row">
+                <span>Possible 2.000 mL vials from confirmed dry volume</span>
+                <strong>{finish.possibleVials}</strong>
+              </div>
+              <div className="output-row">
+                <span>Predicted mean purity</span>
+                <strong>{finish.finishing.meanPurity.toFixed(2)}%</strong>
+              </div>
               <p className="muted small">
-                Owner observations 97.95% and 97.10% were specific finished vials with missing intermediate measurements.
-                This screen will not invent those numbers. Enter a final spectrometer reading for an actual result.
+                Owner observations 97.95% and 97.10% were specific finished vials with missing intermediate measurements. This screen will not invent those numbers.
               </p>
             </>
           )}
-          <div className="btn-row">
-            <button type="button" onClick={() => go('filterEvap')}>Back</button>
-            <button type="button" onClick={save}>Save progress</button>
-          </div>
+          {stageButtons('final')}
+          {currentRecord.prediction && <SnapshotTable snapshot={currentRecord.prediction} />}
+          {readingEditor('final')}
         </section>
       )}
 
@@ -513,12 +823,13 @@ export function ChemistProductionPlanner() {
       </p>
 
       <details className="sources-section">
-        <summary><strong>Sources, versions, unknowns</strong></summary>
+        <summary>
+          <strong>Sources, versions, unknowns</strong>
+        </summary>
         <ul>
           {CITATIONS.map((citation) => (
             <li key={citation.id}>
-              [{citation.evidence}] <a href={citation.url}>{citation.title}</a>
-              {' '}({citation.gameVersionPrinted}; retrieved {citation.retrieved}). {citation.note}
+              [{citation.evidence}] <a href={citation.url}>{citation.title}</a> ({citation.gameVersionPrinted}; retrieved {citation.retrieved}). {citation.note}
             </li>
           ))}
         </ul>
@@ -526,7 +837,9 @@ export function ChemistProductionPlanner() {
       </details>
 
       <details className="input-section">
-        <summary><strong>Compare to target (optional reverse search)</strong></summary>
+        <summary>
+          <strong>Compare to target (optional reverse search)</strong>
+        </summary>
         <ChemistTargetCompare />
       </details>
     </div>

@@ -15,6 +15,7 @@ describe('chemist session persistence does not touch profiles', () => {
     expect(storage.getItem(CHEMIST_SESSION_KEY)).toContain('476000');
     const loaded = loadChemistSession(storage);
     expect(loaded.state.groundTotalUL).toBe(476_000);
+    expect(loaded.state.schemaVersion).toBe(2);
     expect(loaded.notice).toBeNull();
   });
 });

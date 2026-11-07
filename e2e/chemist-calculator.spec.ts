@@ -19,6 +19,20 @@ test.describe('Chemist Dream Dust Calculator', () => {
     await expect(page.locator('text=/not a guaranteed 38-vial yield/i')).toBeVisible();
   });
 
+  test('Calculate+Continue is required; later stages stay locked', async ({ page }) => {
+    await page.goto('/#/calculators/chemist', { waitUntil: 'load' });
+    await expect(page.getByRole('button', { name: /^Final Dust/ })).toBeDisabled();
+    await page.locator('button:has-text("Example 750 + 476")').click();
+    await page.locator('button:has-text("Calculate from my materials")').click();
+    await page.getByTestId('continue-prediction-ground').click();
+    await expect(page.getByTestId('stage-extraction')).toBeVisible();
+    await expect(page.getByRole('button', { name: /^Final Dust/ })).toBeDisabled();
+    await page.getByTestId('calculate-extraction').click();
+    await page.getByTestId('continue-prediction-extraction').click();
+    await expect(page.getByTestId('stage-acidBase')).toBeVisible();
+    await expect(page.getByRole('button', { name: /^Final Dust/ })).toBeDisabled();
+  });
+
   test('optional Compare to target still contains reverse-search fields', async ({ page }) => {
     await page.goto('/#/calculators/chemist', { waitUntil: 'load' });
     await page.locator('summary:has-text("Compare to target")').click();

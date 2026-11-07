@@ -35,6 +35,9 @@ input[type=radio], input[type=checkbox] { width:20px; height:20px; accent-color:
 .steps { list-style:none; display:flex; gap:.4rem; padding:0; margin:.6rem 0; flex-wrap:wrap; }
 .steps button.active { background:var(--title); color:#1d1826; box-shadow:0 0 0 var(--step) var(--accent); }
 .steps button.step-locked { opacity:.65; }
+.steps button.step-stale { box-shadow:0 0 0 var(--step) var(--warn); }
+.steps button.step-confirmed:not(.active) { box-shadow:0 0 0 var(--step) var(--good); }
+.alert.success { background:#1f3d2a; color:#b6e0c2; }
 .layout { display:grid; grid-template-columns:minmax(0,1fr) 270px; gap:1rem; align-items:start; }
 @media (max-width:900px) { .layout { grid-template-columns:minmax(0,1fr); } }
 main, .layout > * { min-width:0; }

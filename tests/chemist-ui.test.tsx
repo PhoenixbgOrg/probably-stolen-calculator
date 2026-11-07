@@ -70,6 +70,33 @@ describe('ChemistProductionPlanner UI interactions', () => {
     expect(screen.queryByText(/guaranteed 38-vial/i)).toBeDefined();
   });
 
+  test('cannot skip to later stages before Calculate+Continue', () => {
+    render(<ChemistProductionPlanner />);
+    const finalTab = screen.getByRole('button', { name: /^Final Dust/i });
+    expect((finalTab as HTMLButtonElement).disabled).toBe(true);
+    fireEvent.click(screen.getByText(/Example 750 \+ 476/i));
+    fireEvent.click(screen.getByRole('button', { name: /Calculate from my materials/i }));
+    expect(screen.getByTestId('continue-prediction-ground')).toBeDefined();
+    expect((screen.getByTestId('continue-readings-ground') as HTMLButtonElement).disabled).toBe(true);
+    fireEvent.click(screen.getByTestId('continue-prediction-ground'));
+    expect(screen.getByTestId('stage-extraction')).toBeDefined();
+    expect((screen.getByRole('button', { name: /^Final Dust/i }) as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  test('editing one extraction field does not label the rest verified', () => {
+    render(<ChemistProductionPlanner />);
+    fireEvent.click(screen.getByText(/Example 750 \+ 476/i));
+    fireEvent.click(screen.getByRole('button', { name: /Calculate from my materials/i }));
+    fireEvent.click(screen.getByTestId('continue-prediction-ground'));
+    fireEvent.click(screen.getByTestId('calculate-extraction'));
+    const extractInput = screen.getByLabelText(/^Dream Cap Extract \(mL\)$/i);
+    fireEvent.change(extractInput, { target: { value: '40' } });
+    fireEvent.click(screen.getByTestId('continue-readings-extraction'));
+    expect(screen.getByTestId('stage-acidBase')).toBeDefined();
+    expect(screen.queryByText(/Partial reading/i)).toBeDefined();
+    expect(screen.queryByText(/Verified by measurement/i)).toBeNull();
+  });
+
   test('Input validation shows unsupported status for invalid config', async () => {
     render(<ChemistProductionPlanner />);
     
