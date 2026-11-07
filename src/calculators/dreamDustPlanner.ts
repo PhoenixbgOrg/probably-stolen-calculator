@@ -2,37 +2,22 @@ import { getFinisherContamination } from './dreamDust';
 import {
   COMPONENT_KEYS,
   DREAM_DUST_SAMPLE_UL,
+  VOLATILE_KEYS,
   type ComponentKey,
   type ComponentMixture,
   applyBlenderLoss,
   dreamCapRawComponents,
+  emptyMixture,
   roundToEven,
   simulateExtractionFromMixture,
   totalUL,
+  volatileUL,
 } from './dreamDustVerified';
 
 export const SUPPORTED_GAME_VERSION = '0.46D / Steam Build 26337366';
 export const SAFE_EXTRACTION_TEMPERATURE_C = 44;
 export const SEARCH_GRAM_STEP = 0.1;
 export const SEARCH_GROUND_STEP_UL = 100;
-
-const emptyMixture = (): ComponentMixture => ({
-  dreamCapMush: 0,
-  dreamCapExtract: 0,
-  plantMatter: 0,
-  water: 0,
-  protein: 0,
-  mineral: 0,
-  microbes: 0,
-  physicalContaminant: 0,
-  alcohol: 0,
-  insolubleDebris: 0,
-  acid: 0,
-  base: 0,
-  chemicalContaminant: 0,
-  heavyMetal: 0,
-  other: 0,
-});
 
 const addMixture = (a: ComponentMixture, b: ComponentMixture): ComponentMixture =>
   Object.fromEntries(COMPONENT_KEYS.map((key) => [key, a[key] + b[key]])) as unknown as ComponentMixture;
@@ -89,6 +74,7 @@ export function takeProportionalMixture(
 const FILTER_RULES: Partial<
   Record<ComponentKey, { particleSize: number; stepUL: number; durability: number; floorRatio: number }>
 > = {
+  organicWaste: { particleSize: 40, stepUL: 1_000, durability: 1, floorRatio: 0.0016 },
   physicalContaminant: { particleSize: 100, stepUL: 1_500, durability: 2, floorRatio: 0.0016 },
   mineral: { particleSize: 30, stepUL: 2_000, durability: 1, floorRatio: 0.0016 },
   dreamCapMush: { particleSize: 200, stepUL: 1_000, durability: 2, floorRatio: 0 },
@@ -96,8 +82,9 @@ const FILTER_RULES: Partial<
   insolubleDebris: { particleSize: 200, stepUL: 1_000, durability: 2, floorRatio: 0 },
 };
 
-// The source states components are processed in liquid-table order.
+// Wiki water-filter liquid-table order for the components this mixture tracks.
 const FILTER_COMPONENT_ORDER: ComponentKey[] = [
+  'organicWaste',
   'physicalContaminant',
   'mineral',
   'dreamCapMush',
@@ -201,6 +188,10 @@ export interface EvaporationCycle {
   recovered: ComponentMixture;
   lost: ComponentMixture;
   output: ComponentMixture;
+  energyUsed: number;
+  remainingEnergy: number;
+  remainingReceiverUL: number;
+  remainingVolatilesUL: number;
 }
 
 export interface EvaporationResult {
@@ -214,46 +205,115 @@ export interface EvaporationResult {
   recovered: ComponentMixture;
   lost: ComponentMixture;
   remainingDistillateCapacityUL: number;
+  remainingEnergy: number;
 }
 
-const evaporativeUL = (mixture: ComponentMixture): number => mixture.water + mixture.alcohol;
+export function evaporatorEnergyPerNight(efficiencyPercent: number): number {
+  return Math.max(1, 6 - Math.trunc((6 * efficiencyPercent) / 100));
+}
+
+export function evaporatorAllowanceUL(performancePercent: number): number {
+  return roundToEven(300_000 * Math.max(0, 1 + performancePercent / 100));
+}
+
+export function evaporateOneNight(
+  input: ComponentMixture,
+  config: EvaporatorConfig,
+): EvaporationCycle & { success: boolean; reason?: string; energyPerCycle: number; alreadyDry: boolean } {
+  const allowanceUL = evaporatorAllowanceUL(config.performancePercent);
+  const energyPerCycle = evaporatorEnergyPerNight(config.efficiencyPercent);
+  const remainingVolatiles = volatileUL(input);
+  const remainingEnergy = Math.max(0, Math.trunc(config.availableEnergy));
+  const remainingReceiverUL = Math.max(0, Math.trunc(config.distillateCapacityUL));
+  const blank: EvaporationCycle & { success: boolean; reason?: string; energyPerCycle: number; alreadyDry: boolean } = {
+    cycle: 1,
+    allowanceUL,
+    removed: emptyMixture(),
+    recovered: emptyMixture(),
+    lost: emptyMixture(),
+    output: { ...input },
+    energyUsed: 0,
+    remainingEnergy,
+    remainingReceiverUL,
+    remainingVolatilesUL: remainingVolatiles,
+    success: true,
+    energyPerCycle,
+    alreadyDry: remainingVolatiles <= 100,
+  };
+  if (remainingVolatiles <= 100) {
+    return { ...blank, alreadyDry: true };
+  }
+  if (remainingEnergy < energyPerCycle) {
+    return {
+      ...blank,
+      success: false,
+      reason: `Insufficient energy: ${remainingVolatiles} µL evaporatives remain; ${energyPerCycle} kJ required`,
+    };
+  }
+  if (allowanceUL <= 0) {
+    return {
+      ...blank,
+      success: false,
+      energyUsed: energyPerCycle,
+      remainingEnergy: remainingEnergy - energyPerCycle,
+      reason: 'Evaporator drew power, but performance at or below −100% gives zero removal allowance',
+    };
+  }
+
+  const actualRemoval = Math.min(allowanceUL, remainingVolatiles);
+  const allocated = allocateWholeUL(
+    VOLATILE_KEYS.map((key, registryOrder) => ({
+      key,
+      amount: input[key],
+      registryOrder,
+    })),
+    actualRemoval,
+  );
+  const removed = emptyMixture();
+  for (const key of VOLATILE_KEYS) removed[key] = allocated[key] ?? 0;
+  const recovered = emptyMixture();
+  let receiverCapacity = remainingReceiverUL;
+  const quality = Math.min(100, Math.max(0, config.qualityPercent));
+  for (const key of VOLATILE_KEYS) {
+    if (config.solventRecoveryModule && key !== 'alcohol') continue;
+    const potential = roundToEven((removed[key] * quality) / 100);
+    const amount = Math.min(potential, receiverCapacity);
+    recovered[key] = amount;
+    receiverCapacity -= amount;
+  }
+  const lost = subtractMixture(removed, recovered);
+  const output = subtractMixture(input, removed);
+  return {
+    cycle: 1,
+    allowanceUL,
+    removed,
+    recovered,
+    lost,
+    output,
+    energyUsed: energyPerCycle,
+    remainingEnergy: remainingEnergy - energyPerCycle,
+    remainingReceiverUL: receiverCapacity,
+    remainingVolatilesUL: volatileUL(output),
+    success: true,
+    energyPerCycle,
+    alreadyDry: volatileUL(output) <= 100,
+  };
+}
 
 export function evaporateToDryness(
   input: ComponentMixture,
   config: EvaporatorConfig,
 ): EvaporationResult {
-  const allowanceUL = roundToEven(300_000 * Math.max(0, 1 + config.performancePercent / 100));
-  const energyPerCycle = Math.max(
-    1,
-    6 - Math.trunc((6 * config.efficiencyPercent) / 100),
-  );
   let state = { ...input };
   let availableEnergy = Math.max(0, Math.trunc(config.availableEnergy));
   let receiverCapacity = Math.max(0, Math.trunc(config.distillateCapacityUL));
+  const energyPerCycle = evaporatorEnergyPerNight(config.efficiencyPercent);
   const cycles: EvaporationCycle[] = [];
   let allRemoved = emptyMixture();
   let allRecovered = emptyMixture();
   let allLost = emptyMixture();
 
-  if (allowanceUL <= 0 && evaporativeUL(state) > 100) {
-    const canDrawPower = availableEnergy >= energyPerCycle;
-    return {
-      success: false,
-      reason: canDrawPower
-        ? 'Evaporator drew power, but performance at or below −100% gives zero removal allowance'
-        : `Insufficient energy for the zero-allowance Evaporator check; ${energyPerCycle} required`,
-      output: state,
-      cycles,
-      energyPerCycle,
-      energyUsed: canDrawPower ? energyPerCycle : 0,
-      removed: allRemoved,
-      recovered: allRecovered,
-      lost: allLost,
-      remainingDistillateCapacityUL: receiverCapacity,
-    };
-  }
-
-  for (let cycle = 1; evaporativeUL(state) > 100; cycle += 1) {
+  for (let cycle = 1; volatileUL(state) > 100; cycle += 1) {
     if (cycle > 10_000) {
       return {
         success: false,
@@ -261,56 +321,41 @@ export function evaporateToDryness(
         output: state,
         cycles,
         energyPerCycle,
-        energyUsed: cycles.length * energyPerCycle,
+        energyUsed: cycles.reduce((sum, row) => sum + row.energyUsed, 0),
         removed: allRemoved,
         recovered: allRecovered,
         lost: allLost,
         remainingDistillateCapacityUL: receiverCapacity,
+        remainingEnergy: availableEnergy,
       };
     }
-    if (availableEnergy < energyPerCycle) {
+    const night = evaporateOneNight(state, {
+      ...config,
+      availableEnergy,
+      distillateCapacityUL: receiverCapacity,
+    });
+    if (!night.success) {
       return {
         success: false,
-        reason: `Insufficient energy: ${evaporativeUL(state)} µL evaporatives remain`,
+        reason: night.reason,
         output: state,
         cycles,
         energyPerCycle,
-        energyUsed: cycles.length * energyPerCycle,
+        energyUsed: cycles.reduce((sum, row) => sum + row.energyUsed, 0) + night.energyUsed,
         removed: allRemoved,
         recovered: allRecovered,
         lost: allLost,
-        remainingDistillateCapacityUL: receiverCapacity,
+        remainingDistillateCapacityUL: night.remainingReceiverUL,
+        remainingEnergy: night.remainingEnergy,
       };
     }
-    const available = evaporativeUL(state);
-    const actualRemoval = Math.min(allowanceUL, available);
-    // Evaporative registry order in this supported mixture is Water, then Alcohol.
-    const waterRemoval = Math.floor((actualRemoval * state.water) / available);
-    const alcoholRemoval = actualRemoval - waterRemoval;
-    const removed = { ...emptyMixture(), water: waterRemoval, alcohol: alcoholRemoval };
-    const recovered = emptyMixture();
-    const quality = Math.min(100, Math.max(0, config.qualityPercent));
-    for (const key of ['water', 'alcohol'] as const) {
-      if (config.solventRecoveryModule && key !== 'alcohol') continue;
-      const potential = roundToEven((removed[key] * quality) / 100);
-      const amount = Math.min(potential, receiverCapacity);
-      recovered[key] = amount;
-      receiverCapacity -= amount;
-    }
-    const lost = subtractMixture(removed, recovered);
-    state = subtractMixture(state, removed);
-    allRemoved = addMixture(allRemoved, removed);
-    allRecovered = addMixture(allRecovered, recovered);
-    allLost = addMixture(allLost, lost);
-    availableEnergy -= energyPerCycle;
-    cycles.push({
-      cycle,
-      allowanceUL,
-      removed,
-      recovered,
-      lost,
-      output: { ...state },
-    });
+    state = night.output;
+    availableEnergy = night.remainingEnergy;
+    receiverCapacity = night.remainingReceiverUL;
+    allRemoved = addMixture(allRemoved, night.removed);
+    allRecovered = addMixture(allRecovered, night.recovered);
+    allLost = addMixture(allLost, night.lost);
+    cycles.push({ ...night, cycle });
   }
 
   return {
@@ -318,11 +363,12 @@ export function evaporateToDryness(
     output: state,
     cycles,
     energyPerCycle,
-    energyUsed: cycles.length * energyPerCycle,
+    energyUsed: cycles.reduce((sum, row) => sum + row.energyUsed, 0),
     removed: allRemoved,
     recovered: allRecovered,
     lost: allLost,
     remainingDistillateCapacityUL: receiverCapacity,
+    remainingEnergy: availableEnergy,
   };
 }
 
@@ -350,10 +396,10 @@ export function finishComponentMixture(
   let remaining = { ...input };
   const vials: ComponentVial[] = [];
   let allReplaced = emptyMixture();
-  if (evaporativeUL(input) > 100) {
+  if (volatileUL(input) > 100) {
     return {
       success: false,
-      reason: `Finisher dryness requires ≤100 µL evaporatives; ${evaporativeUL(input)} µL remain`,
+      reason: `Finisher dryness requires ≤100 µL evaporatives; ${volatileUL(input)} µL remain`,
       vials,
       meanPurity: 0,
       remaining,
@@ -578,6 +624,7 @@ function evaluateCandidate(
         recovered: emptyMixture(),
         lost: emptyMixture(),
         remainingDistillateCapacityUL: input.distillateCapacityUL,
+        remainingEnergy: input.availableEnergy,
       };
   const finishing = finishComponentMixture(
     evaporation.output,

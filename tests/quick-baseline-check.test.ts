@@ -26,6 +26,11 @@ describe('Quick baseline diagnostic', () => {
     chemicalContaminant: 0,
     heavyMetal: 0,
     other: 0,
+    organicWaste: 0,
+    stabilizingAgent: 0,
+    fatOil: 0,
+    lipobondAgent: 0,
+    chlorine: 0,
   };
 
   const baseInput: ProductionPlannerInput = {

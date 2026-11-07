@@ -36,7 +36,7 @@ export const CITATIONS: Citation[] = [
     url: 'https://probably-stolen.nicokobo.com/en/wiki/terms/chemical-processing',
     retrieved: '2026-11-07',
     gameVersionPrinted: '0.46D / Steam Build 26337366',
-    note: 'Branch order 1–22; protein 16; neutralization 18; particle sizes; Dream Dust 2000 µL; dryness ≤100 µL all evaporatives. Page text is CC BY-SA 4.0; game assets on the page are not.',
+    note: 'Branches 13 organic-waste mineralization, 14 acid/base microbe removal, 15 stabilizer, 16 protein, 17 lipobond/fat, 18 neutralization, 21 chlorine. Lipobond bp 55°C is evaporative. Page text CC BY-SA 4.0; game assets are not.',
   },
   {
     id: 'wiki-blender',
@@ -73,6 +73,15 @@ export const CITATIONS: Citation[] = [
     retrieved: '2026-11-07',
     gameVersionPrinted: '0.46D / Steam Build 26337366',
     note: 'Allowance round_even(300000×max(0,1+P/100)); Water, Alcohol and Lipobond evaporate; Solvent Recovery recovers Alcohol only; energy 6 modified by Efficiency.',
+  },
+  {
+    id: 'wiki-machine-modules',
+    evidence: 'SOURCE_STATIC',
+    title: 'Machine Modules',
+    url: 'https://probably-stolen.nicokobo.com/en/wiki/terms/machine-modules',
+    retrieved: '2026-11-07',
+    gameVersionPrinted: '0.46D / Steam Build 26337366',
+    note: 'Universal module table: Performance 16%, Efficiency 16%, Quality 8%, Overclock 36/−44/0, etc. Evaporator uses P for allowance and Q clamped 0–100 as recovery. This app records the machine readout rather than inventing a sum from module count.',
   },
   {
     id: 'wiki-finisher',
@@ -128,8 +137,8 @@ export function scannerDisplayML(ul: number): string {
 
 export const UNKNOWN_LIMITS = [
   '1.0.0.5 “trace moisture” dryness exception: no numeric threshold in Steam news.',
-  'Lipobond Agent is evaporative [SOURCE] but is not a measured Dream Dust field here; it is not stuffed into Other.',
-  'Organic Waste / Microplastic filter rows exist [SOURCE] but are not in this Dream Dust mixture; Other is never auto-filtered.',
+  'Sleep runs 360 chemical updates before the overnight evaporator callback [SOURCE]. This app does not silently run those ticks on each night; Acid/Base updates are an explicit action.',
+  'Microplastic has a filter row [SOURCE] but is not a measured Dream Dust field here; Other is never auto-filtered or inferred into a hidden reactant.',
   'Heating-plate vs container callback order remains unverified on the wiki.',
   'No official Questing Goose / tinyBuild fan-kit or icon reuse license was found. Wiki CC BY-SA covers wiki text, not game sprites.',
 ];

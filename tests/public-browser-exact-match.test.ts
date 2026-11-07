@@ -33,6 +33,11 @@ describe('Public browser exact match verification', () => {
     chemicalContaminant: 0,
     heavyMetal: 0,
     other: 0,
+    organicWaste: 0,
+    stabilizingAgent: 0,
+    fatOil: 0,
+    lipobondAgent: 0,
+    chlorine: 0,
   };
 
   const publicBrowserInput: ProductionPlannerInput = {
@@ -150,6 +155,11 @@ describe('Public browser exact match verification', () => {
     chemicalContaminant: 0,
     heavyMetal: 0,
     other: 0,
+    organicWaste: 0,
+    stabilizingAgent: 0,
+    fatOil: 0,
+    lipobondAgent: 0,
+    chlorine: 0,
       };
       
       const forcedResult = solveProductionPlan({
@@ -201,6 +211,11 @@ describe('Public browser exact match verification', () => {
     chemicalContaminant: 0,
     heavyMetal: 0,
     other: 0,
+    organicWaste: 0,
+    stabilizingAgent: 0,
+    fatOil: 0,
+    lipobondAgent: 0,
+    chlorine: 0,
     };
 
     const result = solveProductionPlan({

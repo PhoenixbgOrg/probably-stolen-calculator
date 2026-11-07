@@ -16,9 +16,15 @@ import {
   type SolventMode,
   recommendFromMaterials,
 } from './dreamDustForward';
-import { addMeasuredReagent, simulateAcidBaseTreatment } from './dreamDustReactions';
+import {
+  addMeasuredReagent,
+  chemistryPredictionBlockers,
+  simulateAcidBaseTreatment,
+  takeReagentDose,
+} from './dreamDustReactions';
 import {
   SAFE_EXTRACTION_TEMPERATURE_C,
+  evaporateOneNight,
   evaporateToDryness,
   filterDreamDustMixture,
   finishComponentMixture,
@@ -27,7 +33,7 @@ import {
 
 export const WIZARD_STAGES = ['ground', 'extraction', 'acidBase', 'filterEvap', 'final'] as const;
 export type WizardStageId = (typeof WIZARD_STAGES)[number];
-export const WIZARD_SCHEMA_VERSION = 2 as const;
+export const WIZARD_SCHEMA_VERSION = 3 as const;
 
 export const STAGE_LABELS: Record<WizardStageId, string> = {
   ground: 'Ground Mixture',
@@ -64,10 +70,39 @@ export interface StageRecord {
   history: MixtureSnapshot[];
   warnings: string[];
   reasons: string[];
+  predictionBlocked: boolean;
+}
+
+export interface AcidBaseStep {
+  kind: 'add-acid' | 'add-base' | 'run-updates';
+  doseUL: number;
+  updates: number;
+  remainingAcidUL: number;
+  remainingBaseUL: number;
+  vesselUL: number;
+  note: string;
+}
+
+export interface EvapNightRecord {
+  night: number;
+  confirmed: boolean;
+  stale: boolean;
+  energyUsed: number;
+  allowanceUL: number;
+  remainingEnergy: number;
+  remainingReceiverUL: number;
+  remainingVolatilesUL: number;
+  removed: ComponentMixture;
+  recovered: ComponentMixture;
+  lost: ComponentMixture;
+  output: ComponentMixture;
+  snapshot: MixtureSnapshot;
+  reasons: string[];
+  warnings: string[];
 }
 
 export interface ChemistWizardState {
-  schemaVersion: 2;
+  schemaVersion: 3;
   currentStage: WizardStageId;
   savedAt: string | null;
   compositionMode: CompositionMode;
@@ -83,11 +118,22 @@ export interface ChemistWizardState {
   observedTemperatureC: number | null;
   heatingPlateModules: number;
   acidReagent: ComponentMixture;
+  acidRemaining: ComponentMixture;
+  acidDoseUL: number;
   baseReagent: ComponentMixture;
+  baseRemaining: ComponentMixture;
+  baseDoseUL: number;
+  acidBaseBatch: ComponentMixture | null;
+  acidBaseLog: AcidBaseStep[];
+  chemistryUpdateBudget: number;
   kottonDurability: number;
   waterFilterDurability: number;
   filterContainerOwned: boolean;
+  evaporatorOwned: boolean;
+  evaporatorModules: number;
   evaporator: EvaporatorConfig;
+  evapNights: EvapNightRecord[];
+  pendingNight: EvapNightRecord | null;
   finisherModules: number;
   finisherCapacityVials: number;
   compareToTarget: { enabled: boolean; purity: number; vials: number };
@@ -125,6 +171,7 @@ export function emptyStageRecord(): StageRecord {
     history: [],
     warnings: [],
     reasons: [],
+    predictionBlocked: false,
   };
 }
 
@@ -140,7 +187,7 @@ export function defaultStages(): Record<WizardStageId, StageRecord> {
 
 export function defaultWizardState(): ChemistWizardState {
   return {
-    schemaVersion: 2,
+    schemaVersion: 3,
     currentStage: 'ground',
     savedAt: null,
     compositionMode: 'measured',
@@ -156,10 +203,19 @@ export function defaultWizardState(): ChemistWizardState {
     observedTemperatureC: null,
     heatingPlateModules: 2,
     acidReagent: emptyMixture(),
+    acidRemaining: emptyMixture(),
+    acidDoseUL: 0,
     baseReagent: emptyMixture(),
+    baseRemaining: emptyMixture(),
+    baseDoseUL: 0,
+    acidBaseBatch: null,
+    acidBaseLog: [],
+    chemistryUpdateBudget: 1_000,
     kottonDurability: 1_000,
     waterFilterDurability: 400,
     filterContainerOwned: true,
+    evaporatorOwned: true,
+    evaporatorModules: 0,
     evaporator: {
       performancePercent: 0,
       efficiencyPercent: 0,
@@ -168,6 +224,8 @@ export function defaultWizardState(): ChemistWizardState {
       distillateCapacityUL: 0,
       solventRecoveryModule: false,
     },
+    evapNights: [],
+    pendingNight: null,
     finisherModules: 4,
     finisherCapacityVials: 24,
     compareToTarget: { enabled: false, purity: 65, vials: 35 },
@@ -227,8 +285,15 @@ export function stageFingerprint(state: ChemistWizardState, stage: WizardStageId
     case 'acidBase':
       return JSON.stringify({
         input: mixFingerprint(state.stages.extraction.accepted?.mixture),
-        acid: mixFingerprint(state.acidReagent),
-        base: mixFingerprint(state.baseReagent),
+        acidStock: mixFingerprint(state.acidReagent),
+        acidRemaining: mixFingerprint(state.acidRemaining),
+        acidDoseUL: state.acidDoseUL,
+        baseStock: mixFingerprint(state.baseReagent),
+        baseRemaining: mixFingerprint(state.baseRemaining),
+        baseDoseUL: state.baseDoseUL,
+        batch: mixFingerprint(state.acidBaseBatch),
+        log: state.acidBaseLog.length,
+        chemistryUpdateBudget: state.chemistryUpdateBudget,
       });
     case 'filterEvap':
       return JSON.stringify({
@@ -236,14 +301,15 @@ export function stageFingerprint(state: ChemistWizardState, stage: WizardStageId
         kottonDurability: state.kottonDurability,
         waterFilterDurability: state.waterFilterDurability,
         filterContainerOwned: state.filterContainerOwned,
-        evaporator: state.evaporator,
       });
-    case 'final':
+    case 'final': {
+      const output = filterEvapOutput(state);
       return JSON.stringify({
-        input: mixFingerprint(state.stages.filterEvap.accepted?.mixture),
+        input: mixFingerprint(output.blocked ? undefined : output.mixture),
         finisherModules: state.finisherModules,
         finisherCapacityVials: state.finisherCapacityVials,
       });
+    }
   }
 }
 
@@ -302,6 +368,16 @@ export function invalidateFrom(state: ChemistWizardState, changed: WizardStageId
       next = markStale(next, stage, `${STAGE_LABELS[changed]} inputs changed. Re-calculate this stage.`);
     }
   }
+  if (index <= STAGE_INDEX.filterEvap) {
+    next = {
+      ...next,
+      evapNights: next.evapNights.map((night) => ({ ...night, stale: true })),
+      pendingNight: next.pendingNight ? { ...next.pendingNight, stale: true } : null,
+    };
+  }
+  if (index < STAGE_INDEX.acidBase) {
+    next = { ...next, acidBaseBatch: null };
+  }
   return next;
 }
 
@@ -317,12 +393,45 @@ export function syncStale(state: ChemistWizardState): ChemistWizardState {
   return next;
 }
 
+const EVAP_ONLY_PATCH_KEYS = new Set(['evaporator', 'evaporatorOwned', 'evaporatorModules']);
+
+function staleEvapNights(state: ChemistWizardState, reason: string): ChemistWizardState {
+  return {
+    ...state,
+    evapNights: state.evapNights.map((night) => ({
+      ...night,
+      stale: true,
+      warnings: night.warnings.includes(reason) ? night.warnings : [...night.warnings, reason],
+    })),
+    pendingNight: state.pendingNight
+      ? {
+          ...state.pendingNight,
+          stale: true,
+          warnings: state.pendingNight.warnings.includes(reason)
+            ? state.pendingNight.warnings
+            : [...state.pendingNight.warnings, reason],
+        }
+      : null,
+  };
+}
+
 export function applyStageInput(
   state: ChemistWizardState,
   stage: WizardStageId,
   patch: Partial<ChemistWizardState>,
 ): ChemistWizardState {
-  return invalidateFrom({ ...state, ...patch }, stage);
+  const next = { ...state, ...patch };
+  if (stage === 'filterEvap') {
+    const keys = Object.keys(patch);
+    const evapOnly = keys.length > 0 && keys.every((key) => EVAP_ONLY_PATCH_KEYS.has(key));
+    if (evapOnly) {
+      return staleEvapNights(
+        next,
+        'Evaporator inputs changed. Re-calculate nights from remaining volatiles. Filtration is not reapplied.',
+      );
+    }
+  }
+  return invalidateFrom(next, stage);
 }
 
 export function applyGroundChange(
@@ -431,6 +540,25 @@ export function inputMixtureFor(
       snapshot: null,
     };
   }
+  if (stage === 'final') {
+    const output = filterEvapOutput(state);
+    if (output.blocked) {
+      return {
+        blocked: true,
+        mixture: emptyMixture(),
+        evidence: 'unknown',
+        note: output.note,
+        snapshot: null,
+      };
+    }
+    return {
+      blocked: false,
+      mixture: output.mixture,
+      evidence: snapshotEvidence(output.snapshot),
+      note: output.note,
+      snapshot: output.snapshot,
+    };
+  }
   const prev = previousStage(stage)!;
   const record = state.stages[prev];
   if (!record.confirmed || record.stale || !record.accepted) {
@@ -457,8 +585,63 @@ export function inputMixtureFor(
   };
 }
 
+export function lastConfirmedNight(state: ChemistWizardState): EvapNightRecord | null {
+  const confirmed = state.evapNights.filter((night) => night.confirmed && !night.stale);
+  return confirmed[confirmed.length - 1] ?? null;
+}
+
+export function filterEvapOutput(state: ChemistWizardState): {
+  blocked: boolean;
+  mixture: ComponentMixture;
+  snapshot: MixtureSnapshot | null;
+  note: string;
+} {
+  const night = lastConfirmedNight(state);
+  if (night) {
+    const remaining = volatileUL(night.output);
+    if (remaining > 100) {
+      return {
+        blocked: true,
+        mixture: emptyMixture(),
+        snapshot: null,
+        note: `Night ${night.night} left ${remaining} µL volatiles. Calculate and confirm the next night from that remaining mixture. Filtration is not reapplied.`,
+      };
+    }
+    return {
+      blocked: false,
+      mixture: night.output,
+      snapshot: night.snapshot,
+      note: `Confirmed evaporation night ${night.night}.`,
+    };
+  }
+  const filter = state.stages.filterEvap;
+  if (filter.confirmed && !filter.stale && filter.accepted) {
+    if (volatileUL(filter.accepted.mixture) <= 100) {
+      return {
+        blocked: false,
+        mixture: filter.accepted.mixture,
+        snapshot: filter.accepted,
+        note: 'Confirmed filtration is already dry (≤100 µL volatiles). No evaporation night required.',
+      };
+    }
+    return {
+      blocked: true,
+      mixture: emptyMixture(),
+      snapshot: null,
+      note: 'Filtration is confirmed but the mixture is not dry. Calculate and confirm evaporation nights from the filtered mixture. Filtration is not reapplied.',
+    };
+  }
+  return {
+    blocked: true,
+    mixture: emptyMixture(),
+    snapshot: null,
+    note: 'Filtration is not confirmed. Evaporation does not run on a skipped filter.',
+  };
+}
+
 export function canEnterStage(state: ChemistWizardState, stage: WizardStageId): boolean {
   if (stage === 'ground') return true;
+  if (stage === 'final') return !filterEvapOutput(state).blocked;
   const prev = previousStage(stage)!;
   const record = state.stages[prev];
   return record.confirmed && !record.stale && record.accepted !== null;
@@ -484,7 +667,7 @@ export function canConfirmReadings(state: ChemistWizardState, stage: WizardStage
 
 export function canAcceptPrediction(state: ChemistWizardState, stage: WizardStageId): boolean {
   const record = state.stages[stage];
-  return record.calculated && !record.stale && record.prediction !== null;
+  return record.calculated && !record.stale && record.prediction !== null && !record.predictionBlocked;
 }
 
 function overlayReadings(prediction: MixtureSnapshot, draft: DraftReading): MixtureSnapshot {
@@ -589,18 +772,28 @@ export function calculateStage(state: ChemistWizardState, stage: WizardStageId):
 
   if (stage === 'acidBase') {
     const input = inputMixtureFor(state, 'acidBase');
-    const combined = addMeasuredReagent(addMeasuredReagent(input.mixture, state.acidReagent), state.baseReagent);
-    const treatment = simulateAcidBaseTreatment(combined, 10_000);
+    const batch = state.acidBaseBatch ?? input.mixture;
+    const blockers = chemistryPredictionBlockers(batch);
+    const emptyBaseIsFine = totalUL(state.baseReagent) === 0 && totalUL(state.baseRemaining) === 0;
+    const warnings = [
+      emptyBaseIsFine ? 'Base inventory is empty. That does not block Acid-only treatment.' : '',
+      state.acidBaseLog.length === 0
+        ? 'No Acid or Base dose has been poured. Calculate snapshots the confirmed extraction output; it does not dump inventory.'
+        : '',
+    ].filter(Boolean);
     return replaceStage(state, stage, {
       calculated: true,
       confirmed: false,
       stale: false,
       staleReason: null,
-      reasons: [],
-      warnings: treatment.unmodeledWarnings,
+      reasons: blockers,
+      warnings,
+      predictionBlocked: blockers.length > 0,
       prediction: predictedSnapshot(
-        treatment.final,
-        'Model Acid/Base ticks (wiki 16 then 18). Predicted, not a spectrometer reading. Inventory-vs-dose split is a later checkpoint.',
+        batch,
+        blockers.length
+          ? 'Working mixture is shown, but model confirmation is blocked until you enter a measured composition.'
+          : 'Current vessel after sequential Acid/Base actions. Predicted only if you accept this snapshot.',
       ),
       calculatedFingerprint: stageFingerprint(state, stage),
     });
@@ -613,21 +806,20 @@ export function calculateStage(state: ChemistWizardState, stage: WizardStageId):
       state.filterContainerOwned ? state.kottonDurability : 0,
       state.filterContainerOwned ? state.waterFilterDurability : 0,
     );
-    const evaporation = evaporateToDryness(filtration.output, state.evaporator);
-    const warnings = [
-      evaporation.success ? '' : evaporation.reason,
-      'Per-night rebase and Performance/Efficiency editors are a later checkpoint; this prediction is one overnight sequence from the confirmed Acid/Base output.',
-    ].filter((row): row is string => Boolean(row));
     return replaceStage(state, stage, {
       calculated: true,
       confirmed: false,
       stale: false,
       staleReason: null,
       reasons: [],
-      warnings,
+      warnings: [
+        'This Calculate is filtration only. Evaporation nights are separate confirmed operations and do not re-run the filter.',
+        'Wiki: sleep runs 360 chemical updates before the evaporator callback. This app does not silently run those ticks on each night.',
+      ],
+      predictionBlocked: false,
       prediction: predictedSnapshot(
-        evaporation.output,
-        'Model Kotton → Water Filter → Evaporator sequence from the confirmed Acid/Base output.',
+        filtration.output,
+        'Model Kotton → Water Filter from the confirmed Acid/Base output. Not an evaporation result.',
       ),
       calculatedFingerprint: stageFingerprint(state, stage),
     });
@@ -686,8 +878,252 @@ export function confirmStage(
     accepted,
     history: archiveAccepted({ ...record, accepted }),
   });
+  if (stage === 'filterEvap') {
+    return { ...withAccepted, pendingNight: null };
+  }
   const following = nextStage(stage);
   return following ? { ...withAccepted, currentStage: following } : withAccepted;
+}
+
+function currentAcidBaseBatch(state: ChemistWizardState): ComponentMixture {
+  return state.acidBaseBatch ?? inputMixtureFor(state, 'acidBase').mixture;
+}
+
+export function setAcidStock(state: ChemistWizardState, stock: ComponentMixture): ChemistWizardState {
+  const resetRemaining = state.acidBaseLog.every((step) => step.kind !== 'add-acid');
+  return applyStageInput(state, 'acidBase', {
+    acidReagent: stock,
+    acidRemaining: resetRemaining ? stock : state.acidRemaining,
+  });
+}
+
+export function setBaseStock(state: ChemistWizardState, stock: ComponentMixture): ChemistWizardState {
+  const resetRemaining = state.acidBaseLog.every((step) => step.kind !== 'add-base');
+  return applyStageInput(state, 'acidBase', {
+    baseReagent: stock,
+    baseRemaining: resetRemaining ? stock : state.baseRemaining,
+  });
+}
+
+export function addAcidDose(state: ChemistWizardState): ChemistWizardState {
+  const input = inputMixtureFor(state, 'acidBase');
+  if (input.blocked) return state;
+  const poured = takeReagentDose(state.acidRemaining, state.acidDoseUL);
+  if (!poured.ok) {
+    return replaceStage(state, 'acidBase', { reasons: [poured.reason ?? 'Invalid acid dose'], calculated: false });
+  }
+  const batch = addMeasuredReagent(currentAcidBaseBatch(state), poured.dose);
+  if (totalUL(batch) > state.vesselCapacityUL) {
+    return replaceStage(state, 'acidBase', {
+      reasons: [`Pouring ${state.acidDoseUL} µL Acid exceeds vessel capacity ${state.vesselCapacityUL} µL`],
+      calculated: false,
+    });
+  }
+  const next: ChemistWizardState = {
+    ...state,
+    acidRemaining: poured.remaining,
+    acidBaseBatch: batch,
+    acidBaseLog: [
+      ...state.acidBaseLog,
+      {
+        kind: 'add-acid',
+        doseUL: state.acidDoseUL,
+        updates: 0,
+        remainingAcidUL: totalUL(poured.remaining),
+        remainingBaseUL: totalUL(state.baseRemaining),
+        vesselUL: totalUL(batch),
+        note: 'Added Acid dose only. Neutralization does not run until you explicitly run chemical updates with both Acid and Base present.',
+      },
+    ],
+  };
+  return invalidateFrom(next, 'acidBase');
+}
+
+export function addBaseDose(state: ChemistWizardState): ChemistWizardState {
+  const input = inputMixtureFor(state, 'acidBase');
+  if (input.blocked) return state;
+  const poured = takeReagentDose(state.baseRemaining, state.baseDoseUL);
+  if (!poured.ok) {
+    return replaceStage(state, 'acidBase', { reasons: [poured.reason ?? 'Invalid base dose'], calculated: false });
+  }
+  const batch = addMeasuredReagent(currentAcidBaseBatch(state), poured.dose);
+  if (totalUL(batch) > state.vesselCapacityUL) {
+    return replaceStage(state, 'acidBase', {
+      reasons: [`Pouring ${state.baseDoseUL} µL Base exceeds vessel capacity ${state.vesselCapacityUL} µL`],
+      calculated: false,
+    });
+  }
+  const next: ChemistWizardState = {
+    ...state,
+    baseRemaining: poured.remaining,
+    acidBaseBatch: batch,
+    acidBaseLog: [
+      ...state.acidBaseLog,
+      {
+        kind: 'add-base',
+        doseUL: state.baseDoseUL,
+        updates: 0,
+        remainingAcidUL: totalUL(state.acidRemaining),
+        remainingBaseUL: totalUL(poured.remaining),
+        vesselUL: totalUL(batch),
+        note: 'Added Base dose only. Neutralization does not run until you explicitly run chemical updates with both Acid and Base present.',
+      },
+    ],
+  };
+  return invalidateFrom(next, 'acidBase');
+}
+
+export function runChemistryUpdates(state: ChemistWizardState): ChemistWizardState {
+  const input = inputMixtureFor(state, 'acidBase');
+  if (input.blocked) return state;
+  const batch = currentAcidBaseBatch(state);
+  const treatment = simulateAcidBaseTreatment(batch, state.chemistryUpdateBudget);
+  const next: ChemistWizardState = {
+    ...state,
+    acidBaseBatch: treatment.final,
+    acidBaseLog: [
+      ...state.acidBaseLog,
+      {
+        kind: 'run-updates',
+        doseUL: 0,
+        updates: treatment.ticks.length,
+        remainingAcidUL: totalUL(state.acidRemaining),
+        remainingBaseUL: totalUL(state.baseRemaining),
+        vesselUL: totalUL(treatment.final),
+        note: treatment.sourceBoundary,
+      },
+    ],
+  };
+  const invalidated = invalidateFrom(next, 'acidBase');
+  return replaceStage(invalidated, 'acidBase', {
+    reasons: treatment.blockReasons,
+    warnings: treatment.unmodeledWarnings,
+    predictionBlocked: treatment.predictionBlocked,
+  });
+}
+
+function spentEvapEnergy(state: ChemistWizardState): number {
+  return state.evapNights.filter((night) => night.confirmed && !night.stale).reduce((sum, night) => sum + night.energyUsed, 0);
+}
+
+function currentEvapInput(state: ChemistWizardState): ComponentMixture | null {
+  const night = lastConfirmedNight(state);
+  if (night) return night.output;
+  const filter = state.stages.filterEvap;
+  if (filter.confirmed && !filter.stale && filter.accepted) return filter.accepted.mixture;
+  return null;
+}
+
+function remainingReceiver(state: ChemistWizardState): number {
+  const last = lastConfirmedNight(state);
+  return last ? last.remainingReceiverUL : state.evaporator.distillateCapacityUL;
+}
+
+export function calculateNextNight(state: ChemistWizardState): ChemistWizardState {
+  if (!state.stages.filterEvap.confirmed || state.stages.filterEvap.stale) {
+    return { ...state, pendingNight: null };
+  }
+  const input = currentEvapInput(state);
+  if (!input) return state;
+  if (!state.evaporatorOwned) {
+    const snapshot = predictedSnapshot(input, 'Evaporator is not owned. Model night is blocked; enter a measured dry composition to recover.');
+    return {
+      ...state,
+      pendingNight: {
+        night: (lastConfirmedNight(state)?.night ?? 0) + 1,
+        confirmed: false,
+        stale: false,
+        energyUsed: 0,
+        allowanceUL: 0,
+        remainingEnergy: state.evaporator.availableEnergy - spentEvapEnergy(state),
+        remainingReceiverUL: remainingReceiver(state),
+        remainingVolatilesUL: volatileUL(input),
+        removed: emptyMixture(),
+        recovered: emptyMixture(),
+        lost: emptyMixture(),
+        output: input,
+        snapshot,
+        reasons: ['Evaporator is not owned. Predicted night confirmation is blocked.'],
+        warnings: [],
+      },
+    };
+  }
+  const remainingEnergy = state.evaporator.availableEnergy - spentEvapEnergy(state);
+  const night = evaporateOneNight(input, {
+    ...state.evaporator,
+    availableEnergy: remainingEnergy,
+    distillateCapacityUL: remainingReceiver(state),
+  });
+  const number = (lastConfirmedNight(state)?.night ?? 0) + 1;
+  const snapshot = predictedSnapshot(
+    night.output,
+    night.alreadyDry && night.energyUsed === 0
+      ? `Mixture already dry before night ${number}. No energy spent.`
+      : `Night ${number}: removed ${totalUL(night.removed)} µL volatiles, ${night.energyUsed} kJ, recovered ${totalUL(night.recovered)} µL. Filtration was not reapplied.`,
+  );
+  return {
+    ...state,
+    pendingNight: {
+      night: number,
+      confirmed: false,
+      stale: false,
+      energyUsed: night.energyUsed,
+      allowanceUL: night.allowanceUL,
+      remainingEnergy: night.remainingEnergy,
+      remainingReceiverUL: night.remainingReceiverUL,
+      remainingVolatilesUL: night.remainingVolatilesUL,
+      removed: night.removed,
+      recovered: night.recovered,
+      lost: night.lost,
+      output: night.output,
+      snapshot,
+      reasons: night.success ? [] : [night.reason ?? 'Night failed'],
+      warnings: [
+        `Modules recorded: ${state.evaporatorModules}. P/E/Q percents are the machine readout (wiki Performance Module = 16%, Efficiency = 16%, Quality = 8%; Solvent Recovery = 0/−25/+50). They are not auto-summed from the module count.`,
+      ],
+    },
+  };
+}
+
+export function canConfirmPendingNight(state: ChemistWizardState, mode: ContinueMode): boolean {
+  const pending = state.pendingNight;
+  if (!pending || pending.stale) return false;
+  if (mode === 'accept-prediction') return pending.reasons.length === 0;
+  return draftMeasuredKeys(state.stages.filterEvap.draft).length > 0;
+}
+
+export function confirmPendingNight(state: ChemistWizardState, mode: ContinueMode): ChemistWizardState {
+  const pending = state.pendingNight;
+  if (!pending || pending.stale) return state;
+  if (mode === 'accept-prediction') {
+    if (!canConfirmPendingNight(state, mode)) return state;
+    const confirmed: EvapNightRecord = { ...pending, confirmed: true, stale: false };
+    return {
+      ...state,
+      evapNights: [...state.evapNights, confirmed],
+      pendingNight: null,
+    };
+  }
+  if (!canConfirmPendingNight(state, mode)) return state;
+  const snapshot = overlayReadings(pending.snapshot, state.stages.filterEvap.draft);
+  const confirmed: EvapNightRecord = {
+    ...pending,
+    confirmed: true,
+    stale: false,
+    snapshot,
+    output: snapshot.mixture,
+    remainingVolatilesUL: volatileUL(snapshot.mixture),
+  };
+  return {
+    ...state,
+    evapNights: [...state.evapNights, confirmed],
+    pendingNight: null,
+  };
+}
+
+export function continueToFinal(state: ChemistWizardState): ChemistWizardState {
+  if (filterEvapOutput(state).blocked) return state;
+  return { ...state, currentStage: 'final' };
 }
 
 export function resumeAtReachable(state: ChemistWizardState): ChemistWizardState {
@@ -717,14 +1153,11 @@ export function predictAcidBase(state: ChemistWizardState) {
       blocked: true as const,
     };
   }
-  const withReagents = addMeasuredReagent(
-    addMeasuredReagent(current.mixture, state.acidReagent),
-    state.baseReagent,
-  );
+  const batch = currentAcidBaseBatch(state);
   return {
     before: current,
-    combined: withReagents,
-    treatment: simulateAcidBaseTreatment(withReagents, 10_000),
+    combined: batch,
+    treatment: simulateAcidBaseTreatment(batch, state.chemistryUpdateBudget),
     blocked: false as const,
   };
 }

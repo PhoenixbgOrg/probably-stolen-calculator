@@ -160,7 +160,7 @@ describe('protein precipitation branch 16 and neutralization branch 18', () => {
     const treated = simulateAcidBaseTreatment(start, 10_000);
     expect(treated.final.protein).toBe(0);
     expect(treated.final.insolubleDebris).toBe(10_540);
-    expect(treated.stoppedBecause).toBe('protein-cleared');
+    expect(treated.stoppedBecause).toBe('no-progress');
     expect(treated.sourceBoundary).toMatch(/Not a 1:1/);
     expect(treated.final.dreamCapExtract).toBe(55_180);
   });

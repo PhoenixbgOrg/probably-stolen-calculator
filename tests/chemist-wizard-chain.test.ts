@@ -1,12 +1,18 @@
 import { describe, expect, test } from 'vitest';
 import {
+  addAcidDose,
   applyStageInput,
+  calculateNextNight,
   calculateStage,
   canEnterStage,
+  confirmPendingNight,
   confirmStage,
   defaultWizardState,
+  filterEvapOutput,
   inputMixtureFor,
   resumeAtReachable,
+  runChemistryUpdates,
+  setAcidStock,
   setDraftField,
   snapshotEvidence,
   syncStale,
@@ -70,9 +76,10 @@ describe('Chemist wizard stage chain and provenance', () => {
     state = confirmThrough(state, 'extraction');
     const extractOut = state.stages.extraction.accepted!.mixture;
     expect(extractOut.protein).toBeGreaterThan(0);
-    state = applyStageInput(state, 'acidBase', {
-      acidReagent: mixtureFromPartial({ acid: 20_000, water: 5_000 }),
-    });
+    state = setAcidStock(state, mixtureFromPartial({ acid: 20_000, water: 5_000 }));
+    state = applyStageInput(state, 'acidBase', { acidDoseUL: 25_000 });
+    state = addAcidDose(state);
+    state = runChemistryUpdates(state);
     state = calculateStage(state, 'acidBase');
     expect(state.stages.acidBase.prediction).not.toBeNull();
     expect(state.stages.acidBase.prediction!.mixture.protein).not.toBe(extractOut.protein);
@@ -87,16 +94,37 @@ describe('Chemist wizard stage chain and provenance', () => {
   });
 
   test('predicted filter/evap output feeds final only after Continue', () => {
-    let state = confirmThrough(materialsState(), 'ground');
+    let state = defaultWizardState();
+    state = applyStageInput(state, 'ground', {
+      compositionMode: 'measured',
+      groundTotalUL: 10_000,
+      ground: mixtureFromPartial({ dreamCapMush: 10_000 }),
+      solventMode: 'pure',
+      solventLiquidUL: 400_000,
+      solventAlcoholUL: 400_000,
+      heatingPlateModules: 2,
+    });
+    state = confirmThrough(state, 'ground');
     state = confirmThrough(state, 'extraction');
     state = confirmThrough(state, 'acidBase');
     expect(inputMixtureFor(state, 'final').blocked).toBe(true);
+    state = applyStageInput(state, 'filterEvap', {
+      evaporator: { ...state.evaporator, availableEnergy: 60 },
+    });
     state = calculateStage(state, 'filterEvap');
     expect(inputMixtureFor(state, 'final').blocked).toBe(true);
     state = confirmStage(state, 'filterEvap', 'accept-prediction');
+    expect(state.currentStage).toBe('filterEvap');
+    expect(filterEvapOutput(state).blocked).toBe(true);
+    let guard = 0;
+    while (filterEvapOutput(state).blocked && guard < 20) {
+      state = calculateNextNight(state);
+      state = confirmPendingNight(state, 'accept-prediction');
+      guard += 1;
+    }
     const finalInput = inputMixtureFor(state, 'final');
     expect(finalInput.blocked).toBe(false);
-    expect(finalInput.mixture).toEqual(state.stages.filterEvap.accepted!.mixture);
+    expect(finalInput.mixture).toEqual(filterEvapOutput(state).mixture);
   });
 
   test('one edited spectrometer field does not verify predicted leftovers', () => {
@@ -183,7 +211,7 @@ describe('chemist session schema 1 drafts survive upgrade', () => {
     });
     const loaded = parseChemistSession(raw);
     expect(loaded.notice).toMatch(/schema 1/i);
-    expect(loaded.state.schemaVersion).toBe(2);
+    expect(loaded.state.schemaVersion).toBe(3);
     expect(loaded.state.stages.extraction.confirmed).toBe(false);
     expect(loaded.state.stages.extraction.draft.values.dreamCapExtract).toBe(55_180);
     expect(loaded.state.stages.extraction.history[0]?.mixture.dreamCapExtract).toBe(55_180);

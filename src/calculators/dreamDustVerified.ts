@@ -18,11 +18,16 @@ export const COMPONENT_KEYS = [
   'base',
   'chemicalContaminant',
   'heavyMetal',
+  'organicWaste',
+  'stabilizingAgent',
+  'fatOil',
+  'lipobondAgent',
+  'chlorine',
   'other',
 ] as const;
 
-/** Wiki boiling/evaporator volatiles for this supported subset. Acid/Base/Other are not treated as evaporative. */
-export const VOLATILE_KEYS = ['water', 'alcohol'] as const;
+/** Wiki evaporatives for Dream Dust path: Water, Alcohol, Lipobond Agent (bp 55°C). */
+export const VOLATILE_KEYS = ['water', 'alcohol', 'lipobondAgent'] as const;
 
 export type ComponentKey = (typeof COMPONENT_KEYS)[number];
 export type ComponentMixture = Record<ComponentKey, number>;
@@ -134,6 +139,11 @@ export const emptyMixture = (): ComponentMixture => ({
   base: 0,
   chemicalContaminant: 0,
   heavyMetal: 0,
+  organicWaste: 0,
+  stabilizingAgent: 0,
+  fatOil: 0,
+  lipobondAgent: 0,
+  chlorine: 0,
   other: 0,
 });
 
@@ -271,8 +281,10 @@ function runTick(input: ComponentMixture, temperatureC: number, tick: number): E
   // Branch 22: boiling, performed last. Vapor is not recovered.
   const evaporatedAlcoholUL = boilingLoss(state.alcohol, temperatureC, 78.37);
   const evaporatedWaterUL = boilingLoss(state.water, temperatureC, 100);
+  const evaporatedLipobondUL = boilingLoss(state.lipobondAgent, temperatureC, 55);
   state.alcohol -= evaporatedAlcoholUL;
   state.water -= evaporatedWaterUL;
+  state.lipobondAgent -= evaporatedLipobondUL;
 
   return {
     tick,

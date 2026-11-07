@@ -15,22 +15,33 @@ import {
   type MixtureSnapshot,
   type StageRecord,
   type WizardStageId,
+  addAcidDose,
+  addBaseDose,
   applyStageInput,
+  calculateNextNight,
   calculateStage,
   canAcceptPrediction,
   canCalculateStage,
+  canConfirmPendingNight,
   canConfirmReadings,
   canEnterStage,
+  confirmPendingNight,
   confirmStage,
+  continueToFinal,
   defaultWizardState,
   draftMeasuredKeys,
+  filterEvapOutput,
   goToStage,
   inputMixtureFor,
+  lastConfirmedNight,
   predictAcidBase,
   predictFilterEvap,
   predictFinish,
   previousStage,
+  runChemistryUpdates,
   runForward,
+  setAcidStock,
+  setBaseStock,
   setDraftField,
   snapshotEvidence,
   syncStale,
@@ -202,6 +213,13 @@ function StageStatus({ record }: { record: StageRecord }) {
     return (
       <div className="alert success" role="status">
         Confirmed ({record.accepted.kind}). Later stages use this output, not a skipped guess.
+      </div>
+    );
+  }
+  if (record.calculated && record.predictionBlocked) {
+    return (
+      <div className="alert error" role="status">
+        Model confirmation is blocked. Enter a measured composition and Continue with my readings. Empty Base inventory is not the reason.
       </div>
     );
   }
@@ -684,22 +702,38 @@ export function ChemistProductionPlanner() {
             <div className="alert success">No Protein in the confirmed extraction output. Acid/Base is still a real stage — Calculate even if you add nothing.</div>
           )}
           <p className="muted small">
-            Inventory fields below still pour the whole measured bottle (dose-vs-inventory split is the next checkpoint). Changing them invalidates this stage and later ones without deleting drafts.
+            Inventory is the measured bottle. Dose is a homogeneous slice of every component. Acid and Base are separate pours. Neutralization (branch 18) runs only when you click Run chemical updates while both are already in the vessel.
           </p>
-          <h4>Acidic Solution inventory (measured)</h4>
+          <h4>Acidic Solution stock (measured)</h4>
           <MixtureFields
             idPrefix="acid-reag"
             mixture={state.acidReagent}
-            onChange={(acidReagent) => patch('acidBase', { acidReagent })}
-            highlight={['acid', 'water', 'chemicalContaminant', 'heavyMetal', 'other']}
+            onChange={(acidReagent) => update((current) => setAcidStock(current, acidReagent))}
           />
-          <h4>Basic Solution inventory (measured)</h4>
+          <div className="output-row"><span>Acid remaining</span><strong>{ml(totalUL(state.acidRemaining))} mL</strong></div>
+          <NumberField id="acid-dose" label="Acid dose to pour (mL)" value={state.acidDoseUL / 1_000} onChange={(value) => patch('acidBase', { acidDoseUL: toUL(value) })} />
+          <button type="button" data-testid="add-acid-dose" onClick={() => update(addAcidDose)}>Add Acid dose</button>
+          <h4>Basic Solution stock (measured)</h4>
           <MixtureFields
             idPrefix="base-reag"
             mixture={state.baseReagent}
-            onChange={(baseReagent) => patch('acidBase', { baseReagent })}
-            highlight={['base', 'water', 'chemicalContaminant', 'heavyMetal', 'other']}
+            onChange={(baseReagent) => update((current) => setBaseStock(current, baseReagent))}
           />
+          <div className="output-row"><span>Base remaining</span><strong>{ml(totalUL(state.baseRemaining))} mL</strong></div>
+          <NumberField id="base-dose" label="Base dose to pour (mL)" value={state.baseDoseUL / 1_000} onChange={(value) => patch('acidBase', { baseDoseUL: toUL(value) })} />
+          <button type="button" data-testid="add-base-dose" onClick={() => update(addBaseDose)}>Add Base dose</button>
+          <NumberField id="chem-updates" label="Chemical updates to run" value={state.chemistryUpdateBudget} onChange={(value) => patch('acidBase', { chemistryUpdateBudget: Math.max(1, Math.trunc(value)) })} step={1} />
+          <button type="button" data-testid="run-chemistry" onClick={() => update(runChemistryUpdates)}>Run chemical updates (wiki 13–18, 21)</button>
+          {state.acidBaseLog.length > 0 && (
+            <details open>
+              <summary>Sequential actions ({state.acidBaseLog.length})</summary>
+              {state.acidBaseLog.map((step, index) => (
+                <p className="muted small" key={`${step.kind}-${index}`}>
+                  {index + 1}. {step.kind} dose {ml(step.doseUL)} mL; remaining Acid {ml(step.remainingAcidUL)} / Base {ml(step.remainingBaseUL)}; vessel {ml(step.vesselUL)} mL. {step.note}
+                </p>
+              ))}
+            </details>
+          )}
           {stageButtons('acidBase')}
           {currentRecord.prediction && (
             <>
@@ -707,6 +741,11 @@ export function ChemistProductionPlanner() {
               <SnapshotTable snapshot={currentRecord.prediction} />
             </>
           )}
+          {currentRecord.reasons.map((reason) => (
+            <div className="alert error" key={reason}>
+              {reason}
+            </div>
+          ))}
           {currentRecord.warnings.map((warning) => (
             <div className="alert warning" key={warning}>
               {warning}
@@ -730,11 +769,18 @@ export function ChemistProductionPlanner() {
             </>
           )}
           <p className="muted small">
-            This stage uses the confirmed Acid/Base output, not a skipped extraction fallback. Per-night rebase is the next checkpoint; Performance/Efficiency still belong on the evaporator config.
+            Filtration and evaporation are separate confirmed operations. Nights use remaining volatiles, remaining energy, and remaining receiver. Confirmed filter durability is not spent again on night 2.
           </p>
           <NumberField id="kotton" label="Kotton Fabric durability" value={state.kottonDurability} onChange={(value) => patch('filterEvap', { kottonDurability: Math.max(0, Math.trunc(value)) })} step={1} />
           <NumberField id="water-filter" label="Water Filter durability" value={state.waterFilterDurability} onChange={(value) => patch('filterEvap', { waterFilterDurability: Math.max(0, Math.trunc(value)) })} step={1} />
-          <NumberField id="evap-energy" label="Energy available (kJ)" value={state.evaporator.availableEnergy} onChange={(value) => patch('filterEvap', { evaporator: { ...state.evaporator, availableEnergy: Math.max(0, Math.trunc(value)) } })} step={1} />
+          <label>
+            <input type="checkbox" checked={state.filterContainerOwned} onChange={(event) => patch('filterEvap', { filterContainerOwned: event.target.checked })} /> Filter container owned
+          </label>
+          <label>
+            <input type="checkbox" checked={state.evaporatorOwned} onChange={(event) => patch('filterEvap', { evaporatorOwned: event.target.checked })} /> Evaporator owned
+          </label>
+          <NumberField id="evap-modules" label="Evaporator modules (count, recorded)" value={state.evaporatorModules} onChange={(value) => patch('filterEvap', { evaporatorModules: Math.max(0, Math.trunc(value)) })} step={1} help="Enter the machine P/E/Q readout. Module percents are not invented from this count." />
+          <NumberField id="evap-energy" label="Owned energy (kJ)" value={state.evaporator.availableEnergy} onChange={(value) => patch('filterEvap', { evaporator: { ...state.evaporator, availableEnergy: Math.max(0, Math.trunc(value)) } })} step={1} />
           <NumberField id="evap-performance" label="Evaporator Performance (%)" value={state.evaporator.performancePercent} onChange={(value) => patch('filterEvap', { evaporator: { ...state.evaporator, performancePercent: value } })} min={-500} step={1} />
           <NumberField id="evap-efficiency" label="Evaporator Efficiency (%)" value={state.evaporator.efficiencyPercent} onChange={(value) => patch('filterEvap', { evaporator: { ...state.evaporator, efficiencyPercent: value } })} min={-500} step={1} />
           <NumberField id="evap-quality" label="Evaporator Quality (%)" value={state.evaporator.qualityPercent} onChange={(value) => patch('filterEvap', { evaporator: { ...state.evaporator, qualityPercent: value } })} min={-500} step={1} />
@@ -745,28 +791,52 @@ export function ChemistProductionPlanner() {
               checked={state.evaporator.solventRecoveryModule}
               onChange={(event) => patch('filterEvap', { evaporator: { ...state.evaporator, solventRecoveryModule: event.target.checked } })}
             />{' '}
-            Solvent Recovery Module (Alcohol only)
+            Solvent Recovery Module (Alcohol only; Water and Lipobond still leave the batch)
           </label>
           {!filterEvap.blocked && (
-            <>
-              <div className="output-row">
-                <span>Live filter removal from confirmed Acid/Base output</span>
-                <strong>{ml(totalUL(filterEvap.filtration.removed))} mL</strong>
-              </div>
-              <div className="output-row">
-                <span>Live overnight cycles</span>
-                <strong>
-                  {filterEvap.evaporation.cycles.length} ({filterEvap.evaporation.energyUsed} kJ)
-                </strong>
-              </div>
-            </>
+            <div className="output-row">
+              <span>Live filter removal from confirmed Acid/Base output</span>
+              <strong>{ml(totalUL(filterEvap.filtration.removed))} mL</strong>
+            </div>
           )}
+          <h4>1. Confirm filtration</h4>
           {stageButtons('filterEvap')}
           {currentRecord.prediction && (
             <>
-              <h4>Predicted dry mixture (feeds Final only after Continue)</h4>
+              <h4>Predicted filtered mixture</h4>
               <SnapshotTable snapshot={currentRecord.prediction} />
             </>
+          )}
+          <h4>2. Evaporation nights (from remaining volatiles)</h4>
+          {state.evapNights.map((night) => (
+            <div className="output-section" key={night.night}>
+              <div className="output-row"><span>Night {night.night} {night.confirmed ? 'confirmed' : ''} {night.stale ? 'stale' : ''}</span><strong>{ml(night.removed.water + night.removed.alcohol + night.removed.lipobondAgent)} mL removed / {ml(night.remainingVolatilesUL)} left / {night.energyUsed} kJ / {ml(totalUL(night.recovered))} recovered</strong></div>
+            </div>
+          ))}
+          {state.pendingNight && (
+            <div className="alert info">
+              Night {state.pendingNight.night}: removed {ml(totalUL(state.pendingNight.removed))} mL, left {ml(state.pendingNight.remainingVolatilesUL)} mL volatiles, energy {state.pendingNight.energyUsed} kJ, recovered {ml(totalUL(state.pendingNight.recovered))} mL, remaining energy {state.pendingNight.remainingEnergy} kJ.
+              {state.pendingNight.reasons.map((reason) => (
+                <div key={reason}>{reason}</div>
+              ))}
+            </div>
+          )}
+          <div className="btn-row">
+            <button type="button" data-testid="calculate-next-night" disabled={!state.stages.filterEvap.confirmed || state.stages.filterEvap.stale} onClick={() => update(calculateNextNight)}>
+              Calculate next night
+            </button>
+            <button type="button" data-testid="confirm-night" disabled={!canConfirmPendingNight(state, 'accept-prediction')} onClick={() => update((current) => confirmPendingNight(current, 'accept-prediction'))}>
+              Confirm night (model)
+            </button>
+            <button type="button" data-testid="confirm-night-readings" disabled={!canConfirmPendingNight(state, 'confirm-readings')} onClick={() => update((current) => confirmPendingNight(current, 'confirm-readings'))}>
+              Confirm night with my readings
+            </button>
+            <button type="button" data-testid="continue-final" disabled={filterEvapOutput(state).blocked} onClick={() => update(continueToFinal)}>
+              Continue to Final
+            </button>
+          </div>
+          {lastConfirmedNight(state) && (
+            <p className="muted small">Last confirmed night {lastConfirmedNight(state)!.night}. Next night starts from that remaining mixture, not a second filter pass.</p>
           )}
           {currentRecord.warnings.map((warning) => (
             <div className="alert warning" key={warning}>

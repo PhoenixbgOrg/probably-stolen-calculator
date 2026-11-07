@@ -1,8 +1,10 @@
 import {
   WIZARD_SCHEMA_VERSION,
   WIZARD_STAGES,
+  type AcidBaseStep,
   type ChemistWizardState,
   type DraftReading,
+  type EvapNightRecord,
   type MixtureSnapshot,
   type StageRecord,
   defaultWizardState,
@@ -72,6 +74,48 @@ function stageOrEmpty(value: unknown): StageRecord {
     history,
     warnings: Array.isArray(value.warnings) ? value.warnings.filter((row) => typeof row === 'string') : [],
     reasons: Array.isArray(value.reasons) ? value.reasons.filter((row) => typeof row === 'string') : [],
+    predictionBlocked: Boolean(value.predictionBlocked),
+  };
+}
+
+function stringList(value: unknown): string[] {
+  return Array.isArray(value) ? value.filter((row): row is string => typeof row === 'string') : [];
+}
+
+function acidStepOrNull(value: unknown): AcidBaseStep | null {
+  if (!isRecord(value)) return null;
+  if (value.kind !== 'add-acid' && value.kind !== 'add-base' && value.kind !== 'run-updates') return null;
+  return {
+    kind: value.kind,
+    doseUL: typeof value.doseUL === 'number' ? value.doseUL : 0,
+    updates: typeof value.updates === 'number' ? value.updates : 0,
+    remainingAcidUL: typeof value.remainingAcidUL === 'number' ? value.remainingAcidUL : 0,
+    remainingBaseUL: typeof value.remainingBaseUL === 'number' ? value.remainingBaseUL : 0,
+    vesselUL: typeof value.vesselUL === 'number' ? value.vesselUL : 0,
+    note: typeof value.note === 'string' ? value.note : '',
+  };
+}
+
+function nightOrNull(value: unknown): EvapNightRecord | null {
+  if (!isRecord(value) || !isRecord(value.output)) return null;
+  const snapshot = snapshotOrNull(value.snapshot);
+  if (!snapshot) return null;
+  return {
+    night: typeof value.night === 'number' ? value.night : 0,
+    confirmed: Boolean(value.confirmed),
+    stale: Boolean(value.stale),
+    energyUsed: typeof value.energyUsed === 'number' ? value.energyUsed : 0,
+    allowanceUL: typeof value.allowanceUL === 'number' ? value.allowanceUL : 0,
+    remainingEnergy: typeof value.remainingEnergy === 'number' ? value.remainingEnergy : 0,
+    remainingReceiverUL: typeof value.remainingReceiverUL === 'number' ? value.remainingReceiverUL : 0,
+    remainingVolatilesUL: typeof value.remainingVolatilesUL === 'number' ? value.remainingVolatilesUL : 0,
+    removed: mixtureOrEmpty(value.removed),
+    recovered: mixtureOrEmpty(value.recovered),
+    lost: mixtureOrEmpty(value.lost),
+    output: mixtureOrEmpty(value.output),
+    snapshot,
+    reasons: stringList(value.reasons),
+    warnings: stringList(value.warnings),
   };
 }
 
@@ -135,9 +179,11 @@ function migrateV1(parsed: Record<string, unknown>, base: ChemistWizardState): C
       purity: typeof compare.purity === 'number' ? compare.purity : 65,
       vials: typeof compare.vials === 'number' ? compare.vials : 35,
     },
+    acidRemaining: mixtureOrEmpty(parsed.acidRemaining ?? parsed.acidReagent),
+    baseRemaining: mixtureOrEmpty(parsed.baseRemaining ?? parsed.baseReagent),
     currentStage: 'ground',
     stages,
-    schemaVersion: 2,
+    schemaVersion: 3,
   });
 }
 
@@ -170,7 +216,7 @@ export function parseChemistSession(raw: string | null): {
         'Chemist session upgraded from schema 1. Spectrometer rows were kept as drafts/history. Re-calculate and confirm each stage; skipped operations are not assumed. Profiles were not changed.',
     };
   }
-  if (version !== CHEMIST_SESSION_SCHEMA) {
+  if (version !== 2 && version !== CHEMIST_SESSION_SCHEMA) {
     return {
       state: defaultWizardState(),
       notice: `Chemist session schema ${String(version)} is not supported. Started a new session; profiles were not changed.`,
@@ -198,14 +244,29 @@ export function parseChemistSession(raw: string | null): {
     observedTemperatureC: typeof parsed.observedTemperatureC === 'number' ? parsed.observedTemperatureC : null,
     heatingPlateModules: typeof parsed.heatingPlateModules === 'number' ? parsed.heatingPlateModules : 2,
     acidReagent: mixtureOrEmpty(parsed.acidReagent),
+    acidRemaining: mixtureOrEmpty(parsed.acidRemaining ?? parsed.acidReagent),
+    acidDoseUL: typeof parsed.acidDoseUL === 'number' ? parsed.acidDoseUL : 0,
     baseReagent: mixtureOrEmpty(parsed.baseReagent),
+    baseRemaining: mixtureOrEmpty(parsed.baseRemaining ?? parsed.baseReagent),
+    baseDoseUL: typeof parsed.baseDoseUL === 'number' ? parsed.baseDoseUL : 0,
+    acidBaseBatch: isRecord(parsed.acidBaseBatch) ? mixtureOrEmpty(parsed.acidBaseBatch) : null,
+    acidBaseLog: Array.isArray(parsed.acidBaseLog)
+      ? parsed.acidBaseLog.map(acidStepOrNull).filter((row): row is AcidBaseStep => row !== null)
+      : [],
+    chemistryUpdateBudget: typeof parsed.chemistryUpdateBudget === 'number' ? parsed.chemistryUpdateBudget : 1_000,
     kottonDurability: typeof parsed.kottonDurability === 'number' ? parsed.kottonDurability : 1_000,
     waterFilterDurability: typeof parsed.waterFilterDurability === 'number' ? parsed.waterFilterDurability : 400,
     filterContainerOwned: parsed.filterContainerOwned !== false,
+    evaporatorOwned: parsed.evaporatorOwned !== false,
+    evaporatorModules: typeof parsed.evaporatorModules === 'number' ? parsed.evaporatorModules : 0,
     evaporator: {
       ...base.evaporator,
       ...(evaporator as Partial<ChemistWizardState['evaporator']>),
     },
+    evapNights: Array.isArray(parsed.evapNights)
+      ? parsed.evapNights.map(nightOrNull).filter((row): row is EvapNightRecord => row !== null)
+      : [],
+    pendingNight: nightOrNull(parsed.pendingNight),
     finisherModules: typeof parsed.finisherModules === 'number' ? parsed.finisherModules : 4,
     finisherCapacityVials: typeof parsed.finisherCapacityVials === 'number' ? parsed.finisherCapacityVials : 24,
     compareToTarget: {
@@ -219,9 +280,14 @@ export function parseChemistSession(raw: string | null): {
         : 'ground',
     savedAt: typeof parsed.savedAt === 'string' ? parsed.savedAt : null,
     stages,
-    schemaVersion: 2,
+    schemaVersion: 3,
   });
-  return { state, notice: null };
+  return {
+    state,
+    notice: version === 2
+      ? 'Chemist session upgraded to schema 3 (stock vs dose, night-by-night evaporation). Re-calculate Acid/Base and Filter/Evap. Profiles were not changed.'
+      : null,
+  };
 }
 
 export function loadChemistSession(storage: StorageLike): {
