@@ -17,6 +17,11 @@ test.describe('Chemist Dream Dust Calculator', () => {
     expect(parseFloat(await page.getByTestId('available-mush-ul').innerText())).toBeCloseTo(320.348, 3);
     expect(parseFloat(await page.getByTestId('recommended-ground-ul').innerText())).toBeCloseTo(222.9, 0);
     expect(parseFloat(await page.getByTestId('unused-ground-ul').innerText())).toBeCloseTo(253.1, 0);
+    expect(parseFloat(await page.getByTestId('recommended-mush-ul').innerText())).toBeCloseTo(150, 0);
+    await expect(page.getByText('Available Alcohol / all available Mush')).toBeVisible();
+    expect(parseFloat(await page.getByTestId('alcohol-mush-ratio').innerText())).toBeCloseTo(2.34, 2);
+    await expect(page.getByText('Selected batch Alcohol / Mush ratio')).toBeVisible();
+    expect(parseFloat(await page.getByTestId('selected-batch-alcohol-mush-ratio').innerText())).toBeCloseTo(5.0, 2);
     await expect(page.locator('text=/not a guaranteed 38-vial yield/i')).toBeVisible();
 
     await page.goto('./#/calculators/chemist', { waitUntil: 'load' });
@@ -31,6 +36,19 @@ test.describe('Chemist Dream Dust Calculator', () => {
     if (await leftoverMush.count()) {
       await expect(leftoverMush).toHaveText('0.000 mL');
     }
+  });
+
+  test('mixed 200 mL alcohol uses selected-batch 5.00 not inventory 1.81', async ({ page }) => {
+    await page.goto('./#/calculators/chemist', { waitUntil: 'load' });
+    await page.locator('button:has-text("Example 164 + 552")').click();
+    await page.getByLabel('Mixed / Measured').check();
+    await page.locator('#solvent-liquid').fill('200');
+    await page.locator('#solvent-alcohol').fill('200');
+    await page.locator('#solvent-water').fill('0');
+    await page.locator('button:has-text("Calculate from my materials")').click();
+    expect(parseFloat(await page.getByTestId('recommended-mush-ul').innerText())).toBeCloseTo(40.005, 3);
+    expect(parseFloat(await page.getByTestId('alcohol-mush-ratio').innerText())).toBeCloseTo(1.81, 2);
+    expect(parseFloat(await page.getByTestId('selected-batch-alcohol-mush-ratio').innerText())).toBeCloseTo(5.0, 2);
   });
 
   test('Calculate+Continue is required; later stages stay locked', async ({ page }) => {

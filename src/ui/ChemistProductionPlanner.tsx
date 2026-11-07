@@ -618,7 +618,7 @@ export function ChemistProductionPlanner() {
                 <strong data-testid="alcohol-component-ul">{ml(forward.alcoholComponentUL)} mL</strong>
               </div>
               <div className="output-row">
-                <span>Alcohol / Mush ratio</span>
+                <span>Available Alcohol / all available Mush</span>
                 <strong data-testid="alcohol-mush-ratio">
                   {forward.alcoholToMushRatio === null ? 'n/a' : forward.alcoholToMushRatio.toFixed(2)}
                 </strong>
@@ -630,6 +630,14 @@ export function ChemistProductionPlanner() {
               <div className="output-row">
                 <span>Actual Mush in that mix</span>
                 <strong data-testid="recommended-mush-ul">{ml(forward.recommendedMushUL)} mL</strong>
+              </div>
+              <div className="output-row">
+                <span>Selected batch Alcohol / Mush ratio</span>
+                <strong data-testid="selected-batch-alcohol-mush-ratio">
+                  {forward.selectedBatchAlcoholToMushRatio === null
+                    ? 'n/a'
+                    : forward.selectedBatchAlcoholToMushRatio.toFixed(2)}
+                </strong>
               </div>
               <div className="output-row">
                 <span>Unused ground mixture</span>

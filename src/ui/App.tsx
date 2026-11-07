@@ -66,9 +66,9 @@ export function App() {
     <div className="app">
       <header className="top">
         <h1>
-          <a href="#/" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <a href="#/" className="site-brand">
             <img src={publicUrl('favicon.svg')} alt="" width="24" height="24" className="logo" />
-            Probably Stolen Calculator
+            <span className="site-title">Probably Stolen Calculator</span>
           </a>
         </h1>
         <p className="muted small">Unofficial fan tool · game data {registry.gameVersion} (data {registry.dataVersion})</p>

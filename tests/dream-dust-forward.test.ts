@@ -1,12 +1,22 @@
 import { describe, expect, test } from 'vitest';
 import { estimatedMushAndOther, PREVIOUS_BATCH_MUSH_FRACTION } from '../src/calculators/dreamDustEstimates';
-import { recommendFromMaterials } from '../src/calculators/dreamDustForward';
+import { alcoholToMushRatio, recommendFromMaterials } from '../src/calculators/dreamDustForward';
 import { mixtureFromPartial, totalUL, volumeSumDriftUL } from '../src/calculators/dreamDustVerified';
 import {
   applyAcidBaseNeutralization,
   applyProteinPrecipitation,
   simulateAcidBaseTreatment,
 } from '../src/calculators/dreamDustReactions';
+
+describe('alcohol / mush ratio denominators', () => {
+  test('inventory uses all available Mush; selected batch uses Mush in the mix', () => {
+    expect(alcoholToMushRatio(750_000, 320_348)).toBeCloseTo(2.34, 2);
+    expect(alcoholToMushRatio(750_000, 150_000)).toBeCloseTo(5.0, 2);
+    expect(alcoholToMushRatio(200_000, 110_370)).toBeCloseTo(1.81, 2);
+    expect(alcoholToMushRatio(200_000, 40_005)).toBeCloseTo(5.0, 2);
+    expect(alcoholToMushRatio(200_000, 0)).toBeNull();
+  });
+});
 
 describe('materials-first forward planner', () => {
   test('750 mL pure alcohol + 476 mL ground at assumed 67.30% mush', () => {
@@ -36,6 +46,14 @@ describe('materials-first forward planner', () => {
     expect(result.availableMushUL).toBe(320_348);
     expect(result.recommendedMushUL).toBeGreaterThanOrEqual(149_900);
     expect(result.recommendedMushUL).toBeLessThanOrEqual(150_100);
+    expect(result.alcoholToMushRatio).toBeCloseTo(750_000 / 320_348, 5);
+    expect(result.alcoholToMushRatio).toBeCloseTo(2.34, 2);
+    expect(result.selectedBatchAlcoholToMushRatio).toBeCloseTo(
+      750_000 / result.recommendedMushUL,
+      5,
+    );
+    expect(result.selectedBatchAlcoholToMushRatio).toBeCloseTo(5.0, 2);
+    expect(result.selectedBatchAlcoholToMushRatio).not.toBeCloseTo(result.alcoholToMushRatio!, 1);
     expect(result.recommendedGroundUL / 1_000).toBeCloseTo(222.9, 0);
     expect(result.unusedGroundUL / 1_000).toBeCloseTo(253.1, 0);
     expect(result.theoreticalExtractCeilingUL / 1_000).toBeCloseTo(75, 0);
@@ -61,6 +79,45 @@ describe('materials-first forward planner', () => {
     });
     expect(result.alcoholComponentUL).toBe(200_000);
     expect(result.recommendedMushUL).toBeLessThanOrEqual(40_000);
+    expect(result.alcoholToMushRatio).toBeCloseTo(200_000 / ground.dreamCapMush, 5);
+    expect(result.selectedBatchAlcoholToMushRatio).toBeCloseTo(
+      200_000 / result.recommendedMushUL,
+      5,
+    );
+    expect(result.selectedBatchAlcoholToMushRatio).not.toBe(result.alcoholToMushRatio);
+  });
+
+  test('mixed 200 mL alcohol on 164-class ground is selected 5.00, not inventory 1.81', () => {
+    const ground = mixtureFromPartial({
+      dreamCapMush: 110_370,
+      water: 21_070,
+      protein: 10_540,
+      microbes: 10_540,
+      physicalContaminant: 9_170,
+      mineral: 2_290,
+    });
+    const result = recommendFromMaterials({
+      groundTotalUL: 164_000,
+      ground,
+      compositionMode: 'measured',
+      compositionNote: '',
+      solvent: {
+        liquidUL: 200_000,
+        mode: 'mixed',
+        alcoholUL: 200_000,
+        waterUL: 0,
+        otherUL: 0,
+      },
+      vesselCapacityUL: 2_000_000,
+    });
+    expect(result.status).toBe('ok');
+    expect(result.availableMushUL).toBe(110_370);
+    expect(result.alcoholComponentUL).toBe(200_000);
+    expect(result.alcoholToMushRatio).toBeCloseTo(1.81, 2);
+    expect(result.recommendedMushUL).toBe(40_005);
+    expect(result.selectedBatchAlcoholToMushRatio).toBeCloseTo(200_000 / 40_005, 5);
+    expect(result.selectedBatchAlcoholToMushRatio).toBeCloseTo(5.0, 2);
+    expect(result.selectedBatchAlcoholToMushRatio).not.toBeCloseTo(1.81, 1);
   });
 
   test('does not silently normalize component-sum drift', () => {

@@ -30,7 +30,9 @@ select, input[type=text], input:not([type]) { background:var(--card); border:0; 
 input[type=radio], input[type=checkbox] { width:20px; height:20px; accent-color:var(--line); vertical-align:middle; }
 
 .app { max-width:1200px; margin:0 auto; padding:.8rem; }
-.top h1 { margin:.2rem 0; font-size:1.5rem; display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; }
+.top h1 { margin:.2rem 0; font-size:1.5rem; display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; min-width:0; max-width:100%; }
+.top h1 a.site-brand { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; min-width:0; max-width:100%; text-decoration:none; color:inherit; }
+.top h1 .site-title { overflow-wrap:anywhere; min-width:0; flex:1 1 12rem; }
 .logo { image-rendering:pixelated; }
 .steps { list-style:none; display:flex; gap:.4rem; padding:0; margin:.6rem 0; flex-wrap:wrap; }
 .steps button.active { background:var(--title); color:#1d1826; box-shadow:0 0 0 var(--step) var(--accent); }
